@@ -1,49 +1,53 @@
-(function () {
-  "use strict";
-
-  /* ---- Mobile nav toggle ---- */
-  var navToggle = document.getElementById("navToggle");
-  var nav = document.getElementById("nav");
-  navToggle.addEventListener("click", function () {
+"use strict";
+/**
+ * ArtCSV Landing Page — Main Script
+ */
+/* ---- Helper: non-null DOM query ---- */
+const $ = (selector) => {
+    const el = document.querySelector(selector);
+    if (!el)
+        throw new Error(`Element not found: ${selector}`);
+    return el;
+};
+/* ---- Mobile nav toggle ---- */
+const navToggle = $("#navToggle");
+const nav = $("#nav");
+navToggle.addEventListener("click", () => {
     nav.classList.toggle("is-open");
-  });
-  nav.querySelectorAll("a").forEach(function (link) {
-    link.addEventListener("click", function () {
-      nav.classList.remove("is-open");
+});
+for (const link of nav.querySelectorAll("a")) {
+    link.addEventListener("click", () => {
+        nav.classList.remove("is-open");
     });
-  });
-
-  /* ---- Download editor.html ---- */
-  document.getElementById("downloadBtn").addEventListener("click", function (e) {
+}
+/* ---- Download editor.html ---- */
+const downloadBtn = $("#downloadBtn");
+const downloadFile = async (url, fileName) => {
+    const res = await fetch(url);
+    const html = await res.text();
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = objectUrl;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(objectUrl);
+};
+downloadBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    fetch("editor.html")
-      .then(function (res) { return res.text(); })
-      .then(function (html) {
-        var blob = new Blob([html], { type: "text/html;charset=utf-8" });
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = "artcsv.html";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      });
-  });
-
-  /* ---- Scroll fade-in observer ---- */
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
+    downloadFile("editor.html", "artcsv.html");
+});
+/* ---- Scroll fade-in observer ---- */
+const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
+            entry.target.classList.add("is-visible");
         }
-      });
-    },
-    { threshold: 0.1 }
-  );
-
-  document.querySelectorAll(".fade-in").forEach(function (el) {
+    }
+}, { threshold: 0.1 });
+for (const el of document.querySelectorAll(".fade-in")) {
     observer.observe(el);
-  });
-})();
+}
+//# sourceMappingURL=main.js.map
