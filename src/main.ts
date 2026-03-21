@@ -10,9 +10,21 @@ const $ = <T extends HTMLElement>(selector: string): T => {
 };
 
 /* ---- Download editor.html ---- */
-const downloadFile = (url: string, fileName: string): void => {
+// ページ読み込み時に事前取得し Blob URL を準備する。
+// クリック時に同期的に使うことでユーザージェスチャーを維持し、
+// download 属性が確実に尊重されるようにする。
+let editorBlobUrl: string | null = null;
+fetch("editor.html")
+  .then((res) => (res.ok ? res.text() : Promise.reject(new Error(`${res.status}`))))
+  .then((html) => {
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    editorBlobUrl = URL.createObjectURL(blob);
+  })
+  .catch(() => {});
+
+const triggerDownload = (href: string, fileName: string): void => {
   const anchor = document.createElement("a");
-  anchor.href = url;
+  anchor.href = href;
   anchor.download = fileName;
   document.body.appendChild(anchor);
   anchor.click();
@@ -24,7 +36,7 @@ const downloadBtn = $<HTMLButtonElement>("#downloadBtn");
 const useNowBtn = $<HTMLButtonElement>("#useNowBtn");
 
 downloadBtn.addEventListener("click", () => {
-  downloadFile("editor.html", "artcsv.html");
+  triggerDownload(editorBlobUrl ?? "editor.html", "artcsv.html");
 });
 
 useNowBtn.addEventListener("click", () => {
@@ -40,7 +52,7 @@ heroUseNowBtn.addEventListener("click", () => {
 });
 
 heroDownloadBtn.addEventListener("click", () => {
-  downloadFile("editor.html", "artcsv.html");
+  triggerDownload(editorBlobUrl ?? "editor.html", "artcsv.html");
 });
 
 /* ---- Scroll fade-in observer ---- */
