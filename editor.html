@@ -1431,7 +1431,7 @@
         $a.href = URL.createObjectURL(blob);
         $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
         $a.click();
-        URL.revokeObjectURL($a.href);
+        setTimeout(() => URL.revokeObjectURL($a.href), 3000);
         showToast(`💾 ${ext.toUpperCase()}ファイルをダウンロードしました`, 'success');
       };
 
