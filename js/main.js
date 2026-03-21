@@ -10,24 +10,7 @@ const $ = (selector) => {
     return el;
 };
 /* ---- Download editor.html ---- */
-const downloadFile = async (url, fileName) => {
-    // HTTP/HTTPS の場合: fetch + Blob でダウンロード
-    if (location.protocol.startsWith("http")) {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Download failed: ${res.status}`);
-        const html = await res.text();
-        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-        const objectUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = objectUrl;
-        anchor.download = fileName;
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
-        return;
-    }
-    // file:// の場合: <a download> を試行
+const downloadFile = (url, fileName) => {
     const anchor = document.createElement("a");
     anchor.href = url;
     anchor.download = fileName;
