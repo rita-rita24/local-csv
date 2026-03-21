@@ -10,24 +10,21 @@ const $ = <T extends HTMLElement>(selector: string): T => {
 };
 
 /* ---- Download editor.html ---- */
-// ページ読み込み時に事前取得し、Blob URL を準備しておく
+// ページ読み込み時に事前取得し Blob URL を準備する。
+// クリック時に同期的に使うことでユーザージェスチャーを維持し、
+// download 属性が確実に尊重されるようにする。
 let editorBlobUrl: string | null = null;
 fetch("editor.html")
   .then((res) => (res.ok ? res.text() : Promise.reject(new Error(`${res.status}`))))
   .then((html) => {
-    const blob = new Blob([html], { type: "application/octet-stream" });
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     editorBlobUrl = URL.createObjectURL(blob);
   })
   .catch(() => {});
 
-// クリック時は同期処理のみ（ユーザージェスチャーを維持）
-const downloadFile = (fileName: string): void => {
+const triggerDownload = (href: string, fileName: string): void => {
   const anchor = document.createElement("a");
-  if (editorBlobUrl) {
-    anchor.href = editorBlobUrl;
-  } else {
-    anchor.href = "editor.html";
-  }
+  anchor.href = href;
   anchor.download = fileName;
   document.body.appendChild(anchor);
   anchor.click();
@@ -39,7 +36,7 @@ const downloadBtn = $<HTMLButtonElement>("#downloadBtn");
 const useNowBtn = $<HTMLButtonElement>("#useNowBtn");
 
 downloadBtn.addEventListener("click", () => {
-  downloadFile("artcsv.html");
+  triggerDownload(editorBlobUrl ?? "editor.html", "artcsv.html");
 });
 
 useNowBtn.addEventListener("click", () => {
@@ -55,7 +52,7 @@ heroUseNowBtn.addEventListener("click", () => {
 });
 
 heroDownloadBtn.addEventListener("click", () => {
-  downloadFile("artcsv.html");
+  triggerDownload(editorBlobUrl ?? "editor.html", "artcsv.html");
 });
 
 /* ---- Scroll fade-in observer ---- */
