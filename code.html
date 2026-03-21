@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ArtCSV | Seamless CSV Editing Anywhere</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-dim": "#4c5456",
+              "surface-container-low": "#f1f4f6",
+              "tertiary-fixed": "#ccdef8",
+              "on-secondary-fixed": "#004650",
+              "on-surface-variant": "#586064",
+              "secondary-container": "#a0efff",
+              "error-dim": "#4e0309",
+              "surface-container-high": "#e3e9ec",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#f7f9ff",
+              "primary-fixed-dim": "#cfd6d8",
+              "on-primary-fixed-variant": "#565d5f",
+              "surface-dim": "#d1dce0",
+              "error": "#9f403d",
+              "on-surface": "#2b3437",
+              "surface-tint": "#586062",
+              "surface-variant": "#dbe4e7",
+              "on-error-container": "#752121",
+              "on-secondary": "#edfcff",
+              "secondary": "#006977",
+              "inverse-surface": "#0c0f10",
+              "primary-container": "#dde4e6",
+              "surface-bright": "#f8f9fa",
+              "background": "#f8f9fa",
+              "tertiary-dim": "#43546a",
+              "surface": "#f8f9fa",
+              "on-tertiary-fixed-variant": "#48596f",
+              "surface-container": "#eaeff1",
+              "on-tertiary-fixed": "#2c3d51",
+              "on-error": "#fff7f6",
+              "tertiary-fixed-dim": "#bed0ea",
+              "error-container": "#fe8983",
+              "tertiary": "#4f6076",
+              "on-primary": "#f2f9fb",
+              "primary-fixed": "#dde4e6",
+              "secondary-fixed-dim": "#89e2f3",
+              "on-secondary-fixed-variant": "#006573",
+              "on-tertiary-container": "#3e5065",
+              "on-primary-container": "#4c5355",
+              "secondary-fixed": "#a0efff",
+              "primary": "#586062",
+              "outline": "#737c7f",
+              "on-primary-fixed": "#394043",
+              "on-secondary-container": "#005a67",
+              "tertiary-container": "#ccdef8",
+              "on-background": "#2b3437",
+              "secondary-dim": "#005c68",
+              "inverse-on-surface": "#9b9d9e",
+              "outline-variant": "#abb3b7",
+              "inverse-primary": "#f1f8fa",
+              "surface-container-highest": "#dbe4e7"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+      }
+      .primary-gradient {
+        background: linear-gradient(135deg, #006977 0%, #005c68 100%);
+      }
+      .shadow-ambient {
+        box-shadow: 0px 12px 32px rgba(43, 52, 55, 0.06);
+      }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl no-border bg-surface-container-low/50 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto font-manrope text-sm tracking-tight">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-[#2b3437] dark:text-slate-100 font-headline">ArtCSV</span>
+<div class="hidden md:flex gap-6">
+<a class="text-[#4f6076] dark:text-slate-400 hover:text-[#006684] dark:hover:text-white transition-colors" href="#features">Features</a>
+<a class="text-[#4f6076] dark:text-slate-400 hover:text-[#006684] dark:hover:text-white transition-colors" href="#tool">Tool</a>
+<a class="text-[#4f6076] dark:text-slate-400 hover:text-[#006684] dark:hover:text-white transition-colors" href="#release-notes">Release Notes</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#4f6076] dark:text-slate-400 font-medium px-4 py-2 hover:text-[#2b3437] transition-colors scale-95 active:scale-90 transition-transform">Download</button>
+<button class="primary-gradient text-on-secondary px-6 py-2 rounded-md font-semibold scale-95 active:scale-90 transition-transform shadow-md">Use Now</button>
+</div>
+</div>
+</nav>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 py-24 md:py-32 flex flex-col items-center text-center">
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tight text-on-surface mb-6 leading-[1.1]">
+                Seamless CSV <span class="text-secondary">Editing</span> Anywhere.
+            </h1>
+<p class="text-tertiary text-lg md:text-xl max-w-2xl mb-12 leading-relaxed">
+                A single HTML file tool. Local, secure, and fast. No installation needed. Experience your data in a high-end editorial environment.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="primary-gradient text-on-secondary px-8 py-4 rounded-md font-bold text-lg shadow-ambient scale-95 active:scale-90 transition-transform">
+                    Use Now on Web
+                </button>
+<button class="bg-surface-container-high text-on-surface-variant px-8 py-4 rounded-md font-bold text-lg hover:bg-surface-variant transition-colors scale-95 active:scale-90 transition-transform">
+                    Download HTML
+                </button>
+</div>
+</section>
+<!-- Tool Area (Mockup) -->
+<section class="max-w-6xl mx-auto px-8 py-16" id="tool">
+<div class="bg-surface-container-lowest rounded-xl shadow-ambient overflow-hidden border border-outline-variant/10">
+<!-- Toolbar -->
+<div class="flex items-center justify-between px-6 py-4 bg-surface-container-low/30">
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-on-surface-variant hover:bg-surface-variant rounded transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+                            Add Row
+                        </button>
+<button class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-error hover:bg-error-container/20 rounded transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+                            Delete Row
+                        </button>
+</div>
+<button class="flex items-center gap-2 px-4 py-1.5 text-sm font-bold text-on-secondary primary-gradient rounded-md shadow-sm">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Export
+                    </button>
+</div>
+<!-- Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest font-label">
+<th class="px-6 py-4 font-semibold">Name</th>
+<th class="px-6 py-4 font-semibold">Email</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold">Role</th>
+</tr>
+</thead>
+<tbody class="text-sm font-body">
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<td class="px-6 py-4 text-on-surface">Julianne Moore</td>
+<td class="px-6 py-4 text-tertiary">j.moore@studio.art</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-secondary-container/30 text-secondary text-xs font-semibold rounded-full">Active</span></td>
+<td class="px-6 py-4 text-tertiary">Curator</td>
+</tr>
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/40 transition-colors">
+<td class="px-6 py-4 text-on-surface">Marcus Chen</td>
+<td class="px-6 py-4 text-tertiary">m.chen@gallery.io</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded-full">Pending</span></td>
+<td class="px-6 py-4 text-tertiary">Collector</td>
+</tr>
+<tr class="bg-surface-container-lowest hover:bg-surface-container-low/40 transition-colors">
+<td class="px-6 py-4 text-on-surface">Elena Rodriguez</td>
+<td class="px-6 py-4 text-tertiary">elena.r@modern.com</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-secondary-container/30 text-secondary text-xs font-semibold rounded-full">Active</span></td>
+<td class="px-6 py-4 text-tertiary">Editor</td>
+</tr>
+<tr class="bg-surface-container-low/20 hover:bg-surface-container-low/40 transition-colors">
+<td class="px-6 py-4 text-on-surface">Samuel Thorne</td>
+<td class="px-6 py-4 text-tertiary">sthorne@archives.net</td>
+<td class="px-6 py-4"><span class="px-2 py-1 bg-error-container/20 text-error text-xs font-semibold rounded-full">Suspended</span></td>
+<td class="px-6 py-4 text-tertiary">Admin</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="max-w-7xl mx-auto px-8 py-24" id="features">
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="p-8 bg-surface-container-low rounded-xl flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-12 h-12 rounded-full primary-gradient flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined">security</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Local &amp; Secure</h3>
+<p class="text-tertiary leading-relaxed">Runs entirely in your browser. Your data never leaves your machine. No servers, no tracking, just precision.</p>
+</div>
+<!-- Card 2 -->
+<div class="p-8 bg-surface-container-low rounded-xl flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-12 h-12 rounded-full primary-gradient flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined">description</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-on-surface">One File Solution</h3>
+<p class="text-tertiary leading-relaxed">A portable HTML file for any environment. Carry your editor in your pocket, on a thumb drive, or host it yourself.</p>
+</div>
+<!-- Card 3 -->
+<div class="p-8 bg-surface-container-low rounded-xl flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-12 h-12 rounded-full primary-gradient flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-on-surface">Lightweight Performance</h3>
+<p class="text-tertiary leading-relaxed">Lightning fast, even with large datasets. Optimized parsing ensures zero lag during manipulation.</p>
+</div>
+</div>
+</section>
+<!-- Release Notes Section -->
+<section class="max-w-3xl mx-auto px-8 py-24" id="release-notes">
+<div class="text-center mb-16">
+<h2 class="font-headline text-3xl font-bold mb-4">Evolution of ArtCSV</h2>
+<div class="h-1 w-20 primary-gradient mx-auto rounded-full"></div>
+</div>
+<div class="space-y-8">
+<div class="flex items-start gap-6 pb-8 border-b border-outline-variant/10">
+<div class="text-sm font-bold text-secondary font-label mt-1 min-w-[100px]">v1.2.0</div>
+<div>
+<div class="text-xs text-outline font-medium mb-1">2024-05-10</div>
+<p class="text-on-surface font-medium">Added dark mode support and theme persistence.</p>
+</div>
+</div>
+<div class="flex items-start gap-6 pb-8 border-b border-outline-variant/10">
+<div class="text-sm font-bold text-secondary font-label mt-1 min-w-[100px]">v1.1.5</div>
+<div>
+<div class="text-xs text-outline font-medium mb-1">2024-03-22</div>
+<p class="text-on-surface font-medium">Improved CSV parsing performance for files over 50MB.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-slate-200/20 tonal-shift bg-surface-container-low">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 py-12 max-w-7xl mx-auto font-inter text-xs uppercase tracking-widest">
+<div class="flex items-center gap-2 text-lg font-manrope font-bold text-[#2b3437] mb-6 md:mb-0">
+                ArtCSV
+            </div>
+<div class="text-[#4f6076] dark:text-slate-500 mb-6 md:mb-0">
+                © 2024 ArtCSV. Built for precision.
+            </div>
+<div class="flex items-center gap-6">
+<a class="text-[#4f6076] hover:text-[#2b3437] dark:hover:text-slate-200 transition-opacity opacity-80 hover:opacity-100 flex items-center gap-2" href="#">
+<svg aria-hidden="true" class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+                    GitHub
+                </a>
+<a class="text-[#4f6076] hover:text-[#2b3437] transition-opacity opacity-80 hover:opacity-100" href="#">Privacy</a>
+<a class="text-[#4f6076] hover:text-[#2b3437] transition-opacity opacity-80 hover:opacity-100" href="#">Terms</a>
+</div>
+</div>
+</footer>
+</body></html>
