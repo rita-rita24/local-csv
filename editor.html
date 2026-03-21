@@ -1428,10 +1428,13 @@
         if (state.data.length === 0) { showToast('ダウンロードするデータがありません', 'error'); return; }
         const blob = new Blob([`\uFEFF${generateOutput(dlm)}`], { type: 'text/plain; charset=utf-8' });
         const $a = document.createElement('a');
-        $a.href = URL.createObjectURL(blob);
+        const objectUrl = URL.createObjectURL(blob);
+        $a.href = objectUrl;
         $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
+        document.body.appendChild($a);
         $a.click();
-        setTimeout(() => URL.revokeObjectURL($a.href), 3000);
+        $a.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
         showToast(`💾 ${ext.toUpperCase()}ファイルをダウンロードしました`, 'success');
       };
 
