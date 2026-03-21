@@ -9,34 +9,48 @@ const $ = (selector) => {
         throw new Error(`Element not found: ${selector}`);
     return el;
 };
-/* ---- Mobile nav toggle ---- */
-const navToggle = $("#navToggle");
-const nav = $("#nav");
-navToggle.addEventListener("click", () => {
-    nav.classList.toggle("is-open");
-});
-for (const link of nav.querySelectorAll("a")) {
-    link.addEventListener("click", () => {
-        nav.classList.remove("is-open");
-    });
-}
 /* ---- Download editor.html ---- */
-const downloadBtn = $("#downloadBtn");
 const downloadFile = async (url, fileName) => {
-    const res = await fetch(url);
-    const html = await res.text();
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const objectUrl = URL.createObjectURL(blob);
+    // HTTP/HTTPS の場合: fetch + Blob でダウンロード
+    if (location.protocol.startsWith("http")) {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+        const html = await res.text();
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        const objectUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = objectUrl;
+        anchor.download = fileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+        return;
+    }
+    // file:// の場合: <a download> を試行
     const anchor = document.createElement("a");
-    anchor.href = objectUrl;
+    anchor.href = url;
     anchor.download = fileName;
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
-    URL.revokeObjectURL(objectUrl);
 };
-downloadBtn.addEventListener("click", (e) => {
-    e.preventDefault();
+/* ---- NavBar: Download / Use Now ---- */
+const downloadBtn = $("#downloadBtn");
+const useNowBtn = $("#useNowBtn");
+downloadBtn.addEventListener("click", () => {
+    downloadFile("editor.html", "artcsv.html");
+});
+useNowBtn.addEventListener("click", () => {
+    window.location.href = "editor.html";
+});
+/* ---- Hero: Use Now on Web / Download HTML ---- */
+const heroUseNowBtn = $("#heroUseNowBtn");
+const heroDownloadBtn = $("#heroDownloadBtn");
+heroUseNowBtn.addEventListener("click", () => {
+    window.location.href = "editor.html";
+});
+heroDownloadBtn.addEventListener("click", () => {
     downloadFile("editor.html", "artcsv.html");
 });
 /* ---- Scroll fade-in observer ---- */

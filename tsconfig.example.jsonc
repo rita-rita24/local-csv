@@ -1,0 +1,755 @@
+/******************************************************************************
+ * tsconfig.json 全パラメータ リファレンス (TypeScript 5.x 対応)
+ * 
+ * ⚠️ 注意: このファイルは「全パラメータの解説」を目的としたリファレンスです。
+ *   実際のプロジェクトでは、必要なオプションだけを有効にしてください。
+ *   互いに矛盾するオプションも含まれています。
+ * 
+ * 📖 カテゴリ一覧:
+ *   1. トップレベルオプション (files, include, exclude, extends, references)
+ *   2. compilerOptions
+ *      - 型チェック (Type Checking)
+ *      - モジュール (Modules)
+ *      - 出力 (Emit)
+ *      - JavaScript サポート
+ *      - エディタサポート
+ *      - 相互運用性 (Interop Constraints)
+ *      - 後方互換性 (Backwards Compatibility)
+ *      - 言語と環境 (Language and Environment)
+ *      - コンパイラ診断 (Compiler Diagnostics)
+ *      - プロジェクト (Projects)
+ *      - 出力フォーマット (Output Formatting)
+ *      - 完全性 (Completeness)
+ *   3. watchOptions
+ *   4. typeAcquisition
+ ******************************************************************************/
+{
+  //==========================================================================
+  // 1. トップレベルオプション
+  //    → プロジェクト全体の「どのファイルをコンパイルするか」を決める設定
+  //==========================================================================
+
+  // コンパイル対象のファイルを「個別に」指定する（ワイルドカード不可）
+  // 例: 小規模プロジェクトでファイルが数個しかない場合に使う
+  // ※ include と併用可能。files に書いたファイルは exclude で除外できない
+  "files": [
+    // "src/index.ts",
+    // "src/types.d.ts"
+  ],
+
+  // コンパイル対象のファイルを「パターン」で指定する（ワイルドカード使用可）
+  // ※ デフォルト: ["**/*"]（全ファイル）
+  // 使えるワイルドカード:
+  //   *  → 0文字以上（ディレクトリ区切り文字を除く）
+  //   ?  → 任意の1文字（ディレクトリ区切り文字を除く）
+  //   ** → 任意の深さのディレクトリ
+  "include": [
+    "src/**/*"
+  ],
+
+  // コンパイルから除外するファイルのパターン
+  // ※ デフォルト: ["node_modules", "bower_components", "jspm_packages", outDir]
+  // ※ include でマッチしたファイルだけをフィルタリングする（files には効かない）
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+
+  // 別の tsconfig ファイルを「親」として継承する
+  // 例: 共通設定を base.json に書き、各プロジェクトで extends する
+  // ※ 配列で複数指定可（TS 5.0+）。後のものが優先される
+  // "extends": "./tsconfig.base.json",
+  // "extends": ["./configs/base.json", "./configs/strict.json"],
+
+  // プロジェクト参照（Project References）
+  // → モノレポなどで複数の tsconfig を持つ場合、依存関係を定義する
+  // ※ tsc --build で使用
+  "references": [
+    // {
+    //   "path": "./packages/common",  // 参照先の tsconfig があるディレクトリ
+    //   "prepend": false              // outFile 使用時に出力を先頭に結合するか（レア）
+    // }
+  ],
+
+  //==========================================================================
+  // 2. compilerOptions
+  //    → TypeScript コンパイラの動作を細かく制御する設定
+  //==========================================================================
+  "compilerOptions": {
+
+    //------------------------------------------------------------------------
+    // 2-1. 型チェック (Type Checking)
+    //      → コードの「安全性」をどこまで厳しくチェックするかの設定
+    //------------------------------------------------------------------------
+
+    // ★ すべての厳格な型チェックオプションをまとめて有効にする
+    // → 以下のオプションを一括で true にするショートカット:
+    //   alwaysStrict, strictNullChecks, strictBindCallApply,
+    //   strictFunctionTypes, strictPropertyInitialization,
+    //   noImplicitAny, noImplicitThis, useUnknownInCatchVariables
+    // 🔰 推奨: 新規プロジェクトでは true にすべき
+    "strict": true,
+
+    // 型が書かれていない変数・引数を自動的に any 型にすることを禁止する
+    // 例: function greet(name) {} → エラー。function greet(name: string) {} はOK
+    // ※ strict: true に含まれる
+    "noImplicitAny": true,
+
+    // null と undefined を他の型と区別してチェックする
+    // 例: let name: string = null; → エラーになる
+    // ※ strict: true に含まれる
+    "strictNullChecks": true,
+
+    // 関数の型チェックをより厳密にする（共変ではなく反変をチェック）
+    // 例: (animal: Animal) => void に (dog: Dog) => void を代入できなくなる
+    // ※ strict: true に含まれる
+    "strictFunctionTypes": true,
+
+    // bind, call, apply の引数の型を正確にチェックする
+    // 例: fn.call(undefined, "hello") で引数の型が合わないとエラー
+    // ※ strict: true に含まれる
+    "strictBindCallApply": true,
+
+    // クラスのプロパティがコンストラクタで初期化されていることを強制する
+    // 例: class User { name: string; } → エラー（コンストラクタで代入が必要）
+    // ※ strict: true に含まれる
+    "strictPropertyInitialization": true,
+
+    // 関数で暗黙の this が any になることを禁止する
+    // 例: function onClick() { this.value; } → エラー（this の型を明示すべき）
+    // ※ strict: true に含まれる
+    "noImplicitThis": true,
+
+    // catch 節の変数を unknown 型にする（false なら any 型）
+    // 例: catch(e) の e が unknown になるので、型チェックしてから使う必要がある
+    // ※ strict: true に含まれる（TS 4.4+）
+    "useUnknownInCatchVariables": true,
+
+    // 各ファイルの先頭に "use strict" を自動的に付ける
+    // ※ strict: true に含まれる
+    "alwaysStrict": true,
+
+    // 関数のすべてのコードパスで return しているかチェックする
+    // 例: function getAge(): number { if (condition) return 20; } → エラー（else で return がない）
+    "noImplicitReturns": true,
+
+    // switch 文で break/return を忘れた case（フォールスルー）をエラーにする
+    // 例: case "a": doA(); case "b": → エラー（break がない）
+    "noFallthroughCasesInSwitch": true,
+
+    // インデックスシグネチャでアクセスしたプロパティに undefined を含める
+    // 例: const obj: { [key: string]: number } の obj["x"] が number | undefined になる
+    "noUncheckedIndexedAccess": true,
+
+    // override キーワードなしで親クラスのメソッドをオーバーライドするとエラー
+    // 例: class Dog extends Animal { speak() {} } → override speak() {} と書く必要あり
+    "noImplicitOverride": true,
+
+    // 使われていないローカル変数があるとエラーにする
+    // 例: const unused = 42; → エラー
+    "noUnusedLocals": true,
+
+    // 使われていない関数の引数があるとエラーにする
+    // 例: function fn(a: number, b: number) { return a; } → b が未使用でエラー
+    // ※ _ で始まる引数は許容される
+    "noUnusedParameters": true,
+
+    // プロパティアクセスで . と [""] の使い分けを強制する
+    // → インデックスシグネチャのプロパティは [""] でアクセスする必要がある
+    "noPropertyAccessFromIndexSignature": true,
+
+    // 型のみのインポートに type キーワードを強制する（TS 5.0+ で推奨）
+    // "none"   → 強制しない
+    // "error"  → 型のみのインポートには import type を使わないとエラー
+    "verbatimModuleSyntax": true,
+
+    // 条件式（if文など）で「常にtrue」「常にfalse」になる式をエラーにする
+    // 例: const x = "hello"; if (x) {} → 常に true なのでエラー
+    "allowUnreachableCode": false,
+
+    // 到達不可能なコード（return の後のコードなど）をエラーにする
+    // true: 許可（警告なし）, false: エラー, undefined: 警告のみ
+    "allowUnusedLabels": false,
+
+    // Switch文の式の型が union 型の場合、全ケースを網羅しているかチェック
+    // ※ strictNullChecks が有効な場合のみ機能
+    "exactOptionalPropertyTypes": true,
+
+    //------------------------------------------------------------------------
+    // 2-2. モジュール (Modules)
+    //      → import/export の仕組みと、ファイルの見つけ方の設定
+    //------------------------------------------------------------------------
+
+    // 出力するモジュールシステムの形式
+    // → ブラウザ/Node.js/バンドラーに合わせて選ぶ
+    // "none"      → モジュールなし（グローバルスクリプト）
+    // "commonjs"  → Node.js の require() 形式
+    // "amd"       → RequireJS 等で使う非同期モジュール
+    // "umd"       → CommonJS と AMD の両対応
+    // "system"    → SystemJS 形式
+    // "es6"/"es2015" → ESモジュール（import/export）※古い指定
+    // "es2020"    → ESモジュール + import() 動的インポート + import.meta
+    // "es2022"    → ESモジュール + トップレベル await
+    // "esnext"    → 最新の ESモジュール仕様
+    // "node16"    → Node.js 16+ のモジュール（CJS/ESM 自動判定）
+    // "nodenext"  → Node.js 最新のモジュール解決（推奨）
+    // "preserve"  → import文をそのまま残す（バンドラー向け、TS 5.4+）
+    "module": "esnext",
+
+    // モジュールの解決方法（import のパスからファイルを探すアルゴリズム）
+    // "classic"    → TypeScript 独自の古い解決方法（非推奨）
+    // "node10"     → Node.js 10 以前の require() の解決方法（旧 "node"）
+    // "node16"     → Node.js 16+ のモジュール解決（package.json の exports 対応）
+    // "nodenext"   → Node.js 最新のモジュール解決
+    // "bundler"    → Webpack/Vite 等バンドラー向け（拡張子省略OK、TS 5.0+）
+    "moduleResolution": "bundler",
+
+    // 出力ファイルのルートディレクトリ
+    // → ソースファイルのディレクトリ構造をどこから再現するか決める
+    // 例: rootDir: "src" なら src/index.ts → dist/index.js
+    // ※ 指定しない場合、全入力ファイルの共通の親ディレクトリが自動計算される
+    "rootDir": "./src",
+
+    // 複数のルートディレクトリを仮想的に1つにまとめる
+    // → モノレポ等で src と generated を同じ階層に見せたい場合に使う
+    "rootDirs": [
+      // "./src",
+      // "./generated"
+    ],
+
+    // 型定義ファイル（.d.ts）を探すディレクトリ
+    // ※ デフォルト: node_modules/@types
+    "typeRoots": [
+      "./node_modules/@types",
+      "./custom-types"
+    ],
+
+    // @types パッケージの中で、実際にインクルードするパッケージ名
+    // 例: ["node", "jest"] → @types/node と @types/jest だけ読み込む
+    // ※ 空配列にすると @types を一切読み込まない
+    "types": [
+      // "node",
+      // "jest"
+    ],
+
+    // import パスのエイリアス（ショートカット）を設定する
+    // 例: "@/*" → "src/*" なら import { foo } from "@/utils" が src/utils を指す
+    // ⚠️ 注意: コンパイル後のJSには反映されない。バンドラー側にも同じ設定が必要
+    "paths": {
+      // "@/*": ["./src/*"],
+      // "@components/*": ["./src/components/*"],
+      // "@utils/*": ["./src/utils/*"]
+    },
+
+    // パスエイリアス（paths）の基準ディレクトリ
+    // → paths の相対パスは、この baseUrl からの相対になる
+    "baseUrl": ".",
+
+    // package.json の条件付きエクスポート（exports フィールド）で使う条件
+    // 例: ["import", "require", "types"] のどれを優先するかカスタマイズ
+    // ※ module: "node16" / "nodenext" / "bundler" で有効
+    "customConditions": [
+      // "my-condition"
+    ],
+
+    // package.json の "main" の代わりに別のエントリポイントフィールドを使う
+    // 例: ["module", "main"] → "module" フィールドを優先して探す
+    // ※ moduleResolution: "classic" / "node10" でのみ有効
+    "mainFields": [
+      // "module",
+      // "main"
+    ],
+
+    // import 時に自動で試す拡張子のリスト
+    // → import "./foo" と書いた時に foo.ts, foo.tsx ... の順に探す
+    "resolveJsonModule": true,
+
+    // .json ファイルを import できるようにする
+    // 例: import data from "./config.json"
+    // ※ resolveJsonModule: true にしないと JSON のインポートはエラーになる
+    // (上で true にしている)
+
+    // package.json の "exports" / "imports" フィールドを解決に使うか
+    // → Node.js 12+ の条件付きエクスポートに対応
+    "resolvePackageJsonExports": true,
+
+    // package.json の "imports" フィールド（#から始まるサブパスインポート）を解決に使うか
+    "resolvePackageJsonImports": true,
+
+    // シンボリックリンクを実体パスに解決するか
+    // true（デフォルト）: リンク先の実体パスを使う
+    // false: シンボリックリンクのパスをそのまま使う（monorepo で便利な場合あり）
+    "preserveSymlinks": false,
+
+    // TypeScriptの組み込み .d.ts を無視する（自前の型定義を使う場合）
+    // ⚠️ 通常は false のまま
+    "noLib": false,
+
+    // 組み込みの型定義ライブラリ（lib.d.ts）を指定する
+    // → target に応じて自動設定されるが、手動でカスタマイズ可能
+    // 例: DOM API が不要なNode.js プロジェクトでは "DOM" を外す
+    "lib": [
+      "ES2023",        // ECMAScript 2023 の標準ビルトイン型
+      "DOM",           // ブラウザ DOM API の型（document, window 等）
+      "DOM.Iterable",  // DOM コレクションの iterable サポート
+      "DOM.AsyncIterable", // DOM の非同期 iterable サポート
+      "ESNext"         // 最新の ECMAScript 提案の型
+      // その他の選択肢:
+      // "ES5", "ES6", "ES2015", "ES2016", "ES2017", "ES2018",
+      // "ES2019", "ES2020", "ES2021", "ES2022", "ES2023",
+      // "ES2015.Core", "ES2015.Collection", "ES2015.Generator",
+      // "ES2015.Iterable", "ES2015.Promise", "ES2015.Proxy",
+      // "ES2015.Reflect", "ES2015.Symbol", "ES2015.Symbol.WellKnown",
+      // "ES2016.Array.Include", "ES2016.Intl",
+      // "ES2017.Date", "ES2017.Intl", "ES2017.Object",
+      // "ES2017.SharedMemory", "ES2017.String", "ES2017.TypedArrays",
+      // "ES2018.AsyncGenerator", "ES2018.AsyncIterable",
+      // "ES2018.Intl", "ES2018.Promise", "ES2018.Regexp",
+      // "ES2019.Array", "ES2019.Intl", "ES2019.Object",
+      // "ES2019.String", "ES2019.Symbol",
+      // "ES2020.BigInt", "ES2020.Date", "ES2020.Intl",
+      // "ES2020.Number", "ES2020.Promise", "ES2020.SharedMemory",
+      // "ES2020.String", "ES2020.Symbol.WellKnown",
+      // "ES2021.Intl", "ES2021.Promise", "ES2021.String",
+      // "ES2021.WeakRef",
+      // "ES2022.Array", "ES2022.Error", "ES2022.Intl",
+      // "ES2022.Object", "ES2022.RegExp",
+      // "ES2022.SharedMemory", "ES2022.String",
+      // "ES2023.Array", "ES2023.Collection", "ES2023.Intl",
+      // "Decorators", "Decorators.Legacy",
+      // "ScriptHost", "WebWorker", "WebWorker.ImportScripts",
+      // "WebWorker.Iterable"
+    ],
+
+    // モジュール検出の戦略
+    // → ファイルが「モジュール」か「スクリプト」かを判定する方法
+    // "auto"   → import/export があればモジュール、なければスクリプト（デフォルト）
+    // "legacy" → 古い挙動
+    // "force"  → 全ファイルを強制的にモジュールとして扱う
+    "moduleDetection": "auto",
+
+    // Node.js の require() を ESM から使えるようにする（TS 5.6+）
+    // → module: "nodenext" で ESM ファイルから require() できる
+    "allowArbitraryExtensions": false,
+
+    // {ファイル名}.d.{拡張子}.ts の形式の型定義ファイルを許可する
+    // 例: styles.d.css.ts で CSS モジュールの型を定義できる
+    // ※ TS 5.0+
+    // (上で false にしている)
+
+    //------------------------------------------------------------------------
+    // 2-3. 出力 (Emit)
+    //      → コンパイル結果をどのように出力するかの設定
+    //------------------------------------------------------------------------
+
+    // コンパイル結果の出力先ディレクトリ
+    // 例: outDir: "dist" → src/index.ts がコンパイルされると dist/index.js になる
+    "outDir": "./dist",
+
+    // 全ファイルを1つのファイルにまとめて出力する
+    // ⚠️ module が "amd" か "system" の場合のみ使える
+    // ※ 通常はバンドラー（Webpack/Vite）を使うので不要
+    // "outFile": "./dist/bundle.js",
+
+    // .js ファイルを出力しない（型チェックだけしたい場合に使う）
+    // ※ Babel や esbuild などの別ツールでトランスパイルする場合に true にする
+    "noEmit": false,
+
+    // コンパイルエラーがある場合でもファイルを出力する
+    // true: エラーがあっても出力する（開発中に便利）
+    // false: エラーがあれば出力しない
+    "noEmitOnError": true,
+
+    // ソースマップファイル（.js.map）を生成する
+    // → ブラウザの DevTools でコンパイル前の TypeScript コードをデバッグできる
+    "sourceMap": true,
+
+    // ソースマップを .js ファイルの末尾にインラインで埋め込む（別ファイルにしない）
+    // ※ sourceMap と同時には使えない
+    "inlineSourceMap": false,
+
+    // ソースマップ内に元の TypeScript ソースコードを埋め込む
+    // → ソースマップだけで元のコードが見られる（.ts ファイルを配布しなくて済む）
+    "inlineSources": false,
+
+    // ソースマップの sourceRoot プロパティを設定する
+    // → デバッガがソースファイルを探すルートパス
+    // "sourceRoot": "https://my-website.com/debug/source/",
+
+    // ソースマップの中でソースファイルへの参照パスを設定する
+    // "mapRoot": "https://my-website.com/debug/sourcemaps/",
+
+    // 型定義ファイル（.d.ts）を生成する
+    // → ライブラリを公開する場合に必要
+    "declaration": true,
+
+    // 型定義ファイルのソースマップ（.d.ts.map）を生成する
+    // → "Go to Definition" でコンパイル前の .ts ファイルに飛べる
+    "declarationMap": true,
+
+    // 型定義ファイル（.d.ts）の出力先ディレクトリ
+    // ※ 指定しなければ outDir と同じ場所に出力される
+    "declarationDir": "./dist/types",
+
+    // .js 出力なしで .d.ts だけを出力する
+    // → 型定義だけ欲しい場合（コンパイルは別ツールでやる場合）
+    "emitDeclarationOnly": false,
+
+    // コンパイル後の .js ファイルからコメントを削除する
+    "removeComments": false,
+
+    // TypeScript のヘルパー関数を tslib パッケージから import する
+    // → 出力ファイルのサイズを削減できる（各ファイルにヘルパーが重複しなくなる）
+    // ⚠️ tslib パッケージのインストールが必要: npm install tslib
+    "importHelpers": true,
+
+    // tslib をインラインで各ファイルに埋め込む（importHelpers の逆）
+    // ⚠️ 通常は importHelpers を使う方が効率的
+    "noEmitHelpers": false,
+
+    // ダウンレベル（古いバージョン向け）のイテレータ実装を生成する
+    // → for...of や配列スプレッドを ES5 にコンパイルする際により正確な実装を出力
+    "downlevelIteration": false,
+
+    // emit 時にファイルごとの一貫性を保証する（トランスパイルのみモードで安全）
+    // → const enum や namespace の参照が単一ファイルで完結するよう強制
+    "isolatedModules": true,
+
+    // 各ファイルを独立してトランスパイル可能にするための追加チェック（TS 5.5+）
+    // → isolatedModules より強い制約。型のre-exportなどを禁止
+    // "isolatedDeclarations": false,
+
+    // class フィールドの emit 方法を制御する
+    // true:  ECMAScript 標準の [[Define]] セマンティクス（Object.defineProperty）
+    // false: TypeScript の従来の方式（代入セマンティクス）
+    "useDefineForClassFields": true,
+
+    // 出力ファイルの BOM（Byte Order Mark）を先頭に付けるか
+    "emitBOM": false,
+
+    // 出力ファイルの改行コード
+    // "crlf" → Windows 形式（\r\n）
+    // "lf"   → Unix/Mac 形式（\n）
+    "newLine": "lf",
+
+    // import されているが値としては使われていない import 文を出力から削除するか
+    // ※ verbatimModuleSyntax を使う場合は不要（そちらが優先）
+    // "preserveValueImports": false,  // TS 5.5 で非推奨
+
+    // import 文のエイリアスパスを相対パスに書き換えるか
+    // ※ paths で設定したエイリアスは出力 JS には反映されない。これも解決しない
+    // → パスの書き換えにはバンドラーや tsc-alias 等の別ツールが必要
+    // "rewriteRelativeImportExtensions": false, // TS 5.7+
+
+    //------------------------------------------------------------------------
+    // 2-4. JavaScript サポート
+    //      → .js ファイルもコンパイル対象にするかの設定
+    //------------------------------------------------------------------------
+
+    // .js / .jsx ファイルもコンパイル対象にする
+    // → JavaScript から TypeScript へ段階的に移行する場合に便利
+    "allowJs": true,
+
+    // .js ファイルの型エラーもチェックする（allowJs: true と組み合わせる）
+    // → JSDoc コメントに基づいた型チェックを行う
+    "checkJs": false,
+
+    // .js 出力ファイルの拡張子（.js がデフォルト）
+    // ※ 通常は変更不要
+    // "jsxFragmentFactory": "",
+
+    // 生成される .js ファイルの最大 Node.js バージョン制約
+    // ※ 通常は target で制御するので使わない
+
+    //------------------------------------------------------------------------
+    // 2-5. JSX サポート
+    //      → React 等の JSX/TSX ファイルの変換方法
+    //------------------------------------------------------------------------
+
+    // JSX の変換方法
+    // "react"          → React.createElement() に変換（React 16 以前）
+    // "react-jsx"      → jsx() 関数に自動インポートして変換（React 17+、推奨）
+    // "react-jsxdev"   → 開発用の jsxDEV() に変換（デバッグ情報付き）
+    // "react-native"   → JSX をそのまま保持（React Native が後で変換）
+    // "preserve"       → JSX をそのまま保持（別ツールで変換する場合）
+    "jsx": "react-jsx",
+
+    // JSX ファクトリ関数の名前（jsx: "react" 使用時のみ）
+    // 例: "React.createElement"（デフォルト）, "h"（Preact）
+    "jsxFactory": "React.createElement",
+
+    // JSX の Fragment のファクトリ（jsx: "react" 使用時のみ）
+    "jsxFragmentFactory": "React.Fragment",
+
+    // jsx: "react-jsx" 使用時に、jsx 関数を import するモジュール
+    // 例: "react"（デフォルト）, "preact"
+    "jsxImportSource": "react",
+
+    //------------------------------------------------------------------------
+    // 2-6. 言語と環境 (Language and Environment)
+    //      → コンパイル先の JavaScript バージョンと言語機能の設定
+    //------------------------------------------------------------------------
+
+    // コンパイル先の JavaScript バージョン
+    // → 古いブラウザ/Node.js 対応が必要なら低めに設定
+    // "ES3"     → Internet Explorer 対応（非推奨）
+    // "ES5"     → IE11 対応
+    // "ES6"/"ES2015" → let/const, アロー関数, Promise 等
+    // "ES2016"  → Array.prototype.includes, ** 演算子
+    // "ES2017"  → async/await, Object.entries 等
+    // "ES2018"  → rest/spread properties, async iteration
+    // "ES2019"  → Array.flat, Object.fromEntries 等
+    // "ES2020"  → BigInt, ?. オプショナルチェイニング, ?? Null合体
+    // "ES2021"  → String.replaceAll, Promise.any 等
+    // "ES2022"  → クラスフィールド, top-level await, .at() 等
+    // "ES2023"  → Array findLast, Hashbang 等
+    // "ESNext"  → 最新（常に変化する）
+    "target": "ES2022",
+
+    // ECMAScript のデコレータ（Stage 3+）を有効にする
+    // ※ experimentalDecorators とは異なる新しい仕様
+    // "experimentalDecorators" と同時に true にはできない
+    // TS 5.0+ でサポート
+    // "decorators": true,  // ← 新仕様のデコレータ
+
+    // 実験的デコレータ（TypeScript の旧仕様）を有効にする
+    // → Angular, NestJS, TypeORM 等で使われている
+    // ⚠️ 将来的には上の "decorators" に移行予定
+    "experimentalDecorators": true,
+
+    // デコレータのメタデータ（型情報）を出力する
+    // → reflect-metadata パッケージと組み合わせて使う
+    // ⚠️ experimentalDecorators: true が必要
+    "emitDecoratorMetadata": true,
+
+    //------------------------------------------------------------------------
+    // 2-7. 相互運用性の制約 (Interop Constraints)
+    //      → CommonJS と ESModule の間の互換性に関する設定
+    //------------------------------------------------------------------------
+
+    // CommonJS モジュールを ESModule の import 構文で読み込めるようにする
+    // 例: import React from "react" と書ける（本来は import * as React が正しい）
+    // → Babel/Webpack との互換性のためによく使われる
+    "esModuleInterop": true,
+
+    // ESModule で import * as foo from "bar" した時、foo をそのまま callable にしない
+    // → ESModule の仕様により忠実な挙動にする
+    // ⚠️ esModuleInterop: true で自動的に true になる
+    "allowSyntheticDefaultImports": true,
+
+    // import 文のファイルパスの大文字小文字を厳密にチェックする
+    // → macOS/Windows（大文字小文字を区別しない）でのミスを防ぐ
+    // 🔰 推奨: true
+    "forceConsistentCasingInFileNames": true,
+
+    //------------------------------------------------------------------------
+    // 2-8. 後方互換性 (Backwards Compatibility)
+    //      → 古い TypeScript の挙動を維持するためのオプション
+    //------------------------------------------------------------------------
+
+    // keyof でインデックスシグネチャに string | number を返す（従来は string のみ）
+    // ※ TS 2.9 以降のデフォルト挙動。通常変更不要
+    // "keyofStringsOnly": false,
+
+    // 名前空間（namespace）内のオブジェクトに setter を使わない
+    // → 古い挙動との互換性のため。通常は不要
+    // "suppressExcessPropertyErrors": false,
+
+    // インデックスシグネチャがないオブジェクトへのインデックスアクセスのエラーを抑制
+    // "suppressImplicitAnyIndexErrors": false,
+
+    // .d.ts ファイル内のエラーを無視する
+    // ⚠️ 通常は使わない。壊れた型定義を一時的に回避する場合のみ
+    "skipLibCheck": true,
+
+    // デフォルトの lib.d.ts を読み込まない
+    // ※ 自前で全ての型定義を用意する場合のみ。通常は false
+    "skipDefaultLibCheck": false,
+
+    //------------------------------------------------------------------------
+    // 2-9. コンパイラ診断 (Compiler Diagnostics)
+    //      → コンパイラの内部動作を可視化する設定（デバッグ用）
+    //------------------------------------------------------------------------
+
+    // コンパイルにかかった時間の詳細を表示する
+    // → どのファイルの型チェックが遅いか特定できる
+    // ※ CI やデバッグ用。通常は false
+    "extendedDiagnostics": false,
+
+    // コンパイル時間の概要を表示する（extendedDiagnostics の簡易版）
+    "diagnostics": false,
+
+    // コンパイラが試みた全てのファイルパスの解決ログを出力する
+    // → import のパス解決がうまくいかない時のデバッグに便利
+    "traceResolution": false,
+
+    // コンパイラのプロファイル情報を指定ディレクトリに出力する
+    // → Chrome の DevTools で読める .cpuprofile ファイルが生成される
+    // "generateCpuProfile": "./profile.cpuprofile",
+
+    // 出力されるファイルの一覧を表示する
+    "listEmittedFiles": false,
+
+    // コンパイル対象のファイル一覧を表示する
+    "listFiles": false,
+
+    // エラーメッセージの表示に色を使うか
+    // ※ 通常はターミナルが自動判定するので変更不要
+    // "pretty": true,
+
+    // TypeScript 内部のデバッグ情報を出力する
+    // ⚠️ TypeScript コンパイラ開発者向け
+    // "generateTrace": "./trace",
+
+    //------------------------------------------------------------------------
+    // 2-10. プロジェクト (Projects)
+    //       → プロジェクト参照とインクリメンタルビルド関連の設定
+    //------------------------------------------------------------------------
+
+    // インクリメンタルコンパイルを有効にする
+    // → 前回のコンパイル結果を記憶し、変更されたファイルだけ再コンパイルする
+    // → 大規模プロジェクトでコンパイル時間を大幅に短縮
+    "incremental": true,
+
+    // インクリメンタルコンパイルのキャッシュファイルの保存先
+    // ※ デフォルト: tsconfig.tsbuildinfo
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+
+    // このプロジェクトが「複合プロジェクト」（Project References）の一部であることを示す
+    // → tsc --build で使う。incremental: true が自動的に有効になる
+    // → declaration: true も自動的に強制される
+    "composite": false,
+
+    // --build 使用時に、最新かどうかのチェックだけして再ビルドしない
+    // → CI で「ビルドが最新か」を確認するために使う
+    // "disableReferencedProjectLoad": false,
+
+    // 参照プロジェクトを遅延ロードする（エディタのメモリ使用量を削減）
+    "disableSolutionSearching": false,
+
+    // --build 使用時にこのプロジェクトの依存プロジェクトを自動ビルドしない
+    "disableSourceOfProjectReferenceRedirect": false,
+
+    //------------------------------------------------------------------------
+    // 2-11. 出力フォーマット (Output Formatting)
+    //------------------------------------------------------------------------
+
+    // エラーメッセージの表示に色を使うか
+    "pretty": true,
+
+    //------------------------------------------------------------------------
+    // 2-12. 完全性 (Completeness)
+    //------------------------------------------------------------------------
+
+    // .d.ts ファイルの型チェックをスキップする
+    // → コンパイル速度が向上するが、型定義のエラーを見逃す可能性がある
+    // 🔰 推奨: true（ほとんどの場合問題ない）
+    // ※ 上でも記述しているが、重要なので再掲
+    // "skipLibCheck": true,
+
+    //------------------------------------------------------------------------
+    // 2-13. その他の compilerOptions
+    //------------------------------------------------------------------------
+
+    // プラグイン（エディタ用の TypeScript Language Service Plugin）
+    // → VSCode 等でエディタ拡張を追加する場合に使う
+    "plugins": [
+      // { "name": "typescript-plugin-css-modules" },  // CSS Modules の型補完
+      // { "name": "@styled/typescript-styled-plugin" } // styled-components の補完
+    ],
+
+    // 入力ファイルの文字コード（通常は utf-8）
+    // "charset": "utf-8",  // TS 5.0 で非推奨
+
+    // エラーメッセージの言語（ロケール）
+    // ※ 通常はシステムの言語を使うので設定不要
+    // "locale": "ja"
+
+    // TypeScript が解決できない型を指定した型に置き換える
+    // ※ 非常に特殊なケース向け
+    // "fallbackPolling": "dynamicPriority",
+
+    // 出力ファイルに "use strict" を付けない（module 出力時のデフォルト挙動を変更）
+    // ※ 通常は変更不要
+    // "noImplicitUseStrict": false,
+
+    // maxNodeModuleJsDepth: node_modules 内の JS ファイルの型推論の最大深さ
+    // ※ allowJs: true の場合に影響。デフォルト: 0（node_modules 内は推論しない）
+    "maxNodeModuleJsDepth": 0
+
+    // ★ TS 5.5+ の新しいオプション
+    // "erasableSyntaxOnly": false,  // TS 5.8+ → 型注釈のみの構文に制限（enum等禁止）
+  },
+
+  //==========================================================================
+  // 3. watchOptions
+  //    → tsc --watch（ファイル変更を監視して自動再コンパイル）の動作設定
+  //==========================================================================
+  "watchOptions": {
+    // ファイル変更の監視方法
+    // "fixedPollingInterval"    → 一定間隔でファイルをチェック
+    // "priorityPollingInterval" → 優先度付きでファイルをチェック
+    // "dynamicPriorityPolling"  → 変更頻度に応じて動的にチェック間隔を調整
+    // "fixedChunkSizePolling"   → チャンク単位でポーリング
+    // "useFsEvents"             → OS のファイルシステムイベントを使う（推奨）
+    // "useFsEventsOnParentDirectory" → 親ディレクトリのイベントを監視
+    "watchFile": "useFsEvents",
+
+    // ディレクトリ変更の監視方法
+    // "fixedPollingInterval"    → 一定間隔でチェック
+    // "dynamicPriorityPolling"  → 動的にチェック間隔を調整
+    // "fixedChunkSizePolling"   → チャンク単位でポーリング
+    // "useFsEvents"             → OS のファイルシステムイベントを使う（推奨）
+    "watchDirectory": "useFsEvents",
+
+    // ファイル変更を検知してから再コンパイルまでの遅延時間（ミリ秒）
+    // → 短時間に連続して変更があった場合にまとめて処理する
+    "fallbackPolling": "dynamicPriorityPolling",
+
+    // 変更検知を一定時間集めてから一括処理するか（バッチ処理）
+    "synchronousWatchDirectory": false,
+
+    // 監視対象から除外するディレクトリ
+    "excludeDirectories": [
+      "node_modules",
+      "dist"
+    ],
+
+    // 監視対象から除外するファイル
+    "excludeFiles": [
+      // "temp.ts"
+    ]
+
+    // ポーリング間隔（ミリ秒）。watchFile/watchDirectory がポーリング方式の場合に有効
+    // "pollingInterval": 250
+  },
+
+  //==========================================================================
+  // 4. typeAcquisition
+  //    → JavaScript プロジェクトで @types パッケージを自動取得する設定
+  //    ※ 主にエディタ（VSCode）が使用。tsc コマンドでは無視される
+  //==========================================================================
+  "typeAcquisition": {
+    // 型の自動取得を有効にするか
+    // → JS プロジェクトで @types/xxx を自動的にダウンロードしてくれる
+    "enable": true,
+
+    // 自動取得に含めるパッケージ
+    // 例: package.json にないが型が欲しいパッケージを指定
+    "include": [
+      // "jquery",
+      // "lodash"
+    ],
+
+    // 自動取得から除外するパッケージ
+    // 例: 不要な @types が勝手に取得されるのを防ぐ
+    "exclude": [
+      // "jest"
+    ],
+
+    // プロジェクトの型定義の取得を無効にするか
+    "disableFilenameBasedTypeAcquisition": false
+  }
+}

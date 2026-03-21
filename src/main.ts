@@ -9,40 +9,54 @@ const $ = <T extends HTMLElement>(selector: string): T => {
   return el;
 };
 
-/* ---- Mobile nav toggle ---- */
-const navToggle = $<HTMLButtonElement>("#navToggle");
-const nav = $<HTMLElement>("#nav");
-
-navToggle.addEventListener("click", () => {
-  nav.classList.toggle("is-open");
-});
-
-for (const link of nav.querySelectorAll("a")) {
-  link.addEventListener("click", () => {
-    nav.classList.remove("is-open");
-  });
-}
-
 /* ---- Download editor.html ---- */
-const downloadBtn = $<HTMLAnchorElement>("#downloadBtn");
-
 const downloadFile = async (url: string, fileName: string): Promise<void> => {
-  const res = await fetch(url);
-  const html = await res.text();
-  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-  const objectUrl = URL.createObjectURL(blob);
-
+  // HTTP/HTTPS の場合: fetch + Blob でダウンロード
+  if (location.protocol.startsWith("http")) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Download failed: ${res.status}`);
+    const html = await res.text();
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = objectUrl;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+    return;
+  }
+  // file:// の場合: <a download> を試行
   const anchor = document.createElement("a");
-  anchor.href = objectUrl;
+  anchor.href = url;
   anchor.download = fileName;
   document.body.appendChild(anchor);
   anchor.click();
   anchor.remove();
-  URL.revokeObjectURL(objectUrl);
 };
 
-downloadBtn.addEventListener("click", (e: Event) => {
-  e.preventDefault();
+/* ---- NavBar: Download / Use Now ---- */
+const downloadBtn = $<HTMLButtonElement>("#downloadBtn");
+const useNowBtn = $<HTMLButtonElement>("#useNowBtn");
+
+downloadBtn.addEventListener("click", () => {
+  downloadFile("editor.html", "artcsv.html");
+});
+
+useNowBtn.addEventListener("click", () => {
+  window.location.href = "editor.html";
+});
+
+/* ---- Hero: Use Now on Web / Download HTML ---- */
+const heroUseNowBtn = $<HTMLButtonElement>("#heroUseNowBtn");
+const heroDownloadBtn = $<HTMLButtonElement>("#heroDownloadBtn");
+
+heroUseNowBtn.addEventListener("click", () => {
+  window.location.href = "editor.html";
+});
+
+heroDownloadBtn.addEventListener("click", () => {
   downloadFile("editor.html", "artcsv.html");
 });
 

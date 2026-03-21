@@ -4,1968 +4,1545 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSV ツール</title>
+  <title>CSV/TSV エディタ</title>
 
-  <!-- ファビコン -->
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232563eb' d='M10 10.02h5V21h-5zM17 21h3c1.1 0 2-.9 2-2v-9h-5v11zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2zM3 19c0 1.1.9 2 2 2h3V10.02H3V19z'/></svg>">
 
-  <!-- Material Symbols アイコンフォント -->
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <style>
-    :root {
-      --sidebar-width: 240px;
-      --sidebar-collapsed-width: 0px;
-      --bg: #f1f5f9;
-      --surface: #ffffff;
-      --border: #e2e8f0;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --danger: #dc2626;
-      --accent: #eff6ff;
-    }
-
-    [data-theme="dark"] {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --border: #334155;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --primary: #3b82f6;
-      --primary-hover: #60a5fa;
-      --danger: #ef4444;
-      --accent: #1e293b;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--bg);
-    }
-
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      font-size: 1.25em;
-      line-height: 1;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    /* サイドバー */
-    .sidebar {
-      width: var(--sidebar-width);
-      min-width: var(--sidebar-width);
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      transition: width 0.25s ease, min-width 0.25s ease;
-      z-index: 100;
-      overflow: hidden;
-    }
-
-    .sidebar.collapsed {
-      width: var(--sidebar-collapsed-width);
-      min-width: var(--sidebar-collapsed-width);
-    }
-
-    .sidebar-header {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-height: 52px;
-    }
-
-    .sidebar-toggle-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.15s ease;
-    }
-
-    .sidebar-toggle-btn:hover {
-      background: var(--bg);
-    }
-
-    .sidebar-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: 12px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      overflow: hidden;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      text-align: left;
-      width: 100%;
-      white-space: nowrap;
-      transition: background 0.15s ease;
-    }
-
-    .nav-item:hover {
-      background: var(--bg);
-    }
-
-    .nav-item.active {
-      background: var(--primary);
-      color: #ffffff;
-    }
-
-    .nav-item .material-symbols-outlined {
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-
-    .nav-item-label {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .nav-item-title {
-      font-weight: 600;
-    }
-
-    .nav-item-desc {
-      font-size: 0.75rem;
-      opacity: 0.7;
-      margin-top: 2px;
-    }
-
-    /* 折り畳み時にテキストを隠す */
-    .sidebar.collapsed .sidebar-title,
-    .sidebar.collapsed .nav-item-label,
-    .sidebar.collapsed .nav-item-desc {
-      display: none;
-    }
-
-    /* 展開ボタン（折り畳み時に表示） */
-    .expand-btn {
-      display: none;
-      position: fixed;
-      top: 8px;
-      left: 8px;
-      z-index: 200;
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar.collapsed ~ .main-content .expand-btn {
-      display: flex;
-    }
-
-    /* メインコンテンツ */
-    .main-content {
-      flex: 1;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .tool-view {
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      display: none;
-    }
-
-    .tool-view.active {
-      display: block;
-    }
-
-    /* Common Tool Styles */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .header h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .stats {
-      display: flex;
-      gap: 16px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      background: var(--surface);
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-
-    .stats span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .stats .value {
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .theme-toggle:hover {
-      background: var(--bg);
-    }
-
-    /* Toolbar */
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 16px;
-      padding: 8px 12px;
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      align-items: center;
-    }
-
-    .toolbar-group {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      position: relative;
-    }
-
-    .toolbar-group:not(:last-child)::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 20px;
-      background: var(--border);
-      margin-left: 2px;
-    }
-
-    .ml-auto {
-      margin-left: auto;
-    }
-
-    .ml-auto::after {
-      display: none !important;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      min-height: 36px;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    .btn:hover {
-      background: var(--border);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .btn-danger:hover {
-      background: #b91c1c;
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Search Bar */
-    .search-bar {
-      display: flex;
-      padding: 12px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 16px;
-      gap: 12px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .search-bar input {
-      padding: 6px 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.9rem;
-      background: var(--bg);
-      color: var(--text);
-      min-width: 200px;
-      height: 36px;
-    }
-
-    .search-bar input:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .search-info {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .search-nav {
-      display: flex;
-      gap: 4px;
-    }
-
-    .search-nav button {
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1rem;
-      color: var(--text);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Paste Area */
-    .paste-zone {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 40px;
-      text-align: center;
-      background: var(--surface);
-      transition: all 0.2s;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
-
-    .paste-zone:hover {
-      border-color: var(--primary);
-      background: var(--bg);
-    }
-
-    .paste-zone h2 {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .paste-zone p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    .paste-zone.has-data {
-      display: none;
-    }
-
-    /* Table */
-    .table-container {
-      display: none;
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .table-container.show {
-      display: block;
-    }
-
-    .table-scroll {
-      overflow: auto;
-      max-height: 70vh;
-    }
-
-    table {
-      width: max-content;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-      table-layout: fixed;
-    }
-
-    th, td {
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      text-align: left;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    th {
-      padding: 0;
-      background: var(--bg);
-      font-weight: 600;
-      position: sticky;
-      top: -1px;
-      z-index: 10;
-      user-select: none;
-    }
-
-    td {
-      background: var(--surface);
-    }
-
-    tr:hover td:not(.row-num) {
-      background: var(--bg);
-    }
-
-    .row-num {
-      background: var(--bg);
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      text-align: center;
-      width: 70px !important;
-      min-width: 70px !important;
-      max-width: 70px !important;
-      position: sticky;
-      left: -1px;
-      z-index: 20;
-      border-right: 1px solid var(--border);
-    }
-
-    .row-num-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: 100%;
-      padding: 0 4px;
-    }
-
-    .row-menu-btn {
-      width: 24px;
-      height: 24px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.5;
-    }
-
-    .row-num:hover .row-menu-btn {
-      opacity: 1;
-    }
-
-    /* Resize */
-    .resize-handle {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 6px;
-      cursor: col-resize;
-      background: transparent;
-      z-index: 100;
-    }
-
-    .resize-handle:hover {
-      background: var(--primary);
-    }
-
-    .th-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-    }
-
-    .th-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      cursor: pointer;
-      padding: 10px 12px;
-      flex: 1;
-    }
-
-    /* Generator Layout */
-    .main-layout {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .input-panel {
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      padding: 24px;
-      position: sticky;
-      top: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-
-    .input-panel h2 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .input-panel label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .input-panel input[type="text"] {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.9rem;
-      background: var(--bg);
-      color: var(--text);
-      margin-bottom: 16px;
-      transition: border-color 0.2s;
-    }
-
-    .input-panel input[type="text"]:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .description {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-
-    .preview-headers {
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    .preview-headers h3 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: var(--text-muted);
-    }
-
-    .header-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .header-tag {
-      display: inline-flex;
-      align-items: center;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 0.8rem;
-      gap: 6px;
-    }
-
-    .header-tag .idx {
-      background: var(--primary);
-      color: white;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-
-    .input-panel textarea {
-      width: 100%;
-      min-height: 260px;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.9rem;
-      background: var(--bg);
-      color: var(--text);
-      resize: vertical;
-      margin-bottom: 14px;
-    }
-
-    .output-panel {
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-
-    .output-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .output-header h2 {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .output-body textarea {
-      width: 100%;
-      min-height: 500px;
-      padding: 16px;
-      border: none;
-      font-size: 0.8rem;
-      font-family: monospace;
-      background: var(--surface);
-      color: var(--text);
-      resize: vertical;
-    }
-
-    /* Shared Components */
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .toast {
-      padding: 12px 24px;
-      background: var(--text);
-      color: var(--bg);
-      border-radius: 8px;
-      font-size: 0.9rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      animation: fadeIn 0.3s;
-    }
-
-    .toggle {
-      position: relative;
-      width: 42px;
-      height: 24px;
-      background: var(--border);
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .toggle.active {
-      background: var(--primary);
-    }
-
-    .toggle::after {
-      content: '';
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 18px;
-      height: 18px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.2s;
-    }
-
-    .toggle.active::after {
-      transform: translateX(20px);
-    }
-
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 3000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal {
-      background: var(--surface);
-      padding: 24px;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-    }
-
-    .column-menu {
-      display: none;
-      position: absolute;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      z-index: 1000;
-      min-width: 180px;
-    }
-
-    .column-menu.show {
-      display: block;
-    }
-
-    .menu-item {
-      padding: 10px 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .menu-item:hover {
-      background: var(--bg);
-    }
-
-    .menu-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 4px 0;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 900px) {
-      .main-layout { grid-template-columns: 1fr; }
+    /* ================================================================
+       Layer Architecture
+       ================================================================ */
+    @layer reset, base, component, utility;
+
+    /* ----------------------------------------------------------------
+       Reset
+       ---------------------------------------------------------------- */
+    @layer reset {
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       Base – Theme & Typography
+       ---------------------------------------------------------------- */
+    @layer base {
+      :root {
+        color-scheme: light;
+
+        --primary:       light-dark(oklch(0.55 0.20 260), oklch(0.62 0.20 260));
+        --primary-hover: light-dark(oklch(0.48 0.22 260), oklch(0.72 0.18 260));
+        --danger:        light-dark(oklch(0.53 0.22 25),  oklch(0.60 0.22 25));
+        --danger-hover:  light-dark(oklch(0.45 0.22 25),  oklch(0.68 0.20 25));
+        --success:       light-dark(oklch(0.55 0.18 145), oklch(0.65 0.20 145));
+        --warning:       light-dark(oklch(0.80 0.16 80),  oklch(0.70 0.16 80));
+        --bg:            light-dark(oklch(0.98 0.005 250), oklch(0.0 0.0 0));
+        --surface:       light-dark(oklch(1.0 0.0 0),     oklch(0.13 0.005 250));
+        --border:        light-dark(oklch(0.91 0.01 250),  oklch(0.32 0.01 250));
+        --text:          light-dark(oklch(0.20 0.02 260),  oklch(1.0 0.0 0));
+        --text-muted:    light-dark(oklch(0.50 0.02 255),  oklch(0.68 0.005 250));
+        --header-bg:     light-dark(oklch(0.96 0.01 250),  oklch(0.20 0.005 250));
+        --highlight:     light-dark(oklch(0.93 0.12 95),   oklch(0.40 0.10 60));
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-block-size: 100vh;
+      }
+
+      h1, h2, h3 {
+        text-wrap: balance;
+      }
+
+      p {
+        text-wrap: pretty;
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        font-size: 1.25em;
+        line-height: 1;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       Components
+       ---------------------------------------------------------------- */
+    @layer component {
+
+      /* === Container & Header === */
+      .container {
+        max-inline-size: 1400px;
+        margin-inline: auto;
+        padding: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-block-end: 8px;
+
+        & h1 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          & .material-symbols-outlined {
+            font-size: 2rem;
+            color: var(--primary);
+          }
+        }
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stats {
+        display: flex;
+        gap: 16px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        background: var(--surface);
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+
+        & span {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        & .value {
+          font-weight: 600;
+          color: var(--text);
+        }
+      }
+
+      .theme-toggle {
+        inline-size: 36px;
+        block-size: 36px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background 0.2s;
+
+        &:hover {
+          background: var(--header-bg);
+        }
+      }
+
+      /* === Toolbar === */
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-block-end: 8px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        align-items: center;
+      }
+
+      .toolbar-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        position: relative;
+
+        &:not(:last-child)::after {
+          content: '';
+          display: block;
+          inline-size: 1px;
+          block-size: 20px;
+          background: var(--border);
+          margin-inline-start: 2px;
+        }
+      }
+
+      /* === Buttons === */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        min-block-size: 36px;
+        background: var(--header-bg);
+        color: var(--text);
+
+        &:hover { background: var(--border); }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        & .material-symbols-outlined {
+          font-size: 1.15rem;
+        }
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+        &:hover { background: var(--primary-hover); }
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+        &:hover { background: var(--danger-hover); }
+      }
+
+      /* === Toggle === */
+      .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-inline: 12px;
+        block-size: 36px;
+        background: var(--header-bg);
+        border-radius: 6px;
+        border: 1px solid transparent;
+      }
+
+      .toggle-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .toggle {
+        position: relative;
+        inline-size: 42px;
+        block-size: 24px;
+        background: var(--border);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+        flex-shrink: 0;
+
+        &.active {
+          background: var(--primary);
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          inset-block-start: 3px;
+          inset-inline-start: 3px;
+          inline-size: 18px;
+          block-size: 18px;
+          background: #fff;
+          border-radius: 50%;
+          transition: transform 0.2s;
+          box-shadow: 0 1px 3px oklch(0 0 0 / 0.2);
+        }
+
+        &.active::after {
+          transform: translateX(20px);
+        }
+      }
+
+      /* === Search Bar === */
+      .search-bar {
+        display: flex;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-block-end: 8px;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        & input {
+          padding: 6px 12px;
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          font-size: 0.9rem;
+          background: var(--bg);
+          color: var(--text);
+          min-inline-size: 200px;
+          block-size: 36px;
+
+          &:focus {
+            outline: none;
+            border-color: var(--primary);
+          }
+        }
+      }
+
+      .search-info {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .search-nav {
+        display: flex;
+        gap: 4px;
+
+        & button {
+          inline-size: 36px;
+          block-size: 36px;
+          border: 1px solid var(--border);
+          background: var(--bg);
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 1rem;
+          color: var(--text);
+
+          &:hover {
+            background: var(--header-bg);
+          }
+        }
+      }
+
+      /* === Paste Zone === */
+      .paste-area {
+        position: relative;
+        margin-block-end: 8px;
+      }
+
+      .paste-zone {
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        background: var(--surface);
+        transition: all 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          border-color: var(--primary);
+          background: var(--header-bg);
+        }
+
+        & h2 {
+          font-size: 1.2rem;
+          margin-block-end: 8px;
+        }
+
+        & p {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+        }
+
+        &.has-data {
+          display: none;
+        }
+      }
+
+      /* === Table === */
+      .table-container {
+        display: none;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+
+        &.show {
+          display: block;
+        }
+      }
+
+      .table-scroll {
+        overflow: auto;
+        max-block-size: 70vh;
+      }
+
+      table {
+        inline-size: max-content;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        table-layout: fixed;
+      }
+
+      th, td {
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        text-align: start;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      th {
+        padding: 0;
+        background: var(--header-bg);
+        font-weight: 600;
+        position: sticky;
+        inset-block-start: -1px;
+        z-index: 10;
+        user-select: none;
+
+        &:hover {
+          background: var(--border);
+        }
+      }
+
+      td {
+        padding: 10px 12px;
+        background: var(--surface);
+      }
+
+      tr:hover td:not(.row-num) {
+        background: var(--header-bg);
+      }
+
+      td[contenteditable] {
+        outline: none;
+
+        &:focus, &.selected {
+          background: var(--header-bg);
+          box-shadow: inset 0 0 0 2px var(--primary);
+        }
+      }
+
+      td.highlight {
+        background: var(--highlight) !important;
+      }
+
+      td.current-match {
+        background: var(--warning) !important;
+      }
+
+      /* === Row Number === */
+      .row-num {
+        background: var(--header-bg);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        text-align: center;
+        inline-size: 70px !important;
+        min-inline-size: 70px !important;
+        max-inline-size: 70px !important;
+        font-weight: normal;
+        padding: 0 !important;
+        position: sticky;
+        inset-inline-start: -1px;
+        z-index: 20;
+        border-inline-end: 1px solid var(--border);
+      }
+
+      .row-num-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        inline-size: 100%;
+        block-size: 100%;
+        padding-inline: 4px;
+        position: relative;
+      }
+
+      .row-num-text {
+        flex: 1;
+        text-align: center;
+      }
+
+      .row-menu-btn {
+        inline-size: 24px;
+        block-size: 24px;
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        border-radius: 4px;
+        opacity: 0.5;
+        transition: all 0.15s;
+
+        &:hover {
+          background: var(--border);
+          color: var(--text);
+        }
+      }
+
+      .row-num:hover .row-menu-btn,
+      .row-menu-btn:focus-visible {
+        opacity: 1;
+      }
+
+      th.row-num {
+        z-index: 30;
+        padding: 10px 0 !important;
+      }
+
+      /* === Column Resize === */
+      .resize-handle {
+        position: absolute;
+        inset-inline-end: 0;
+        inset-block: 0;
+        inline-size: 6px;
+        cursor: col-resize;
+        background: transparent;
+        z-index: 100;
+
+        &:hover, &.resizing {
+          background: var(--primary);
+        }
+      }
+
+      .th-wrapper {
+        position: relative;
+        inline-size: 100%;
+        block-size: 100%;
+        display: flex;
+      }
+
+      .th-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        cursor: pointer;
+        padding: 10px 12px;
+        flex: 1;
+        inline-size: 100%;
+      }
+
+      .th-colnum {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        flex-shrink: 0;
+        background: var(--border);
+        padding: 1px 4px;
+        border-radius: 3px;
+        line-height: 1.4;
+      }
+
+      .th-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .th-menu-btn {
+        padding: 4px;
+        border-radius: 4px;
+        opacity: 0.5;
+        transition: opacity 0.15s;
+      }
+
+      th:hover .th-menu-btn {
+        opacity: 1;
+      }
+
+      /* === Context Menus === */
+      .column-menu {
+        display: none;
+        position: absolute;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 10px 40px oklch(0 0 0 / 0.15);
+        z-index: 1000;
+        min-inline-size: 200px;
+        overflow: hidden;
+
+        &.show {
+          display: block;
+        }
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.1s;
+
+        &:hover {
+          background: var(--header-bg);
+        }
+
+        &.danger {
+          color: var(--danger);
+
+          &:hover {
+            background: light-dark(oklch(0.95 0.04 25), oklch(0.20 0.005 250));
+          }
+        }
+      }
+
+      .menu-divider {
+        block-size: 1px;
+        background: var(--border);
+        margin-block: 4px;
+      }
+
+      /* === Toast === */
+      .toast-container {
+        position: fixed;
+        inset-block-end: 24px;
+        inset-inline-start: 50%;
+        transform: translateX(-50%);
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .toast {
+        padding: 14px 24px;
+        background: var(--text);
+        color: var(--bg);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 20px oklch(0 0 0 / 0.2);
+        animation: toast-in 0.3s ease, toast-out 0.3s ease 1.2s forwards;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &.success {
+          background: var(--success);
+          color: #fff;
+        }
+
+        &.error {
+          background: var(--danger);
+          color: #fff;
+        }
+      }
+
+      /* === Modal === */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: oklch(0 0 0 / 0.5);
+        z-index: 3000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+
+        &.show {
+          display: flex;
+        }
+      }
+
+      .modal {
+        background: var(--surface);
+        border-radius: 16px;
+        max-inline-size: 400px;
+        inline-size: 100%;
+        padding: 24px;
+        box-shadow: 0 20px 60px oklch(0 0 0 / 0.3);
+
+        & h3 {
+          font-size: 1.1rem;
+          margin-block-end: 8px;
+        }
+
+        & p {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          margin-block-end: 8px;
+        }
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .shortcut-hint {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-inline-start: 4px;
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       Utilities
+       ---------------------------------------------------------------- */
+    @layer utility {
+      .ml-auto {
+        margin-inline-start: auto;
+
+        &::after {
+          display: none !important;
+        }
+      }
+
+      @keyframes toast-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes toast-out {
+        from { opacity: 1; }
+        to   { opacity: 0; }
+      }
+
+      @media (max-width: 768px) {
+        .container { padding: 12px; }
+        .header { flex-direction: column; align-items: stretch; }
+        .stats { justify-content: center; flex-wrap: wrap; }
+        .toolbar { padding: 12px; }
+        .btn { padding: 6px 12px; font-size: 0.8rem; }
+        .paste-zone { padding: 24px; }
+        th, td { padding: 8px; }
+        .shortcut-hint { display: none; }
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- オーバーレイ（モバイル用） -->
-  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="container">
+    <!-- ヘッダー -->
+    <header class="header">
+      <h1><span class="material-symbols-outlined">table_chart</span> CSV/TSV エディタ</h1>
+      <div class="header-right">
+        <div class="stats" id="stats">
+          <span>行: <span class="value" id="rowCount">0</span></span>
+          <span>列: <span class="value" id="colCount">0</span></span>
+          <span>サイズ: <span class="value" id="dataSize">0 KB</span></span>
+          <span>形式: <span class="value" id="dataFormat">-</span></span>
+        </div>
+        <button class="theme-toggle" id="themeToggle" title="ダークモード切替">
+          <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+        </button>
+      </div>
+    </header>
 
-  <!-- サイドバー -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="メニューを折り畳む">
-        <span class="material-symbols-outlined">menu</span>
-      </button>
-      <span class="sidebar-title">CSV ツール</span>
+    <!-- 検索バー -->
+    <div class="search-bar" id="searchBar">
+      <input type="text" id="searchInput" placeholder="検索...">
+      <input type="text" id="replaceInput" placeholder="置換...">
+      <button class="btn" id="replaceNextBtn">置換</button>
+      <button class="btn" id="replaceAllBtn">すべて置換</button>
+      <div class="search-nav">
+        <button id="searchPrevBtn" title="前へ"><span class="material-symbols-outlined">expand_less</span></button>
+        <button id="searchNextBtn" title="次へ"><span class="material-symbols-outlined">expand_more</span></button>
+      </div>
+      <span class="search-info" id="searchInfo"></span>
     </div>
 
-    <nav class="sidebar-nav">
-      <button class="nav-item active" data-tool="editor" onclick="switchTool('editor')">
-        <span class="material-symbols-outlined">table_view</span>
-        <span class="nav-item-label">
-          <span class="nav-item-title">CSV/TSV エディタ</span>
-          <span class="nav-item-desc">テーブル形式で編集</span>
-        </span>
-      </button>
-
-      <button class="nav-item" data-tool="generator" onclick="switchTool('generator')">
-        <span class="material-symbols-outlined">build</span>
-        <span class="nav-item-label">
-          <span class="nav-item-title">CSV ジェネレーター</span>
-          <span class="nav-item-desc">定義からCSVを生成</span>
-        </span>
-      </button>
-    </nav>
-  </aside>
-
-  <!-- メインコンテンツ -->
-  <main class="main-content">
-    <!-- 展開ボタン（サイドバー折り畳み時に表示） -->
-    <button class="expand-btn" id="expandBtn" onclick="toggleSidebar()">
-      <span class="material-symbols-outlined">menu</span>
-    </button>
-
-    <div id="view-editor" class="tool-view active">
-      <div class="container">
-        <!-- ヘッダー -->
-        <header class="header">
-          <h1><span class="material-symbols-outlined">table_chart</span> CSV/TSV エディタ</h1>
-          <div class="header-right">
-            <div class="stats" id="editor-stats">
-              <span>行: <span class="value" id="editor-rowCount">0</span></span>
-              <span>列: <span class="value" id="editor-colCount">0</span></span>
-              <span>サイズ: <span class="value" id="editor-dataSize">0 KB</span></span>
-              <span>形式: <span class="value" id="editor-dataFormat">-</span></span>
-            </div>
-            <button class="theme-toggle" onclick="toggleTheme()" title="ダークモード切替">
-              <span class="material-symbols-outlined" id="themeIconEditor">dark_mode</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- 検索バー -->
-        <div class="search-bar" id="editor-searchBar">
-          <input type="text" id="editor-searchInput" placeholder="検索..." oninput="Editor.performSearch()">
-          <input type="text" id="editor-replaceInput" placeholder="置換...">
-          <button class="btn" onclick="Editor.replaceNext()">置換</button>
-          <button class="btn" onclick="Editor.replaceAll()">すべて置換</button>
-          <div class="search-nav">
-            <button onclick="Editor.navigateMatch(-1)" title="前へ"><span
-                class="material-symbols-outlined">expand_less</span></button>
-            <button onclick="Editor.navigateMatch(1)" title="次へ"><span
-                class="material-symbols-outlined">expand_more</span></button>
-          </div>
-          <span class="search-info" id="editor-searchInfo"></span>
-        </div>
-
-        <!-- ツールバー -->
-        <div class="toolbar">
-          <!-- 履歴グループ -->
-          <div class="toolbar-group">
-            <button class="btn" id="editor-undoBtn" onclick="Editor.undo()" disabled title="元に戻す">
-              <span class="material-symbols-outlined">undo</span>
-            </button>
-            <button class="btn" id="editor-redoBtn" onclick="Editor.redo()" disabled title="やり直し">
-              <span class="material-symbols-outlined">redo</span>
-            </button>
-          </div>
-
-          <!-- 編集グループ -->
-          <div class="toolbar-group">
-            <button class="btn" onclick="Editor.triggerPaste()" title="クリップボードから貼り付け">
-              <span class="material-symbols-outlined">content_paste</span> 貼り付け
-            </button>
-            <button class="btn" onclick="Editor.addRow()" title="行を追加">
-              <span class="material-symbols-outlined">add_box</span> 行追加
-            </button>
-            <button class="btn" onclick="Editor.addColumn()" title="列を追加">
-              <span class="material-symbols-outlined">add_box</span> 列追加
-            </button>
-          </div>
-
-          <!-- 表示グループ -->
-          <div class="toolbar-group">
-            <div class="toggle-group" title="ヘッダー行の有無を切り替え">
-              <span class="toggle-label">ヘッダー</span>
-              <div class="toggle" id="editor-headerToggle" onclick="Editor.toggleHeader()"></div>
-            </div>
-          </div>
-
-          <!-- エクスポートグループ -->
-          <div class="toolbar-group">
-            <button class="btn" onclick="Editor.copyAsCSV()" title="CSVとしてコピー">
-              <span class="material-symbols-outlined">content_copy</span> CSVコピー
-            </button>
-            <button class="btn" onclick="Editor.copyAsTSV()" title="TSVとしてコピー">
-              <span class="material-symbols-outlined">content_copy</span> TSVコピー
-            </button>
-            <button class="btn" onclick="Editor.downloadCSV()" title="CSVダウンロード">
-              <span class="material-symbols-outlined">save</span> CSV保存
-            </button>
-            <button class="btn" onclick="Editor.downloadTSV()" title="TSVダウンロード">
-              <span class="material-symbols-outlined">save</span> TSV保存
-            </button>
-          </div>
-
-          <!-- 削除グループ -->
-          <div class="toolbar-group ml-auto">
-            <button class="btn btn-danger" onclick="Editor.confirmClearAll()" title="すべてクリア">
-              <span class="material-symbols-outlined">delete</span> クリア
-            </button>
-          </div>
-        </div>
-
-        <!-- ペーストエリア -->
-        <div class="paste-area">
-          <div class="paste-zone" id="editor-pasteZone" tabindex="0" onclick="Editor.triggerPaste()">
-            <span class="material-symbols-outlined"
-              style="font-size: 48px; color: var(--text-muted); margin-bottom: 16px;">content_paste</span>
-            <h2>クリックしてCSV/TSVデータを貼り付け</h2>
-            <p>Ctrl+V でもペーストできます</p>
-            <p style="margin-top: 8px; font-size: 0.8rem;">カンマ区切り(CSV)・タブ区切り(TSV) 自動判定</p>
-          </div>
-        </div>
-
-        <!-- テーブル -->
-        <div class="table-container" id="editor-tableContainer">
-          <div class="table-scroll" id="editor-tableScroll">
-            <table id="editor-dataTable">
-              <thead id="editor-tableHead"></thead>
-              <tbody id="editor-tableBody"></tbody>
-            </table>
-          </div>
+    <!-- ツールバー -->
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <button class="btn" id="undoBtn" disabled title="元に戻す"><span class="material-symbols-outlined">undo</span></button>
+        <button class="btn" id="redoBtn" disabled title="やり直し"><span class="material-symbols-outlined">redo</span></button>
+      </div>
+      <div class="toolbar-group">
+        <button class="btn" id="pasteBtn" title="クリップボードから貼り付け"><span class="material-symbols-outlined">content_paste</span> 貼り付け</button>
+        <button class="btn" id="addRowBtn" title="行を追加"><span class="material-symbols-outlined">add_box</span> 行追加</button>
+        <button class="btn" id="addColBtn" title="列を追加"><span class="material-symbols-outlined">add_box</span> 列追加</button>
+      </div>
+      <div class="toolbar-group">
+        <div class="toggle-group" title="ヘッダー行の有無を切り替え">
+          <span class="toggle-label">ヘッダー</span>
+          <div class="toggle" id="headerToggle"></div>
         </div>
       </div>
-
-      <!-- 列メニュー -->
-      <div class="column-menu" id="editor-columnMenu">
-        <div class="menu-item" onclick="Editor.sortColumn('asc')"><span class="material-symbols-outlined">arrow_upward</span>
-          昇順に並び替え</div>
-        <div class="menu-item" onclick="Editor.sortColumn('desc')"><span class="material-symbols-outlined">arrow_downward</span>
-          降順に並び替え</div>
-        <div class="menu-divider"></div>
-        <div class="menu-item" onclick="Editor.copyColumn()"><span class="material-symbols-outlined">content_copy</span> 列をコピー
-        </div>
-        <div class="menu-item" onclick="Editor.duplicateColumn()"><span class="material-symbols-outlined">content_copy</span> 列を複製
-        </div>
-        <div class="menu-divider"></div>
-        <div class="menu-item danger" onclick="Editor.confirmDeleteColumn()"><span class="material-symbols-outlined">delete</span>
-          列を削除</div>
+      <div class="toolbar-group">
+        <button class="btn" id="copyCSVBtn" title="CSVとしてコピー"><span class="material-symbols-outlined">content_copy</span> CSVコピー</button>
+        <button class="btn" id="copyTSVBtn" title="TSVとしてコピー"><span class="material-symbols-outlined">content_copy</span> TSVコピー</button>
+        <button class="btn" id="dlCSVBtn" title="CSVダウンロード"><span class="material-symbols-outlined">save</span> CSV保存</button>
+        <button class="btn" id="dlTSVBtn" title="TSVダウンロード"><span class="material-symbols-outlined">save</span> TSV保存</button>
       </div>
-
-      <!-- 行メニュー -->
-      <div class="column-menu" id="editor-rowMenu">
-        <div class="menu-item" onclick="Editor.copyRow()">
-          <span class="material-symbols-outlined">content_copy</span>
-          行をコピー
-        </div>
-        <div class="menu-item" onclick="Editor.duplicateRow()">
-          <span class="material-symbols-outlined">content_copy</span>
-          行を複製
-        </div>
-        <div class="menu-divider"></div>
-        <div class="menu-item danger" onclick="Editor.confirmDeleteRowFromMenu()">
-          <span class="material-symbols-outlined">delete</span>
-          行を削除
-        </div>
+      <div class="toolbar-group ml-auto">
+        <button class="btn btn-danger" id="clearBtn" title="すべてクリア"><span class="material-symbols-outlined">delete</span> クリア</button>
       </div>
     </div>
 
-    <div id="view-generator" class="tool-view">
-      <div class="container">
-        <!-- ヘッダー -->
-        <header class="header">
-          <h1>
-            <span class="material-symbols-outlined">build</span>
-            CSV ツール ジェネレーター
-          </h1>
-          <div class="header-right">
-            <button class="theme-toggle" onclick="toggleTheme()" title="ダークモード切替">
-              <span class="material-symbols-outlined" id="themeIconGenerator">dark_mode</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- メインレイアウト -->
-        <div class="main-layout">
-          <!-- 入力パネル -->
-          <div class="input-panel">
-            <h2>
-              <span class="material-symbols-outlined">edit</span>
-              ヘッダー設定
-            </h2>
-            <p class="description">ヘッダー名を1行ずつ入力すると、CSVエディタのHTMLコードを自動生成します。</p>
-
-            <label for="generator-toolTitle">ツール名</label>
-            <input type="text" id="generator-toolTitle" placeholder="例: 注文データ エディタ" value="" oninput="Generator.handleToolTitleInput()">
-
-            <label for="generator-headerInput">CSVヘッダー（1行に1つ）</label>
-            <textarea id="generator-headerInput" placeholder="例:&#10;注文番号&#10;顧客名&#10;商品名&#10;数量&#10;単価&#10;合計金額" oninput="Generator.handleHeaderInput()"></textarea>
-
-            <div class="header-count">
-              列数: <span class="value" id="generator-headerCount">0</span>
-            </div>
-
-            <div class="btn-group">
-              <button class="btn btn-primary" onclick="Generator.generateCode()" id="generator-generateBtn" disabled>
-                <span class="material-symbols-outlined">code</span> コード生成
-              </button>
-              <button class="btn" onclick="Generator.clearInput()">
-                <span class="material-symbols-outlined">delete</span> クリア
-              </button>
-            </div>
-
-            <!-- プレビュー -->
-            <div class="preview-headers" id="generator-previewHeaders" style="display:none;">
-              <h3>ヘッダープレビュー</h3>
-              <div class="header-list" id="generator-headerList"></div>
-            </div>
-          </div>
-
-          <!-- 出力パネル -->
-          <div class="output-panel">
-            <div class="output-header">
-              <h2>
-                <span class="material-symbols-outlined">code</span>
-                生成コード
-              </h2>
-              <div class="output-actions" id="generator-outputActions" style="display:none;">
-                <button class="btn" onclick="Generator.copyCode()">
-                  <span class="material-symbols-outlined">content_copy</span> コピー
-                </button>
-                <button class="btn btn-primary" onclick="Generator.downloadCode()">
-                  <span class="material-symbols-outlined">download</span> HTMLダウンロード
-                </button>
-              </div>
-            </div>
-            <div class="output-body">
-              <!-- プレースホルダー -->
-              <div class="output-placeholder" id="generator-outputPlaceholder">
-                <span class="material-symbols-outlined">code_blocks</span>
-                <h3>コードがここに表示されます</h3>
-                <p>左の入力欄にヘッダーを入力して「コード生成」を押してください</p>
-              </div>
-              <!-- 出力テキストエリア -->
-              <textarea id="generator-codeOutput" style="display:none;" readonly></textarea>
-            </div>
-          </div>
-        </div>
+    <!-- ペーストエリア -->
+    <div class="paste-area">
+      <div class="paste-zone" id="pasteZone" tabindex="0">
+        <span class="material-symbols-outlined" style="font-size:48px;color:var(--text-muted);margin-block-end:8px;">content_paste</span>
+        <h2>クリックしてCSV/TSVデータを貼り付け</h2>
+        <p>Ctrl+V でもペーストできます</p>
+        <p style="margin-block-start:8px;font-size:0.8rem;">カンマ区切り(CSV)・タブ区切り(TSV) 自動判定</p>
       </div>
     </div>
-  </main>
 
-  <!-- Shared Modals & Toasts -->
+    <!-- テーブル -->
+    <div class="table-container" id="tableContainer">
+      <div class="table-scroll" id="tableScroll">
+        <table id="dataTable">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 列メニュー -->
+  <div class="column-menu" id="columnMenu">
+    <div class="menu-item" data-action="sort-asc"><span class="material-symbols-outlined">arrow_upward</span> 昇順に並び替え</div>
+    <div class="menu-item" data-action="sort-desc"><span class="material-symbols-outlined">arrow_downward</span> 降順に並び替え</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-action="copy-col"><span class="material-symbols-outlined">content_copy</span> 列をコピー</div>
+    <div class="menu-item" data-action="dup-col"><span class="material-symbols-outlined">content_copy</span> 列を複製</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item danger" data-action="del-col"><span class="material-symbols-outlined">delete</span> 列を削除</div>
+  </div>
+
+  <!-- 行メニュー -->
+  <div class="column-menu" id="rowMenu">
+    <div class="menu-item" data-action="copy-row"><span class="material-symbols-outlined">content_copy</span> 行をコピー</div>
+    <div class="menu-item" data-action="dup-row"><span class="material-symbols-outlined">content_copy</span> 行を複製</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item danger" data-action="del-row"><span class="material-symbols-outlined">delete</span> 行を削除</div>
+  </div>
+
+  <!-- トースト -->
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- 確認モーダル -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <h3 id="modalTitle">確認</h3>
-      <p id="modalMessage" style="margin: 12px 0 20px; color: var(--text-muted); font-size: 0.9rem;"></p>
-      <div style="display: flex; justify-content: flex-end; gap: 8px;">
-        <button class="btn" onclick="closeModal()">キャンセル</button>
-        <button class="btn btn-primary" id="modalConfirmBtn">実行</button>
+      <p id="modalMessage"></p>
+      <div class="modal-actions">
+        <button class="btn" id="modalCancelBtn">キャンセル</button>
+        <button class="btn btn-danger" id="modalConfirmBtn">削除</button>
       </div>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = 'csvTool_settings';
+    /* ==============================================================
+       Utility Helpers
+       ============================================================== */
+    const qs  = (sel, root = document) => root.querySelector(sel);
+    const qsa = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-    // --- Shared Functions ---
-    function loadSettings() {
-      try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        return data ? JSON.parse(data) : {};
-      } catch (e) { return {}; }
-    }
+    const escapeHTML = (str) => {
+      const $tmp = document.createElement('div');
+      $tmp.textContent = str;
+      return $tmp.innerHTML;
+    };
 
-    function saveSettings(settings) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-      } catch (e) { console.error('Storage error:', e); }
-    }
+    const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    function switchTool(tool) {
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.tool === tool);
-      });
+    /* ==============================================================
+       Theme
+       ============================================================== */
+    const $themeIcon = qs('#themeIcon');
 
-      document.querySelectorAll('.tool-view').forEach(view => {
-        view.classList.remove('active');
-      });
-      document.getElementById('view-' + tool).classList.add('active');
+    const setTheme = (theme) => {
+      document.documentElement.style.colorScheme = theme;
+      $themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+    };
 
-      const settings = loadSettings();
-      settings.activeTool = tool;
-      saveSettings(settings);
-
-      if (window.innerWidth <= 768) {
-        closeSidebar();
-      }
-
-      // Re-render editor table if switching to editor
-      if (tool === 'editor' && Editor.state.data.length > 0) {
-        Editor.renderTable();
-      }
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      if (window.innerWidth <= 768) {
-        sidebar.classList.toggle('open');
-        document.getElementById('sidebarOverlay').classList.toggle('open');
-      } else {
-        sidebar.classList.toggle('collapsed');
-        const settings = loadSettings();
-        settings.sidebarCollapsed = sidebar.classList.contains('collapsed');
-        saveSettings(settings);
-      }
-    }
-
-    function closeSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.remove('open');
-      document.getElementById('sidebarOverlay').classList.remove('open');
-    }
-
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme');
+    const toggleTheme = () => {
+      const current = document.documentElement.style.colorScheme || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
       setTheme(next);
-      localStorage.setItem('csvTool_theme', next);
-    }
+      localStorage.setItem('csvEditor_theme', next);
+    };
 
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      const iconEditor = document.getElementById('themeIconEditor');
-      const iconGenerator = document.getElementById('themeIconGenerator');
-      const iconText = theme === 'dark' ? 'light_mode' : 'dark_mode';
-      if (iconEditor) iconEditor.textContent = iconText;
-      if (iconGenerator) iconGenerator.textContent = iconText;
-    }
+    const initTheme = () => {
+      const saved = localStorage.getItem('csvEditor_theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(saved ?? (prefersDark ? 'dark' : 'light'));
+    };
 
-    function showToast(message, type = '') {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      toast.textContent = message;
-      container.appendChild(toast);
-      setTimeout(() => toast.remove(), 2000);
-    }
+    qs('#themeToggle').addEventListener('click', toggleTheme);
 
-    function openModal(title, message, onConfirm) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalMessage').textContent = message;
-      document.getElementById('modalConfirmBtn').onclick = () => {
-        onConfirm();
-        closeModal();
-      };
-      document.getElementById('modalOverlay').classList.add('show');
-    }
+    /* ==============================================================
+       Shared UI: Toast / Modal
+       ============================================================== */
+    const $toastContainer  = qs('#toastContainer');
+    const $modalOverlay    = qs('#modalOverlay');
+    const $modalTitle      = qs('#modalTitle');
+    const $modalMessage    = qs('#modalMessage');
+    const $modalConfirmBtn = qs('#modalConfirmBtn');
+    const $modalCancelBtn  = qs('#modalCancelBtn');
 
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('show');
-    }
+    const showToast = (message, type = '') => {
+      const $toast = document.createElement('div');
+      $toast.className = `toast ${type}`;
+      $toast.textContent = message;
+      $toastContainer.appendChild($toast);
+      setTimeout(() => $toast.remove(), 1500);
+    };
 
-    // --- CSV Editor Module ---
-    const Editor = {
-      state: {
+    let _modalCallback = null;
+
+    const openModal = (title, message, onConfirm) => {
+      $modalTitle.textContent   = title;
+      $modalMessage.textContent = message;
+      _modalCallback = onConfirm;
+      $modalOverlay.classList.add('show');
+    };
+
+    const closeModal = () => {
+      $modalOverlay.classList.remove('show');
+      _modalCallback = null;
+    };
+
+    $modalConfirmBtn.addEventListener('click', () => { _modalCallback?.(); closeModal(); });
+    $modalCancelBtn.addEventListener('click', closeModal);
+
+    /* ==============================================================
+       Editor Module (IIFE)
+       ============================================================== */
+    const Editor = (() => {
+      /* --- DOM References --- */
+      const $pasteZone      = qs('#pasteZone');
+      const $tableContainer = qs('#tableContainer');
+      const $tableHead      = qs('#tableHead');
+      const $tableBody      = qs('#tableBody');
+      const $dataTable      = qs('#dataTable');
+      const $searchInput    = qs('#searchInput');
+      const $replaceInput   = qs('#replaceInput');
+      const $searchInfo     = qs('#searchInfo');
+      const $undoBtn        = qs('#undoBtn');
+      const $redoBtn        = qs('#redoBtn');
+      const $headerToggle   = qs('#headerToggle');
+      const $columnMenu     = qs('#columnMenu');
+      const $rowMenu        = qs('#rowMenu');
+      const $rowCount       = qs('#rowCount');
+      const $colCount       = qs('#colCount');
+      const $dataSize       = qs('#dataSize');
+      const $dataFormat     = qs('#dataFormat');
+
+      /* --- State --- */
+      let state = {
         data: [],
         hasHeader: false,
         delimiter: ',',
+        originalText: '',
         columnWidths: {}
-      },
-      undoStack: [],
-      redoStack: [],
-      MAX_HISTORY: 20,
-      activeColumnIndex: -1,
-      activeRowIndex: -1,
-      searchMatches: [],
-      currentMatchIndex: -1,
-      isResizing: false,
-      resizeColumnIndex: -1,
-      resizeStartX: 0,
-      resizeStartWidth: 0,
+      };
 
-      init() {
-        this.loadFromStorage();
-        this.initEventListeners();
-        this.updateStats();
-      },
+      let undoStack = [], redoStack = [];
+      const MAX_HISTORY = 20;
+      let activeColumnIndex = -1, activeRowIndex = -1;
+      let searchMatches = [], currentMatchIndex = -1;
+      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0;
 
-      initEventListeners() {
-        document.addEventListener('keydown', (e) => {
-          if (document.getElementById('view-editor').classList.contains('active')) {
-            this.handleKeyDown(e);
-          }
-        });
-        document.addEventListener('paste', (e) => {
-          if (document.getElementById('view-editor').classList.contains('active')) {
-            this.handlePaste(e);
-          }
-        });
-        document.addEventListener('mousemove', (e) => this.handleResizeMove(e));
-        document.addEventListener('mouseup', () => this.handleResizeEnd());
-        document.addEventListener('click', (e) => {
-          const menuCol = document.getElementById('editor-columnMenu');
-          const menuRow = document.getElementById('editor-rowMenu');
-          if (menuCol && !menuCol.contains(e.target) && !e.target.closest('.th-menu-btn')) {
-            menuCol.classList.remove('show');
-          }
-          if (menuRow && !menuRow.contains(e.target) && !e.target.closest('.row-menu-btn')) {
-            menuRow.classList.remove('show');
-          }
-        });
-      },
+      /* --- Persistence --- */
+      const saveToStorage = () => {
+        try { localStorage.setItem('csvEditor_state', JSON.stringify(state)); }
+        catch (e) { console.warn('LocalStorage save failed:', e); }
+      };
 
-      handleKeyDown(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
-          e.preventDefault(); this.undo(); return;
-        }
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
-          e.preventDefault(); this.redo(); return;
-        }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-          e.preventDefault(); document.getElementById('editor-searchInput').focus(); return;
-        }
-        if (e.key === 'Escape') {
-          this.clearSearch(); return;
-        }
-        const activeElement = document.activeElement;
-        if (activeElement.tagName === 'TD' && activeElement.isContentEditable) {
-          this.handleCellNavigation(e, activeElement);
-        }
-      },
-
-      handleCellNavigation(e, cell) {
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
-        const colCount = this.state.data[0]?.length || 0;
-        let newRow = row;
-        let newCol = col;
-        let shouldMove = false;
-
-        switch (e.key) {
-          case 'Tab':
-            e.preventDefault();
-            if (e.shiftKey) {
-              newCol = col - 1;
-              if (newCol < 0) { newCol = colCount - 1; newRow = row - 1; }
-            } else {
-              newCol = col + 1;
-              if (newCol >= colCount) { newCol = 0; newRow = row + 1; }
-            }
-            shouldMove = true;
-            break;
-          case 'Enter':
-            if (!e.shiftKey) { e.preventDefault(); newRow = row + 1; shouldMove = true; }
-            break;
-          case 'ArrowUp':
-            if (e.altKey) { e.preventDefault(); newRow = row - 1; shouldMove = true; }
-            break;
-          case 'ArrowDown':
-            if (e.altKey) { e.preventDefault(); newRow = row + 1; shouldMove = true; }
-            break;
-          case 'ArrowLeft':
-            if (e.altKey) { e.preventDefault(); newCol = col - 1; shouldMove = true; }
-            break;
-          case 'ArrowRight':
-            if (e.altKey) { e.preventDefault(); newCol = col + 1; shouldMove = true; }
-            break;
-        }
-
-        if (shouldMove) {
-          const dataStartIndex = this.state.hasHeader ? 1 : 0;
-          if (newRow >= dataStartIndex && newRow < this.state.data.length && newCol >= 0 && newCol < colCount) {
-            const newCell = document.querySelector(`#editor-dataTable td[data-row="${newRow}"][data-col="${newCol}"]`);
-            if (newCell) newCell.focus();
-          }
-        }
-      },
-
-      handlePaste(e) {
-        if (document.getElementById('editor-pasteZone').classList.contains('has-data')) return;
-        const text = e.clipboardData?.getData('text');
-        if (text) { e.preventDefault(); this.processData(text); }
-      },
-
-      async triggerPaste() {
+      const loadFromStorage = () => {
         try {
-          const text = await navigator.clipboard.readText();
-          if (text) this.processData(text);
-        } catch (err) { showToast('クリップボードにアクセスできません', 'error'); }
-      },
+          const saved = JSON.parse(localStorage.getItem('csvEditor_state') ?? 'null');
+          if (saved) state = saved;
+        } catch { /* ignore */ }
+      };
 
-      processData(text) {
-        if (!text.trim()) { showToast('データが空です', 'error'); return; }
-        this.state.delimiter = this.detectDelimiter(text);
-        this.state.data = this.parseCSV(text, this.state.delimiter);
-        if (this.state.data.length === 0) { showToast('データを解析できませんでした', 'error'); return; }
-        this.state.hasHeader = false;
-        this.state.columnWidths = {};
-        this.undoStack = [];
-        this.redoStack = [];
-        this.updateHistoryButtons();
-        this.renderTable();
-        this.updateStats();
-        this.saveToStorage();
-        showToast(`${this.state.data.length}行のデータを読み込みました`, 'success');
-      },
+      /* --- History --- */
+      const saveToHistory = () => {
+        undoStack.push(structuredClone(state));
+        if (undoStack.length > MAX_HISTORY) undoStack.shift();
+        redoStack = [];
+        updateHistoryButtons();
+      };
 
-      detectDelimiter(text) {
-        const firstLines = text.split('\n').slice(0, 5).join('\n');
-        const commaCount = (firstLines.match(/,/g) || []).length;
-        const tabCount = (firstLines.match(/\t/g) || []).length;
-        return tabCount > commaCount ? '\t' : ',';
-      },
+      const updateHistoryButtons = () => {
+        $undoBtn.disabled = undoStack.length === 0;
+        $redoBtn.disabled = redoStack.length === 0;
+      };
 
-      parseCSV(text, delimiter) {
+      const undo = () => {
+        if (undoStack.length === 0) return;
+        redoStack.push(structuredClone(state));
+        state = undoStack.pop();
+        renderTable(); updateStats(); saveToStorage(); updateHistoryButtons();
+        showToast('↩ 元に戻しました');
+      };
+
+      const redo = () => {
+        if (redoStack.length === 0) return;
+        undoStack.push(structuredClone(state));
+        state = redoStack.pop();
+        renderTable(); updateStats(); saveToStorage(); updateHistoryButtons();
+        showToast('↪ やり直しました');
+      };
+
+      /* --- Stats --- */
+      const updateStats = () => {
+        const rc = state.hasHeader ? state.data.length - 1 : state.data.length;
+        const cc = state.data[0]?.length ?? 0;
+        const text = state.data.map(r => r.join(state.delimiter)).join('\n');
+        const bytes = new Blob([text]).size;
+        const sizeStr = bytes < 1024 ? `${bytes} B`
+          : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB`
+          : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+
+        $rowCount.textContent  = rc.toLocaleString();
+        $colCount.textContent  = cc;
+        $dataSize.textContent  = sizeStr;
+        $dataFormat.textContent = state.delimiter === '\t' ? 'TSV' : 'CSV';
+      };
+
+      /* --- CSV Parse --- */
+      const detectDelimiter = (text) => {
+        const sample = text.split('\n').slice(0, 5).join('\n');
+        return (sample.match(/\t/g) ?? []).length > (sample.match(/,/g) ?? []).length ? '\t' : ',';
+      };
+
+      const parseCSV = (text, delimiter) => {
         const rows = [];
-        let currentRow = [];
-        let currentCell = '';
-        let inQuotes = false;
+        let currentRow = [], currentCell = '', inQuotes = false;
+
         for (let i = 0; i < text.length; i++) {
-          const char = text[i];
-          const nextChar = text[i + 1];
+          const char = text[i], nextChar = text[i + 1];
           if (inQuotes) {
-            if (char === '"') {
-              if (nextChar === '"') { currentCell += '"'; i++; }
-              else inQuotes = false;
-            } else currentCell += char;
-          } else {
-            if (char === '"') inQuotes = true;
-            else if (char === delimiter) { currentRow.push(currentCell); currentCell = ''; }
-            else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
-              currentRow.push(currentCell);
-              if (currentRow.some(cell => cell.trim())) rows.push(currentRow);
-              currentRow = []; currentCell = '';
-              if (char === '\r') i++;
-            } else if (char !== '\r') currentCell += char;
+            if (char === '"') { nextChar === '"' ? (currentCell += '"', i++) : (inQuotes = false); }
+            else currentCell += char;
+          } else if (char === '"') {
+            inQuotes = true;
+          } else if (char === delimiter) {
+            currentRow.push(currentCell); currentCell = '';
+          } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
+            currentRow.push(currentCell);
+            if (currentRow.some(c => c.trim())) rows.push(currentRow);
+            currentRow = []; currentCell = '';
+            if (char === '\r') i++;
+          } else if (char !== '\r') {
+            currentCell += char;
           }
         }
         currentRow.push(currentCell);
-        if (currentRow.some(cell => cell.trim())) rows.push(currentRow);
+        if (currentRow.some(c => c.trim())) rows.push(currentRow);
+
         const maxCols = Math.max(...rows.map(r => r.length));
-        return rows.map(row => {
-          while (row.length < maxCols) row.push('');
-          return row;
-        });
-      },
+        return rows.map(row => { while (row.length < maxCols) row.push(''); return row; });
+      };
 
-      renderTable() {
-        const tableHead = document.getElementById('editor-tableHead');
-        const tableBody = document.getElementById('editor-tableBody');
-        const container = document.getElementById('editor-tableContainer');
-        const pasteZone = document.getElementById('editor-pasteZone');
+      /* --- Process Data --- */
+      const processData = (text) => {
+        if (!text.trim()) { showToast('データが空です', 'error'); return; }
+        state.originalText = text;
+        state.delimiter = detectDelimiter(text);
+        state.data = parseCSV(text, state.delimiter);
+        if (state.data.length === 0) { showToast('データを解析できませんでした', 'error'); return; }
+        state.hasHeader = false;
+        state.columnWidths = {};
+        undoStack = []; redoStack = [];
+        updateHistoryButtons(); renderTable(); updateStats(); saveToStorage();
+        showToast(`${state.data.length}行のデータを読み込みました`, 'success');
+      };
 
-        if (this.state.data.length === 0) {
-          container.classList.remove('show');
-          pasteZone.classList.remove('has-data');
+      const triggerPaste = async () => {
+        try { const text = await navigator.clipboard.readText(); if (text) processData(text); }
+        catch { showToast('クリップボードにアクセスできません', 'error'); }
+      };
+
+      /* --- Render --- */
+      const renderTable = () => {
+        if (state.data.length === 0) {
+          $tableContainer.classList.remove('show');
+          $pasteZone.classList.remove('has-data');
           return;
         }
+        $tableContainer.classList.add('show');
+        $pasteZone.classList.add('has-data');
 
-        container.classList.add('show');
-        pasteZone.classList.add('has-data');
+        const colCount = state.data[0]?.length ?? 0;
+        const dataStart = state.hasHeader ? 1 : 0;
+        const headers = state.hasHeader ? state.data[0] : Array.from({ length: colCount }, (_, i) => `${i + 1}`);
 
-        const colCount = this.state.data[0]?.length || 0;
-        const dataStartIndex = this.state.hasHeader ? 1 : 0;
-        const headers = this.state.hasHeader ? this.state.data[0] : Array.from({ length: colCount }, (_, i) => `${i + 1}`);
-
-        let headHTML = '<tr><th class="row-num">#</th>';
-        headers.forEach((header, i) => {
-          const width = this.state.columnWidths[i] || 150;
-          headHTML += `
-            <th style="width: ${width}px; min-width: ${width}px;" data-col="${i}">
+        $tableHead.innerHTML = `<tr><th class="row-num">#</th>${
+          headers.map((h, i) => {
+            const w = state.columnWidths[i] ?? 150;
+            const colNum = state.hasHeader ? `<span class="th-colnum">${i + 1}</span>` : '';
+            const style = state.hasHeader ? '' : 'color:var(--text-muted);';
+            return `<th style="width:${w}px;min-width:${w}px;" data-col="${i}">
               <div class="th-wrapper">
-                <div class="th-content" onclick="Editor.openColumnMenu(event, ${i})">
-                  ${this.state.hasHeader ? `<span class="th-colnum">${i + 1}</span>` : ''}
-                  <span class="th-text" style="${this.state.hasHeader ? '' : 'color: var(--text-muted);'}">${this.escapeHTML(header)}</span>
-                  <span class="th-menu-btn material-symbols-outlined" style="font-size: 1.1rem;">more_vert</span>
+                <div class="th-content">${colNum}<span class="th-text" style="${style}">${escapeHTML(h)}</span>
+                  <span class="th-menu-btn material-symbols-outlined" style="font-size:1.1rem;">more_vert</span>
                 </div>
-                <div class="resize-handle" onmousedown="Editor.startResize(event, ${i})"></div>
-              </div>
-            </th>`;
-        });
-        headHTML += '</tr>';
-        tableHead.innerHTML = headHTML;
+                <div class="resize-handle" data-resize-col="${i}"></div>
+              </div></th>`;
+          }).join('')
+        }</tr>`;
 
-        let bodyHTML = '';
-        for (let i = dataStartIndex; i < this.state.data.length; i++) {
-          const row = this.state.data[i];
-          bodyHTML += `<tr data-row="${i}">
-            <td class="row-num">
-              <div class="row-num-wrapper">
-                <span class="row-num-text">${this.state.hasHeader ? i : i + 1}</span>
-                <button class="row-menu-btn" onclick="Editor.openRowMenu(event, ${i})">
-                  <span class="material-symbols-outlined" style="font-size: 1.0rem;">more_vert</span>
-                </button>
-              </div>
-            </td>`;
-          row.forEach((cell, j) => {
-            const width = this.state.columnWidths[j] || 150;
-            bodyHTML += `<td contenteditable="true" data-row="${i}" data-col="${j}"
-              style="width: ${width}px; min-width: ${width}px;"
-              onblur="Editor.handleCellBlur(this)">${this.escapeHTML(cell)}</td>`;
-          });
-          bodyHTML += `</tr>`;
-        }
-        tableBody.innerHTML = bodyHTML;
-        document.getElementById('editor-headerToggle').classList.toggle('active', this.state.hasHeader);
-      },
+        $tableBody.innerHTML = state.data.slice(dataStart).map((row, idx) => {
+          const i = idx + dataStart;
+          const rowNum = state.hasHeader ? i : i + 1;
+          return `<tr data-row="${i}">
+            <td class="row-num"><div class="row-num-wrapper">
+              <span class="row-num-text">${rowNum}</span>
+              <button class="row-menu-btn" data-row-menu="${i}" title="行メニュー">
+                <span class="material-symbols-outlined" style="font-size:1rem;">more_vert</span>
+              </button>
+            </div></td>${
+              row.map((c, j) => {
+                const w = state.columnWidths[j] ?? 150;
+                return `<td contenteditable="true" data-row="${i}" data-col="${j}" style="width:${w}px;min-width:${w}px;">${escapeHTML(c)}</td>`;
+              }).join('')
+            }</tr>`;
+        }).join('');
 
-      escapeHTML(str) {
-        const div = document.createElement('div');
-        div.textContent = str; return div.innerHTML;
-      },
+        $headerToggle.classList.toggle('active', state.hasHeader);
+        performSearch();
+      };
 
-      toggleHeader() {
-        if (this.state.data.length === 0) return;
-        this.saveToHistory();
-        this.state.hasHeader = !this.state.hasHeader;
-        this.renderTable();
-        this.updateStats();
-        this.saveToStorage();
-      },
+      /* --- Toggle Header --- */
+      const toggleHeader = () => {
+        if (state.data.length === 0) return;
+        saveToHistory();
+        state.hasHeader = !state.hasHeader;
+        renderTable(); updateStats(); saveToStorage();
+        showToast(state.hasHeader ? 'ヘッダーを有効にしました' : 'ヘッダーを無効にしました');
+      };
 
-      startResize(e, colIndex) {
+      /* --- Resize --- */
+      const startResize = (e, colIndex) => {
         e.stopPropagation();
-        this.isResizing = true;
-        this.resizeColumnIndex = colIndex;
-        this.resizeStartX = e.clientX;
-        const th = document.querySelector(`#editor-tableHead th[data-col="${colIndex}"]`);
-        this.resizeStartWidth = th.offsetWidth;
+        isResizing = true; resizeColumnIndex = colIndex; resizeStartX = e.clientX;
+        resizeStartWidth = qs(`th[data-col="${colIndex}"]`).offsetWidth;
         document.body.style.cursor = 'col-resize';
-      },
+        document.body.style.userSelect = 'none';
+      };
 
-      handleResizeMove(e) {
-        if (!this.isResizing) return;
-        const newWidth = Math.max(60, this.resizeStartWidth + (e.clientX - this.resizeStartX));
-        this.state.columnWidths[this.resizeColumnIndex] = newWidth;
-        document.querySelectorAll(`#editor-dataTable [data-col="${this.resizeColumnIndex}"]`).forEach(el => {
-          el.style.width = newWidth + 'px';
-          el.style.minWidth = newWidth + 'px';
+      document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const w = Math.max(60, resizeStartWidth + (e.clientX - resizeStartX));
+        state.columnWidths[resizeColumnIndex] = w;
+        qsa(`[data-col="${resizeColumnIndex}"]`, $dataTable).forEach($el => {
+          $el.style.width = `${w}px`; $el.style.minWidth = `${w}px`;
         });
-      },
+      });
 
-      handleResizeEnd() {
-        if (this.isResizing) {
-          this.isResizing = false;
-          document.body.style.cursor = '';
-          this.saveToStorage();
+      document.addEventListener('mouseup', () => {
+        if (!isResizing) return;
+        isResizing = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        saveToStorage();
+      });
+
+      /* --- Cell Edit --- */
+      const handleCellBlur = ($cell) => {
+        const row = parseInt($cell.dataset.row), col = parseInt($cell.dataset.col);
+        const val = $cell.textContent;
+        if (state.data[row]?.[col] !== val) {
+          saveToHistory(); state.data[row][col] = val; updateStats(); saveToStorage();
         }
-      },
+      };
 
-      handleCellBlur(cell) {
-        const row = parseInt(cell.dataset.row);
-        const col = parseInt(cell.dataset.col);
-        const newValue = cell.textContent;
-        if (this.state.data[row] && this.state.data[row][col] !== newValue) {
-          this.saveToHistory();
-          this.state.data[row][col] = newValue;
-          this.updateStats();
-          this.saveToStorage();
+      /* --- Cell Navigation --- */
+      const handleCellNavigation = (e, $cell) => {
+        const row = parseInt($cell.dataset.row), col = parseInt($cell.dataset.col);
+        const colCount = state.data[0]?.length ?? 0;
+        let nr = row, nc = col, move = false;
+
+        switch (e.key) {
+          case 'Tab': e.preventDefault();
+            if (e.shiftKey) { nc = col - 1; if (nc < 0) { nc = colCount - 1; nr--; } }
+            else { nc = col + 1; if (nc >= colCount) { nc = 0; nr++; } }
+            move = true; break;
+          case 'Enter': if (!e.shiftKey) { e.preventDefault(); nr++; move = true; } break;
+          case 'ArrowUp':    if (e.altKey) { e.preventDefault(); nr--; move = true; } break;
+          case 'ArrowDown':  if (e.altKey) { e.preventDefault(); nr++; move = true; } break;
+          case 'ArrowLeft':  if (e.altKey) { e.preventDefault(); nc--; move = true; } break;
+          case 'ArrowRight': if (e.altKey) { e.preventDefault(); nc++; move = true; } break;
         }
-      },
 
-      performSearch() {
-        const query = document.getElementById('editor-searchInput').value.toLowerCase();
-        this.clearHighlights();
-        this.searchMatches = [];
-        this.currentMatchIndex = -1;
-        if (!query) { this.updateSearchInfo(); return; }
-        const start = this.state.hasHeader ? 1 : 0;
-        for (let i = start; i < this.state.data.length; i++) {
-          for (let j = 0; j < this.state.data[i].length; j++) {
-            if (this.state.data[i][j].toLowerCase().includes(query)) {
-              this.searchMatches.push({ row: i, col: j });
-              const cell = document.querySelector(`#editor-dataTable td[data-row="${i}"][data-col="${j}"]`);
-              if (cell) cell.classList.add('highlight');
+        if (move) {
+          const start = state.hasHeader ? 1 : 0;
+          if (nr >= start && nr < state.data.length && nc >= 0 && nc < colCount) {
+            qs(`td[data-row="${nr}"][data-col="${nc}"]`)?.focus();
+          }
+        }
+      };
+
+      /* --- Search / Replace --- */
+      const performSearch = () => {
+        const query = $searchInput.value.toLowerCase();
+        clearHighlights(); searchMatches = []; currentMatchIndex = -1;
+        if (!query) { updateSearchInfo(); return; }
+        const start = state.hasHeader ? 1 : 0;
+        state.data.forEach((row, i) => {
+          if (i < start) return;
+          row.forEach((cell, j) => {
+            if (cell.toLowerCase().includes(query)) {
+              searchMatches.push({ row: i, col: j });
+              qs(`td[data-row="${i}"][data-col="${j}"]`)?.classList.add('highlight');
             }
-          }
+          });
+        });
+        if (searchMatches.length > 0) { currentMatchIndex = 0; highlightCurrentMatch(); }
+        updateSearchInfo();
+      };
+
+      const navigateMatch = (dir) => {
+        if (searchMatches.length === 0) return;
+        currentMatchIndex += dir;
+        if (currentMatchIndex < 0) currentMatchIndex = searchMatches.length - 1;
+        if (currentMatchIndex >= searchMatches.length) currentMatchIndex = 0;
+        highlightCurrentMatch(); updateSearchInfo();
+      };
+
+      const highlightCurrentMatch = () => {
+        qsa('td.current-match').forEach($el => $el.classList.remove('current-match'));
+        if (currentMatchIndex < 0 || currentMatchIndex >= searchMatches.length) return;
+        const { row, col } = searchMatches[currentMatchIndex];
+        const $c = qs(`td[data-row="${row}"][data-col="${col}"]`);
+        $c?.classList.add('current-match');
+        $c?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      const clearHighlights = () =>
+        qsa('td.highlight, td.current-match').forEach($el => $el.classList.remove('highlight', 'current-match'));
+
+      const updateSearchInfo = () => {
+        if (searchMatches.length === 0) {
+          $searchInfo.textContent = $searchInput.value ? '一致なし' : '';
+        } else {
+          $searchInfo.textContent = `${currentMatchIndex + 1} / ${searchMatches.length}件`;
         }
-        if (this.searchMatches.length > 0) { this.currentMatchIndex = 0; this.highlightCurrentMatch(); }
-        this.updateSearchInfo();
-      },
+      };
 
-      navigateMatch(dir) {
-        if (this.searchMatches.length === 0) return;
-        this.currentMatchIndex = (this.currentMatchIndex + dir + this.searchMatches.length) % this.searchMatches.length;
-        this.highlightCurrentMatch();
-        this.updateSearchInfo();
-      },
+      const clearSearch = () => {
+        $searchInput.value = ''; $replaceInput.value = '';
+        clearHighlights(); searchMatches = []; currentMatchIndex = -1; updateSearchInfo();
+      };
 
-      highlightCurrentMatch() {
-        document.querySelectorAll('#editor-dataTable td.current-match').forEach(el => el.classList.remove('current-match'));
-        const match = this.searchMatches[this.currentMatchIndex];
-        if (match) {
-          const cell = document.querySelector(`#editor-dataTable td[data-row="${match.row}"][data-col="${match.col}"]`);
-          if (cell) { cell.classList.add('current-match'); cell.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-        }
-      },
+      const replaceNext = () => {
+        if (currentMatchIndex < 0 || searchMatches.length === 0) return;
+        const { row, col } = searchMatches[currentMatchIndex];
+        saveToHistory();
+        state.data[row][col] = state.data[row][col].replace(
+          new RegExp(escapeRegExp($searchInput.value), 'i'), $replaceInput.value
+        );
+        renderTable(); saveToStorage(); performSearch();
+        showToast('1件置換しました', 'success');
+      };
 
-      clearHighlights() {
-        document.querySelectorAll('#editor-dataTable td.highlight, #editor-dataTable td.current-match').forEach(el => el.classList.remove('highlight', 'current-match'));
-      },
-
-      updateSearchInfo() {
-        const info = document.getElementById('editor-searchInfo');
-        if (this.searchMatches.length === 0) info.textContent = '';
-        else info.textContent = `${this.currentMatchIndex + 1} / ${this.searchMatches.length}`;
-      },
-
-      replaceNext() {
-        if (this.currentMatchIndex < 0) return;
-        const replace = document.getElementById('editor-replaceInput').value;
-        const search = document.getElementById('editor-searchInput').value;
-        const match = this.searchMatches[this.currentMatchIndex];
-        this.saveToHistory();
-        this.state.data[match.row][match.col] = this.state.data[match.row][match.col].replace(new RegExp(this.escapeRegExp(search), 'i'), replace);
-        this.renderTable(); this.saveToStorage(); this.performSearch();
-      },
-
-      replaceAll() {
-        const search = document.getElementById('editor-searchInput').value;
+      const replaceAll = () => {
+        const search = $searchInput.value;
         if (!search) return;
-        const replace = document.getElementById('editor-replaceInput').value;
-        this.saveToHistory();
+        saveToHistory();
         let count = 0;
-        const regex = new RegExp(this.escapeRegExp(search), 'gi');
-        const start = this.state.hasHeader ? 1 : 0;
-        for (let i = start; i < this.state.data.length; i++) {
-          for (let j = 0; j < this.state.data[i].length; j++) {
-            const orig = this.state.data[i][j];
-            const next = orig.replace(regex, replace);
-            if (orig !== next) { this.state.data[i][j] = next; count++; }
-          }
-        }
-        this.renderTable(); this.saveToStorage(); this.performSearch();
+        const regex = new RegExp(escapeRegExp(search), 'gi');
+        const start = state.hasHeader ? 1 : 0;
+        state.data.forEach((row, i) => {
+          if (i < start) return;
+          row.forEach((cell, j) => {
+            const next = cell.replace(regex, $replaceInput.value);
+            if (cell !== next) { state.data[i][j] = next; count++; }
+          });
+        });
+        renderTable(); saveToStorage(); performSearch();
         showToast(`${count}件置換しました`, 'success');
-      },
+      };
 
-      escapeRegExp(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); },
+      /* --- Column Menu --- */
+      const closeColumnMenu = () => $columnMenu.classList.remove('show');
+      const closeRowMenu    = () => $rowMenu.classList.remove('show');
 
-      openColumnMenu(e, idx) {
-        e.stopPropagation();
-        this.activeColumnIndex = idx;
-        const menu = document.getElementById('editor-columnMenu');
+      const openColumnMenu = (e, idx) => {
+        e.stopPropagation(); activeColumnIndex = idx; closeRowMenu();
         const rect = e.target.closest('th').getBoundingClientRect();
-        menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
-        menu.style.left = Math.min(rect.left, window.innerWidth - 200) + 'px';
-        menu.classList.add('show');
-      },
+        $columnMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+        $columnMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+        $columnMenu.classList.add('show');
+      };
 
-      openRowMenu(e, idx) {
-        e.stopPropagation();
-        this.activeRowIndex = idx;
-        const menu = document.getElementById('editor-rowMenu');
+      const openRowMenu = (e, idx) => {
+        e.stopPropagation(); activeRowIndex = idx; closeColumnMenu();
         const rect = e.target.getBoundingClientRect();
-        menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
-        menu.style.left = Math.min(rect.left, window.innerWidth - 200) + 'px';
-        menu.classList.add('show');
-      },
+        $rowMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+        $rowMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+        $rowMenu.classList.add('show');
+      };
 
-      sortColumn(dir) {
-        if (this.activeColumnIndex < 0) return;
-        this.saveToHistory();
-        const start = this.state.hasHeader ? 1 : 0;
-        const body = this.state.data.slice(start);
-        body.sort((a, b) => {
-          const vA = a[this.activeColumnIndex], vB = b[this.activeColumnIndex];
+      /* --- Column Operations --- */
+      const getColName = () => state.hasHeader ? state.data[0][activeColumnIndex] : `列${activeColumnIndex + 1}`;
+
+      const sortColumn = (dir) => {
+        if (activeColumnIndex < 0) return;
+        saveToHistory();
+        const start = state.hasHeader ? 1 : 0;
+        const sorted = state.data.slice(start).toSorted((a, b) => {
+          const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
           const nA = parseFloat(vA), nB = parseFloat(vB);
           if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
           return dir === 'asc' ? vA.localeCompare(vB, 'ja') : vB.localeCompare(vA, 'ja');
         });
-        this.state.data = this.state.hasHeader ? [this.state.data[0], ...body] : body;
-        this.renderTable(); this.saveToStorage();
-      },
+        state.data = state.hasHeader ? [state.data[0], ...sorted] : sorted;
+        renderTable(); saveToStorage();
+        showToast(`📌 「${getColName()}」を${dir === 'asc' ? '昇順' : '降順'}に並び替えました`, 'success');
+      };
 
-      copyColumn() {
-        const text = this.state.data.map(r => r[this.activeColumnIndex]).join('\n');
-        navigator.clipboard.writeText(text).then(() => showToast('コピーしました', 'success'));
-      },
+      const copyColumn = async () => {
+        if (activeColumnIndex < 0) return;
+        try {
+          await navigator.clipboard.writeText(state.data.map(r => r[activeColumnIndex] ?? '').join('\n'));
+          showToast(`📋 「${getColName()}」をコピーしました`, 'success');
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
 
-      duplicateColumn() {
-        this.saveToHistory();
-        this.state.data = this.state.data.map(r => {
-          const nr = [...r]; nr.splice(this.activeColumnIndex + 1, 0, r[this.activeColumnIndex]); return nr;
+      const duplicateColumn = () => {
+        if (activeColumnIndex < 0) return;
+        saveToHistory();
+        state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex + 1, 0, r[activeColumnIndex]); return n; });
+
+        const newWidths = {};
+        Object.entries(state.columnWidths).forEach(([key, val]) => {
+          const idx = parseInt(key);
+          newWidths[idx <= activeColumnIndex ? idx : idx + 1] = val;
         });
-        this.renderTable(); this.saveToStorage();
-      },
+        newWidths[activeColumnIndex + 1] = state.columnWidths[activeColumnIndex] ?? 150;
+        state.columnWidths = newWidths;
 
-      confirmDeleteColumn() {
-        openModal('列を削除', 'この列を削除しますか？', () => {
-          this.saveToHistory();
-          this.state.data = this.state.data.map(r => {
-            const nr = [...r]; nr.splice(this.activeColumnIndex, 1); return nr;
-          });
-          this.renderTable(); this.saveToStorage();
-        });
-      },
+        renderTable(); updateStats(); saveToStorage();
+        showToast('列を複製しました', 'success');
+      };
 
-      copyRow() {
-        const text = this.state.data[this.activeRowIndex].join('\t');
-        navigator.clipboard.writeText(text).then(() => showToast('コピーしました', 'success'));
-      },
+      const deleteColumn = () => {
+        if (activeColumnIndex < 0) return;
+        saveToHistory();
+        state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex, 1); return n; });
 
-      duplicateRow() {
-        this.saveToHistory();
-        this.state.data.splice(this.activeRowIndex + 1, 0, [...this.state.data[this.activeRowIndex]]);
-        this.renderTable(); this.updateStats(); this.saveToStorage();
-      },
-
-      confirmDeleteRowFromMenu() {
-        openModal('行を削除', 'この行を削除しますか？', () => {
-          this.saveToHistory();
-          this.state.data.splice(this.activeRowIndex, 1);
-          this.renderTable(); this.updateStats(); this.saveToStorage();
-        });
-      },
-
-      addRow() {
-        this.saveToHistory();
-        this.state.data.push(Array(this.state.data[0]?.length || 1).fill(''));
-        this.renderTable(); this.updateStats(); this.saveToStorage();
-      },
-
-      addColumn() {
-        this.saveToHistory();
-        this.state.data = this.state.data.map(r => [...r, '']);
-        this.renderTable(); this.updateStats(); this.saveToStorage();
-      },
-
-      copyAsCSV() { this.copyData(','); },
-      copyAsTSV() { this.copyData('\t'); },
-      copyData(dlm) {
-        const text = this.state.data.map(r => r.map(c => (c.includes(dlm) || c.includes('"') || c.includes('\n')) ? `"${c.replace(/"/g, '""')}"` : c).join(dlm)).join('\n');
-        navigator.clipboard.writeText(text).then(() => showToast('コピーしました', 'success'));
-      },
-
-      downloadCSV() { this.downloadData(',', 'csv'); },
-      downloadTSV() { this.downloadData('\t', 'tsv'); },
-      downloadData(dlm, ext) {
-        const text = this.state.data.map(r => r.map(c => (c.includes(dlm) || c.includes('"') || c.includes('\n')) ? `"${c.replace(/"/g, '""')}"` : c).join(dlm)).join('\n');
-        const blob = new Blob(['\uFEFF' + text], { type: 'text/plain; charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = `data.${ext}`; a.click(); URL.revokeObjectURL(url);
-      },
-
-      undo() {
-        if (this.undoStack.length === 0) return;
-        this.redoStack.push(structuredClone(this.state));
-        this.state = this.undoStack.pop();
-        this.renderTable(); this.updateStats(); this.updateHistoryButtons();
-      },
-
-      redo() {
-        if (this.redoStack.length === 0) return;
-        this.undoStack.push(structuredClone(this.state));
-        this.state = this.redoStack.pop();
-        this.renderTable(); this.updateStats(); this.updateHistoryButtons();
-      },
-
-      saveToHistory() {
-        this.undoStack.push(structuredClone(this.state));
-        if (this.undoStack.length > this.MAX_HISTORY) this.undoStack.shift();
-        this.redoStack = [];
-        this.updateHistoryButtons();
-      },
-
-      updateHistoryButtons() {
-        document.getElementById('editor-undoBtn').disabled = this.undoStack.length === 0;
-        document.getElementById('editor-redoBtn').disabled = this.redoStack.length === 0;
-      },
-
-      updateStats() {
-        const rc = this.state.hasHeader ? this.state.data.length - 1 : this.state.data.length;
-        const cc = this.state.data[0]?.length || 0;
-        const text = this.state.data.map(r => r.join(this.state.delimiter)).join('\n');
-        const bytes = new Blob([text]).size;
-        document.getElementById('editor-rowCount').textContent = Math.max(0, rc).toLocaleString();
-        document.getElementById('editor-colCount').textContent = cc;
-        document.getElementById('editor-dataSize').textContent = (bytes / 1024).toFixed(1) + ' KB';
-        document.getElementById('editor-dataFormat').textContent = this.state.delimiter === '\t' ? 'TSV' : 'CSV';
-      },
-
-      saveToStorage() { localStorage.setItem('csvEditor_state', JSON.stringify(this.state)); },
-      loadFromStorage() {
-        const saved = localStorage.getItem('csvEditor_state');
-        if (saved) this.state = JSON.parse(saved);
-      },
-
-      confirmClearAll() {
-        openModal('データをクリア', 'すべてのデータを削除しますか？', () => {
-          this.saveToHistory();
-          this.state.data = [];
-          this.state.hasHeader = false;
-          this.renderTable(); this.updateStats();
-        });
-      }
-    };
-
-    // --- CSV Generator Module ---
-    const Generator = {
-      init() {
-        this.loadFromStorage();
-      },
-
-      handleHeaderInput() {
-        const hs = this.getHeaders();
-        document.getElementById('generator-headerCount').textContent = hs.length;
-        document.getElementById('generator-generateBtn').disabled = hs.length === 0;
-        this.renderPreview(hs);
-        this.autoSave();
-      },
-
-      getHeaders() {
-        return document.getElementById('generator-headerInput').value.split('\n').map(h => h.trim()).filter(h => h.length > 0);
-      },
-
-      renderPreview(hs) {
-        const cont = document.getElementById('generator-previewHeaders');
-        const list = document.getElementById('generator-headerList');
-        if (hs.length === 0) { cont.style.display = 'none'; return; }
-        cont.style.display = 'block';
-        list.innerHTML = hs.map((h, i) => `
-          <div class="header-tag">
-            <span class="idx">${i + 1}</span>
-            <span class="txt">${this.escapeHTML(h)}</span>
-          </div>`).join('');
-      },
-
-      handleToolTitleInput() { this.autoSave(); },
-
-      clearInput() {
-        document.getElementById('generator-headerInput').value = '';
-        document.getElementById('generator-toolTitle').value = '';
-        this.handleHeaderInput();
-        this.hideOutput();
-        localStorage.removeItem('csvCreater_state');
-      },
-
-      generateCode() {
-        const hs = this.getHeaders();
-        const title = document.getElementById('generator-toolTitle').value.trim() || 'CSV エディタ';
-        const storagePrefix = (title || 'csv').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-        const headersJSON = hs.map(h => `      "${h.replace(/"/g, '\\"')}"`).join(',\n');
-
-        const code = `<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${this.escapeHTML(title)}</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-  <style>
-    :root {
-      --primary: #2563eb; --primary-hover: #1d4ed8; --danger: #dc2626; --warning: #f59e0b; --success: #10b981;
-      --bg: #f8fafc; --surface: #ffffff; --border: #e2e8f0; --text: #1e293b; --text-muted: #64748b; --highlight: #eff6ff;
-    }
-    [data-theme="dark"] {
-      --bg: #0f172a; --surface: #1e293b; --border: #334155; --text: #f1f5f9; --text-muted: #94a3b8; --highlight: #1e293b;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; }
-    .container { max-width: 1400px; margin: 0 auto; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .stats { display: flex; gap: 16px; font-size: 0.9rem; color: var(--text-muted); background: var(--surface); padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); }
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; font-size: 0.85rem; border-radius: 6px; cursor: pointer; border: none; background: var(--surface); color: var(--text); border: 1px solid var(--border); }
-    .btn-primary { background: var(--primary); color: white; border: none; }
-    .table-container { background: var(--surface); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: none; }
-    .table-container.show { display: block; }
-    .table-scroll { overflow: auto; max-height: 75vh; }
-    table { width: max-content; border-collapse: collapse; font-size: 0.9rem; table-layout: fixed; }
-    th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
-    th { background: var(--bg); position: sticky; top: -1px; z-index: 10; cursor: pointer; }
-    .row-num { background: var(--bg); color: var(--text-muted); width: 60px; text-align: center; position: sticky; left: -1px; z-index: 20; }
-    .paste-zone { border: 2px dashed var(--border); border-radius: 12px; padding: 40px; text-align: center; background: var(--surface); }
-    .paste-zone.has-data { display: none; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header class="header">
-      <h1>${this.escapeHTML(title)}</h1>
-      <div class="stats">
-        <span>行: <span id="rowCount">0</span></span>
-        <span>列: <span id="colCount">0</span></span>
-      </div>
-    </header>
-    <div class="toolbar" style="margin-bottom: 16px; display:flex; gap: 8px;">
-      <button class="btn btn-primary" onclick="downloadData()">保存</button>
-      <button class="btn" onclick="location.reload()">クリア</button>
-    </div>
-    <div class="paste-zone" id="pasteZone" onclick="triggerPaste()">
-      <span class="material-symbols-outlined" style="font-size: 48px; color: var(--text-muted);">content_paste</span>
-      <h2>クリックしてデータを貼り付け</h2>
-    </div>
-    <div class="table-container" id="tableContainer">
-      <div class="table-scroll"><table id="dataTable"><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table></div>
-    </div>
-  </div>
-  <script>
-    const HEADERS = [${headersJSON}];
-    let data = [];
-    async function triggerPaste() {
-      const text = await navigator.clipboard.readText();
-      if (text) processData(text);
-    }
-    function processData(text) {
-      const rows = text.split('\\n').map(r => r.split(','));
-      data = rows.filter(r => r.some(c => c.trim()));
-      renderTable();
-    }
-    function renderTable() {
-      document.getElementById('pasteZone').classList.add('has-data');
-      document.getElementById('tableContainer').classList.add('show');
-      let h = '<tr><th class="row-num">#</th>' + HEADERS.map(hd => '<th>' + hd + '</th>').join('') + '</tr>';
-      document.getElementById('tableHead').innerHTML = h;
-      document.getElementById('tableBody').innerHTML = data.map((r, i) => '<tr><td class="row-num">' + (i+1) + '</td>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('');
-      document.getElementById('rowCount').textContent = data.length;
-      document.getElementById('colCount').textContent = HEADERS.length;
-    }
-    function downloadData() {
-      const csv = data.map(r => r.join(',')).join('\\n');
-      const blob = new Blob([csv], {type: 'text/csv'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'data.csv'; a.click();
-    }
-  <` + `/script>
-</body>
-</html>`;
-        document.getElementById('generator-codeOutput').value = code;
-        this.showOutput();
-      },
-      escapeHTML(str) {
-        const div = document.createElement('div');
-        div.textContent = str; return div.innerHTML;
-      },
-
-      showOutput() {
-        document.getElementById('generator-codeOutput').style.display = 'block';
-        document.getElementById('generator-outputPlaceholder').style.display = 'none';
-        document.getElementById('generator-outputActions').style.display = 'flex';
-      },
-
-      hideOutput() {
-        document.getElementById('generator-codeOutput').style.display = 'none';
-        document.getElementById('generator-outputPlaceholder').style.display = 'flex';
-        document.getElementById('generator-outputActions').style.display = 'none';
-      },
-
-      copyCode() {
-        navigator.clipboard.writeText(document.getElementById('generator-codeOutput').value).then(() => showToast('コピーしました', 'success'));
-      },
-
-      downloadCode() {
-        const code = document.getElementById('generator-codeOutput').value;
-        const blob = new Blob([code], { type: 'text/html; charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'generated-editor.html'; a.click();
-      },
-
-      autoSave() {
-        const data = {
-          toolTitle: document.getElementById('generator-toolTitle').value,
-          headerInput: document.getElementById('generator-headerInput').value
-        };
-        localStorage.setItem('csvCreater_state', JSON.stringify(data));
-      },
-
-      loadFromStorage() {
-        const saved = localStorage.getItem('csvCreater_state');
-        if (saved) {
-          const data = JSON.parse(saved);
-          document.getElementById('generator-toolTitle').value = data.toolTitle || '';
-          document.getElementById('generator-headerInput').value = data.headerInput || '';
-          this.handleHeaderInput();
+        if (state.data[0]?.length === 0) {
+          state.data = []; state.hasHeader = false; state.columnWidths = {};
+          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          showToast('すべての列が削除されました。データをクリアしました', 'success');
+          return;
         }
-      }
-    };
 
-    // --- App Init ---
-    function init() {
-      const settings = loadSettings();
-      const theme = localStorage.getItem('csvTool_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      setTheme(theme);
+        const newWidths = {};
+        Object.entries(state.columnWidths).forEach(([key, val]) => {
+          const idx = parseInt(key);
+          if (idx < activeColumnIndex) newWidths[idx] = val;
+          else if (idx > activeColumnIndex) newWidths[idx - 1] = val;
+        });
+        state.columnWidths = newWidths;
 
-      Editor.init();
-      Generator.init();
+        renderTable(); updateStats(); saveToStorage();
+        showToast('列を削除しました', 'success');
+      };
 
-      if (settings.activeTool) switchTool(settings.activeTool);
-      else switchTool('editor');
+      const confirmDeleteColumn = () => {
+        openModal('列を削除', `「${getColName()}」を削除しますか？この操作は元に戻せます。`, deleteColumn);
+      };
 
-      if (settings.sidebarCollapsed && window.innerWidth > 768) {
-        document.getElementById('sidebar').classList.add('collapsed');
-      }
-    }
+      /* --- Row Operations --- */
+      const copyRow = async () => {
+        if (activeRowIndex < 0) return;
+        const text = state.data[activeRowIndex].map(cell =>
+          (cell.includes('\t') || cell.includes('"') || cell.includes('\n')) ? `"${cell.replace(/"/g, '""')}"` : cell
+        ).join('\t');
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast(`📋 ${state.hasHeader ? activeRowIndex : activeRowIndex + 1}行目をコピーしました`, 'success');
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
 
-    init();
+      const duplicateRow = () => {
+        if (activeRowIndex < 0) return;
+        saveToHistory();
+        state.data.splice(activeRowIndex + 1, 0, [...state.data[activeRowIndex]]);
+        renderTable(); updateStats(); saveToStorage();
+        showToast(`${state.hasHeader ? activeRowIndex : activeRowIndex + 1}行目を複製しました`, 'success');
+      };
+
+      const deleteRow = (rowIndex) => {
+        saveToHistory();
+        state.data.splice(rowIndex, 1);
+        if (state.data.length === 0) {
+          state.hasHeader = false; state.columnWidths = {};
+          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          showToast('すべての行が削除されました。データをクリアしました', 'success');
+          return;
+        }
+        renderTable(); updateStats(); saveToStorage();
+        showToast('行を削除しました', 'success');
+      };
+
+      const confirmDeleteRow = () => {
+        if (activeRowIndex < 0) return;
+        const rowNum = state.hasHeader ? activeRowIndex : activeRowIndex + 1;
+        openModal('行を削除', `${rowNum}行目を削除しますか？`, () => deleteRow(activeRowIndex));
+      };
+
+      /* --- Add Row / Column --- */
+      const addRow = () => {
+        saveToHistory();
+        state.data.push(Array(state.data[0]?.length ?? 1).fill(''));
+        renderTable(); updateStats(); saveToStorage();
+        showToast('行を追加しました', 'success');
+      };
+
+      const addColumn = () => {
+        saveToHistory();
+        state.data = state.data.map(r => [...r, '']);
+        renderTable(); updateStats(); saveToStorage();
+        showToast('列を追加しました', 'success');
+      };
+
+      /* --- Export --- */
+      const generateOutput = (dlm) =>
+        state.data.map(r => r.map(c =>
+          (c.includes(dlm) || c.includes('"') || c.includes('\n')) ? `"${c.replace(/"/g, '""')}"` : c
+        ).join(dlm)).join('\n');
+
+      const copyData = async (dlm) => {
+        if (state.data.length === 0) { showToast('コピーするデータがありません', 'error'); return; }
+        try {
+          await navigator.clipboard.writeText(generateOutput(dlm));
+          showToast(`📋 ${dlm === ',' ? 'CSV' : 'TSV'}としてコピーしました`, 'success');
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
+
+      const downloadData = (dlm, ext) => {
+        if (state.data.length === 0) { showToast('ダウンロードするデータがありません', 'error'); return; }
+        const blob = new Blob([`\uFEFF${generateOutput(dlm)}`], { type: 'text/plain; charset=utf-8' });
+        const $a = document.createElement('a');
+        $a.href = URL.createObjectURL(blob);
+        $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
+        $a.click();
+        URL.revokeObjectURL($a.href);
+        showToast(`💾 ${ext.toUpperCase()}ファイルをダウンロードしました`, 'success');
+      };
+
+      /* --- Clear --- */
+      const confirmClearAll = () => {
+        if (state.data.length === 0) return;
+        openModal('データをクリア', 'すべてのデータを削除しますか？この操作は元に戻せます。', () => {
+          saveToHistory();
+          state.data = []; state.hasHeader = false; state.columnWidths = {};
+          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          showToast('🗑 すべてのデータをクリアしました');
+        });
+      };
+
+      /* --- Menu Delegation --- */
+      const colActions = {
+        'sort-asc':  () => sortColumn('asc'),
+        'sort-desc': () => sortColumn('desc'),
+        'copy-col':  copyColumn,
+        'dup-col':   duplicateColumn,
+        'del-col':   confirmDeleteColumn,
+      };
+
+      const rowActions = {
+        'copy-row': copyRow,
+        'dup-row':  duplicateRow,
+        'del-row':  confirmDeleteRow,
+      };
+
+      $columnMenu.addEventListener('click', (e) => {
+        const action = e.target.closest('.menu-item')?.dataset.action;
+        if (action) { colActions[action]?.(); closeColumnMenu(); }
+      });
+
+      $rowMenu.addEventListener('click', (e) => {
+        const action = e.target.closest('.menu-item')?.dataset.action;
+        if (action) { rowActions[action]?.(); closeRowMenu(); }
+      });
+
+      /* --- Table Event Delegation --- */
+      $dataTable.addEventListener('click', (e) => {
+        const $th = e.target.closest('.th-content');
+        if ($th) { const ci = parseInt($th.closest('th').dataset.col); if (!isNaN(ci)) openColumnMenu(e, ci); return; }
+        const $rm = e.target.closest('[data-row-menu]');
+        if ($rm) { openRowMenu(e, parseInt($rm.dataset.rowMenu)); return; }
+      });
+
+      $dataTable.addEventListener('mousedown', (e) => {
+        const $h = e.target.closest('.resize-handle');
+        if ($h) startResize(e, parseInt($h.dataset.resizeCol));
+      });
+
+      $dataTable.addEventListener('blur', (e) => {
+        if (e.target.tagName === 'TD' && e.target.isContentEditable) handleCellBlur(e.target);
+      }, true);
+
+      /* --- Global Listeners --- */
+      document.addEventListener('click', (e) => {
+        if (!$columnMenu.contains(e.target) && !e.target.closest('.th-menu-btn')) closeColumnMenu();
+        if (!$rowMenu.contains(e.target) && !e.target.closest('.row-menu-btn')) closeRowMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
+        if (e.key === 'Escape') { clearSearch(); return; }
+        if (document.activeElement.tagName === 'TD' && document.activeElement.isContentEditable) handleCellNavigation(e, document.activeElement);
+      });
+
+      document.addEventListener('paste', (e) => {
+        if ($pasteZone.classList.contains('has-data')) return;
+        const text = e.clipboardData?.getData('text');
+        if (text) { e.preventDefault(); processData(text); }
+      });
+
+      /* --- Toolbar Wiring --- */
+      $undoBtn.addEventListener('click', undo);
+      $redoBtn.addEventListener('click', redo);
+      qs('#pasteBtn').addEventListener('click', triggerPaste);
+      $pasteZone.addEventListener('click', triggerPaste);
+      qs('#addRowBtn').addEventListener('click', addRow);
+      qs('#addColBtn').addEventListener('click', addColumn);
+      $headerToggle.addEventListener('click', toggleHeader);
+      qs('#copyCSVBtn').addEventListener('click', () => copyData(','));
+      qs('#copyTSVBtn').addEventListener('click', () => copyData('\t'));
+      qs('#dlCSVBtn').addEventListener('click', () => downloadData(',', 'csv'));
+      qs('#dlTSVBtn').addEventListener('click', () => downloadData('\t', 'tsv'));
+      qs('#clearBtn').addEventListener('click', confirmClearAll);
+
+      $searchInput.addEventListener('input', performSearch);
+      qs('#replaceNextBtn').addEventListener('click', replaceNext);
+      qs('#replaceAllBtn').addEventListener('click', replaceAll);
+      qs('#searchPrevBtn').addEventListener('click', () => navigateMatch(-1));
+      qs('#searchNextBtn').addEventListener('click', () => navigateMatch(1));
+
+      /* --- Init --- */
+      const init = () => {
+        loadFromStorage();
+        if (state.data.length > 0) renderTable();
+        updateStats();
+      };
+
+      return { init };
+    })();
+
+    /* ==============================================================
+       App Init
+       ============================================================== */
+    initTheme();
+    Editor.init();
   </script>
 </body>
-
 </html>
