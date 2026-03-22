@@ -690,8 +690,8 @@
 
       /* === Settings Modal === */
       .settings-modal {
-        max-inline-size: 500px;
-        max-block-size: 80vh;
+        max-inline-size: 680px;
+        max-block-size: 90vh;
         overflow-y: auto;
 
         & h3 {
@@ -703,14 +703,20 @@
         }
       }
 
+      .settings-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 24px;
+      }
+
       .settings-group {
-        margin-block-end: 16px;
-        padding-block-end: 16px;
+        margin-block-end: 12px;
+        padding-block-end: 12px;
         border-block-end: 1px solid var(--border);
 
         &:last-of-type {
           border-block-end: none;
-          margin-block-end: 8px;
+          margin-block-end: 4px;
         }
 
         & > label:first-child:not(.settings-checkbox) {
@@ -726,6 +732,10 @@
           color: var(--text-muted);
           margin-block-start: 4px;
         }
+      }
+
+      .settings-group-wide {
+        grid-column: 1 / -1;
       }
 
       .settings-select {
@@ -792,6 +802,7 @@
         .paste-zone { padding: 24px; }
         th, td { padding: 8px; }
         .shortcut-hint { display: none; }
+        .settings-grid { grid-template-columns: 1fr; }
       }
     }
   </style>
@@ -907,54 +918,54 @@
   <div class="modal-overlay" id="settingsOverlay">
     <div class="modal settings-modal">
       <h3><span class="material-symbols-outlined">settings</span> 設定</h3>
-      <div class="settings-group">
-        <label>文字コード（エンコーディング）</label>
-        <select class="settings-select" id="settingEncoding">
-          <option value="utf-8">UTF-8</option>
-          <option value="shift-jis">Shift-JIS (CP932)</option>
-        </select>
-        <label class="settings-checkbox">
-          <input type="checkbox" id="settingBOM" checked> BOM を付与する
-        </label>
-        <div class="settings-hint">保存・ダウンロード時のエンコーディングを指定します</div>
-      </div>
-      <div class="settings-group">
-        <label>区切り文字（デリミタ）</label>
-        <select class="settings-select" id="settingDelimiter">
-          <option value=",">カンマ (,)</option>
-          <option value="&#9;">タブ (\t)</option>
-          <option value=";">セミコロン (;)</option>
-          <option value=" ">スペース</option>
-        </select>
-        <div class="settings-hint">コピー・保存時の区切り文字を指定します</div>
-      </div>
-      <div class="settings-group">
-        <label>改行コード</label>
-        <select class="settings-select" id="settingNewline">
-          <option value="crlf">CRLF (Windows)</option>
-          <option value="lf">LF (Linux/Mac)</option>
-        </select>
-      </div>
-      <div class="settings-group">
-        <label>囲み文字（クオート）</label>
-        <select class="settings-select" id="settingQuote">
-          <option value="auto">自動（必要な場合のみ）</option>
-          <option value="all">すべてのフィールドをクオート</option>
-          <option value="none">クオートしない</option>
-        </select>
-        <div class="settings-hint">ダブルクォーテーション（"）での囲みルールを指定します</div>
-      </div>
-      <div class="settings-group">
-        <label class="settings-checkbox">
-          <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
-        </label>
-      </div>
-      <div class="settings-group">
-        <label>テーマ</label>
-        <select class="settings-select" id="settingTheme">
-          <option value="light">ライトモード</option>
-          <option value="dark">ダークモード</option>
-        </select>
+      <div class="settings-grid">
+        <div class="settings-group">
+          <label>文字コード（エンコーディング）</label>
+          <select class="settings-select" id="settingEncoding">
+            <option value="utf-8">UTF-8</option>
+            <option value="shift-jis">Shift-JIS (CP932)</option>
+          </select>
+          <label class="settings-checkbox">
+            <input type="checkbox" id="settingBOM" checked> BOM を付与する
+          </label>
+        </div>
+        <div class="settings-group">
+          <label>区切り文字（デリミタ）</label>
+          <select class="settings-select" id="settingDelimiter">
+            <option value=",">カンマ (,)</option>
+            <option value="&#9;">タブ (\t)</option>
+            <option value=";">セミコロン (;)</option>
+            <option value=" ">スペース</option>
+          </select>
+          <div class="settings-hint">ペースト時は自動判別されます</div>
+        </div>
+        <div class="settings-group">
+          <label>改行コード</label>
+          <select class="settings-select" id="settingNewline">
+            <option value="crlf">CRLF (Windows)</option>
+            <option value="lf">LF (Linux/Mac)</option>
+          </select>
+        </div>
+        <div class="settings-group">
+          <label>囲み文字（クオート）</label>
+          <select class="settings-select" id="settingQuote">
+            <option value="auto">自動（必要な場合のみ）</option>
+            <option value="all">すべてのフィールドをクオート</option>
+            <option value="none">クオートしない</option>
+          </select>
+        </div>
+        <div class="settings-group">
+          <label class="settings-checkbox">
+            <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
+          </label>
+        </div>
+        <div class="settings-group">
+          <label>テーマ</label>
+          <select class="settings-select" id="settingTheme">
+            <option value="light">ライトモード</option>
+            <option value="dark">ダークモード</option>
+          </select>
+        </div>
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
@@ -1173,7 +1184,7 @@
         state.hasHeader = false;
         state.columnWidths = {};
         undoStack = []; redoStack = [];
-        updateHistoryButtons(); renderTable(); updateStats(); saveToStorage();
+        updateHistoryButtons(); renderTable(); updateStats(); updateButtonLabels(); saveToStorage();
         showToast(`${state.data.length}行のデータを読み込みました`, 'success');
       };
 
