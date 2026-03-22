@@ -687,6 +687,78 @@
         color: var(--text-muted);
         margin-inline-start: 4px;
       }
+
+      /* === Settings Modal === */
+      .settings-modal {
+        max-inline-size: 500px;
+        max-block-size: 80vh;
+        overflow-y: auto;
+
+        & h3 {
+          font-size: 1.2rem;
+          margin-block-end: 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+
+      .settings-group {
+        margin-block-end: 16px;
+        padding-block-end: 16px;
+        border-block-end: 1px solid var(--border);
+
+        &:last-of-type {
+          border-block-end: none;
+          margin-block-end: 8px;
+        }
+
+        & > label:first-child:not(.settings-checkbox) {
+          display: block;
+          font-size: 0.85rem;
+          font-weight: 600;
+          margin-block-end: 6px;
+          color: var(--text);
+        }
+
+        & > .settings-hint {
+          font-size: 0.75rem;
+          color: var(--text-muted);
+          margin-block-start: 4px;
+        }
+      }
+
+      .settings-select {
+        inline-size: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 0.9rem;
+        background: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: var(--primary);
+        }
+      }
+
+      .settings-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        margin-block-start: 8px;
+
+        & input[type="checkbox"] {
+          inline-size: 18px;
+          block-size: 18px;
+          accent-color: var(--primary);
+          cursor: pointer;
+        }
+      }
     }
 
     /* ----------------------------------------------------------------
@@ -737,8 +809,8 @@
           <span>サイズ: <span class="value" id="dataSize">0 KB</span></span>
           <span>形式: <span class="value" id="dataFormat">-</span></span>
         </div>
-        <button class="theme-toggle" id="themeToggle" title="ダークモード切替">
-          <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+        <button class="theme-toggle" id="settingsBtn" title="設定">
+          <span class="material-symbols-outlined">settings</span>
         </button>
       </div>
     </header>
@@ -768,16 +840,8 @@
         <button class="btn" id="addColBtn" title="列を追加"><span class="material-symbols-outlined">add_box</span> 列追加</button>
       </div>
       <div class="toolbar-group">
-        <div class="toggle-group" title="ヘッダー行の有無を切り替え">
-          <span class="toggle-label">ヘッダー</span>
-          <div class="toggle" id="headerToggle"></div>
-        </div>
-      </div>
-      <div class="toolbar-group">
-        <button class="btn" id="copyCSVBtn" title="CSVとしてコピー"><span class="material-symbols-outlined">content_copy</span> CSVコピー</button>
-        <button class="btn" id="copyTSVBtn" title="TSVとしてコピー"><span class="material-symbols-outlined">content_copy</span> TSVコピー</button>
-        <button class="btn" id="dlCSVBtn" title="CSVダウンロード"><span class="material-symbols-outlined">save</span> CSV保存</button>
-        <button class="btn" id="dlTSVBtn" title="TSVダウンロード"><span class="material-symbols-outlined">save</span> TSV保存</button>
+        <button class="btn" id="copyBtn" title="コピー"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
+        <button class="btn" id="dlBtn" title="ダウンロード"><span class="material-symbols-outlined">save</span> <span id="dlBtnLabel">CSV保存</span></button>
       </div>
       <div class="toolbar-group ml-auto">
         <button class="btn btn-danger" id="clearBtn" title="すべてクリア"><span class="material-symbols-outlined">delete</span> クリア</button>
@@ -839,6 +903,66 @@
     </div>
   </div>
 
+  <!-- 設定モーダル -->
+  <div class="modal-overlay" id="settingsOverlay">
+    <div class="modal settings-modal">
+      <h3><span class="material-symbols-outlined">settings</span> 設定</h3>
+      <div class="settings-group">
+        <label>文字コード（エンコーディング）</label>
+        <select class="settings-select" id="settingEncoding">
+          <option value="utf-8">UTF-8</option>
+          <option value="shift-jis">Shift-JIS (CP932)</option>
+        </select>
+        <label class="settings-checkbox">
+          <input type="checkbox" id="settingBOM" checked> BOM を付与する
+        </label>
+        <div class="settings-hint">保存・ダウンロード時のエンコーディングを指定します</div>
+      </div>
+      <div class="settings-group">
+        <label>区切り文字（デリミタ）</label>
+        <select class="settings-select" id="settingDelimiter">
+          <option value=",">カンマ (,)</option>
+          <option value="&#9;">タブ (\t)</option>
+          <option value=";">セミコロン (;)</option>
+          <option value=" ">スペース</option>
+        </select>
+        <div class="settings-hint">コピー・保存時の区切り文字を指定します</div>
+      </div>
+      <div class="settings-group">
+        <label>改行コード</label>
+        <select class="settings-select" id="settingNewline">
+          <option value="crlf">CRLF (Windows)</option>
+          <option value="lf">LF (Linux/Mac)</option>
+        </select>
+      </div>
+      <div class="settings-group">
+        <label>囲み文字（クオート）</label>
+        <select class="settings-select" id="settingQuote">
+          <option value="auto">自動（必要な場合のみ）</option>
+          <option value="all">すべてのフィールドをクオート</option>
+          <option value="none">クオートしない</option>
+        </select>
+        <div class="settings-hint">ダブルクォーテーション（"）での囲みルールを指定します</div>
+      </div>
+      <div class="settings-group">
+        <label class="settings-checkbox">
+          <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
+        </label>
+      </div>
+      <div class="settings-group">
+        <label>テーマ</label>
+        <select class="settings-select" id="settingTheme">
+          <option value="light">ライトモード</option>
+          <option value="dark">ダークモード</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/encoding-japanese@2.2.0/encoding.min.js"></script>
   <script>
     /* ==============================================================
        Utility Helpers
@@ -857,18 +981,11 @@
     /* ==============================================================
        Theme
        ============================================================== */
-    const $themeIcon = qs('#themeIcon');
-
     const setTheme = (theme) => {
       document.documentElement.style.colorScheme = theme;
-      $themeIcon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
-    };
-
-    const toggleTheme = () => {
-      const current = document.documentElement.style.colorScheme || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      setTheme(next);
-      localStorage.setItem('csvEditor_theme', next);
+      localStorage.setItem('csvEditor_theme', theme);
+      const $sel = qs('#settingTheme');
+      if ($sel) $sel.value = theme;
     };
 
     const initTheme = () => {
@@ -876,8 +993,6 @@
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setTheme(saved ?? (prefersDark ? 'dark' : 'light'));
     };
-
-    qs('#themeToggle').addEventListener('click', toggleTheme);
 
     /* ==============================================================
        Shared UI: Toast / Modal
@@ -929,7 +1044,6 @@
       const $searchInfo     = qs('#searchInfo');
       const $undoBtn        = qs('#undoBtn');
       const $redoBtn        = qs('#redoBtn');
-      const $headerToggle   = qs('#headerToggle');
       const $columnMenu     = qs('#columnMenu');
       const $rowMenu        = qs('#rowMenu');
       const $rowCount       = qs('#rowCount');
@@ -943,7 +1057,11 @@
         hasHeader: false,
         delimiter: ',',
         originalText: '',
-        columnWidths: {}
+        columnWidths: {},
+        encoding: 'utf-8',
+        bom: true,
+        newline: 'crlf',
+        quoteStyle: 'auto'
       };
 
       let undoStack = [], redoStack = [];
@@ -1110,7 +1228,8 @@
             }</tr>`;
         }).join('');
 
-        $headerToggle.classList.toggle('active', state.hasHeader);
+        const $sh = qs('#settingHeader');
+        if ($sh) $sh.checked = state.hasHeader;
         performSearch();
       };
 
@@ -1411,22 +1530,56 @@
       };
 
       /* --- Export --- */
-      const generateOutput = (dlm) =>
-        state.data.map(r => r.map(c =>
-          (c.includes(dlm) || c.includes('"') || c.includes('\n')) ? `"${c.replace(/"/g, '""')}"` : c
-        ).join(dlm)).join('\n');
+      const generateOutput = (dlm) => {
+        const qs_ = state.quoteStyle;
+        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
+        return state.data.map(r => r.map(c => {
+          const escaped = c.replace(/"/g, '""');
+          if (qs_ === 'all') return `"${escaped}"`;
+          if (qs_ === 'none') return c;
+          return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
+            ? `"${escaped}"` : c;
+        }).join(dlm)).join(nl);
+      };
 
-      const copyData = async (dlm) => {
+      const getFormatLabel = () => {
+        const dlm = state.delimiter;
+        if (dlm === '\t') return 'TSV';
+        if (dlm === ',') return 'CSV';
+        if (dlm === ';') return 'SSV';
+        return 'TXT';
+      };
+
+      const getFormatExt = () => {
+        const dlm = state.delimiter;
+        if (dlm === '\t') return 'tsv';
+        if (dlm === ',') return 'csv';
+        return 'txt';
+      };
+
+      const copyData = async () => {
         if (state.data.length === 0) { showToast('コピーするデータがありません', 'error'); return; }
         try {
-          await navigator.clipboard.writeText(generateOutput(dlm));
-          showToast(`📋 ${dlm === ',' ? 'CSV' : 'TSV'}としてコピーしました`, 'success');
+          await navigator.clipboard.writeText(generateOutput(state.delimiter));
+          showToast(`📋 ${getFormatLabel()}としてコピーしました`, 'success');
         } catch { showToast('コピーに失敗しました', 'error'); }
       };
 
-      const downloadData = (dlm, ext) => {
+      const downloadData = () => {
         if (state.data.length === 0) { showToast('ダウンロードするデータがありません', 'error'); return; }
-        const blob = new Blob([`\uFEFF${generateOutput(dlm)}`], { type: 'text/plain;charset=utf-8' });
+        const text = generateOutput(state.delimiter);
+        const ext = getFormatExt();
+        let blob;
+
+        if (state.encoding === 'shift-jis' && typeof Encoding !== 'undefined') {
+          const unicodeArray = Encoding.stringToCode(text);
+          const sjisArray = Encoding.convert(unicodeArray, { to: 'SJIS', from: 'UNICODE' });
+          blob = new Blob([new Uint8Array(sjisArray)], { type: 'application/octet-stream' });
+        } else {
+          const bom = state.bom ? '\uFEFF' : '';
+          blob = new Blob([`${bom}${text}`], { type: 'text/plain;charset=utf-8' });
+        }
+
         const objectUrl = URL.createObjectURL(blob);
         const $a = document.createElement('a');
         $a.href = objectUrl;
@@ -1435,7 +1588,7 @@
         $a.click();
         $a.remove();
         setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
-        showToast(`💾 ${ext.toUpperCase()}ファイルをダウンロードしました`, 'success');
+        showToast(`💾 ${getFormatLabel()}ファイルをダウンロードしました`, 'success');
       };
 
       /* --- Clear --- */
@@ -1501,7 +1654,7 @@
         if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
         if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
         if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
-        if (e.key === 'Escape') { clearSearch(); return; }
+        if (e.key === 'Escape') { clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); return; }
         if (document.activeElement.tagName === 'TD' && document.activeElement.isContentEditable) handleCellNavigation(e, document.activeElement);
       });
 
@@ -1518,11 +1671,8 @@
       $pasteZone.addEventListener('click', triggerPaste);
       qs('#addRowBtn').addEventListener('click', addRow);
       qs('#addColBtn').addEventListener('click', addColumn);
-      $headerToggle.addEventListener('click', toggleHeader);
-      qs('#copyCSVBtn').addEventListener('click', () => copyData(','));
-      qs('#copyTSVBtn').addEventListener('click', () => copyData('\t'));
-      qs('#dlCSVBtn').addEventListener('click', () => downloadData(',', 'csv'));
-      qs('#dlTSVBtn').addEventListener('click', () => downloadData('\t', 'tsv'));
+      qs('#copyBtn').addEventListener('click', copyData);
+      qs('#dlBtn').addEventListener('click', downloadData);
       qs('#clearBtn').addEventListener('click', confirmClearAll);
 
       $searchInput.addEventListener('input', performSearch);
@@ -1531,11 +1681,86 @@
       qs('#searchPrevBtn').addEventListener('click', () => navigateMatch(-1));
       qs('#searchNextBtn').addEventListener('click', () => navigateMatch(1));
 
+      /* --- Button Labels --- */
+      const updateButtonLabels = () => {
+        const label = getFormatLabel();
+        const $copyLabel = qs('#copyBtnLabel');
+        const $dlLabel = qs('#dlBtnLabel');
+        if ($copyLabel) $copyLabel.textContent = `${label}コピー`;
+        if ($dlLabel) $dlLabel.textContent = `${label}保存`;
+        $dataFormat.textContent = label;
+      };
+
+      /* --- Settings Modal --- */
+      const $settingsOverlay = qs('#settingsOverlay');
+
+      const openSettings = () => {
+        qs('#settingEncoding').value = state.encoding;
+        qs('#settingBOM').checked = state.bom;
+        qs('#settingDelimiter').value = state.delimiter;
+        qs('#settingNewline').value = state.newline;
+        qs('#settingQuote').value = state.quoteStyle;
+        qs('#settingHeader').checked = state.hasHeader;
+        const currentTheme = document.documentElement.style.colorScheme || 'light';
+        qs('#settingTheme').value = currentTheme;
+        $settingsOverlay.classList.add('show');
+      };
+
+      const closeSettings = () => {
+        $settingsOverlay.classList.remove('show');
+      };
+
+      qs('#settingsBtn').addEventListener('click', openSettings);
+      qs('#settingsCloseBtn').addEventListener('click', closeSettings);
+      $settingsOverlay.addEventListener('click', (e) => {
+        if (e.target === $settingsOverlay) closeSettings();
+      });
+
+      qs('#settingEncoding').addEventListener('change', (e) => {
+        state.encoding = e.target.value;
+        if (state.encoding === 'shift-jis') {
+          state.bom = false;
+          qs('#settingBOM').checked = false;
+        }
+        saveToStorage();
+      });
+
+      qs('#settingBOM').addEventListener('change', (e) => {
+        state.bom = e.target.checked;
+        saveToStorage();
+      });
+
+      qs('#settingDelimiter').addEventListener('change', (e) => {
+        state.delimiter = e.target.value;
+        updateButtonLabels();
+        updateStats();
+        saveToStorage();
+      });
+
+      qs('#settingNewline').addEventListener('change', (e) => {
+        state.newline = e.target.value;
+        saveToStorage();
+      });
+
+      qs('#settingQuote').addEventListener('change', (e) => {
+        state.quoteStyle = e.target.value;
+        saveToStorage();
+      });
+
+      qs('#settingHeader').addEventListener('change', () => {
+        toggleHeader();
+      });
+
+      qs('#settingTheme').addEventListener('change', (e) => {
+        setTheme(e.target.value);
+      });
+
       /* --- Init --- */
       const init = () => {
         loadFromStorage();
         if (state.data.length > 0) renderTable();
         updateStats();
+        updateButtonLabels();
       };
 
       return { init };
