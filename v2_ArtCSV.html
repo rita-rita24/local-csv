@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV/TSV エディタ</title>
+
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232563eb' d='M10 10.02h5V21h-5zM17 21h3c1.1 0 2-.9 2-2v-9h-5v11zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2zM3 19c0 1.1.9 2 2 2h3V10.02H3V19z'/></svg>">
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <style>
+    /* ================================================================
+       Layer Architecture
+       ================================================================ */
+    @layer reset, base, component, utility;
+
+    /* ----------------------------------------------------------------
+       Reset
+       ---------------------------------------------------------------- */
+    @layer reset {
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       Base – Theme & Typography
+       ---------------------------------------------------------------- */
+    @layer base {
+      :root {
+        color-scheme: light;
+
+        --primary:       light-dark(oklch(0.55 0.20 260), oklch(0.62 0.20 260));
+        --primary-hover: light-dark(oklch(0.48 0.22 260), oklch(0.72 0.18 260));
+        --danger:        light-dark(oklch(0.53 0.22 25),  oklch(0.60 0.22 25));
+        --danger-hover:  light-dark(oklch(0.45 0.22 25),  oklch(0.68 0.20 25));
+        --success:       light-dark(oklch(0.55 0.18 145), oklch(0.65 0.20 145));
+        --warning:       light-dark(oklch(0.80 0.16 80),  oklch(0.70 0.16 80));
+        --bg:            light-dark(oklch(0.98 0.005 250), oklch(0.0 0.0 0));
+        --surface:       light-dark(oklch(1.0 0.0 0),     oklch(0.13 0.005 250));
+        --border:        light-dark(oklch(0.91 0.01 250),  oklch(0.32 0.01 250));
+        --text:          light-dark(oklch(0.20 0.02 260),  oklch(1.0 0.0 0));
+        --text-muted:    light-dark(oklch(0.50 0.02 255),  oklch(0.68 0.005 250));
+        --header-bg:     light-dark(oklch(0.96 0.01 250),  oklch(0.20 0.005 250));
+        --highlight:     light-dark(oklch(0.93 0.12 95),   oklch(0.40 0.10 60));
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        min-block-size: 100vh;
+      }
+
+      h1, h2, h3 {
+        text-wrap: balance;
+      }
+
+      p {
+        text-wrap: pretty;
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        font-size: 1.25em;
+        line-height: 1;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       Components
+       ---------------------------------------------------------------- */
+    @layer component {
+
+      /* === Container & Header === */
+      .container {
+        max-inline-size: 1400px;
+        margin-inline: auto;
+        padding: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-block-end: 8px;
+
+        & h1 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          & .material-symbols-outlined {
+            font-size: 2rem;
+            color: var(--primary);
+          }
+        }
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .stats {
+        display: flex;
+        gap: 16px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        background: var(--surface);
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+
+        & span {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        & .value {
+          font-weight: 600;
+          color: var(--text);
+        }
+      }
+
+      .theme-toggle {
+        inline-size: 36px;
+        block-size: 36px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background 0.2s;
+
+        &:hover {
+          background: var(--header-bg);
+        }
+      }
+
+      /* === Toolbar === */
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-block-end: 8px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        align-items: center;
+      }
+
+      .toolbar-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        position: relative;
+
+        &:not(:last-child)::after {
+          content: '';
+          display: block;
+          inline-size: 1px;
+          block-size: 20px;
+          background: var(--border);
+          margin-inline-start: 2px;
+        }
+      }
+
+      /* === Buttons === */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        min-block-size: 36px;
+        background: var(--header-bg);
+        color: var(--text);
+
+        &:hover { background: var(--border); }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        & .material-symbols-outlined {
+          font-size: 1.15rem;
+        }
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+        &:hover { background: var(--primary-hover); }
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+        &:hover { background: var(--danger-hover); }
+      }
+
+      /* === Toggle === */
+      .toggle-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-inline: 12px;
+        block-size: 36px;
+        background: var(--header-bg);
+        border-radius: 6px;
+        border: 1px solid transparent;
+      }
+
+      .toggle-label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .toggle {
+        position: relative;
+        inline-size: 42px;
+        block-size: 24px;
+        background: var(--border);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+        flex-shrink: 0;
+
+        &.active {
+          background: var(--primary);
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          inset-block-start: 3px;
+          inset-inline-start: 3px;
+          inline-size: 18px;
+          block-size: 18px;
+          background: #fff;
+          border-radius: 50%;
+          transition: transform 0.2s;
+          box-shadow: 0 1px 3px oklch(0 0 0 / 0.2);
+        }
+
+        &.active::after {
+          transform: translateX(20px);
+        }
+      }
+
+      /* === Search Bar === */
+      .search-bar {
+        display: flex;
+        padding: 12px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        margin-block-end: 8px;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        & input {
+          padding: 6px 12px;
+          border: 1px solid var(--border);
+          border-radius: 6px;
+          font-size: 0.9rem;
+          background: var(--bg);
+          color: var(--text);
+          min-inline-size: 200px;
+          block-size: 36px;
+
+          &:focus {
+            outline: none;
+            border-color: var(--primary);
+          }
+        }
+      }
+
+      .search-info {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .search-nav {
+        display: flex;
+        gap: 4px;
+
+        & button {
+          inline-size: 36px;
+          block-size: 36px;
+          border: 1px solid var(--border);
+          background: var(--bg);
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 1rem;
+          color: var(--text);
+
+          &:hover {
+            background: var(--header-bg);
+          }
+        }
+      }
+
+      /* === Paste Zone === */
+      .paste-area {
+        position: relative;
+        margin-block-end: 8px;
+      }
+
+      .paste-zone {
+        border: 2px dashed var(--border);
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        background: var(--surface);
+        transition: all 0.2s;
+        cursor: pointer;
+
+        &:hover {
+          border-color: var(--primary);
+          background: var(--header-bg);
+        }
+
+        & h2 {
+          font-size: 1.2rem;
+          margin-block-end: 8px;
+        }
+
+        & p {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+        }
+
+        &.has-data {
+          display: none;
+        }
+      }
+
+      /* === Table === */
+      .table-container {
+        display: none;
+        background: var(--surface);
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+
+        &.show {
+          display: block;
+        }
+      }
+
+      .table-scroll {
+        overflow: auto;
+        max-block-size: 70vh;
+      }
+
+      table {
+        inline-size: max-content;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        table-layout: fixed;
+      }
+
+      th, td {
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        text-align: start;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      th {
+        padding: 0;
+        background: var(--header-bg);
+        font-weight: 600;
+        position: sticky;
+        inset-block-start: -1px;
+        z-index: 10;
+        user-select: none;
+
+        &:hover {
+          background: var(--border);
+        }
+      }
+
+      td {
+        padding: 10px 12px;
+        background: var(--surface);
+      }
+
+      tr:hover td:not(.row-num) {
+        background: var(--header-bg);
+      }
+
+      td[contenteditable] {
+        outline: none;
+
+        &:focus, &.selected {
+          background: var(--header-bg);
+          box-shadow: inset 0 0 0 2px var(--primary);
+        }
+      }
+
+      td.highlight {
+        background: var(--highlight) !important;
+      }
+
+      td.current-match {
+        background: var(--warning) !important;
+      }
+
+      /* === Row Number === */
+      .row-num {
+        background: var(--header-bg);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        text-align: center;
+        inline-size: 70px !important;
+        min-inline-size: 70px !important;
+        max-inline-size: 70px !important;
+        font-weight: normal;
+        padding: 0 !important;
+        position: sticky;
+        inset-inline-start: -1px;
+        z-index: 20;
+        border-inline-end: 1px solid var(--border);
+      }
+
+      .row-num-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        inline-size: 100%;
+        block-size: 100%;
+        padding-inline: 4px;
+        position: relative;
+      }
+
+      .row-num-text {
+        flex: 1;
+        text-align: center;
+      }
+
+      .row-menu-btn {
+        inline-size: 24px;
+        block-size: 24px;
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        border-radius: 4px;
+        opacity: 0.5;
+        transition: all 0.15s;
+
+        &:hover {
+          background: var(--border);
+          color: var(--text);
+        }
+      }
+
+      .row-num:hover .row-menu-btn,
+      .row-menu-btn:focus-visible {
+        opacity: 1;
+      }
+
+      th.row-num {
+        z-index: 30;
+        padding: 10px 0 !important;
+      }
+
+      /* === Column Resize === */
+      .resize-handle {
+        position: absolute;
+        inset-inline-end: 0;
+        inset-block: 0;
+        inline-size: 6px;
+        cursor: col-resize;
+        background: transparent;
+        z-index: 100;
+
+        &:hover, &.resizing {
+          background: var(--primary);
+        }
+      }
+
+      .th-wrapper {
+        position: relative;
+        inline-size: 100%;
+        block-size: 100%;
+        display: flex;
+      }
+
+      .th-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        cursor: pointer;
+        padding: 10px 12px;
+        flex: 1;
+        inline-size: 100%;
+      }
+
+      .th-colnum {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        flex-shrink: 0;
+        background: var(--border);
+        padding: 1px 4px;
+        border-radius: 3px;
+        line-height: 1.4;
+      }
+
+      .th-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .th-menu-btn {
+        padding: 4px;
+        border-radius: 4px;
+        opacity: 0.5;
+        transition: opacity 0.15s;
+      }
+
+      th:hover .th-menu-btn {
+        opacity: 1;
+      }
+
+      /* === Context Menus === */
+      .column-menu {
+        display: none;
+        position: absolute;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 10px 40px oklch(0 0 0 / 0.15);
+        z-index: 1000;
+        min-inline-size: 200px;
+        overflow: hidden;
+
+        &.show {
+          display: block;
+        }
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.1s;
+
+        &:hover {
+          background: var(--header-bg);
+        }
+
+        &.danger {
+          color: var(--danger);
+
+          &:hover {
+            background: light-dark(oklch(0.95 0.04 25), oklch(0.20 0.005 250));
+          }
+        }
+      }
+
+      .menu-divider {
+        block-size: 1px;
+        background: var(--border);
+        margin-block: 4px;
+      }
+
+      /* === Toast === */
+      .toast-container {
+        position: fixed;
+        inset-block-end: 24px;
+        inset-inline-start: 50%;
+        transform: translateX(-50%);
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .toast {
+        padding: 14px 24px;
+        background: var(--text);
+        color: var(--bg);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 20px oklch(0 0 0 / 0.2);
+        animation: toast-in 0.3s ease, toast-out 0.3s ease 1.2s forwards;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &.success {
+          background: var(--success);
+          color: #fff;
+        }
+
+        &.error {
+          background: var(--danger);
+          color: #fff;
+        }
+      }
+
+      /* === Modal === */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: oklch(0 0 0 / 0.5);
+        z-index: 3000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+
+        &.show {
+          display: flex;
+        }
+      }
+
+      .modal {
+        background: var(--surface);
+        border-radius: 16px;
+        max-inline-size: 400px;
+        inline-size: 100%;
+        padding: 24px;
+        box-shadow: 0 20px 60px oklch(0 0 0 / 0.3);
+
+        & h3 {
+          font-size: 1.1rem;
+          margin-block-end: 8px;
+        }
+
+        & p {
+          color: var(--text-muted);
+          font-size: 0.9rem;
+          margin-block-end: 8px;
+        }
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+      }
+
+      .shortcut-hint {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        margin-inline-start: 4px;
+      }
+
+      /* === Settings Modal === */
+      .settings-modal {
+        max-inline-size: 500px;
+        max-block-size: 80vh;
+        overflow-y: auto;
+
+        & h3 {
+          font-size: 1.2rem;
+          margin-block-end: 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+
+      .settings-group {
+        margin-block-end: 16px;
+        padding-block-end: 16px;
+        border-block-end: 1px solid var(--border);
+
+        &:last-of-type {
+          border-block-end: none;
+          margin-block-end: 8px;
+        }
+
+        & > label:first-child:not(.settings-checkbox) {
+          display: block;
+          font-size: 0.85rem;
+          font-weight: 600;
+          margin-block-end: 6px;
+          color: var(--text);
+        }
+
+        & > .settings-hint {
+          font-size: 0.75rem;
+          color: var(--text-muted);
+          margin-block-start: 4px;
+        }
+      }
+
+      .settings-select {
+        inline-size: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 0.9rem;
+        background: var(--bg);
+        color: var(--text);
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: var(--primary);
+        }
+      }
+
+      .settings-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        margin-block-start: 8px;
+
+        & input[type="checkbox"] {
+          inline-size: 18px;
+          block-size: 18px;
+          accent-color: var(--primary);
+          cursor: pointer;
+        }
+      }
+    }
+
+    /* ----------------------------------------------------------------
+       Utilities
+       ---------------------------------------------------------------- */
+    @layer utility {
+      .ml-auto {
+        margin-inline-start: auto;
+
+        &::after {
+          display: none !important;
+        }
+      }
+
+      @keyframes toast-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes toast-out {
+        from { opacity: 1; }
+        to   { opacity: 0; }
+      }
+
+      @media (max-width: 768px) {
+        .container { padding: 12px; }
+        .header { flex-direction: column; align-items: stretch; }
+        .stats { justify-content: center; flex-wrap: wrap; }
+        .toolbar { padding: 12px; }
+        .btn { padding: 6px 12px; font-size: 0.8rem; }
+        .paste-zone { padding: 24px; }
+        th, td { padding: 8px; }
+        .shortcut-hint { display: none; }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <header class="header">
+      <h1><span class="material-symbols-outlined">table_chart</span> CSV/TSV エディタ</h1>
+      <div class="header-right">
+        <div class="stats" id="stats">
+          <span>行: <span class="value" id="rowCount">0</span></span>
+          <span>列: <span class="value" id="colCount">0</span></span>
+          <span>サイズ: <span class="value" id="dataSize">0 KB</span></span>
+          <span>形式: <span class="value" id="dataFormat">-</span></span>
+        </div>
+        <button class="theme-toggle" id="settingsBtn" title="設定">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 検索バー -->
+    <div class="search-bar" id="searchBar">
+      <input type="text" id="searchInput" placeholder="検索...">
+      <input type="text" id="replaceInput" placeholder="置換...">
+      <button class="btn" id="replaceNextBtn">置換</button>
+      <button class="btn" id="replaceAllBtn">すべて置換</button>
+      <div class="search-nav">
+        <button id="searchPrevBtn" title="前へ"><span class="material-symbols-outlined">expand_less</span></button>
+        <button id="searchNextBtn" title="次へ"><span class="material-symbols-outlined">expand_more</span></button>
+      </div>
+      <span class="search-info" id="searchInfo"></span>
+    </div>
+
+    <!-- ツールバー -->
+    <div class="toolbar">
+      <div class="toolbar-group">
+        <button class="btn" id="undoBtn" disabled title="元に戻す"><span class="material-symbols-outlined">undo</span></button>
+        <button class="btn" id="redoBtn" disabled title="やり直し"><span class="material-symbols-outlined">redo</span></button>
+      </div>
+      <div class="toolbar-group">
+        <button class="btn" id="pasteBtn" title="クリップボードから貼り付け"><span class="material-symbols-outlined">content_paste</span> 貼り付け</button>
+        <button class="btn" id="addRowBtn" title="行を追加"><span class="material-symbols-outlined">add_box</span> 行追加</button>
+        <button class="btn" id="addColBtn" title="列を追加"><span class="material-symbols-outlined">add_box</span> 列追加</button>
+      </div>
+      <div class="toolbar-group">
+        <button class="btn" id="copyBtn" title="コピー"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
+        <button class="btn" id="dlBtn" title="ダウンロード"><span class="material-symbols-outlined">save</span> <span id="dlBtnLabel">CSV保存</span></button>
+      </div>
+      <div class="toolbar-group ml-auto">
+        <button class="btn btn-danger" id="clearBtn" title="すべてクリア"><span class="material-symbols-outlined">delete</span> クリア</button>
+      </div>
+    </div>
+
+    <!-- ペーストエリア -->
+    <div class="paste-area">
+      <div class="paste-zone" id="pasteZone" tabindex="0">
+        <span class="material-symbols-outlined" style="font-size:48px;color:var(--text-muted);margin-block-end:8px;">content_paste</span>
+        <h2>クリックしてCSV/TSVデータを貼り付け</h2>
+        <p>Ctrl+V でもペーストできます</p>
+        <p style="margin-block-start:8px;font-size:0.8rem;">カンマ区切り(CSV)・タブ区切り(TSV) 自動判定</p>
+      </div>
+    </div>
+
+    <!-- テーブル -->
+    <div class="table-container" id="tableContainer">
+      <div class="table-scroll" id="tableScroll">
+        <table id="dataTable">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 列メニュー -->
+  <div class="column-menu" id="columnMenu">
+    <div class="menu-item" data-action="sort-asc"><span class="material-symbols-outlined">arrow_upward</span> 昇順に並び替え</div>
+    <div class="menu-item" data-action="sort-desc"><span class="material-symbols-outlined">arrow_downward</span> 降順に並び替え</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-action="copy-col"><span class="material-symbols-outlined">content_copy</span> 列をコピー</div>
+    <div class="menu-item" data-action="dup-col"><span class="material-symbols-outlined">content_copy</span> 列を複製</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item danger" data-action="del-col"><span class="material-symbols-outlined">delete</span> 列を削除</div>
+  </div>
+
+  <!-- 行メニュー -->
+  <div class="column-menu" id="rowMenu">
+    <div class="menu-item" data-action="copy-row"><span class="material-symbols-outlined">content_copy</span> 行をコピー</div>
+    <div class="menu-item" data-action="dup-row"><span class="material-symbols-outlined">content_copy</span> 行を複製</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item danger" data-action="del-row"><span class="material-symbols-outlined">delete</span> 行を削除</div>
+  </div>
+
+  <!-- トースト -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- 確認モーダル -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h3 id="modalTitle">確認</h3>
+      <p id="modalMessage"></p>
+      <div class="modal-actions">
+        <button class="btn" id="modalCancelBtn">キャンセル</button>
+        <button class="btn btn-danger" id="modalConfirmBtn">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 設定モーダル -->
+  <div class="modal-overlay" id="settingsOverlay">
+    <div class="modal settings-modal">
+      <h3><span class="material-symbols-outlined">settings</span> 設定</h3>
+      <div class="settings-group">
+        <label>文字コード（エンコーディング）</label>
+        <select class="settings-select" id="settingEncoding">
+          <option value="utf-8">UTF-8</option>
+          <option value="shift-jis">Shift-JIS (CP932)</option>
+        </select>
+        <label class="settings-checkbox">
+          <input type="checkbox" id="settingBOM" checked> BOM を付与する
+        </label>
+        <div class="settings-hint">保存・ダウンロード時のエンコーディングを指定します</div>
+      </div>
+      <div class="settings-group">
+        <label>区切り文字（デリミタ）</label>
+        <select class="settings-select" id="settingDelimiter">
+          <option value=",">カンマ (,)</option>
+          <option value="&#9;">タブ (\t)</option>
+          <option value=";">セミコロン (;)</option>
+          <option value=" ">スペース</option>
+        </select>
+        <div class="settings-hint">コピー・保存時の区切り文字を指定します</div>
+      </div>
+      <div class="settings-group">
+        <label>改行コード</label>
+        <select class="settings-select" id="settingNewline">
+          <option value="crlf">CRLF (Windows)</option>
+          <option value="lf">LF (Linux/Mac)</option>
+        </select>
+      </div>
+      <div class="settings-group">
+        <label>囲み文字（クオート）</label>
+        <select class="settings-select" id="settingQuote">
+          <option value="auto">自動（必要な場合のみ）</option>
+          <option value="all">すべてのフィールドをクオート</option>
+          <option value="none">クオートしない</option>
+        </select>
+        <div class="settings-hint">ダブルクォーテーション（"）での囲みルールを指定します</div>
+      </div>
+      <div class="settings-group">
+        <label class="settings-checkbox">
+          <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
+        </label>
+      </div>
+      <div class="settings-group">
+        <label>テーマ</label>
+        <select class="settings-select" id="settingTheme">
+          <option value="light">ライトモード</option>
+          <option value="dark">ダークモード</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/encoding-japanese@2.2.0/encoding.min.js"></script>
+  <script>
+    /* ==============================================================
+       Utility Helpers
+       ============================================================== */
+    const qs  = (sel, root = document) => root.querySelector(sel);
+    const qsa = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+    const escapeHTML = (str) => {
+      const $tmp = document.createElement('div');
+      $tmp.textContent = str;
+      return $tmp.innerHTML;
+    };
+
+    const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    /* ==============================================================
+       Theme
+       ============================================================== */
+    const setTheme = (theme) => {
+      document.documentElement.style.colorScheme = theme;
+      localStorage.setItem('csvEditor_theme', theme);
+      const $sel = qs('#settingTheme');
+      if ($sel) $sel.value = theme;
+    };
+
+    const initTheme = () => {
+      const saved = localStorage.getItem('csvEditor_theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(saved ?? (prefersDark ? 'dark' : 'light'));
+    };
+
+    /* ==============================================================
+       Shared UI: Toast / Modal
+       ============================================================== */
+    const $toastContainer  = qs('#toastContainer');
+    const $modalOverlay    = qs('#modalOverlay');
+    const $modalTitle      = qs('#modalTitle');
+    const $modalMessage    = qs('#modalMessage');
+    const $modalConfirmBtn = qs('#modalConfirmBtn');
+    const $modalCancelBtn  = qs('#modalCancelBtn');
+
+    const showToast = (message, type = '') => {
+      const $toast = document.createElement('div');
+      $toast.className = `toast ${type}`;
+      $toast.textContent = message;
+      $toastContainer.appendChild($toast);
+      setTimeout(() => $toast.remove(), 1500);
+    };
+
+    let _modalCallback = null;
+
+    const openModal = (title, message, onConfirm) => {
+      $modalTitle.textContent   = title;
+      $modalMessage.textContent = message;
+      _modalCallback = onConfirm;
+      $modalOverlay.classList.add('show');
+    };
+
+    const closeModal = () => {
+      $modalOverlay.classList.remove('show');
+      _modalCallback = null;
+    };
+
+    $modalConfirmBtn.addEventListener('click', () => { _modalCallback?.(); closeModal(); });
+    $modalCancelBtn.addEventListener('click', closeModal);
+
+    /* ==============================================================
+       Editor Module (IIFE)
+       ============================================================== */
+    const Editor = (() => {
+      /* --- DOM References --- */
+      const $pasteZone      = qs('#pasteZone');
+      const $tableContainer = qs('#tableContainer');
+      const $tableHead      = qs('#tableHead');
+      const $tableBody      = qs('#tableBody');
+      const $dataTable      = qs('#dataTable');
+      const $searchInput    = qs('#searchInput');
+      const $replaceInput   = qs('#replaceInput');
+      const $searchInfo     = qs('#searchInfo');
+      const $undoBtn        = qs('#undoBtn');
+      const $redoBtn        = qs('#redoBtn');
+      const $columnMenu     = qs('#columnMenu');
+      const $rowMenu        = qs('#rowMenu');
+      const $rowCount       = qs('#rowCount');
+      const $colCount       = qs('#colCount');
+      const $dataSize       = qs('#dataSize');
+      const $dataFormat     = qs('#dataFormat');
+
+      /* --- State --- */
+      let state = {
+        data: [],
+        hasHeader: false,
+        delimiter: ',',
+        originalText: '',
+        columnWidths: {},
+        encoding: 'utf-8',
+        bom: true,
+        newline: 'crlf',
+        quoteStyle: 'auto'
+      };
+
+      let undoStack = [], redoStack = [];
+      const MAX_HISTORY = 20;
+      let activeColumnIndex = -1, activeRowIndex = -1;
+      let searchMatches = [], currentMatchIndex = -1;
+      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0;
+
+      /* --- Persistence --- */
+      const saveToStorage = () => {
+        try { localStorage.setItem('csvEditor_state', JSON.stringify(state)); }
+        catch (e) { console.warn('LocalStorage save failed:', e); }
+      };
+
+      const loadFromStorage = () => {
+        try {
+          const saved = JSON.parse(localStorage.getItem('csvEditor_state') ?? 'null');
+          if (saved) state = saved;
+        } catch { /* ignore */ }
+      };
+
+      /* --- History --- */
+      const saveToHistory = () => {
+        undoStack.push(structuredClone(state));
+        if (undoStack.length > MAX_HISTORY) undoStack.shift();
+        redoStack = [];
+        updateHistoryButtons();
+      };
+
+      const updateHistoryButtons = () => {
+        $undoBtn.disabled = undoStack.length === 0;
+        $redoBtn.disabled = redoStack.length === 0;
+      };
+
+      const undo = () => {
+        if (undoStack.length === 0) return;
+        redoStack.push(structuredClone(state));
+        state = undoStack.pop();
+        renderTable(); updateStats(); saveToStorage(); updateHistoryButtons();
+        showToast('↩ 元に戻しました');
+      };
+
+      const redo = () => {
+        if (redoStack.length === 0) return;
+        undoStack.push(structuredClone(state));
+        state = redoStack.pop();
+        renderTable(); updateStats(); saveToStorage(); updateHistoryButtons();
+        showToast('↪ やり直しました');
+      };
+
+      /* --- Stats --- */
+      const updateStats = () => {
+        const rc = state.hasHeader ? state.data.length - 1 : state.data.length;
+        const cc = state.data[0]?.length ?? 0;
+        const text = state.data.map(r => r.join(state.delimiter)).join('\n');
+        const bytes = new Blob([text]).size;
+        const sizeStr = bytes < 1024 ? `${bytes} B`
+          : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB`
+          : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+
+        $rowCount.textContent  = rc.toLocaleString();
+        $colCount.textContent  = cc;
+        $dataSize.textContent  = sizeStr;
+        $dataFormat.textContent = state.delimiter === '\t' ? 'TSV' : 'CSV';
+      };
+
+      /* --- CSV Parse --- */
+      const detectDelimiter = (text) => {
+        const sample = text.split('\n').slice(0, 5).join('\n');
+        return (sample.match(/\t/g) ?? []).length > (sample.match(/,/g) ?? []).length ? '\t' : ',';
+      };
+
+      const parseCSV = (text, delimiter) => {
+        const rows = [];
+        let currentRow = [], currentCell = '', inQuotes = false;
+
+        for (let i = 0; i < text.length; i++) {
+          const char = text[i], nextChar = text[i + 1];
+          if (inQuotes) {
+            if (char === '"') { nextChar === '"' ? (currentCell += '"', i++) : (inQuotes = false); }
+            else currentCell += char;
+          } else if (char === '"') {
+            inQuotes = true;
+          } else if (char === delimiter) {
+            currentRow.push(currentCell); currentCell = '';
+          } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
+            currentRow.push(currentCell);
+            if (currentRow.some(c => c.trim())) rows.push(currentRow);
+            currentRow = []; currentCell = '';
+            if (char === '\r') i++;
+          } else if (char !== '\r') {
+            currentCell += char;
+          }
+        }
+        currentRow.push(currentCell);
+        if (currentRow.some(c => c.trim())) rows.push(currentRow);
+
+        const maxCols = Math.max(...rows.map(r => r.length));
+        return rows.map(row => { while (row.length < maxCols) row.push(''); return row; });
+      };
+
+      /* --- Process Data --- */
+      const processData = (text) => {
+        if (!text.trim()) { showToast('データが空です', 'error'); return; }
+        state.originalText = text;
+        state.delimiter = detectDelimiter(text);
+        state.data = parseCSV(text, state.delimiter);
+        if (state.data.length === 0) { showToast('データを解析できませんでした', 'error'); return; }
+        state.hasHeader = false;
+        state.columnWidths = {};
+        undoStack = []; redoStack = [];
+        updateHistoryButtons(); renderTable(); updateStats(); saveToStorage();
+        showToast(`${state.data.length}行のデータを読み込みました`, 'success');
+      };
+
+      const triggerPaste = async () => {
+        try { const text = await navigator.clipboard.readText(); if (text) processData(text); }
+        catch { showToast('クリップボードにアクセスできません', 'error'); }
+      };
+
+      /* --- Render --- */
+      const renderTable = () => {
+        if (state.data.length === 0) {
+          $tableContainer.classList.remove('show');
+          $pasteZone.classList.remove('has-data');
+          return;
+        }
+        $tableContainer.classList.add('show');
+        $pasteZone.classList.add('has-data');
+
+        const colCount = state.data[0]?.length ?? 0;
+        const dataStart = state.hasHeader ? 1 : 0;
+        const headers = state.hasHeader ? state.data[0] : Array.from({ length: colCount }, (_, i) => `${i + 1}`);
+
+        $tableHead.innerHTML = `<tr><th class="row-num">#</th>${
+          headers.map((h, i) => {
+            const w = state.columnWidths[i] ?? 150;
+            const colNum = state.hasHeader ? `<span class="th-colnum">${i + 1}</span>` : '';
+            const style = state.hasHeader ? '' : 'color:var(--text-muted);';
+            return `<th style="width:${w}px;min-width:${w}px;" data-col="${i}">
+              <div class="th-wrapper">
+                <div class="th-content">${colNum}<span class="th-text" style="${style}">${escapeHTML(h)}</span>
+                  <span class="th-menu-btn material-symbols-outlined" style="font-size:1.1rem;">more_vert</span>
+                </div>
+                <div class="resize-handle" data-resize-col="${i}"></div>
+              </div></th>`;
+          }).join('')
+        }</tr>`;
+
+        $tableBody.innerHTML = state.data.slice(dataStart).map((row, idx) => {
+          const i = idx + dataStart;
+          const rowNum = state.hasHeader ? i : i + 1;
+          return `<tr data-row="${i}">
+            <td class="row-num"><div class="row-num-wrapper">
+              <span class="row-num-text">${rowNum}</span>
+              <button class="row-menu-btn" data-row-menu="${i}" title="行メニュー">
+                <span class="material-symbols-outlined" style="font-size:1rem;">more_vert</span>
+              </button>
+            </div></td>${
+              row.map((c, j) => {
+                const w = state.columnWidths[j] ?? 150;
+                return `<td contenteditable="true" data-row="${i}" data-col="${j}" style="width:${w}px;min-width:${w}px;">${escapeHTML(c)}</td>`;
+              }).join('')
+            }</tr>`;
+        }).join('');
+
+        const $sh = qs('#settingHeader');
+        if ($sh) $sh.checked = state.hasHeader;
+        performSearch();
+      };
+
+      /* --- Toggle Header --- */
+      const toggleHeader = () => {
+        if (state.data.length === 0) return;
+        saveToHistory();
+        state.hasHeader = !state.hasHeader;
+        renderTable(); updateStats(); saveToStorage();
+        showToast(state.hasHeader ? 'ヘッダーを有効にしました' : 'ヘッダーを無効にしました');
+      };
+
+      /* --- Resize --- */
+      const startResize = (e, colIndex) => {
+        e.stopPropagation();
+        isResizing = true; resizeColumnIndex = colIndex; resizeStartX = e.clientX;
+        resizeStartWidth = qs(`th[data-col="${colIndex}"]`).offsetWidth;
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+      };
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const w = Math.max(60, resizeStartWidth + (e.clientX - resizeStartX));
+        state.columnWidths[resizeColumnIndex] = w;
+        qsa(`[data-col="${resizeColumnIndex}"]`, $dataTable).forEach($el => {
+          $el.style.width = `${w}px`; $el.style.minWidth = `${w}px`;
+        });
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (!isResizing) return;
+        isResizing = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        saveToStorage();
+      });
+
+      /* --- Cell Edit --- */
+      const handleCellBlur = ($cell) => {
+        const row = parseInt($cell.dataset.row), col = parseInt($cell.dataset.col);
+        const val = $cell.textContent;
+        if (state.data[row]?.[col] !== val) {
+          saveToHistory(); state.data[row][col] = val; updateStats(); saveToStorage();
+        }
+      };
+
+      /* --- Cell Navigation --- */
+      const handleCellNavigation = (e, $cell) => {
+        const row = parseInt($cell.dataset.row), col = parseInt($cell.dataset.col);
+        const colCount = state.data[0]?.length ?? 0;
+        let nr = row, nc = col, move = false;
+
+        switch (e.key) {
+          case 'Tab': e.preventDefault();
+            if (e.shiftKey) { nc = col - 1; if (nc < 0) { nc = colCount - 1; nr--; } }
+            else { nc = col + 1; if (nc >= colCount) { nc = 0; nr++; } }
+            move = true; break;
+          case 'Enter': if (!e.shiftKey) { e.preventDefault(); nr++; move = true; } break;
+          case 'ArrowUp':    if (e.altKey) { e.preventDefault(); nr--; move = true; } break;
+          case 'ArrowDown':  if (e.altKey) { e.preventDefault(); nr++; move = true; } break;
+          case 'ArrowLeft':  if (e.altKey) { e.preventDefault(); nc--; move = true; } break;
+          case 'ArrowRight': if (e.altKey) { e.preventDefault(); nc++; move = true; } break;
+        }
+
+        if (move) {
+          const start = state.hasHeader ? 1 : 0;
+          if (nr >= start && nr < state.data.length && nc >= 0 && nc < colCount) {
+            qs(`td[data-row="${nr}"][data-col="${nc}"]`)?.focus();
+          }
+        }
+      };
+
+      /* --- Search / Replace --- */
+      const performSearch = () => {
+        const query = $searchInput.value.toLowerCase();
+        clearHighlights(); searchMatches = []; currentMatchIndex = -1;
+        if (!query) { updateSearchInfo(); return; }
+        const start = state.hasHeader ? 1 : 0;
+        state.data.forEach((row, i) => {
+          if (i < start) return;
+          row.forEach((cell, j) => {
+            if (cell.toLowerCase().includes(query)) {
+              searchMatches.push({ row: i, col: j });
+              qs(`td[data-row="${i}"][data-col="${j}"]`)?.classList.add('highlight');
+            }
+          });
+        });
+        if (searchMatches.length > 0) { currentMatchIndex = 0; highlightCurrentMatch(); }
+        updateSearchInfo();
+      };
+
+      const navigateMatch = (dir) => {
+        if (searchMatches.length === 0) return;
+        currentMatchIndex += dir;
+        if (currentMatchIndex < 0) currentMatchIndex = searchMatches.length - 1;
+        if (currentMatchIndex >= searchMatches.length) currentMatchIndex = 0;
+        highlightCurrentMatch(); updateSearchInfo();
+      };
+
+      const highlightCurrentMatch = () => {
+        qsa('td.current-match').forEach($el => $el.classList.remove('current-match'));
+        if (currentMatchIndex < 0 || currentMatchIndex >= searchMatches.length) return;
+        const { row, col } = searchMatches[currentMatchIndex];
+        const $c = qs(`td[data-row="${row}"][data-col="${col}"]`);
+        $c?.classList.add('current-match');
+        $c?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      const clearHighlights = () =>
+        qsa('td.highlight, td.current-match').forEach($el => $el.classList.remove('highlight', 'current-match'));
+
+      const updateSearchInfo = () => {
+        if (searchMatches.length === 0) {
+          $searchInfo.textContent = $searchInput.value ? '一致なし' : '';
+        } else {
+          $searchInfo.textContent = `${currentMatchIndex + 1} / ${searchMatches.length}件`;
+        }
+      };
+
+      const clearSearch = () => {
+        $searchInput.value = ''; $replaceInput.value = '';
+        clearHighlights(); searchMatches = []; currentMatchIndex = -1; updateSearchInfo();
+      };
+
+      const replaceNext = () => {
+        if (currentMatchIndex < 0 || searchMatches.length === 0) return;
+        const { row, col } = searchMatches[currentMatchIndex];
+        saveToHistory();
+        state.data[row][col] = state.data[row][col].replace(
+          new RegExp(escapeRegExp($searchInput.value), 'i'), $replaceInput.value
+        );
+        renderTable(); saveToStorage(); performSearch();
+        showToast('1件置換しました', 'success');
+      };
+
+      const replaceAll = () => {
+        const search = $searchInput.value;
+        if (!search) return;
+        saveToHistory();
+        let count = 0;
+        const regex = new RegExp(escapeRegExp(search), 'gi');
+        const start = state.hasHeader ? 1 : 0;
+        state.data.forEach((row, i) => {
+          if (i < start) return;
+          row.forEach((cell, j) => {
+            const next = cell.replace(regex, $replaceInput.value);
+            if (cell !== next) { state.data[i][j] = next; count++; }
+          });
+        });
+        renderTable(); saveToStorage(); performSearch();
+        showToast(`${count}件置換しました`, 'success');
+      };
+
+      /* --- Column Menu --- */
+      const closeColumnMenu = () => $columnMenu.classList.remove('show');
+      const closeRowMenu    = () => $rowMenu.classList.remove('show');
+
+      const openColumnMenu = (e, idx) => {
+        e.stopPropagation(); activeColumnIndex = idx; closeRowMenu();
+        const rect = e.target.closest('th').getBoundingClientRect();
+        $columnMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+        $columnMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+        $columnMenu.classList.add('show');
+      };
+
+      const openRowMenu = (e, idx) => {
+        e.stopPropagation(); activeRowIndex = idx; closeColumnMenu();
+        const rect = e.target.getBoundingClientRect();
+        $rowMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+        $rowMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+        $rowMenu.classList.add('show');
+      };
+
+      /* --- Column Operations --- */
+      const getColName = () => state.hasHeader ? state.data[0][activeColumnIndex] : `列${activeColumnIndex + 1}`;
+
+      const sortColumn = (dir) => {
+        if (activeColumnIndex < 0) return;
+        saveToHistory();
+        const start = state.hasHeader ? 1 : 0;
+        const sorted = state.data.slice(start).toSorted((a, b) => {
+          const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
+          const nA = parseFloat(vA), nB = parseFloat(vB);
+          if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
+          return dir === 'asc' ? vA.localeCompare(vB, 'ja') : vB.localeCompare(vA, 'ja');
+        });
+        state.data = state.hasHeader ? [state.data[0], ...sorted] : sorted;
+        renderTable(); saveToStorage();
+        showToast(`📌 「${getColName()}」を${dir === 'asc' ? '昇順' : '降順'}に並び替えました`, 'success');
+      };
+
+      const copyColumn = async () => {
+        if (activeColumnIndex < 0) return;
+        try {
+          await navigator.clipboard.writeText(state.data.map(r => r[activeColumnIndex] ?? '').join('\n'));
+          showToast(`📋 「${getColName()}」をコピーしました`, 'success');
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
+
+      const duplicateColumn = () => {
+        if (activeColumnIndex < 0) return;
+        saveToHistory();
+        state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex + 1, 0, r[activeColumnIndex]); return n; });
+
+        const newWidths = {};
+        Object.entries(state.columnWidths).forEach(([key, val]) => {
+          const idx = parseInt(key);
+          newWidths[idx <= activeColumnIndex ? idx : idx + 1] = val;
+        });
+        newWidths[activeColumnIndex + 1] = state.columnWidths[activeColumnIndex] ?? 150;
+        state.columnWidths = newWidths;
+
+        renderTable(); updateStats(); saveToStorage();
+        showToast('列を複製しました', 'success');
+      };
+
+      const deleteColumn = () => {
+        if (activeColumnIndex < 0) return;
+        saveToHistory();
+        state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex, 1); return n; });
+
+        if (state.data[0]?.length === 0) {
+          state.data = []; state.hasHeader = false; state.columnWidths = {};
+          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          showToast('すべての列が削除されました。データをクリアしました', 'success');
+          return;
+        }
+
+        const newWidths = {};
+        Object.entries(state.columnWidths).forEach(([key, val]) => {
+          const idx = parseInt(key);
+          if (idx < activeColumnIndex) newWidths[idx] = val;
+          else if (idx > activeColumnIndex) newWidths[idx - 1] = val;
+        });
+        state.columnWidths = newWidths;
+
+        renderTable(); updateStats(); saveToStorage();
+        showToast('列を削除しました', 'success');
+      };
+
+      const confirmDeleteColumn = () => {
+        openModal('列を削除', `「${getColName()}」を削除しますか？この操作は元に戻せます。`, deleteColumn);
+      };
+
+      /* --- Row Operations --- */
+      const copyRow = async () => {
+        if (activeRowIndex < 0) return;
+        const text = state.data[activeRowIndex].map(cell =>
+          (cell.includes('\t') || cell.includes('"') || cell.includes('\n')) ? `"${cell.replace(/"/g, '""')}"` : cell
+        ).join('\t');
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast(`📋 ${state.hasHeader ? activeRowIndex : activeRowIndex + 1}行目をコピーしました`, 'success');
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
+
+      const duplicateRow = () => {
+        if (activeRowIndex < 0) return;
+        saveToHistory();
+        state.data.splice(activeRowIndex + 1, 0, [...state.data[activeRowIndex]]);
+        renderTable(); updateStats(); saveToStorage();
+        showToast(`${state.hasHeader ? activeRowIndex : activeRowIndex + 1}行目を複製しました`, 'success');
+      };
+
+      const deleteRow = (rowIndex) => {
+        saveToHistory();
+        state.data.splice(rowIndex, 1);
+        if (state.data.length === 0) {
+          state.hasHeader = false; state.columnWidths = {};
+          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          showToast('すべての行が削除されました。データをクリアしました', 'success');
+          return;
+        }
+        renderTable(); updateStats(); saveToStorage();
+        showToast('行を削除しました', 'success');
+      };
+
+      const confirmDeleteRow = () => {
+        if (activeRowIndex < 0) return;
+        const rowNum = state.hasHeader ? activeRowIndex : activeRowIndex + 1;
+        openModal('行を削除', `${rowNum}行目を削除しますか？`, () => deleteRow(activeRowIndex));
+      };
+
+      /* --- Add Row / Column --- */
+      const addRow = () => {
+        saveToHistory();
+        state.data.push(Array(state.data[0]?.length ?? 1).fill(''));
+        renderTable(); updateStats(); saveToStorage();
+        showToast('行を追加しました', 'success');
+      };
+
+      const addColumn = () => {
+        saveToHistory();
+        state.data = state.data.map(r => [...r, '']);
+        renderTable(); updateStats(); saveToStorage();
+        showToast('列を追加しました', 'success');
+      };
+
+      /* --- Export --- */
+      const generateOutput = (dlm) => {
+        const qs_ = state.quoteStyle;
+        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
+        return state.data.map(r => r.map(c => {
+          const escaped = c.replace(/"/g, '""');
+          if (qs_ === 'all') return `"${escaped}"`;
+          if (qs_ === 'none') return c;
+          return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
+            ? `"${escaped}"` : c;
+        }).join(dlm)).join(nl);
+      };
+
+      const getFormatLabel = () => {
+        const dlm = state.delimiter;
+        if (dlm === '\t') return 'TSV';
+        if (dlm === ',') return 'CSV';
+        if (dlm === ';') return 'SSV';
+        return 'TXT';
+      };
+
+      const getFormatExt = () => {
+        const dlm = state.delimiter;
+        if (dlm === '\t') return 'tsv';
+        if (dlm === ',') return 'csv';
+        return 'txt';
+      };
+
+      const copyData = async () => {
+        if (state.data.length === 0) { showToast('コピーするデータがありません', 'error'); return; }
+        try {
+          await navigator.clipboard.writeText(generateOutput(state.delimiter));
+          showToast(`📋 ${getFormatLabel()}としてコピーしました`, 'success');
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
+
+      const downloadData = () => {
+        if (state.data.length === 0) { showToast('ダウンロードするデータがありません', 'error'); return; }
+        const text = generateOutput(state.delimiter);
+        const ext = getFormatExt();
+        let blob;
+
+        if (state.encoding === 'shift-jis' && typeof Encoding !== 'undefined') {
+          const unicodeArray = Encoding.stringToCode(text);
+          const sjisArray = Encoding.convert(unicodeArray, { to: 'SJIS', from: 'UNICODE' });
+          blob = new Blob([new Uint8Array(sjisArray)], { type: 'application/octet-stream' });
+        } else {
+          const bom = state.bom ? '\uFEFF' : '';
+          blob = new Blob([`${bom}${text}`], { type: 'text/plain;charset=utf-8' });
+        }
+
+        const objectUrl = URL.createObjectURL(blob);
+        const $a = document.createElement('a');
+        $a.href = objectUrl;
+        $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
+        document.body.appendChild($a);
+        $a.click();
+        $a.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+        showToast(`💾 ${getFormatLabel()}ファイルをダウンロードしました`, 'success');
+      };
+
+      /* --- Clear --- */
+      const confirmClearAll = () => {
+        if (state.data.length === 0) return;
+        openModal('データをクリア', 'すべてのデータを削除しますか？この操作は元に戻せます。', () => {
+          saveToHistory();
+          state.data = []; state.hasHeader = false; state.columnWidths = {};
+          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          showToast('🗑 すべてのデータをクリアしました');
+        });
+      };
+
+      /* --- Menu Delegation --- */
+      const colActions = {
+        'sort-asc':  () => sortColumn('asc'),
+        'sort-desc': () => sortColumn('desc'),
+        'copy-col':  copyColumn,
+        'dup-col':   duplicateColumn,
+        'del-col':   confirmDeleteColumn,
+      };
+
+      const rowActions = {
+        'copy-row': copyRow,
+        'dup-row':  duplicateRow,
+        'del-row':  confirmDeleteRow,
+      };
+
+      $columnMenu.addEventListener('click', (e) => {
+        const action = e.target.closest('.menu-item')?.dataset.action;
+        if (action) { colActions[action]?.(); closeColumnMenu(); }
+      });
+
+      $rowMenu.addEventListener('click', (e) => {
+        const action = e.target.closest('.menu-item')?.dataset.action;
+        if (action) { rowActions[action]?.(); closeRowMenu(); }
+      });
+
+      /* --- Table Event Delegation --- */
+      $dataTable.addEventListener('click', (e) => {
+        const $th = e.target.closest('.th-content');
+        if ($th) { const ci = parseInt($th.closest('th').dataset.col); if (!isNaN(ci)) openColumnMenu(e, ci); return; }
+        const $rm = e.target.closest('[data-row-menu]');
+        if ($rm) { openRowMenu(e, parseInt($rm.dataset.rowMenu)); return; }
+      });
+
+      $dataTable.addEventListener('mousedown', (e) => {
+        const $h = e.target.closest('.resize-handle');
+        if ($h) startResize(e, parseInt($h.dataset.resizeCol));
+      });
+
+      $dataTable.addEventListener('blur', (e) => {
+        if (e.target.tagName === 'TD' && e.target.isContentEditable) handleCellBlur(e.target);
+      }, true);
+
+      /* --- Global Listeners --- */
+      document.addEventListener('click', (e) => {
+        if (!$columnMenu.contains(e.target) && !e.target.closest('.th-menu-btn')) closeColumnMenu();
+        if (!$rowMenu.contains(e.target) && !e.target.closest('.row-menu-btn')) closeRowMenu();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
+        if (e.key === 'Escape') { clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); return; }
+        if (document.activeElement.tagName === 'TD' && document.activeElement.isContentEditable) handleCellNavigation(e, document.activeElement);
+      });
+
+      document.addEventListener('paste', (e) => {
+        if ($pasteZone.classList.contains('has-data')) return;
+        const text = e.clipboardData?.getData('text');
+        if (text) { e.preventDefault(); processData(text); }
+      });
+
+      /* --- Toolbar Wiring --- */
+      $undoBtn.addEventListener('click', undo);
+      $redoBtn.addEventListener('click', redo);
+      qs('#pasteBtn').addEventListener('click', triggerPaste);
+      $pasteZone.addEventListener('click', triggerPaste);
+      qs('#addRowBtn').addEventListener('click', addRow);
+      qs('#addColBtn').addEventListener('click', addColumn);
+      qs('#copyBtn').addEventListener('click', copyData);
+      qs('#dlBtn').addEventListener('click', downloadData);
+      qs('#clearBtn').addEventListener('click', confirmClearAll);
+
+      $searchInput.addEventListener('input', performSearch);
+      qs('#replaceNextBtn').addEventListener('click', replaceNext);
+      qs('#replaceAllBtn').addEventListener('click', replaceAll);
+      qs('#searchPrevBtn').addEventListener('click', () => navigateMatch(-1));
+      qs('#searchNextBtn').addEventListener('click', () => navigateMatch(1));
+
+      /* --- Button Labels --- */
+      const updateButtonLabels = () => {
+        const label = getFormatLabel();
+        const $copyLabel = qs('#copyBtnLabel');
+        const $dlLabel = qs('#dlBtnLabel');
+        if ($copyLabel) $copyLabel.textContent = `${label}コピー`;
+        if ($dlLabel) $dlLabel.textContent = `${label}保存`;
+        $dataFormat.textContent = label;
+      };
+
+      /* --- Settings Modal --- */
+      const $settingsOverlay = qs('#settingsOverlay');
+
+      const openSettings = () => {
+        qs('#settingEncoding').value = state.encoding;
+        qs('#settingBOM').checked = state.bom;
+        qs('#settingDelimiter').value = state.delimiter;
+        qs('#settingNewline').value = state.newline;
+        qs('#settingQuote').value = state.quoteStyle;
+        qs('#settingHeader').checked = state.hasHeader;
+        const currentTheme = document.documentElement.style.colorScheme || 'light';
+        qs('#settingTheme').value = currentTheme;
+        $settingsOverlay.classList.add('show');
+      };
+
+      const closeSettings = () => {
+        $settingsOverlay.classList.remove('show');
+      };
+
+      qs('#settingsBtn').addEventListener('click', openSettings);
+      qs('#settingsCloseBtn').addEventListener('click', closeSettings);
+      $settingsOverlay.addEventListener('click', (e) => {
+        if (e.target === $settingsOverlay) closeSettings();
+      });
+
+      qs('#settingEncoding').addEventListener('change', (e) => {
+        state.encoding = e.target.value;
+        if (state.encoding === 'shift-jis') {
+          state.bom = false;
+          qs('#settingBOM').checked = false;
+        }
+        saveToStorage();
+      });
+
+      qs('#settingBOM').addEventListener('change', (e) => {
+        state.bom = e.target.checked;
+        saveToStorage();
+      });
+
+      qs('#settingDelimiter').addEventListener('change', (e) => {
+        state.delimiter = e.target.value;
+        updateButtonLabels();
+        updateStats();
+        saveToStorage();
+      });
+
+      qs('#settingNewline').addEventListener('change', (e) => {
+        state.newline = e.target.value;
+        saveToStorage();
+      });
+
+      qs('#settingQuote').addEventListener('change', (e) => {
+        state.quoteStyle = e.target.value;
+        saveToStorage();
+      });
+
+      qs('#settingHeader').addEventListener('change', () => {
+        toggleHeader();
+      });
+
+      qs('#settingTheme').addEventListener('change', (e) => {
+        setTheme(e.target.value);
+      });
+
+      /* --- Init --- */
+      const init = () => {
+        loadFromStorage();
+        if (state.data.length > 0) renderTable();
+        updateStats();
+        updateButtonLabels();
+      };
+
+      return { init };
+    })();
+
+    /* ==============================================================
+       App Init
+       ============================================================== */
+    initTheme();
+    Editor.init();
+  </script>
+</body>
+</html>
