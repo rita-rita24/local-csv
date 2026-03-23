@@ -1624,7 +1624,8 @@
 
       const addColumn = () => {
         saveToHistory();
-        state.data = state.data.map(r => [...r, '']);
+        if (state.data.length === 0) state.data.push(['']);
+        else state.data = state.data.map(r => [...r, '']);
         renderTable(); updateStats(); saveToStorage();
         showToast('列を追加しました', 'success');
       };
