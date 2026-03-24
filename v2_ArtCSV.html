@@ -690,8 +690,8 @@
 
       /* === Settings Modal === */
       .settings-modal {
-        max-inline-size: 500px;
-        max-block-size: 80vh;
+        max-inline-size: 680px;
+        max-block-size: 90vh;
         overflow-y: auto;
 
         & h3 {
@@ -703,14 +703,20 @@
         }
       }
 
+      .settings-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 24px;
+      }
+
       .settings-group {
-        margin-block-end: 16px;
-        padding-block-end: 16px;
+        margin-block-end: 12px;
+        padding-block-end: 12px;
         border-block-end: 1px solid var(--border);
 
         &:last-of-type {
           border-block-end: none;
-          margin-block-end: 8px;
+          margin-block-end: 4px;
         }
 
         & > label:first-child:not(.settings-checkbox) {
@@ -728,6 +734,10 @@
         }
       }
 
+      .settings-group-wide {
+        grid-column: 1 / -1;
+      }
+
       .settings-select {
         inline-size: 100%;
         padding: 8px 12px;
@@ -742,88 +752,6 @@
           outline: none;
           border-color: var(--primary);
         }
-      }
-
-      /* === Help Modal === */
-      .help-modal {
-        max-inline-size: 540px;
-        max-block-size: 80vh;
-        overflow-y: auto;
-
-        & h3 {
-          font-size: 1.2rem;
-          margin-block-end: 16px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-      }
-
-      .shortcut-table {
-        inline-size: 100%;
-        border-collapse: collapse;
-        font-size: 0.875rem;
-        margin-block-end: 8px;
-
-        & thead th {
-          text-align: start;
-          padding: 6px 10px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: var(--text-muted);
-          border-block-end: 1px solid var(--border);
-          position: static;
-          background: transparent;
-        }
-
-        & tbody tr {
-          border-block-end: 1px solid var(--border);
-
-          &:last-child { border-block-end: none; }
-          &:hover td { background: var(--header-bg); }
-        }
-
-        & td {
-          padding: 9px 10px;
-          background: transparent;
-          white-space: nowrap;
-        }
-
-        & .shortcut-section {
-          padding-block: 14px 4px;
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: var(--text-muted);
-          text-transform: uppercase;
-          letter-spacing: 0.06em;
-          background: transparent !important;
-          border-block-end: none !important;
-          border-block-start: 1px solid var(--border);
-
-          &:first-child { border-block-start: none; padding-block-start: 2px; }
-        }
-      }
-
-      .kbd {
-        display: inline-flex;
-        align-items: center;
-        gap: 3px;
-        flex-wrap: nowrap;
-      }
-
-      kbd {
-        display: inline-block;
-        padding: 2px 7px;
-        font-family: inherit;
-        font-size: 0.8rem;
-        font-weight: 500;
-        background: var(--header-bg);
-        border: 1px solid var(--border);
-        border-block-end-width: 2px;
-        border-radius: 5px;
-        color: var(--text);
-        line-height: 1.5;
-        white-space: nowrap;
       }
 
       .settings-checkbox {
@@ -874,50 +802,17 @@
         .paste-zone { padding: 24px; }
         th, td { padding: 8px; }
         .shortcut-hint { display: none; }
+        .settings-grid { grid-template-columns: 1fr; }
       }
     }
   </style>
 </head>
 
 <body>
-  <noscript>
-    <style>
-      body > :not(#noscript-screen) { display: none !important; }
-      #noscript-screen {
-        display: flex !important;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", sans-serif;
-        background: #f8f9fa;
-        color: #333;
-        text-align: center;
-        padding: 40px 20px;
-      }
-      #noscript-screen h2 {
-        font-size: 1.5rem;
-        margin-bottom: 12px;
-      }
-      #noscript-screen p {
-        font-size: 1rem;
-        color: #666;
-      }
-    </style>
-    <div id="noscript-screen">
-      <h2>⚠️ JavaScriptを有効にしてください</h2>
-      <p>このアプリケーションの使用には JavaScript が必要です。<br>ブラウザの設定から JavaScript を有効にしてください。</p>
-    </div>
-  </noscript>
-
   <div class="container">
     <!-- ヘッダー -->
     <header class="header">
-      <h1>
-        <span class="material-symbols-outlined">table_chart</span>
-        CSV/TSV エディタ
-        <span id="versionBadge" style="font-size:0.7rem;font-weight:400;color:var(--text-muted);background:var(--header-bg);border:1px solid var(--border);padding:2px 8px;border-radius:999px;vertical-align:middle;"></span>
-      </h1>
+      <h1><span class="material-symbols-outlined">table_chart</span> CSV/TSV エディタ</h1>
       <div class="header-right">
         <div class="stats" id="stats">
           <span>行: <span class="value" id="rowCount">0</span></span>
@@ -925,13 +820,6 @@
           <span>サイズ: <span class="value" id="dataSize">0 KB</span></span>
           <span>形式: <span class="value" id="dataFormat">-</span></span>
         </div>
-        <span title="データはブラウザ外へ送信されません" style="font-size:0.75rem;color:var(--text-muted);display:flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--border);border-radius:6px;background:var(--surface);white-space:nowrap;">
-          <span class="material-symbols-outlined" style="font-size:1rem;color:var(--success);">lock</span>
-          完全オフライン
-        </span>
-        <button class="theme-toggle" id="helpBtn" title="ショートカット一覧 (?)">
-          <span class="material-symbols-outlined">help_outline</span>
-        </button>
         <button class="theme-toggle" id="settingsBtn" title="設定">
           <span class="material-symbols-outlined">settings</span>
         </button>
@@ -1030,54 +918,54 @@
   <div class="modal-overlay" id="settingsOverlay">
     <div class="modal settings-modal">
       <h3><span class="material-symbols-outlined">settings</span> 設定</h3>
-      <div class="settings-group">
-        <label>文字コード（エンコーディング）</label>
-        <select class="settings-select" id="settingEncoding">
-          <option value="utf-8">UTF-8</option>
-          <option value="shift-jis">Shift-JIS (CP932)</option>
-        </select>
-        <label class="settings-checkbox">
-          <input type="checkbox" id="settingBOM" checked> BOM を付与する
-        </label>
-        <div class="settings-hint">保存・ダウンロード時のエンコーディングを指定します</div>
-      </div>
-      <div class="settings-group">
-        <label>区切り文字（デリミタ）</label>
-        <select class="settings-select" id="settingDelimiter">
-          <option value=",">カンマ (,)</option>
-          <option value="&#9;">タブ (\t)</option>
-          <option value=";">セミコロン (;)</option>
-          <option value=" ">スペース</option>
-        </select>
-        <div class="settings-hint">コピー・保存時の区切り文字を指定します</div>
-      </div>
-      <div class="settings-group">
-        <label>改行コード</label>
-        <select class="settings-select" id="settingNewline">
-          <option value="crlf">CRLF (Windows)</option>
-          <option value="lf">LF (Linux/Mac)</option>
-        </select>
-      </div>
-      <div class="settings-group">
-        <label>囲み文字（クオート）</label>
-        <select class="settings-select" id="settingQuote">
-          <option value="auto">自動（必要な場合のみ）</option>
-          <option value="all">すべてのフィールドをクオート</option>
-          <option value="none">クオートしない</option>
-        </select>
-        <div class="settings-hint">ダブルクォーテーション（"）での囲みルールを指定します</div>
-      </div>
-      <div class="settings-group">
-        <label class="settings-checkbox">
-          <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
-        </label>
-      </div>
-      <div class="settings-group">
-        <label>テーマ</label>
-        <select class="settings-select" id="settingTheme">
-          <option value="light">ライトモード</option>
-          <option value="dark">ダークモード</option>
-        </select>
+      <div class="settings-grid">
+        <div class="settings-group">
+          <label>文字コード（エンコーディング）</label>
+          <select class="settings-select" id="settingEncoding">
+            <option value="utf-8">UTF-8</option>
+            <option value="shift-jis">Shift-JIS (CP932)</option>
+          </select>
+          <label class="settings-checkbox">
+            <input type="checkbox" id="settingBOM" checked> BOM を付与する
+          </label>
+        </div>
+        <div class="settings-group">
+          <label>区切り文字（デリミタ）</label>
+          <select class="settings-select" id="settingDelimiter">
+            <option value=",">カンマ (,)</option>
+            <option value="&#9;">タブ (\t)</option>
+            <option value=";">セミコロン (;)</option>
+            <option value=" ">スペース</option>
+          </select>
+          <div class="settings-hint">ペースト時は自動判別されます</div>
+        </div>
+        <div class="settings-group">
+          <label>改行コード</label>
+          <select class="settings-select" id="settingNewline">
+            <option value="crlf">CRLF (Windows)</option>
+            <option value="lf">LF (Linux/Mac)</option>
+          </select>
+        </div>
+        <div class="settings-group">
+          <label>囲み文字（クオート）</label>
+          <select class="settings-select" id="settingQuote">
+            <option value="auto">自動（必要な場合のみ）</option>
+            <option value="all">すべてのフィールドをクオート</option>
+            <option value="none">クオートしない</option>
+          </select>
+        </div>
+        <div class="settings-group">
+          <label class="settings-checkbox">
+            <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
+          </label>
+        </div>
+        <div class="settings-group">
+          <label>テーマ</label>
+          <select class="settings-select" id="settingTheme">
+            <option value="light">ライトモード</option>
+            <option value="dark">ダークモード</option>
+          </select>
+        </div>
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
@@ -1085,50 +973,8 @@
     </div>
   </div>
 
-  <!-- ショートカット一覧モーダル -->
-  <div class="modal-overlay" id="helpOverlay">
-    <div class="modal help-modal">
-      <h3><span class="material-symbols-outlined">keyboard</span> キーボードショートカット</h3>
-      <table class="shortcut-table">
-        <thead>
-          <tr><th>操作</th><th>ショートカット</th></tr>
-        </thead>
-        <tbody>
-          <tr><td colspan="2" class="shortcut-section">データ操作</td></tr>
-          <tr><td>データ貼り付け</td><td><span class="kbd"><kbd>Ctrl</kbd>+<kbd>V</kbd></span></td></tr>
-          <tr><td>元に戻す</td><td><span class="kbd"><kbd>Ctrl</kbd>+<kbd>Z</kbd></span></td></tr>
-          <tr><td>やり直し</td><td><span class="kbd"><kbd>Ctrl</kbd>+<kbd>Y</kbd></span> / <span class="kbd"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Z</kbd></span></td></tr>
-
-          <tr><td colspan="2" class="shortcut-section">検索</td></tr>
-          <tr><td>検索ボックスを開く</td><td><span class="kbd"><kbd>Ctrl</kbd>+<kbd>F</kbd></span></td></tr>
-          <tr><td>次の一致へ</td><td><span class="kbd"><kbd>Enter</kbd></span>（検索ボックス内）</td></tr>
-          <tr><td>前の一致へ</td><td><span class="kbd"><kbd>Shift</kbd>+<kbd>Enter</kbd></span>（検索ボックス内）</td></tr>
-
-          <tr><td colspan="2" class="shortcut-section">セル移動（編集中）</td></tr>
-          <tr><td>次のセルへ</td><td><span class="kbd"><kbd>Tab</kbd></span></td></tr>
-          <tr><td>前のセルへ</td><td><span class="kbd"><kbd>Shift</kbd>+<kbd>Tab</kbd></span></td></tr>
-          <tr><td>下のセルへ</td><td><span class="kbd"><kbd>Enter</kbd></span></td></tr>
-          <tr><td>上下左右へ移動</td><td><span class="kbd"><kbd>Alt</kbd>+<kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></span></td></tr>
-
-          <tr><td colspan="2" class="shortcut-section">画面</td></tr>
-          <tr><td>ショートカット一覧</td><td><span class="kbd"><kbd>?</kbd></span></td></tr>
-          <tr><td>モーダル・検索を閉じる</td><td><span class="kbd"><kbd>Esc</kbd></span></td></tr>
-        </tbody>
-      </table>
-      <div class="modal-actions">
-        <button class="btn btn-primary" id="helpCloseBtn">閉じる</button>
-      </div>
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/encoding-japanese@2.2.0/encoding.min.js"></script>
   <script>
-    /* ==============================================================
-       Version
-       ============================================================== */
-    const VERSION = 'v2.0.0';
-    document.getElementById('versionBadge').textContent = VERSION;
-
     /* ==============================================================
        Utility Helpers
        ============================================================== */
@@ -1144,17 +990,95 @@
     const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     /* ==============================================================
+       IndexedDB Storage
+       ============================================================== */
+    const IDBStore = (() => {
+      const DB_NAME = 'csvEditorDB';
+      const DB_VERSION = 1;
+      const STORE_NAME = 'kvStore';
+      let _db = null;
+      let _fallback = false;
+
+      const open = () => new Promise((resolve, reject) => {
+        if (_db) return resolve(_db);
+        try {
+          const req = indexedDB.open(DB_NAME, DB_VERSION);
+          req.onupgradeneeded = () => req.result.createObjectStore(STORE_NAME);
+          req.onsuccess = () => { _db = req.result; resolve(_db); };
+          req.onerror = () => { _fallback = true; resolve(null); };
+        } catch { _fallback = true; resolve(null); }
+      });
+
+      const get = async (key) => {
+        if (_fallback) {
+          const v = localStorage.getItem(key);
+          if (v === null) return undefined;
+          try { return JSON.parse(v); } catch { return v; }
+        }
+        const db = await open();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const req = tx.objectStore(STORE_NAME).get(key);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      };
+
+      const set = async (key, value) => {
+        if (_fallback) {
+          localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+          return;
+        }
+        const db = await open();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).put(value, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      };
+
+      const remove = async (key) => {
+        if (_fallback) { localStorage.removeItem(key); return; }
+        const db = await open();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).delete(key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      };
+
+      return { open, get, set, remove };
+    })();
+
+    const migrateFromLocalStorage = async () => {
+      const keys = ['csvEditor_theme', 'csvEditor_state'];
+      for (const key of keys) {
+        const lsValue = localStorage.getItem(key);
+        if (lsValue === null) continue;
+        const existing = await IDBStore.get(key);
+        if (existing !== undefined) { localStorage.removeItem(key); continue; }
+        try {
+          const value = key === 'csvEditor_state' ? JSON.parse(lsValue) : lsValue;
+          await IDBStore.set(key, value);
+        } catch { /* ignore parse errors */ }
+        localStorage.removeItem(key);
+      }
+    };
+
+    /* ==============================================================
        Theme
        ============================================================== */
     const setTheme = (theme) => {
       document.documentElement.style.colorScheme = theme;
-      localStorage.setItem('csvEditor_theme', theme);
+      IDBStore.set('csvEditor_theme', theme).catch(() => {});
       const $sel = qs('#settingTheme');
       if ($sel) $sel.value = theme;
     };
 
-    const initTheme = () => {
-      const saved = localStorage.getItem('csvEditor_theme');
+    const initTheme = async () => {
+      const saved = await IDBStore.get('csvEditor_theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setTheme(saved ?? (prefersDark ? 'dark' : 'light'));
     };
@@ -1236,14 +1160,25 @@
       let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0;
 
       /* --- Persistence --- */
+      let _saveTimer = null;
       const saveToStorage = () => {
-        try { localStorage.setItem('csvEditor_state', JSON.stringify(state)); }
-        catch (e) { console.warn('LocalStorage save failed:', e); }
+        if (_saveTimer !== null) clearTimeout(_saveTimer);
+        _saveTimer = setTimeout(() => {
+          _saveTimer = null;
+          IDBStore.set('csvEditor_state', structuredClone(state)).catch(e =>
+            console.warn('IndexedDB save failed:', e)
+          );
+        }, 300);
       };
 
-      const loadFromStorage = () => {
+      const clearStorage = () => {
+        if (_saveTimer !== null) { clearTimeout(_saveTimer); _saveTimer = null; }
+        IDBStore.remove('csvEditor_state').catch(e => console.warn('IndexedDB remove failed:', e));
+      };
+
+      const loadFromStorage = async () => {
         try {
-          const saved = JSON.parse(localStorage.getItem('csvEditor_state') ?? 'null');
+          const saved = await IDBStore.get('csvEditor_state');
           if (saved) state = saved;
         } catch { /* ignore */ }
       };
@@ -1338,7 +1273,7 @@
         state.hasHeader = false;
         state.columnWidths = {};
         undoStack = []; redoStack = [];
-        updateHistoryButtons(); renderTable(); updateStats(); saveToStorage();
+        updateHistoryButtons(); renderTable(); updateStats(); updateButtonLabels(); saveToStorage();
         showToast(`${state.data.length}行のデータを読み込みました`, 'success');
       };
 
@@ -1619,7 +1554,7 @@
 
         if (state.data[0]?.length === 0) {
           state.data = []; state.hasHeader = false; state.columnWidths = {};
-          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          renderTable(); updateStats(); clearStorage();
           showToast('すべての列が削除されました。データをクリアしました', 'success');
           return;
         }
@@ -1665,7 +1600,7 @@
         state.data.splice(rowIndex, 1);
         if (state.data.length === 0) {
           state.hasHeader = false; state.columnWidths = {};
-          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          renderTable(); updateStats(); clearStorage();
           showToast('すべての行が削除されました。データをクリアしました', 'success');
           return;
         }
@@ -1689,7 +1624,8 @@
 
       const addColumn = () => {
         saveToHistory();
-        state.data = state.data.map(r => [...r, '']);
+        if (state.data.length === 0) state.data.push(['']);
+        else state.data = state.data.map(r => [...r, '']);
         renderTable(); updateStats(); saveToStorage();
         showToast('列を追加しました', 'success');
       };
@@ -1762,7 +1698,7 @@
         openModal('データをクリア', 'すべてのデータを削除しますか？この操作は元に戻せます。', () => {
           saveToHistory();
           state.data = []; state.hasHeader = false; state.columnWidths = {};
-          renderTable(); updateStats(); localStorage.removeItem('csvEditor_state');
+          renderTable(); updateStats(); clearStorage();
           showToast('🗑 すべてのデータをクリアしました');
         });
       };
@@ -1819,8 +1755,7 @@
         if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
         if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
         if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
-        if (e.key === 'Escape') { clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); closeHelp(); return; }
-        if (e.key === '?' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && !document.activeElement.isContentEditable) { e.preventDefault(); openHelp(); return; }
+        if (e.key === 'Escape') { clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); return; }
         if (document.activeElement.tagName === 'TD' && document.activeElement.isContentEditable) handleCellNavigation(e, document.activeElement);
       });
 
@@ -1921,32 +1856,35 @@
         setTheme(e.target.value);
       });
 
-      /* --- Help Modal --- */
-      const $helpOverlay = qs('#helpOverlay');
-
-      const openHelp  = () => $helpOverlay.classList.add('show');
-      const closeHelp = () => $helpOverlay.classList.remove('show');
-
-      qs('#helpBtn').addEventListener('click', openHelp);
-      qs('#helpCloseBtn').addEventListener('click', closeHelp);
-      $helpOverlay.addEventListener('click', (e) => { if (e.target === $helpOverlay) closeHelp(); });
-
       /* --- Init --- */
-      const init = () => {
-        loadFromStorage();
+      const init = async () => {
+        await loadFromStorage();
         if (state.data.length > 0) renderTable();
         updateStats();
         updateButtonLabels();
       };
 
-      return { init };
+      const flushStorage = () => {
+        if (_saveTimer !== null) {
+          clearTimeout(_saveTimer);
+          _saveTimer = null;
+          IDBStore.set('csvEditor_state', structuredClone(state)).catch(() => {});
+        }
+      };
+
+      return { init, flushStorage };
     })();
 
     /* ==============================================================
        App Init
        ============================================================== */
-    initTheme();
-    Editor.init();
+    (async () => {
+      await IDBStore.open();
+      await migrateFromLocalStorage();
+      await initTheme();
+      await Editor.init();
+      window.addEventListener('beforeunload', () => Editor.flushStorage());
+    })();
   </script>
 </body>
 </html>
