@@ -993,6 +993,64 @@
         }
       }
 
+      /* === Export Wizard === */
+      .export-wizard-modal {
+        max-inline-size: 760px;
+        max-block-size: 92vh;
+        overflow-y: auto;
+
+        & h3 {
+          font-size: 1.2rem;
+          margin-block-end: 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+
+      .export-wizard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 24px;
+      }
+
+      .export-preview-section {
+        margin-block-start: 12px;
+        border-block-start: 1px solid var(--border);
+        padding-block-start: 12px;
+      }
+
+      .export-preview-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-block-end: 8px;
+      }
+
+      .export-preview-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .export-preview-info {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .export-preview {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 0.8rem;
+        max-block-size: 200px;
+        overflow: auto;
+        white-space: pre;
+        margin: 0;
+        font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
+        line-height: 1.5;
+      }
+
       .settings-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -1537,6 +1595,7 @@
       <div class="toolbar-group">
         <button class="btn" id="copyBtn" title="コピー"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
         <button class="btn" id="dlBtn" title="名前を付けて保存"><span class="material-symbols-outlined">download</span> <span id="dlBtnLabel">CSV保存</span></button>
+        <button class="btn" id="exportWizardBtn" title="エクスポートウィザード"><span class="material-symbols-outlined">tune</span> エクスポート</button>
       </div>
       <div class="toolbar-group ml-auto">
         <button class="btn btn-danger" id="clearBtn" title="すべてクリア"><span class="material-symbols-outlined">delete</span> クリア</button>
@@ -1762,6 +1821,105 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- エクスポートウィザード -->
+  <div class="modal-overlay" id="exportWizardOverlay">
+    <div class="modal export-wizard-modal">
+      <h3><span class="material-symbols-outlined">tune</span> エクスポートウィザード</h3>
+      <div class="export-wizard-grid">
+
+        <!-- 形式 -->
+        <div class="settings-group">
+          <label>出力形式</label>
+          <select class="settings-select" id="expFormat">
+            <option value="csv">CSV（カンマ区切り）</option>
+            <option value="tsv">TSV（タブ区切り）</option>
+            <option value="txt">TXT（スペース区切り）</option>
+            <option value="json">JSON</option>
+            <option value="ndjson">NDJSON（1行1JSON）</option>
+            <option value="html">HTML Table</option>
+            <option value="markdown">Markdown Table</option>
+          </select>
+        </div>
+
+        <!-- 文字コード -->
+        <div class="settings-group" id="expEncodingGroup">
+          <label>文字コード</label>
+          <select class="settings-select" id="expEncoding">
+            <option value="utf-8">UTF-8</option>
+            <option value="shift-jis">Shift-JIS (CP932)</option>
+          </select>
+          <label class="settings-checkbox" id="expBomGroup">
+            <input type="checkbox" id="expBom" checked> BOM を付与する
+          </label>
+        </div>
+
+        <!-- 改行コード -->
+        <div class="settings-group" id="expNewlineGroup">
+          <label>改行コード</label>
+          <select class="settings-select" id="expNewline">
+            <option value="crlf">CRLF (Windows)</option>
+            <option value="lf">LF (Linux/Mac)</option>
+          </select>
+        </div>
+
+        <!-- 引用ルール -->
+        <div class="settings-group" id="expQuoteGroup">
+          <label>囲み文字（クオート）</label>
+          <select class="settings-select" id="expQuote">
+            <option value="auto">自動（必要な場合のみ）</option>
+            <option value="all">すべてのフィールドをクオート</option>
+            <option value="none">クオートしない</option>
+          </select>
+        </div>
+
+        <!-- 出力対象 -->
+        <div class="settings-group">
+          <label>出力対象</label>
+          <select class="settings-select" id="expTarget">
+            <option value="all">全件</option>
+            <option value="filtered">フィルタ結果のみ</option>
+            <option value="selected">選択範囲のみ</option>
+          </select>
+          <div class="settings-hint" id="expTargetHint"></div>
+        </div>
+
+        <!-- ヘッダー -->
+        <div class="settings-group">
+          <label class="settings-checkbox">
+            <input type="checkbox" id="expHeader" checked> ヘッダー行を含める
+          </label>
+        </div>
+
+        <!-- 空列/空行 -->
+        <div class="settings-group">
+          <label>空列/空行の扱い</label>
+          <label class="settings-checkbox">
+            <input type="checkbox" id="expSkipEmptyRows"> 空行を除外する
+          </label>
+          <label class="settings-checkbox">
+            <input type="checkbox" id="expSkipEmptyCols"> 空列を除外する
+          </label>
+        </div>
+
+      </div>
+
+      <!-- プレビュー -->
+      <div class="export-preview-section">
+        <div class="export-preview-header">
+          <span class="export-preview-title">プレビュー</span>
+          <span class="export-preview-info" id="expPreviewInfo"></span>
+        </div>
+        <pre class="export-preview" id="expPreview"></pre>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" id="expCancelBtn">キャンセル</button>
+        <button class="btn" id="expCopyBtn"><span class="material-symbols-outlined">content_copy</span> コピー</button>
+        <button class="btn btn-primary" id="expDownloadBtn"><span class="material-symbols-outlined">download</span> ダウンロード</button>
       </div>
     </div>
   </div>
@@ -3523,6 +3681,305 @@
         setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
         showToast(`<span class="material-symbols-outlined">download</span> ${getFormatLabel()}ファイルをダウンロードしました`, 'success');
       };
+
+      /* --- Export Wizard --- */
+      const $exportOverlay = qs('#exportWizardOverlay');
+      const $expFormat    = qs('#expFormat');
+      const $expEncoding  = qs('#expEncoding');
+      const $expBom       = qs('#expBom');
+      const $expNewline   = qs('#expNewline');
+      const $expQuote     = qs('#expQuote');
+      const $expTarget    = qs('#expTarget');
+      const $expHeader    = qs('#expHeader');
+      const $expSkipEmptyRows = qs('#expSkipEmptyRows');
+      const $expSkipEmptyCols = qs('#expSkipEmptyCols');
+      const $expPreview   = qs('#expPreview');
+      const $expPreviewInfo = qs('#expPreviewInfo');
+
+      const openExportWizard = () => {
+        if (state.data.length === 0) { showToast('エクスポートするデータがありません', 'error'); return; }
+        // Sync current settings
+        $expEncoding.value = state.encoding;
+        $expBom.checked = state.bom;
+        $expNewline.value = state.newline;
+        $expQuote.value = state.quoteStyle;
+        $expHeader.checked = state.hasHeader;
+        // Detect delimiter -> format
+        if (state.delimiter === '\t') $expFormat.value = 'tsv';
+        else if (state.delimiter === ',') $expFormat.value = 'csv';
+        else $expFormat.value = 'txt';
+
+        // Check if filtered / selected available
+        updateExpTargetHint();
+        updateExpFormatUI();
+        updateExportPreview();
+        $exportOverlay.classList.add('show');
+      };
+
+      const closeExportWizard = () => $exportOverlay.classList.remove('show');
+
+      // Show/hide format-dependent options
+      const updateExpFormatUI = () => {
+        const fmt = $expFormat.value;
+        const isDSV = ['csv', 'tsv', 'txt'].includes(fmt);
+        qs('#expQuoteGroup').style.display = isDSV ? '' : 'none';
+        qs('#expNewlineGroup').style.display = isDSV || fmt === 'ndjson' ? '' : 'none';
+        qs('#expEncodingGroup').style.display = isDSV ? '' : 'none';
+      };
+
+      const updateExpTargetHint = () => {
+        const filtered = qsa('tr.col-filtered-out', $dataTable).length > 0 || filteredRows !== null;
+        const selected = getSelectedCells().length > 0;
+        const $hint = qs('#expTargetHint');
+        const hints = [];
+        if (!filtered) hints.push('フィルタ未使用');
+        if (!selected) hints.push('選択なし');
+        $hint.textContent = hints.length ? `（${hints.join('・')}）` : '';
+      };
+
+      // Get the data rows to export based on target setting
+      const getExportData = () => {
+        const target = $expTarget.value;
+        const includeHeader = $expHeader.checked && state.hasHeader;
+        const skipEmptyRows = $expSkipEmptyRows.checked;
+        const skipEmptyCols = $expSkipEmptyCols.checked;
+        const dataStart = state.hasHeader ? 1 : 0;
+
+        let rows;
+        if (target === 'selected') {
+          // Get unique rows from selection
+          const cells = getSelectedCells();
+          if (cells.length === 0) return { headers: [], rows: [] };
+          let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
+          cells.forEach($td => {
+            const r = parseInt($td.dataset.row), c = parseInt($td.dataset.col);
+            minR = Math.min(minR, r); maxR = Math.max(maxR, r);
+            minC = Math.min(minC, c); maxC = Math.max(maxC, c);
+          });
+          const colRange = [];
+          for (let c = minC; c <= maxC; c++) colRange.push(c);
+          rows = [];
+          for (let r = minR; r <= maxR; r++) {
+            rows.push(colRange.map(c => state.data[r]?.[c] ?? ''));
+          }
+          const headers = includeHeader ? colRange.map(c => state.data[0]?.[c] ?? '') : [];
+          // Filter minR>=dataStart rows only (don't include header row as data)
+          if (includeHeader && minR === 0) rows = rows.slice(1);
+          return applyEmptyFilters({ headers, rows }, skipEmptyRows, skipEmptyCols);
+        }
+
+        if (target === 'filtered') {
+          rows = [];
+          const allRows = state.data.slice(dataStart);
+          const $trs = qsa('tr[data-row]', $dataTable);
+          $trs.forEach($tr => {
+            const idx = parseInt($tr.dataset.row);
+            if (idx < dataStart) return;
+            if ($tr.classList.contains('col-filtered-out')) return;
+            if ($tr.classList.contains('filtered-out')) return;
+            rows.push([...state.data[idx]]);
+          });
+        } else {
+          rows = state.data.slice(dataStart).map(r => [...r]);
+        }
+
+        const headers = includeHeader ? [...state.data[0]] : [];
+        return applyEmptyFilters({ headers, rows }, skipEmptyRows, skipEmptyCols);
+      };
+
+      const applyEmptyFilters = ({ headers, rows }, skipEmptyRows, skipEmptyCols) => {
+        // Remove empty rows
+        if (skipEmptyRows) {
+          rows = rows.filter(r => r.some(c => c !== ''));
+        }
+        // Remove empty columns
+        if (skipEmptyCols && rows.length > 0) {
+          const colCount = Math.max(headers.length, rows[0]?.length ?? 0);
+          const nonEmptyCols = [];
+          for (let c = 0; c < colCount; c++) {
+            if (rows.some(r => (r[c] ?? '') !== '')) nonEmptyCols.push(c);
+          }
+          rows = rows.map(r => nonEmptyCols.map(c => r[c] ?? ''));
+          if (headers.length) {
+            const newHeaders = nonEmptyCols.map(c => headers[c] ?? '');
+            return { headers: newHeaders, rows };
+          }
+        }
+        return { headers, rows };
+      };
+
+      // Generate output string for a given format
+      const generateExportOutput = () => {
+        const fmt = $expFormat.value;
+        const { headers, rows } = getExportData();
+        if (rows.length === 0 && headers.length === 0) return '';
+
+        const nl = $expNewline.value === 'crlf' ? '\r\n' : '\n';
+        const qs_ = $expQuote.value;
+
+        const quoteDSV = (c, dlm) => {
+          const escaped = c.replace(/"/g, '""');
+          if (qs_ === 'all') return `"${escaped}"`;
+          if (qs_ === 'none') return c;
+          return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
+            ? `"${escaped}"` : c;
+        };
+
+        const dsvOutput = (dlm) => {
+          const lines = [];
+          if (headers.length) lines.push(headers.map(c => quoteDSV(c, dlm)).join(dlm));
+          rows.forEach(r => lines.push(r.map(c => quoteDSV(c, dlm)).join(dlm)));
+          return lines.join(nl);
+        };
+
+        switch (fmt) {
+          case 'csv': return dsvOutput(',');
+          case 'tsv': return dsvOutput('\t');
+          case 'txt': return dsvOutput(' ');
+
+          case 'json': {
+            if (headers.length) {
+              const arr = rows.map(r => {
+                const obj = {};
+                headers.forEach((h, i) => obj[h || `col${i + 1}`] = r[i] ?? '');
+                return obj;
+              });
+              return JSON.stringify(arr, null, 2);
+            }
+            return JSON.stringify(rows, null, 2);
+          }
+
+          case 'ndjson': {
+            if (headers.length) {
+              return rows.map(r => {
+                const obj = {};
+                headers.forEach((h, i) => obj[h || `col${i + 1}`] = r[i] ?? '');
+                return JSON.stringify(obj);
+              }).join(nl);
+            }
+            return rows.map(r => JSON.stringify(r)).join(nl);
+          }
+
+          case 'html': {
+            let html = '<table>\n';
+            if (headers.length) {
+              html += '  <thead>\n    <tr>' + headers.map(h => `<th>${escapeHTML(h)}</th>`).join('') + '</tr>\n  </thead>\n';
+            }
+            html += '  <tbody>\n';
+            rows.forEach(r => {
+              html += '    <tr>' + r.map(c => `<td>${escapeHTML(c)}</td>`).join('') + '</tr>\n';
+            });
+            html += '  </tbody>\n</table>';
+            return html;
+          }
+
+          case 'markdown': {
+            const allRows = headers.length ? [headers, ...rows] : rows;
+            if (allRows.length === 0) return '';
+            const colCount = Math.max(...allRows.map(r => r.length));
+            // Compute column widths
+            const widths = Array(colCount).fill(3);
+            allRows.forEach(r => {
+              for (let i = 0; i < colCount; i++) {
+                widths[i] = Math.max(widths[i], (r[i] ?? '').length);
+              }
+            });
+            const pad = (s, w) => s + ' '.repeat(Math.max(0, w - s.length));
+            const formatRow = r => '| ' + Array.from({ length: colCount }, (_, i) => pad(r[i] ?? '', widths[i])).join(' | ') + ' |';
+
+            const lines = [];
+            if (headers.length) {
+              lines.push(formatRow(headers));
+              lines.push('| ' + widths.map(w => '-'.repeat(w)).join(' | ') + ' |');
+              rows.forEach(r => lines.push(formatRow(r)));
+            } else {
+              allRows.forEach(r => lines.push(formatRow(r)));
+            }
+            return lines.join('\n');
+          }
+
+          default: return '';
+        }
+      };
+
+      const updateExportPreview = () => {
+        const output = generateExportOutput();
+        const lines = output.split('\n');
+        const maxPreviewLines = 20;
+        const preview = lines.slice(0, maxPreviewLines).join('\n') + (lines.length > maxPreviewLines ? '\n...' : '');
+        $expPreview.textContent = preview;
+        const { rows } = getExportData();
+        $expPreviewInfo.textContent = `${rows.length}行`;
+      };
+
+      const getExportExt = () => {
+        const fmt = $expFormat.value;
+        if (fmt === 'json' || fmt === 'ndjson') return 'json';
+        if (fmt === 'html') return 'html';
+        if (fmt === 'markdown') return 'md';
+        if (fmt === 'tsv') return 'tsv';
+        if (fmt === 'csv') return 'csv';
+        return 'txt';
+      };
+
+      const exportCopy = async () => {
+        const text = generateExportOutput();
+        if (!text) { showToast('エクスポートするデータがありません', 'error'); return; }
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast(`<span class="material-symbols-outlined">content_copy</span> クリップボードにコピーしました`, 'success');
+          closeExportWizard();
+        } catch { showToast('コピーに失敗しました', 'error'); }
+      };
+
+      const exportDownload = () => {
+        const text = generateExportOutput();
+        if (!text) { showToast('エクスポートするデータがありません', 'error'); return; }
+
+        const fmt = $expFormat.value;
+        const isDSV = ['csv', 'tsv', 'txt'].includes(fmt);
+        const enc = $expEncoding.value;
+        let blob;
+
+        if (isDSV && enc === 'shift-jis' && typeof Encoding !== 'undefined') {
+          const unicodeArray = Encoding.stringToCode(text);
+          const sjisArray = Encoding.convert(unicodeArray, { to: 'SJIS', from: 'UNICODE' });
+          blob = new Blob([new Uint8Array(sjisArray)], { type: 'application/octet-stream' });
+        } else {
+          const bom = (isDSV && $expBom.checked) ? '\uFEFF' : '';
+          const mimeType = fmt === 'json' || fmt === 'ndjson' ? 'application/json;charset=utf-8'
+            : fmt === 'html' ? 'text/html;charset=utf-8'
+            : 'text/plain;charset=utf-8';
+          blob = new Blob([`${bom}${text}`], { type: mimeType });
+        }
+
+        const ext = getExportExt();
+        const objectUrl = URL.createObjectURL(blob);
+        const $a = document.createElement('a');
+        $a.href = objectUrl;
+        $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
+        document.body.appendChild($a);
+        $a.click();
+        $a.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+        showToast(`<span class="material-symbols-outlined">download</span> ${ext.toUpperCase()}ファイルをダウンロードしました`, 'success');
+        closeExportWizard();
+      };
+
+      // Wire up export wizard UI events
+      $expFormat.addEventListener('change', () => { updateExpFormatUI(); updateExportPreview(); });
+      $expEncoding.addEventListener('change', (e) => {
+        if (e.target.value === 'shift-jis') { $expBom.checked = false; }
+        updateExportPreview();
+      });
+      [$expBom, $expNewline, $expQuote, $expTarget, $expHeader, $expSkipEmptyRows, $expSkipEmptyCols].forEach($el =>
+        $el.addEventListener('change', updateExportPreview)
+      );
+      qs('#expCancelBtn').addEventListener('click', closeExportWizard);
+      qs('#expCopyBtn').addEventListener('click', exportCopy);
+      qs('#expDownloadBtn').addEventListener('click', exportDownload);
+      qs('#exportWizardBtn').addEventListener('click', openExportWizard);
+      $exportOverlay.addEventListener('click', (e) => { if (e.target === $exportOverlay) closeExportWizard(); });
 
       /* --- Clear --- */
       const confirmClearAll = () => {
