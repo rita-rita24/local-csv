@@ -440,11 +440,25 @@
 
       td[contenteditable] {
         outline: none;
+        user-select: text;
 
-        &:focus, &.selected {
+        &:focus {
           background: var(--cell-focus-bg);
           box-shadow: inset 0 0 0 2px var(--primary);
         }
+
+        &.selected {
+          background: var(--cell-focus-bg);
+          box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        &.selected:focus {
+          box-shadow: inset 0 0 0 2px var(--primary);
+        }
+      }
+
+      .selecting-cells td[contenteditable] {
+        user-select: none;
       }
 
       td.highlight {
@@ -1329,6 +1343,12 @@
           <tr><td>やり直す</td><td><kbd>Ctrl</kbd> + <kbd>Y</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td></tr>
           <tr><td>検索</td><td><kbd>Ctrl</kbd> + <kbd>F</kbd></td></tr>
           <tr><td>セル移動</td><td><kbd>Tab</kbd> / <kbd>Enter</kbd> / <kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></td></tr>
+          <tr><td>複数選択</td><td>ドラッグ / <kbd>Ctrl</kbd> + クリック</td></tr>
+          <tr><td>範囲選択</td><td><kbd>Shift</kbd> + クリック</td></tr>
+          <tr><td>全セル選択</td><td><kbd>Ctrl</kbd> + <kbd>A</kbd></td></tr>
+          <tr><td>選択セルをコピー</td><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td></tr>
+          <tr><td>選択セルをクリア</td><td><kbd>Delete</kbd></td></tr>
+          <tr><td>選択解除</td><td><kbd>Esc</kbd></td></tr>
           <tr><td>ヘルプを開く</td><td><kbd>?</kbd></td></tr>
         </table>
       </div>
@@ -1975,6 +1995,137 @@
         document.body.style.userSelect = '';
         saveToStorage();
       });
+
+      /* --- Multi-Cell Selection --- */
+      let _selectionAnchor = null;   // { row, col } — starting point for Shift range
+      let _isDragging = false;
+      let _dragStart = null;         // { row, col }
+
+      const clearSelection = () => {
+        qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
+      };
+
+      const getSelectedCells = () => qsa('td.selected', $dataTable);
+
+      const getCellCoords = ($td) => ({
+        row: parseInt($td.dataset.row),
+        col: parseInt($td.dataset.col)
+      });
+
+      const selectCell = ($td) => $td.classList.add('selected');
+
+      const selectRange = (r1, c1, r2, c2) => {
+        const minR = Math.min(r1, r2), maxR = Math.max(r1, r2);
+        const minC = Math.min(c1, c2), maxC = Math.max(c1, c2);
+        for (let r = minR; r <= maxR; r++) {
+          for (let c = minC; c <= maxC; c++) {
+            const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
+            if ($td) selectCell($td);
+          }
+        }
+      };
+
+      // --- mousedown on cells ---
+      $dataTable.addEventListener('mousedown', (e) => {
+        const $td = e.target.closest('td[contenteditable]');
+        if (!$td) return;
+        // Don't interfere with resize handles
+        if (e.target.closest('.resize-handle')) return;
+
+        const coords = getCellCoords($td);
+
+        if (e.shiftKey && _selectionAnchor) {
+          // Shift+Click: range selection from anchor
+          e.preventDefault();
+          clearSelection();
+          selectRange(_selectionAnchor.row, _selectionAnchor.col, coords.row, coords.col);
+          return;
+        }
+
+        if (e.ctrlKey || e.metaKey) {
+          // Ctrl+Click: toggle cell in selection
+          e.preventDefault();
+          $td.classList.toggle('selected');
+          _selectionAnchor = coords;
+          return;
+        }
+
+        // Normal click: start drag selection
+        clearSelection();
+        _selectionAnchor = coords;
+        _isDragging = true;
+        _dragStart = coords;
+        selectCell($td);
+        $dataTable.classList.add('selecting-cells');
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!_isDragging || isResizing) return;
+        const $td = e.target.closest?.('td[contenteditable]');
+        if (!$td) return;
+        const coords = getCellCoords($td);
+        clearSelection();
+        selectRange(_dragStart.row, _dragStart.col, coords.row, coords.col);
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (_isDragging) {
+          _isDragging = false;
+          $dataTable.classList.remove('selecting-cells');
+          // If only 1 cell was selected by a plain click, clear selection and let focus handle it
+          const selected = getSelectedCells();
+          if (selected.length === 1) {
+            selected[0].classList.remove('selected');
+            selected[0].focus();
+          }
+        }
+      });
+
+      // --- Copy selected cells (Ctrl+C when cells are selected, not editing) ---
+      const copySelectedCells = async () => {
+        const cells = getSelectedCells();
+        if (cells.length === 0) return false;
+
+        // Build a map of row -> sorted cols
+        const rowMap = new Map();
+        cells.forEach($td => {
+          const { row, col } = getCellCoords($td);
+          if (!rowMap.has(row)) rowMap.set(row, []);
+          rowMap.get(row).push(col);
+        });
+
+        const sortedRows = [...rowMap.keys()].sort((a, b) => a - b);
+        const lines = sortedRows.map(r => {
+          const cols = rowMap.get(r).sort((a, b) => a - b);
+          return cols.map(c => state.data[r]?.[c] ?? '').join('\t');
+        });
+
+        try {
+          await navigator.clipboard.writeText(lines.join('\n'));
+          showToast(`<span class="material-symbols-outlined">content_copy</span> ${cells.length}セルをコピーしました`, 'success');
+          return true;
+        } catch {
+          showToast('コピーに失敗しました', 'error');
+          return false;
+        }
+      };
+
+      // --- Delete selected cells (Delete / Backspace when cells are selected) ---
+      const deleteSelectedCells = () => {
+        const cells = getSelectedCells();
+        if (cells.length === 0) return false;
+        saveToHistory();
+        cells.forEach($td => {
+          const { row, col } = getCellCoords($td);
+          if (state.data[row]) {
+            state.data[row][col] = '';
+            $td.textContent = '';
+          }
+        });
+        updateStats(); saveToStorage();
+        showToast(`<span class="material-symbols-outlined">delete</span> ${cells.length}セルをクリアしました`, 'success');
+        return true;
+      };
 
       /* --- Cell Edit --- */
       const handleCellBlur = ($cell) => {
@@ -2627,7 +2778,40 @@
         if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
         if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
         if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
-        if (e.key === 'Escape') { clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); qs('#infoOverlay')?.classList.remove('show'); closeImportWizard(); return; }
+
+        // Copy selected cells with Ctrl+C
+        if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+          const selected = getSelectedCells();
+          if (selected.length > 0) { e.preventDefault(); copySelectedCells(); return; }
+        }
+
+        // Select all cells with Ctrl+A when focused on a cell
+        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+          const tag = document.activeElement.tagName;
+          if (tag === 'TD' && state.data.length > 0) {
+            e.preventDefault();
+            clearSelection();
+            const start = state.hasHeader ? 1 : 0;
+            const colCount = state.data[0]?.length ?? 0;
+            selectRange(start, 0, state.data.length - 1, colCount - 1);
+            return;
+          }
+        }
+
+        // Delete / Backspace selected cells
+        if ((e.key === 'Delete' || e.key === 'Backspace') && getSelectedCells().length > 0) {
+          const tag = document.activeElement.tagName;
+          const editable = document.activeElement.isContentEditable;
+          // Only intercept when not actively editing a cell's text
+          if (tag !== 'TD' || !editable || getSelectedCells().length > 1) {
+            e.preventDefault(); deleteSelectedCells(); return;
+          }
+        }
+
+        if (e.key === 'Escape') {
+          if (getSelectedCells().length > 0) { clearSelection(); return; }
+          clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); qs('#infoOverlay')?.classList.remove('show'); closeImportWizard(); return;
+        }
         if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
           const tag = document.activeElement.tagName;
           const editable = document.activeElement.isContentEditable;
