@@ -299,23 +299,21 @@
       /* === Search Bar === */
       .search-bar {
         display: flex;
+        flex-direction: column;
         padding: 12px 16px;
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 12px;
         margin-block-end: 8px;
-        gap: 12px;
-        align-items: center;
-        flex-wrap: wrap;
+        gap: 8px;
 
-        & input {
+        & input[type="text"], & select {
           padding: 6px 12px;
           border: 1px solid var(--border);
           border-radius: 6px;
           font-size: 0.9rem;
           background: var(--bg);
           color: var(--text);
-          min-inline-size: 200px;
           block-size: 36px;
 
           &:focus {
@@ -323,6 +321,21 @@
             border-color: var(--primary);
           }
         }
+      }
+
+      .search-main-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        & > input[type="text"] { min-inline-size: 200px; }
+      }
+
+      .search-input-wrapper {
+        position: relative;
+        min-inline-size: 200px;
+        & input { inline-size: 100%; }
       }
 
       .search-info {
@@ -349,6 +362,61 @@
           }
         }
       }
+
+      .search-advanced-toggle {
+        margin-inline-start: auto;
+        font-size: 0.85rem;
+        padding: 4px 12px !important;
+      }
+      .search-advanced-toggle.active {
+        background: var(--primary) !important;
+        color: #fff !important;
+        border-color: var(--primary) !important;
+      }
+
+      .search-advanced {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-block-start: 8px;
+        border-block-start: 1px solid var(--border);
+      }
+
+      .search-option {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        white-space: nowrap;
+
+        & input[type="checkbox"] {
+          accent-color: var(--primary);
+          block-size: auto;
+        }
+      }
+
+      .search-option-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+
+        & select {
+          font-size: 0.85rem;
+          padding: 4px 8px;
+          block-size: 30px;
+        }
+      }
+
+      .search-separator {
+        inline-size: 1px;
+        block-size: 24px;
+        background: var(--border);
+      }
+
+      tr.filtered-out { display: none; }
 
       /* === Paste Zone === */
       .paste-area {
@@ -1228,15 +1296,35 @@
 
     <!-- 検索バー -->
     <div class="search-bar" id="searchBar">
-      <input type="text" id="searchInput" placeholder="検索...">
-      <input type="text" id="replaceInput" placeholder="置換...">
-      <button class="btn" id="replaceNextBtn">置換</button>
-      <button class="btn" id="replaceAllBtn">すべて置換</button>
-      <div class="search-nav">
-        <button id="searchPrevBtn" title="前へ"><span class="material-symbols-outlined">expand_less</span></button>
-        <button id="searchNextBtn" title="次へ"><span class="material-symbols-outlined">expand_more</span></button>
+      <div class="search-main-row">
+        <div class="search-input-wrapper">
+          <input type="text" id="searchInput" placeholder="検索..." autocomplete="off" list="searchHistoryList">
+          <datalist id="searchHistoryList"></datalist>
+        </div>
+        <input type="text" id="replaceInput" placeholder="置換...">
+        <button class="btn" id="replaceNextBtn">置換</button>
+        <button class="btn" id="replaceAllBtn">すべて置換</button>
+        <div class="search-nav">
+          <button id="searchPrevBtn" title="前へ"><span class="material-symbols-outlined">expand_less</span></button>
+          <button id="searchNextBtn" title="次へ"><span class="material-symbols-outlined">expand_more</span></button>
+        </div>
+        <span class="search-info" id="searchInfo"></span>
+        <button class="btn search-advanced-toggle" id="searchAdvancedToggle" title="詳細検索">詳細</button>
       </div>
-      <span class="search-info" id="searchInfo"></span>
+      <div class="search-advanced" id="searchAdvanced" style="display:none;">
+        <label class="search-option"><input type="checkbox" id="searchCaseSensitive"><span>大文字小文字を区別</span></label>
+        <label class="search-option"><input type="checkbox" id="searchExactMatch"><span>完全一致</span></label>
+        <label class="search-option"><input type="checkbox" id="searchRegex"><span>正規表現</span></label>
+        <div class="search-option-group">
+          <label>対象列:</label>
+          <select id="searchTargetCol">
+            <option value="-1">すべて</option>
+          </select>
+        </div>
+        <div class="search-separator"></div>
+        <label class="search-option"><input type="checkbox" id="filterMode"><span>フィルタ（該当行のみ表示）</span></label>
+        <button class="btn btn-sm" id="clearFilterBtn">フィルタ解除</button>
+      </div>
     </div>
 
     <!-- ツールバー -->
@@ -1342,6 +1430,7 @@
           <tr><td>元に戻す</td><td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td></tr>
           <tr><td>やり直す</td><td><kbd>Ctrl</kbd> + <kbd>Y</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td></tr>
           <tr><td>検索</td><td><kbd>Ctrl</kbd> + <kbd>F</kbd></td></tr>
+          <tr><td>次/前の検索結果</td><td><kbd>Enter</kbd> / <kbd>Shift</kbd> + <kbd>Enter</kbd>（検索欄内）</td></tr>
           <tr><td>セル移動</td><td><kbd>Tab</kbd> / <kbd>Enter</kbd> / <kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></td></tr>
           <tr><td>複数選択</td><td>ドラッグ / <kbd>Ctrl</kbd> + クリック</td></tr>
           <tr><td>範囲選択</td><td><kbd>Shift</kbd> + クリック</td></tr>
@@ -1752,6 +1841,14 @@
       const $searchInput    = qs('#searchInput');
       const $replaceInput   = qs('#replaceInput');
       const $searchInfo     = qs('#searchInfo');
+      const $searchAdvanced = qs('#searchAdvanced');
+      const $searchAdvancedToggle = qs('#searchAdvancedToggle');
+      const $searchCaseSensitive  = qs('#searchCaseSensitive');
+      const $searchExactMatch     = qs('#searchExactMatch');
+      const $searchRegex          = qs('#searchRegex');
+      const $searchTargetCol      = qs('#searchTargetCol');
+      const $filterMode           = qs('#filterMode');
+      const $searchHistoryList    = qs('#searchHistoryList');
       const $undoBtn        = qs('#undoBtn');
       const $redoBtn        = qs('#redoBtn');
       const $columnMenu     = qs('#columnMenu');
@@ -1778,6 +1875,9 @@
       const MAX_HISTORY = 20;
       let activeColumnIndex = -1, activeRowIndex = -1;
       let searchMatches = [], currentMatchIndex = -1;
+      let searchHistory = [];
+      const MAX_SEARCH_HISTORY = 20;
+      let filteredRows = null; // Set<rowIndex> when filter mode is active, null when inactive
       let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0;
 
       /* --- File Handle (File System Access API) --- */
@@ -1960,6 +2060,7 @@
 
         const $sh = qs('#settingHeader');
         if ($sh) $sh.checked = state.hasHeader;
+        updateSearchTargetCols();
         performSearch();
       };
 
@@ -2243,22 +2344,116 @@
       };
 
       /* --- Search / Replace --- */
+
+      // Build a matcher function from current search options
+      const buildMatcher = (query) => {
+        const caseSensitive = $searchCaseSensitive.checked;
+        const exactMatch = $searchExactMatch.checked;
+        const useRegex = $searchRegex.checked;
+
+        if (useRegex) {
+          try {
+            const flags = caseSensitive ? '' : 'i';
+            const re = new RegExp(query, flags);
+            return exactMatch
+              ? (cell) => { const m = cell.match(re); return m && m[0] === cell; }
+              : (cell) => re.test(cell);
+          } catch { return null; } // invalid regex
+        }
+
+        if (exactMatch) {
+          return caseSensitive
+            ? (cell) => cell === query
+            : (cell) => cell.toLowerCase() === query.toLowerCase();
+        }
+
+        return caseSensitive
+          ? (cell) => cell.includes(query)
+          : (cell) => cell.toLowerCase().includes(query.toLowerCase());
+      };
+
+      // Build regex for replace operations
+      const buildReplaceRegex = (query, globalFlag) => {
+        const caseSensitive = $searchCaseSensitive.checked;
+        const useRegex = $searchRegex.checked;
+        const exactMatch = $searchExactMatch.checked;
+
+        let flags = globalFlag ? 'g' : '';
+        if (!caseSensitive) flags += 'i';
+
+        if (useRegex) {
+          try {
+            return exactMatch
+              ? new RegExp(`^(?:${query})$`, flags)
+              : new RegExp(query, flags);
+          } catch { return null; }
+        }
+
+        return exactMatch
+          ? new RegExp(`^${escapeRegExp(query)}$`, flags)
+          : new RegExp(escapeRegExp(query), flags);
+      };
+
+      const getSearchTargetCol = () => parseInt($searchTargetCol.value);
+
       const performSearch = () => {
-        const query = $searchInput.value.toLowerCase();
+        const query = $searchInput.value;
         clearHighlights(); searchMatches = []; currentMatchIndex = -1;
-        if (!query) { updateSearchInfo(); return; }
+        if (!query) { clearFilter(); updateSearchInfo(); return; }
+
+        const matcher = buildMatcher(query);
+        if (!matcher) {
+          // Invalid regex
+          $searchInfo.textContent = '無効な正規表現';
+          $searchInfo.style.color = 'var(--danger)';
+          return;
+        }
+        $searchInfo.style.color = '';
+
         const start = state.hasHeader ? 1 : 0;
+        const targetCol = getSearchTargetCol();
+        const matchedRows = new Set();
+
         state.data.forEach((row, i) => {
           if (i < start) return;
           row.forEach((cell, j) => {
-            if (cell.toLowerCase().includes(query)) {
+            if (targetCol >= 0 && j !== targetCol) return;
+            if (matcher(cell)) {
               searchMatches.push({ row: i, col: j });
-              qs(`td[data-row="${i}"][data-col="${j}"]`)?.classList.add('highlight');
+              matchedRows.add(i);
+              qs(`td[data-row="${i}"][data-col="${j}"]`, $dataTable)?.classList.add('highlight');
             }
           });
         });
+
         if (searchMatches.length > 0) { currentMatchIndex = 0; highlightCurrentMatch(); }
         updateSearchInfo();
+
+        // Apply filter if filter mode is on
+        if ($filterMode.checked) {
+          applyFilter(matchedRows);
+        } else {
+          clearFilter();
+        }
+      };
+
+      const applyFilter = (matchedRows) => {
+        filteredRows = matchedRows;
+        const start = state.hasHeader ? 1 : 0;
+        qsa('tr[data-row]', $dataTable).forEach($tr => {
+          const rowIdx = parseInt($tr.dataset.row);
+          if (rowIdx < start) return;
+          if (matchedRows.has(rowIdx)) {
+            $tr.classList.remove('filtered-out');
+          } else {
+            $tr.classList.add('filtered-out');
+          }
+        });
+      };
+
+      const clearFilter = () => {
+        filteredRows = null;
+        qsa('tr.filtered-out', $dataTable).forEach($tr => $tr.classList.remove('filtered-out'));
       };
 
       const navigateMatch = (dir) => {
@@ -2270,37 +2465,77 @@
       };
 
       const highlightCurrentMatch = () => {
-        qsa('td.current-match').forEach($el => $el.classList.remove('current-match'));
+        qsa('td.current-match', $dataTable).forEach($el => $el.classList.remove('current-match'));
         if (currentMatchIndex < 0 || currentMatchIndex >= searchMatches.length) return;
         const { row, col } = searchMatches[currentMatchIndex];
-        const $c = qs(`td[data-row="${row}"][data-col="${col}"]`);
+        const $c = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
         $c?.classList.add('current-match');
         $c?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
 
       const clearHighlights = () =>
-        qsa('td.highlight, td.current-match').forEach($el => $el.classList.remove('highlight', 'current-match'));
+        qsa('td.highlight, td.current-match', $dataTable).forEach($el => $el.classList.remove('highlight', 'current-match'));
 
       const updateSearchInfo = () => {
         if (searchMatches.length === 0) {
           $searchInfo.textContent = $searchInput.value ? '一致なし' : '';
         } else {
-          $searchInfo.textContent = `${currentMatchIndex + 1} / ${searchMatches.length}件`;
+          let info = `${currentMatchIndex + 1} / ${searchMatches.length}件`;
+          if ($filterMode.checked && filteredRows) {
+            info += ` (${filteredRows.size}行表示)`;
+          }
+          $searchInfo.textContent = info;
         }
       };
 
       const clearSearch = () => {
         $searchInput.value = ''; $replaceInput.value = '';
-        clearHighlights(); searchMatches = []; currentMatchIndex = -1; updateSearchInfo();
+        clearHighlights(); clearFilter();
+        searchMatches = []; currentMatchIndex = -1; updateSearchInfo();
+      };
+
+      // Search history management
+      const loadSearchHistory = async () => {
+        const saved = await storage.get('searchHistory');
+        searchHistory = Array.isArray(saved) ? saved : [];
+        updateSearchHistoryList();
+      };
+
+      const saveSearchToHistory = async (query) => {
+        if (!query || query.trim() === '') return;
+        searchHistory = searchHistory.filter(h => h !== query);
+        searchHistory.unshift(query);
+        if (searchHistory.length > MAX_SEARCH_HISTORY) searchHistory.length = MAX_SEARCH_HISTORY;
+        await storage.set('searchHistory', searchHistory);
+        updateSearchHistoryList();
+      };
+
+      const updateSearchHistoryList = () => {
+        $searchHistoryList.innerHTML = searchHistory.map(h =>
+          `<option value="${escapeHTML(h)}">`
+        ).join('');
+      };
+
+      // Update target column dropdown based on current data
+      const updateSearchTargetCols = () => {
+        const current = $searchTargetCol.value;
+        const colCount = state.data[0]?.length ?? 0;
+        const headers = state.hasHeader ? state.data[0] : null;
+        $searchTargetCol.innerHTML = '<option value="-1">すべて</option>' +
+          Array.from({ length: colCount }, (_, i) => {
+            const label = headers ? `${i + 1}: ${headers[i]}` : `列 ${i + 1}`;
+            return `<option value="${i}">${escapeHTML(label)}</option>`;
+          }).join('');
+        $searchTargetCol.value = current;
       };
 
       const replaceNext = () => {
         if (currentMatchIndex < 0 || searchMatches.length === 0) return;
         const { row, col } = searchMatches[currentMatchIndex];
+        const regex = buildReplaceRegex($searchInput.value, false);
+        if (!regex) return;
         saveToHistory();
-        state.data[row][col] = state.data[row][col].replace(
-          new RegExp(escapeRegExp($searchInput.value), 'i'), $replaceInput.value
-        );
+        state.data[row][col] = state.data[row][col].replace(regex, $replaceInput.value);
         renderTable(); saveToStorage(); performSearch();
         showToast('1件置換しました', 'success');
       };
@@ -2308,13 +2543,16 @@
       const replaceAll = () => {
         const search = $searchInput.value;
         if (!search) return;
+        const regex = buildReplaceRegex(search, true);
+        if (!regex) return;
         saveToHistory();
         let count = 0;
-        const regex = new RegExp(escapeRegExp(search), 'gi');
         const start = state.hasHeader ? 1 : 0;
+        const targetCol = getSearchTargetCol();
         state.data.forEach((row, i) => {
           if (i < start) return;
           row.forEach((cell, j) => {
+            if (targetCol >= 0 && j !== targetCol) return;
             const next = cell.replace(regex, $replaceInput.value);
             if (cell !== next) { state.data[i][j] = next; count++; }
           });
@@ -2982,10 +3220,37 @@
       qs('#clearBtn').addEventListener('click', confirmClearAll);
 
       $searchInput.addEventListener('input', performSearch);
+      // Save to history on Enter
+      $searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          saveSearchToHistory($searchInput.value);
+          if (e.shiftKey) navigateMatch(-1); else navigateMatch(1);
+        }
+      });
       qs('#replaceNextBtn').addEventListener('click', replaceNext);
       qs('#replaceAllBtn').addEventListener('click', replaceAll);
       qs('#searchPrevBtn').addEventListener('click', () => navigateMatch(-1));
       qs('#searchNextBtn').addEventListener('click', () => navigateMatch(1));
+
+      // Advanced search toggle
+      $searchAdvancedToggle.addEventListener('click', () => {
+        const visible = $searchAdvanced.style.display !== 'none';
+        $searchAdvanced.style.display = visible ? 'none' : 'flex';
+        $searchAdvancedToggle.classList.toggle('active', !visible);
+      });
+
+      // Re-run search when options change
+      $searchCaseSensitive.addEventListener('change', performSearch);
+      $searchExactMatch.addEventListener('change', performSearch);
+      $searchRegex.addEventListener('change', performSearch);
+      $searchTargetCol.addEventListener('change', performSearch);
+      $filterMode.addEventListener('change', performSearch);
+      qs('#clearFilterBtn').addEventListener('click', () => {
+        $filterMode.checked = false;
+        clearFilter();
+        updateSearchInfo();
+      });
 
       /* --- Button Labels --- */
       const updateButtonLabels = () => {
@@ -3074,6 +3339,7 @@
       /* --- Init --- */
       const init = async () => {
         await loadFromStorage();
+        await loadSearchHistory();
         if (state.data.length > 0) renderTable();
         updateStats();
         updateButtonLabels();
