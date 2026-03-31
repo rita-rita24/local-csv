@@ -337,26 +337,3 @@ CSS Cascade Layers (`@layer`) による明確なスタイル階層、oklch色空
 ---
 
 ## リリースノート
-
-### v1.2.1 — 2026-03-31
-
-- IndexedDB 初期化失敗時に `null.transaction` でクラッシュする可能性を修正
-- IndexedDB が使えない環境で localStorage データ移行をスキップし、既存データ消失リスクを解消
-- localStorage が利用不可な環境でもメモリフォールバックで編集セッションが継続できるよう改善
-
-### v1.2.0 — 2024-05-10
-
-- ダークモードに対応
-- テーマ設定の保持機能を追加
-
-### v1.1.5 — 2024-03-22
-
-- 50MBを超えるCSVファイルのパース性能を改善
-
----
-
-## ライセンス
-
-[ISC License](https://opensource.org/licenses/ISC)
-
-© 2024 ArtCSV. 精密さを追求して。
