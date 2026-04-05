@@ -1,6 +1,6 @@
 "use strict";
 /**
- * ArtCSV Landing Page — Main Script
+ * LocalCSV Landing Page — Main Script
  */
 /* ---- Helper: non-null DOM query ---- */
 const $ = (selector) => {
@@ -9,12 +9,12 @@ const $ = (selector) => {
         throw new Error(`Element not found: ${selector}`);
     return el;
 };
-/* ---- Download ArtCSV.html ---- */
+/* ---- Download LocalCSV_pro.html ---- */
 // ページ読み込み時に事前取得し Blob URL を準備する。
 // クリック時に同期的に使うことでユーザージェスチャーを維持し、
 // download 属性が確実に尊重されるようにする。
 let editorBlobUrl = null;
-fetch("ArtCSV.html")
+fetch("LocalCSV_pro.html")
     .then((res) => (res.ok ? res.text() : Promise.reject(new Error(`${res.status}`))))
     .then((html) => {
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
@@ -33,19 +33,19 @@ const triggerDownload = (href, fileName) => {
 const downloadBtn = $("#downloadBtn");
 const useNowBtn = $("#useNowBtn");
 downloadBtn.addEventListener("click", () => {
-    triggerDownload(editorBlobUrl ?? "ArtCSV.html", "artcsv.html");
+    triggerDownload(editorBlobUrl ?? "LocalCSV_pro.html", "localcsv.html");
 });
 useNowBtn.addEventListener("click", () => {
-    window.location.href = "ArtCSV.html";
+    window.location.href = "LocalCSV_pro.html";
 });
 /* ---- Hero: Use Now on Web / Download HTML ---- */
 const heroUseNowBtn = $("#heroUseNowBtn");
 const heroDownloadBtn = $("#heroDownloadBtn");
 heroUseNowBtn.addEventListener("click", () => {
-    window.location.href = "ArtCSV.html";
+    window.location.href = "LocalCSV_pro.html";
 });
 heroDownloadBtn.addEventListener("click", () => {
-    triggerDownload(editorBlobUrl ?? "ArtCSV.html", "artcsv.html");
+    triggerDownload(editorBlobUrl ?? "LocalCSV_pro.html", "localcsv.html");
 });
 /* ---- Scroll fade-in observer ---- */
 const observer = new IntersectionObserver((entries) => {

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArtCSV</title>
+  <title>CSV/TSV エディタ</title>
 
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232563eb' d='M10 10.02h5V21h-5zM17 21h3c1.1 0 2-.9 2-2v-9h-5v11zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2zM3 19c0 1.1.9 2 2 2h3V10.02H3V19z'/></svg>">
@@ -364,7 +364,7 @@
       }
 
       .search-advanced-toggle {
-        margin-inline-start: 0;
+        margin-inline-start: auto;
         font-size: 0.85rem;
         padding: 4px 12px !important;
       }
@@ -1393,6 +1393,22 @@
         }
       }
 
+      .theme-swatch-label {
+        display: block;
+        font-size: 0.7rem;
+        text-align: center;
+        color: var(--text-muted);
+        margin-block-start: 2px;
+        line-height: 1.2;
+      }
+
+      .theme-swatch-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+      }
+
       /* === Info / Help Modal === */
       .info-modal {
         max-inline-size: 560px;
@@ -1551,7 +1567,7 @@
   <div class="container">
     <!-- ヘッダー -->
     <header class="header">
-      <h1><span class="material-symbols-outlined">table_chart</span> ArtCSV <span class="filename-badge" id="filenameBadge" title="開いているファイル"></span></h1>
+      <h1><span class="material-symbols-outlined">table_chart</span> CSV/TSV エディタ <span class="filename-badge" id="filenameBadge" title="開いているファイル"></span></h1>
       <div class="header-right">
         <div class="stats" id="stats">
           <span>行: <span class="value" id="rowCount">0</span></span>
@@ -1781,7 +1797,7 @@
       <div class="info-section">
         <h4><span class="material-symbols-outlined">gavel</span> 免責事項</h4>
         <p class="info-legal">本ツールの利用により生じたデータの損失や損害について、開発者は一切の責任を負いかねます。重要なデータは事前のバックアップをお願いします。</p>
-        <p class="info-legal" style="margin-block-start:8px;">© ArtCSV</p>
+        <p class="info-legal" style="margin-block-start:8px;">© LocalCSV</p>
       </div>
 
       <div class="modal-actions">
@@ -2165,12 +2181,12 @@
 
     /* --- Accent Color Themes (日本の伝統色) --- */
     const ACCENT_THEMES = [
-      { id: 'ruri',     hue: 260, chroma: 0.20, swatch: '#3451B2' },
-      { id: 'beni',     hue: 15,  chroma: 0.22, swatch: '#C53D43' },
-      { id: 'wakakusa', hue: 145, chroma: 0.18, swatch: '#3B7960' },
-      { id: 'yamabuki', hue: 80,  chroma: 0.18, swatch: '#C4972F' },
-      { id: 'sumire',   hue: 310, chroma: 0.18, swatch: '#8B4C8B' },
-      { id: 'asagi',    hue: 210, chroma: 0.14, swatch: '#3A7D8C' }
+      { id: 'ruri',     name: '瑠璃',   hue: 260, chroma: 0.20, swatch: '#3451B2' },
+      { id: 'beni',     name: '紅',     hue: 15,  chroma: 0.22, swatch: '#C53D43' },
+      { id: 'wakakusa', name: '若草',   hue: 145, chroma: 0.18, swatch: '#3B7960' },
+      { id: 'yamabuki', name: '山吹',   hue: 80,  chroma: 0.18, swatch: '#C4972F' },
+      { id: 'sumire',   name: '菫',     hue: 310, chroma: 0.18, swatch: '#8B4C8B' },
+      { id: 'asagi',    name: '浅葱',   hue: 210, chroma: 0.14, swatch: '#3A7D8C' }
     ];
 
     let _currentAccentId = 'ruri'; // default
@@ -2195,7 +2211,10 @@
       const $container = qs('#themeSwatches');
       if (!$container) return;
       $container.innerHTML = ACCENT_THEMES.map(t =>
-        `<div class="theme-swatch${t.id === _currentAccentId ? ' active' : ''}" data-accent="${t.id}" style="background:${t.swatch};"></div>`
+        `<div class="theme-swatch-item">
+          <div class="theme-swatch${t.id === _currentAccentId ? ' active' : ''}" data-accent="${t.id}" style="background:${t.swatch};" title="${t.name}"></div>
+          <span class="theme-swatch-label">${t.name}</span>
+        </div>`
       ).join('');
       $container.addEventListener('click', (e) => {
         const $s = e.target.closest('.theme-swatch');
@@ -2292,6 +2311,7 @@
         data: [],
         hasHeader: false,
         delimiter: ',',
+        originalText: '',
         columnWidths: {},
         encoding: 'utf-8',
         bom: true,
@@ -2303,10 +2323,8 @@
       const MAX_HISTORY = 20;
       let activeColumnIndex = -1, activeRowIndex = -1;
       let searchMatches = [], currentMatchIndex = -1;
-      let searchMatchMap = new Map(); // Map<rowIndex, Set<colIndex>>
       let searchHistory = [];
       const MAX_SEARCH_HISTORY = 20;
-      const SEARCH_HISTORY_KEY = 'csvEditor_searchHistory';
       let filteredRows = null; // Set<rowIndex> when filter mode is active, null when inactive
       const columnFilters = new Map(); // Map<colIndex, {values?: Set, conditions?: [{op, val}], logic?: 'and'|'or'}>
       let filterPanelColIndex = -1;
@@ -2314,28 +2332,7 @@
       const VIRTUAL_ROW_THRESHOLD = 1000;
       const VIRTUAL_ROW_HEIGHT = 42;
       const VIRTUAL_OVERSCAN = 12;
-      const SEARCH_ROW_CHUNK = 200;
-      const SEARCH_DEBOUNCE_MS = 120;
-      const SEARCH_MATCH_STORE_LIMIT = 150000;
-      const STATS_ASYNC_ROW_THRESHOLD = 5000;
       let _virtualRenderRAF = 0;
-      let _searchTaskToken = 0;
-      let _searchDebounceTimer = null;
-      let _searchInProgress = false;
-      let _searchTotalCount = 0;
-      let _searchMatchTruncated = false;
-      let _statsTaskToken = 0;
-      let _skipRenderSearchRefresh = false;
-      const _textEncoder = typeof TextEncoder !== 'undefined' ? new TextEncoder() : null;
-      let _visibleRowIndexes = [];
-      let _visibleRowOffsetMap = new Map();
-      let _dataRevision = 0;
-      let _saveRevision = 0;
-      let _savedRevision = 0;
-      let _filterValueCache = new Map(); // Map<`${revision}:${headerFlag}:${colIdx}`, [value, count][]>
-      let _exportPreviewTimer = null;
-      const EXPORT_PREVIEW_ROW_LIMIT = 200;
-      const EXPORT_PREVIEW_DEBOUNCE_MS = 120;
       const virtualState = { enabled: false, start: -1, end: -1 };
 
       /* --- File Handle (File System Access API) --- */
@@ -2347,101 +2344,35 @@
         $filenameBadge.title = name ? `開いているファイル: ${name}` : '';
       };
 
-      const cloneDataMatrix = (rows) => rows.map(row => [...row]);
-      const cloneColumnWidths = (widths) => ({ ...widths });
-
-      const createStateSnapshot = () => ({
-        data: cloneDataMatrix(state.data),
-        hasHeader: state.hasHeader,
-        delimiter: state.delimiter,
-        columnWidths: cloneColumnWidths(state.columnWidths),
-        encoding: state.encoding,
-        bom: state.bom,
-        newline: state.newline,
-        quoteStyle: state.quoteStyle
-      });
-
-      const applyStateSnapshot = (snapshot) => {
-        state = {
-          ...state,
-          ...snapshot,
-          data: cloneDataMatrix(snapshot.data ?? []),
-          columnWidths: cloneColumnWidths(snapshot.columnWidths ?? {})
-        };
-        _dataRevision++;
-        _filterValueCache.clear();
-        _saveRevision++;
-      };
-
-      const createPersistedState = () => ({
-        data: state.data,
-        hasHeader: state.hasHeader,
-        delimiter: state.delimiter,
-        columnWidths: state.columnWidths,
-        encoding: state.encoding,
-        bom: state.bom,
-        newline: state.newline,
-        quoteStyle: state.quoteStyle
-      });
-
-      const markDataChanged = () => {
-        _dataRevision++;
-        _filterValueCache.clear();
-        _saveRevision++;
-      };
-
-      const markSettingsChanged = () => {
-        _saveRevision++;
-      };
-
       /* --- Persistence --- */
       let _saveTimer = null;
       const saveToStorage = () => {
         if (_saveTimer !== null) clearTimeout(_saveTimer);
         _saveTimer = setTimeout(() => {
           _saveTimer = null;
-          if (_savedRevision === _saveRevision) return;
-          const revision = _saveRevision;
-          IDBStore.set('csvEditor_state', createPersistedState())
-            .then(() => { _savedRevision = revision; })
-            .catch(e => console.warn('IndexedDB save failed:', e));
+          IDBStore.set('csvEditor_state', structuredClone(state)).catch(e =>
+            console.warn('IndexedDB save failed:', e)
+          );
         }, 300);
       };
 
       const clearStorage = () => {
         if (_saveTimer !== null) { clearTimeout(_saveTimer); _saveTimer = null; }
-        _savedRevision = _saveRevision;
         IDBStore.remove('csvEditor_state').catch(e => console.warn('IndexedDB remove failed:', e));
       };
 
       const loadFromStorage = async () => {
         try {
           const saved = await IDBStore.get('csvEditor_state');
-          if (saved) {
-            state = {
-              data: Array.isArray(saved.data) ? saved.data : [],
-              hasHeader: !!saved.hasHeader,
-              delimiter: typeof saved.delimiter === 'string' ? saved.delimiter : ',',
-              columnWidths: saved.columnWidths && typeof saved.columnWidths === 'object' ? saved.columnWidths : {},
-              encoding: typeof saved.encoding === 'string' ? saved.encoding : 'utf-8',
-              bom: typeof saved.bom === 'boolean' ? saved.bom : true,
-              newline: saved.newline === 'lf' ? 'lf' : 'crlf',
-              quoteStyle: ['auto', 'all', 'none'].includes(saved.quoteStyle) ? saved.quoteStyle : 'auto'
-            };
-          }
-          _saveRevision = 0;
-          _savedRevision = 0;
-          _dataRevision = 0;
-          _filterValueCache.clear();
+          if (saved) state = saved;
         } catch { /* ignore */ }
       };
 
       /* --- History --- */
       const saveToHistory = () => {
-        undoStack.push(createStateSnapshot());
+        undoStack.push(structuredClone(state));
         if (undoStack.length > MAX_HISTORY) undoStack.shift();
         redoStack = [];
-        markDataChanged();
         updateHistoryButtons();
       };
 
@@ -2452,84 +2383,34 @@
 
       const undo = () => {
         if (undoStack.length === 0) return;
-        redoStack.push(createStateSnapshot());
-        applyStateSnapshot(undoStack.pop());
+        redoStack.push(structuredClone(state));
+        state = undoStack.pop();
         renderTable(); updateStats(); saveToStorage(); updateHistoryButtons();
         showToast('<span class="material-symbols-outlined">undo</span> 元に戻しました');
       };
 
       const redo = () => {
         if (redoStack.length === 0) return;
-        undoStack.push(createStateSnapshot());
-        applyStateSnapshot(redoStack.pop());
+        undoStack.push(structuredClone(state));
+        state = redoStack.pop();
         renderTable(); updateStats(); saveToStorage(); updateHistoryButtons();
         showToast('<span class="material-symbols-outlined">redo</span> やり直しました');
       };
 
       /* --- Stats --- */
-      const formatBytes = (bytes) => {
-        if (bytes < 1024) return `${bytes} B`;
-        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-      };
-
-      const calcRowBytes = (row, delimiter) => {
-        const line = row.join(delimiter);
-        if (_textEncoder) return _textEncoder.encode(line).length;
-        return line.length;
-      };
-
       const updateStats = () => {
         const rc = state.hasHeader ? state.data.length - 1 : state.data.length;
         const cc = state.data[0]?.length ?? 0;
+        const text = state.data.map(r => r.join(state.delimiter)).join('\n');
+        const bytes = new Blob([text]).size;
+        const sizeStr = bytes < 1024 ? `${bytes} B`
+          : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB`
+          : `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 
         $rowCount.textContent  = rc.toLocaleString();
         $colCount.textContent  = cc;
+        $dataSize.textContent  = sizeStr;
         $dataFormat.textContent = state.delimiter === '\t' ? 'TSV' : 'CSV';
-
-        const token = ++_statsTaskToken;
-        const rows = state.data;
-        const delimiter = state.delimiter;
-
-        if (rows.length === 0) {
-          $dataSize.textContent = '0 B';
-          return;
-        }
-
-        const calcSync = () => {
-          let bytes = 0;
-          for (let i = 0; i < rows.length; i++) {
-            bytes += calcRowBytes(rows[i] ?? [], delimiter);
-            if (i < rows.length - 1) bytes += 1; // '\n'
-          }
-          return bytes;
-        };
-
-        if (rows.length <= STATS_ASYNC_ROW_THRESHOLD) {
-          $dataSize.textContent = formatBytes(calcSync());
-          return;
-        }
-
-        $dataSize.textContent = '計算中...';
-        let i = 0;
-        let bytes = 0;
-
-        const runChunk = () => {
-          if (token !== _statsTaskToken) return;
-          const end = Math.min(rows.length, i + 250);
-          for (; i < end; i++) {
-            bytes += calcRowBytes(rows[i] ?? [], delimiter);
-            if (i < rows.length - 1) bytes += 1;
-          }
-          if (i < rows.length) {
-            setTimeout(runChunk, 0);
-            return;
-          }
-          if (token !== _statsTaskToken) return;
-          $dataSize.textContent = formatBytes(bytes);
-        };
-
-        runChunk();
       };
 
       /* --- CSV Parse --- */
@@ -2538,7 +2419,7 @@
         return (sample.match(/\t/g) ?? []).length > (sample.match(/,/g) ?? []).length ? '\t' : ',';
       };
 
-      const parseCSV = (text, delimiter, maxRows = Infinity) => {
+      const parseCSV = (text, delimiter) => {
         const rows = [];
         let currentRow = [], currentCell = '', inQuotes = false;
 
@@ -2553,23 +2434,15 @@
             currentRow.push(currentCell); currentCell = '';
           } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
             currentRow.push(currentCell);
-            if (currentRow.some(c => c.trim())) {
-              rows.push(currentRow);
-              if (rows.length >= maxRows) {
-                currentRow = []; currentCell = '';
-                break;
-              }
-            }
+            if (currentRow.some(c => c.trim())) rows.push(currentRow);
             currentRow = []; currentCell = '';
             if (char === '\r') i++;
           } else if (char !== '\r') {
             currentCell += char;
           }
         }
-        if (rows.length < maxRows) {
-          currentRow.push(currentCell);
-          if (currentRow.some(c => c.trim())) rows.push(currentRow);
-        }
+        currentRow.push(currentCell);
+        if (currentRow.some(c => c.trim())) rows.push(currentRow);
 
         if (rows.length === 0) return [];
         const maxCols = Math.max(...rows.map(r => r.length));
@@ -2632,36 +2505,15 @@
         }
       };
 
-      const runDataWorker = async (workerCode, payload) => {
-        if (typeof Worker === 'undefined') throw new Error('Worker unavailable');
-        const url = URL.createObjectURL(new Blob([workerCode], { type: 'text/javascript' }));
-        try {
-          return await new Promise((resolve, reject) => {
-            const worker = new Worker(url);
-            worker.onmessage = (event) => {
-              worker.terminate();
-              resolve(event.data);
-            };
-            worker.onerror = (event) => {
-              worker.terminate();
-              reject(event);
-            };
-            worker.postMessage(payload);
-          });
-        } finally {
-          URL.revokeObjectURL(url);
-        }
-      };
-
       /* --- Process Data --- */
       const processData = async (text) => {
         if (!text.trim()) { showToast('データが空です', 'error'); return; }
+        state.originalText = text;
         state.delimiter = detectDelimiter(text);
         state.data = await parseCSVAsync(text, state.delimiter);
         if (state.data.length === 0) { showToast('データを解析できませんでした', 'error'); return; }
         state.hasHeader = false;
         state.columnWidths = {};
-        markDataChanged();
         undoStack = []; redoStack = [];
         updateHistoryButtons(); renderTable(); updateStats(); updateButtonLabels(); saveToStorage();
         showToast(`${state.data.length}行のデータを読み込みました`, 'success');
@@ -2675,46 +2527,14 @@
       /* --- Render --- */
       const getBodyDataStart = () => state.hasHeader ? 1 : 0;
 
-      const rowPassesColumnFilters = (rowIdx) => {
-        if (columnFilters.size === 0) return true;
-        for (const [colIdx, config] of columnFilters) {
-          const cellVal = state.data[rowIdx]?.[colIdx] ?? '';
-          if (config.values && !config.values.has(cellVal)) return false;
-          if (config.conditions.length > 0) {
-            const results = config.conditions.map(c => evalCondition(cellVal, c.op, c.val));
-            const condPass = config.logic === 'and' ? results.every(Boolean) : results.some(Boolean);
-            if (!condPass) return false;
-          }
-        }
-        return true;
-      };
-
-      const rowPassesSearchFilter = (rowIdx) => {
-        if (!$filterMode.checked || filteredRows === null) return true;
-        return filteredRows.has(rowIdx);
-      };
-
-      const rebuildVisibleRows = () => {
-        _visibleRowIndexes = [];
-        _visibleRowOffsetMap = new Map();
-        const start = getBodyDataStart();
-        for (let rowIdx = start; rowIdx < state.data.length; rowIdx++) {
-          if (!rowPassesColumnFilters(rowIdx)) continue;
-          if (!rowPassesSearchFilter(rowIdx)) continue;
-          _visibleRowOffsetMap.set(rowIdx, _visibleRowIndexes.length);
-          _visibleRowIndexes.push(rowIdx);
-        }
-      };
-
       const shouldUseVirtualRows = () => {
-        return _visibleRowIndexes.length >= VIRTUAL_ROW_THRESHOLD;
+        const bodyRows = state.data.length - getBodyDataStart();
+        return bodyRows >= VIRTUAL_ROW_THRESHOLD && columnFilters.size === 0 && !$filterMode.checked;
       };
 
       const buildBodyRowHTML = (rowIndex) => {
         const row = state.data[rowIndex] ?? [];
         const rowNum = state.hasHeader ? rowIndex : rowIndex + 1;
-        const matchedCols = searchMatchMap.get(rowIndex);
-        const currentMatch = currentMatchIndex >= 0 ? searchMatches[currentMatchIndex] : null;
         return `<tr data-row="${rowIndex}">
           <td class="row-num"><div class="row-num-wrapper">
             <span class="row-num-text">${rowNum}</span>
@@ -2724,11 +2544,7 @@
           </div></td>${
             row.map((c, j) => {
               const w = state.columnWidths[j] ?? 150;
-              const classes = [];
-              if (matchedCols?.has(j)) classes.push('highlight');
-              if (currentMatch && currentMatch.row === rowIndex && currentMatch.col === j) classes.push('current-match');
-              const classAttr = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
-              return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;">${escapeHTML(c)}</td>`;
+              return `<td contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;">${escapeHTML(c)}</td>`;
             }).join('')
           }</tr>`;
       };
@@ -2736,7 +2552,8 @@
       const renderVirtualBody = (force = false) => {
         if (!virtualState.enabled) return;
 
-        const totalRows = _visibleRowIndexes.length;
+        const dataStart = getBodyDataStart();
+        const totalRows = Math.max(0, state.data.length - dataStart);
         const colCount = state.data[0]?.length ?? 0;
         if (totalRows === 0) { $tableBody.innerHTML = ''; return; }
 
@@ -2756,7 +2573,7 @@
           parts.push(`<tr class="virtual-spacer"><td colspan="${colCount + 1}" style="height:${topSpacer}px;"></td></tr>`);
         }
         for (let visible = first; visible <= last; visible++) {
-          parts.push(buildBodyRowHTML(_visibleRowIndexes[visible]));
+          parts.push(buildBodyRowHTML(dataStart + visible));
         }
         if (bottomSpacer > 0) {
           parts.push(`<tr class="virtual-spacer"><td colspan="${colCount + 1}" style="height:${bottomSpacer}px;"></td></tr>`);
@@ -2775,8 +2592,9 @@
 
       const ensureRowRendered = (rowIndex) => {
         if (!virtualState.enabled) return;
-        const offset = _visibleRowOffsetMap.get(rowIndex);
-        if (offset === undefined) return;
+        const dataStart = getBodyDataStart();
+        const offset = rowIndex - dataStart;
+        if (offset < 0) return;
         if (offset >= virtualState.start && offset <= virtualState.end) return;
         const viewportRows = Math.max(1, Math.floor(($tableScroll.clientHeight || 420) / VIRTUAL_ROW_HEIGHT));
         const centered = Math.max(0, (offset - Math.floor(viewportRows / 2)) * VIRTUAL_ROW_HEIGHT);
@@ -2791,8 +2609,6 @@
           virtualState.enabled = false;
           virtualState.start = -1;
           virtualState.end = -1;
-          _visibleRowIndexes = [];
-          _visibleRowOffsetMap = new Map();
           return;
         }
         $tableContainer.classList.add('show');
@@ -2819,23 +2635,20 @@
           }).join('')
         }</tr>`;
 
-        rebuildVisibleRows();
         virtualState.enabled = shouldUseVirtualRows();
         virtualState.start = -1;
         virtualState.end = -1;
         if (virtualState.enabled) {
           renderVirtualBody(true);
         } else {
-          $tableBody.innerHTML = _visibleRowIndexes.map(rowIndex => buildBodyRowHTML(rowIndex)).join('');
+          $tableBody.innerHTML = state.data.slice(dataStart).map((_, idx) => buildBodyRowHTML(idx + dataStart)).join('');
         }
 
         const $sh = qs('#settingHeader');
         if ($sh) $sh.checked = state.hasHeader;
         updateSearchTargetCols();
-        updateSearchInfo();
-        if ($searchInput.value && !_skipRenderSearchRefresh) {
-          performSearch();
-        }
+        applyColumnFilters();
+        performSearch();
       };
 
       /* --- Toggle Header --- */
@@ -2870,7 +2683,6 @@
         isResizing = false;
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
-        markSettingsChanged();
         saveToStorage();
       });
 
@@ -3151,131 +2963,65 @@
 
       const getSearchTargetCol = () => parseInt($searchTargetCol.value);
 
-      const resetSearchState = () => {
-        searchMatches = [];
-        searchMatchMap = new Map();
-        currentMatchIndex = -1;
-        _searchTotalCount = 0;
-        _searchMatchTruncated = false;
-        _searchInProgress = false;
-      };
-
-      const cancelSearchTasks = () => {
-        _searchTaskToken++;
-        _searchInProgress = false;
-        if (_searchDebounceTimer !== null) {
-          clearTimeout(_searchDebounceTimer);
-          _searchDebounceTimer = null;
-        }
-      };
-
-      const runSearchTask = () => {
+      const performSearch = () => {
         const query = $searchInput.value;
-        const token = ++_searchTaskToken;
-        if (!query) {
-          const hadResult = searchMatches.length > 0 || filteredRows !== null;
-          resetSearchState();
-          filteredRows = null;
-          if (hadResult) {
-            _skipRenderSearchRefresh = true;
-            renderTable();
-            _skipRenderSearchRefresh = false;
-          }
-          updateSearchInfo();
-          return;
-        }
+        clearHighlights(); searchMatches = []; currentMatchIndex = -1;
+        if (!query) { clearFilter(); updateSearchInfo(); return; }
 
         const matcher = buildMatcher(query);
         if (!matcher) {
-          resetSearchState();
-          filteredRows = null;
-          _skipRenderSearchRefresh = true;
-          renderTable();
-          _skipRenderSearchRefresh = false;
+          // Invalid regex
           $searchInfo.textContent = '無効な正規表現';
           $searchInfo.style.color = 'var(--danger)';
           return;
         }
-
         $searchInfo.style.color = '';
-        _searchInProgress = true;
-        updateSearchInfo();
 
         const start = state.hasHeader ? 1 : 0;
         const targetCol = getSearchTargetCol();
-        const nextMatches = [];
-        const nextMatchMap = new Map();
         const matchedRows = new Set();
-        let totalCount = 0;
-        let rowIndex = start;
 
-        const pushMatch = (r, c) => {
-          totalCount++;
-          matchedRows.add(r);
-          if (nextMatches.length >= SEARCH_MATCH_STORE_LIMIT) return;
-          nextMatches.push({ row: r, col: c });
-          let cols = nextMatchMap.get(r);
-          if (!cols) {
-            cols = new Set();
-            nextMatchMap.set(r, cols);
-          }
-          cols.add(c);
-        };
-
-        const runChunk = () => {
-          if (token !== _searchTaskToken) return;
-
-          const end = Math.min(state.data.length, rowIndex + SEARCH_ROW_CHUNK);
-          for (; rowIndex < end; rowIndex++) {
-            const row = state.data[rowIndex] ?? [];
-            if (targetCol >= 0) {
-              const cell = row[targetCol] ?? '';
-              if (matcher(cell)) pushMatch(rowIndex, targetCol);
-              continue;
+        state.data.forEach((row, i) => {
+          if (i < start) return;
+          row.forEach((cell, j) => {
+            if (targetCol >= 0 && j !== targetCol) return;
+            if (matcher(cell)) {
+              searchMatches.push({ row: i, col: j });
+              matchedRows.add(i);
+              qs(`td[data-row="${i}"][data-col="${j}"]`, $dataTable)?.classList.add('highlight');
             }
-            for (let colIndex = 0; colIndex < row.length; colIndex++) {
-              if (matcher(row[colIndex] ?? '')) pushMatch(rowIndex, colIndex);
-            }
-          }
+          });
+        });
 
-          if (rowIndex < state.data.length) {
-            setTimeout(runChunk, 0);
-            return;
-          }
+        if (searchMatches.length > 0) { currentMatchIndex = 0; highlightCurrentMatch(); }
+        updateSearchInfo();
 
-          if (token !== _searchTaskToken) return;
-
-          searchMatches = nextMatches;
-          searchMatchMap = nextMatchMap;
-          _searchTotalCount = totalCount;
-          _searchMatchTruncated = totalCount > nextMatches.length;
-          currentMatchIndex = nextMatches.length > 0 ? 0 : -1;
-          _searchInProgress = false;
-          filteredRows = $filterMode.checked ? matchedRows : null;
-
-          _skipRenderSearchRefresh = true;
-          renderTable();
-          _skipRenderSearchRefresh = false;
-
-          if (nextMatches.length > 0) highlightCurrentMatch();
-          updateSearchInfo();
-        };
-
-        runChunk();
+        // Apply filter if filter mode is on
+        if ($filterMode.checked) {
+          applyFilter(matchedRows);
+        } else {
+          clearFilter();
+        }
       };
 
-      const scheduleSearch = (immediate = false) => {
-        _searchTaskToken++;
-        _searchInProgress = false;
-        if (_searchDebounceTimer !== null) clearTimeout(_searchDebounceTimer);
-        _searchDebounceTimer = setTimeout(() => {
-          _searchDebounceTimer = null;
-          runSearchTask();
-        }, immediate ? 0 : SEARCH_DEBOUNCE_MS);
+      const applyFilter = (matchedRows) => {
+        filteredRows = matchedRows;
+        const start = state.hasHeader ? 1 : 0;
+        qsa('tr[data-row]', $dataTable).forEach($tr => {
+          const rowIdx = parseInt($tr.dataset.row);
+          if (rowIdx < start) return;
+          if (matchedRows.has(rowIdx)) {
+            $tr.classList.remove('filtered-out');
+          } else {
+            $tr.classList.add('filtered-out');
+          }
+        });
       };
 
-      const performSearch = () => scheduleSearch(false);
-      const performSearchImmediate = () => scheduleSearch(true);
+      const clearFilter = () => {
+        filteredRows = null;
+        qsa('tr.filtered-out', $dataTable).forEach($tr => $tr.classList.remove('filtered-out'));
+      };
 
       const navigateMatch = (dir) => {
         if (searchMatches.length === 0) return;
@@ -3298,21 +3044,16 @@
         $c?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       };
 
-      const updateSearchInfo = () => {
-        if (_searchInProgress) {
-          $searchInfo.textContent = '検索中...';
-          return;
-        }
+      const clearHighlights = () =>
+        qsa('td.highlight, td.current-match', $dataTable).forEach($el => $el.classList.remove('highlight', 'current-match'));
 
-        if (_searchTotalCount === 0) {
+      const updateSearchInfo = () => {
+        if (searchMatches.length === 0) {
           $searchInfo.textContent = $searchInput.value ? '一致なし' : '';
         } else {
-          const shown = Math.max(0, currentMatchIndex + 1);
-          let total = _searchTotalCount.toLocaleString();
-          if (_searchMatchTruncated) total += '+';
-          let info = `${shown} / ${total}件`;
+          let info = `${currentMatchIndex + 1} / ${searchMatches.length}件`;
           if ($filterMode.checked && filteredRows) {
-            info += ` (${filteredRows.size.toLocaleString()}行表示)`;
+            info += ` (${filteredRows.size}行表示)`;
           }
           $searchInfo.textContent = info;
         }
@@ -3320,18 +3061,13 @@
 
       const clearSearch = () => {
         $searchInput.value = ''; $replaceInput.value = '';
-        cancelSearchTasks();
-        resetSearchState();
-        filteredRows = null;
-        _skipRenderSearchRefresh = true;
-        renderTable();
-        _skipRenderSearchRefresh = false;
-        updateSearchInfo();
+        clearHighlights(); clearFilter();
+        searchMatches = []; currentMatchIndex = -1; updateSearchInfo();
       };
 
       // Search history management
       const loadSearchHistory = async () => {
-        const saved = await IDBStore.get(SEARCH_HISTORY_KEY);
+        const saved = await storage.get('searchHistory');
         searchHistory = Array.isArray(saved) ? saved : [];
         updateSearchHistoryList();
       };
@@ -3341,7 +3077,7 @@
         searchHistory = searchHistory.filter(h => h !== query);
         searchHistory.unshift(query);
         if (searchHistory.length > MAX_SEARCH_HISTORY) searchHistory.length = MAX_SEARCH_HISTORY;
-        await IDBStore.set(SEARCH_HISTORY_KEY, searchHistory);
+        await storage.set('searchHistory', searchHistory);
         updateSearchHistoryList();
       };
 
@@ -3371,90 +3107,28 @@
         if (!regex) return;
         saveToHistory();
         state.data[row][col] = state.data[row][col].replace(regex, $replaceInput.value);
-        renderTable(); saveToStorage(); performSearchImmediate();
+        renderTable(); saveToStorage(); performSearch();
         showToast('1件置換しました', 'success');
       };
 
-      const replaceAll = async () => {
+      const replaceAll = () => {
         const search = $searchInput.value;
         if (!search) return;
         const regex = buildReplaceRegex(search, true);
         if (!regex) return;
         saveToHistory();
-
+        let count = 0;
         const start = state.hasHeader ? 1 : 0;
         const targetCol = getSearchTargetCol();
-
-        let count = 0;
-        const shouldUseWorker = state.data.length >= 5000;
-
-        if (shouldUseWorker) {
-          try {
-            showToast('一括置換を実行中...', 'success');
-            const result = await runDataWorker(`
-              self.onmessage = (event) => {
-                const { data, start, targetCol, regexSource, regexFlags, replacement } = event.data;
-                const re = new RegExp(regexSource, regexFlags);
-                let count = 0;
-                const nextData = data.map((row, i) => {
-                  if (i < start) return row;
-                  const nextRow = row.slice();
-                  if (targetCol >= 0) {
-                    if (targetCol >= nextRow.length) return nextRow;
-                    const cell = nextRow[targetCol] ?? '';
-                    const next = cell.replace(re, replacement);
-                    if (cell !== next) {
-                      nextRow[targetCol] = next;
-                      count++;
-                    }
-                    return nextRow;
-                  }
-                  for (let j = 0; j < nextRow.length; j++) {
-                    const cell = nextRow[j] ?? '';
-                    const next = cell.replace(re, replacement);
-                    if (cell !== next) {
-                      nextRow[j] = next;
-                      count++;
-                    }
-                  }
-                  return nextRow;
-                });
-                self.postMessage({ data: nextData, count });
-              };
-            `, {
-              data: state.data,
-              start,
-              targetCol,
-              regexSource: regex.source,
-              regexFlags: regex.flags,
-              replacement: $replaceInput.value
-            });
-
-            state.data = result.data;
-            count = result.count;
-          } catch (e) {
-            console.warn('Worker replace failed, fallback to main thread', e);
-            state.data.forEach((row, i) => {
-              if (i < start) return;
-              row.forEach((cell, j) => {
-                if (targetCol >= 0 && j !== targetCol) return;
-                const next = cell.replace(regex, $replaceInput.value);
-                if (cell !== next) { state.data[i][j] = next; count++; }
-              });
-            });
-          }
-        } else {
-          state.data.forEach((row, i) => {
-            if (i < start) return;
-            row.forEach((cell, j) => {
-              if (targetCol >= 0 && j !== targetCol) return;
-              const next = cell.replace(regex, $replaceInput.value);
-              if (cell !== next) { state.data[i][j] = next; count++; }
-            });
+        state.data.forEach((row, i) => {
+          if (i < start) return;
+          row.forEach((cell, j) => {
+            if (targetCol >= 0 && j !== targetCol) return;
+            const next = cell.replace(regex, $replaceInput.value);
+            if (cell !== next) { state.data[i][j] = next; count++; }
           });
-        }
-
-        renderTable(); saveToStorage(); performSearchImmediate();
+        });
+        renderTable(); saveToStorage(); performSearch();
         showToast(`${count}件置換しました`, 'success');
       };
 
@@ -3492,27 +3166,19 @@
       };
 
       const populateFilterValues = (colIdx) => {
-        const cacheKey = `${_dataRevision}:${state.hasHeader ? 1 : 0}:${colIdx}`;
-        let sorted = _filterValueCache.get(cacheKey);
-        if (!sorted) {
-          const start = state.hasHeader ? 1 : 0;
-          const valueCounts = new Map();
-          for (let i = start; i < state.data.length; i++) {
-            const v = state.data[i][colIdx] ?? '';
-            valueCounts.set(v, (valueCounts.get(v) ?? 0) + 1);
-          }
-
-          // Sort: empty first, then alphabetical
-          sorted = [...valueCounts.entries()].sort((a, b) => {
-            if (a[0] === '' && b[0] !== '') return -1;
-            if (a[0] !== '' && b[0] === '') return 1;
-            return a[0].localeCompare(b[0], 'ja');
-          });
-
-          // Keep cache bounded
-          if (_filterValueCache.size > 24) _filterValueCache.clear();
-          _filterValueCache.set(cacheKey, sorted);
+        const start = state.hasHeader ? 1 : 0;
+        const valueCounts = new Map();
+        for (let i = start; i < state.data.length; i++) {
+          const v = state.data[i][colIdx] ?? '';
+          valueCounts.set(v, (valueCounts.get(v) ?? 0) + 1);
         }
+
+        // Sort: empty first, then alphabetical
+        const sorted = [...valueCounts.entries()].sort((a, b) => {
+          if (a[0] === '' && b[0] !== '') return -1;
+          if (a[0] !== '' && b[0] === '') return 1;
+          return a[0].localeCompare(b[0], 'ja');
+        });
 
         // Determine which values are currently checked
         const existingFilter = columnFilters.get(colIdx);
@@ -3637,6 +3303,7 @@
           columnFilters.set(colIdx, config);
         }
 
+        applyColumnFilters();
         renderTable();
         closeColFilterPanel();
         const active = columnFilters.size;
@@ -3648,9 +3315,54 @@
       const clearColumnFilter = (colIdx) => {
         if (colIdx === undefined) colIdx = filterPanelColIndex;
         columnFilters.delete(colIdx);
+        applyColumnFilters();
         renderTable();
         closeColFilterPanel();
         showToast(`<span class="material-symbols-outlined">filter_alt_off</span> フィルタを解除しました`, 'success');
+      };
+
+      // Apply all column filters to the table rows
+      const applyColumnFilters = () => {
+        if (columnFilters.size === 0) {
+          // Remove all col-filtered-out classes
+          qsa('tr.col-filtered-out', $dataTable).forEach($tr => $tr.classList.remove('col-filtered-out'));
+          return;
+        }
+
+        const start = state.hasHeader ? 1 : 0;
+        qsa('tr[data-row]', $dataTable).forEach($tr => {
+          const rowIdx = parseInt($tr.dataset.row);
+          if (rowIdx < start) return;
+
+          let pass = true;
+          for (const [colIdx, config] of columnFilters) {
+            const cellVal = state.data[rowIdx]?.[colIdx] ?? '';
+
+            // Check value filter
+            if (config.values && !config.values.has(cellVal)) {
+              pass = false;
+              break;
+            }
+
+            // Check conditions
+            if (config.conditions.length > 0) {
+              const results = config.conditions.map(c => evalCondition(cellVal, c.op, c.val));
+              const condPass = config.logic === 'and'
+                ? results.every(Boolean)
+                : results.some(Boolean);
+              if (!condPass) {
+                pass = false;
+                break;
+              }
+            }
+          }
+
+          if (pass) {
+            $tr.classList.remove('col-filtered-out');
+          } else {
+            $tr.classList.add('col-filtered-out');
+          }
+        });
       };
 
       // Value search within filter panel
@@ -3685,56 +3397,16 @@
       /* --- Column Operations --- */
       const getColName = () => state.hasHeader ? state.data[0][activeColumnIndex] : `列${activeColumnIndex + 1}`;
 
-      const sortColumn = async (dir) => {
+      const sortColumn = (dir) => {
         if (activeColumnIndex < 0) return;
         saveToHistory();
         const start = state.hasHeader ? 1 : 0;
-        let sorted;
-        const rowsToSort = state.data.slice(start);
-        const shouldUseWorker = rowsToSort.length >= 5000;
-
-        if (shouldUseWorker) {
-          try {
-            showToast('並び替えを実行中...', 'success');
-            const result = await runDataWorker(`
-              self.onmessage = (event) => {
-                const { rows, colIndex, dir } = event.data;
-                const sorted = rows.toSorted((a, b) => {
-                  const vA = a[colIndex] ?? '';
-                  const vB = b[colIndex] ?? '';
-                  const nA = parseFloat(vA);
-                  const nB = parseFloat(vB);
-                  if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
-                  return dir === 'asc'
-                    ? vA.localeCompare(vB, 'ja')
-                    : vB.localeCompare(vA, 'ja');
-                });
-                self.postMessage(sorted);
-              };
-            `, {
-              rows: rowsToSort,
-              colIndex: activeColumnIndex,
-              dir
-            });
-            sorted = result;
-          } catch (e) {
-            console.warn('Worker sort failed, fallback to main thread', e);
-            sorted = rowsToSort.toSorted((a, b) => {
-              const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
-              const nA = parseFloat(vA), nB = parseFloat(vB);
-              if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
-              return dir === 'asc' ? vA.localeCompare(vB, 'ja') : vB.localeCompare(vA, 'ja');
-            });
-          }
-        } else {
-          sorted = rowsToSort.toSorted((a, b) => {
-            const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
-            const nA = parseFloat(vA), nB = parseFloat(vB);
-            if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
-            return dir === 'asc' ? vA.localeCompare(vB, 'ja') : vB.localeCompare(vA, 'ja');
-          });
-        }
-
+        const sorted = state.data.slice(start).toSorted((a, b) => {
+          const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
+          const nA = parseFloat(vA), nB = parseFloat(vB);
+          if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
+          return dir === 'asc' ? vA.localeCompare(vB, 'ja') : vB.localeCompare(vA, 'ja');
+        });
         state.data = state.hasHeader ? [state.data[0], ...sorted] : sorted;
         renderTable(); saveToStorage();
         showToast(`<span class="material-symbols-outlined">sort</span> 「${escapeHTML(getColName())}」を${dir === 'asc' ? '昇順' : '降順'}に並び替えました`, 'success');
@@ -3901,26 +3573,16 @@
       };
 
       /* --- Export --- */
-      const generateOutputAsync = async (dlm) => {
+      const generateOutput = (dlm) => {
         const qs_ = state.quoteStyle;
         const nl = state.newline === 'crlf' ? '\r\n' : '\n';
-        const lines = [];
-        const chunkRows = 500;
-        for (let i = 0; i < state.data.length; i++) {
-          const row = state.data[i] ?? [];
-          const line = row.map((c) => {
-            const escaped = c.replace(/"/g, '""');
-            if (qs_ === 'all') return `"${escaped}"`;
-            if (qs_ === 'none') return c;
-            return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
-              ? `"${escaped}"` : c;
-          }).join(dlm);
-          lines.push(line);
-          if ((i + 1) % chunkRows === 0) {
-            await new Promise(resolve => setTimeout(resolve, 0));
-          }
-        }
-        return lines.join(nl);
+        return state.data.map(r => r.map(c => {
+          const escaped = c.replace(/"/g, '""');
+          if (qs_ === 'all') return `"${escaped}"`;
+          if (qs_ === 'none') return c;
+          return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
+            ? `"${escaped}"` : c;
+        }).join(dlm)).join(nl);
       };
 
       const getFormatLabel = () => {
@@ -3982,7 +3644,6 @@
       let _wizArrayBuffer = null;
       let _wizFileName = '';
       let _wizFileHandle = null;
-      let _wizDecodedCache = { encoding: null, text: '' };
 
       const delimiterDisplayName = (d) => {
         if (d === ',') return 'カンマ (,)';
@@ -4014,11 +3675,7 @@
 
       const wizGetCurrentText = () => {
         const enc = qs('#wizEncoding').value;
-        if (!_wizArrayBuffer) return '';
-        if (_wizDecodedCache.encoding === enc && _wizDecodedCache.text !== '') return _wizDecodedCache.text;
-        const text = decodeFileBytes(_wizArrayBuffer, enc);
-        _wizDecodedCache = { encoding: enc, text };
-        return text;
+        return decodeFileBytes(_wizArrayBuffer, enc);
       };
 
       const wizGetCurrentDelimiter = () => qs('#wizDelimiter').value;
@@ -4026,16 +3683,17 @@
       const wizRenderPreview = () => {
         const text = wizGetCurrentText();
         const dlm = wizGetCurrentDelimiter();
+        const parsed = parseCSV(text, dlm);
         const hasHdr = qs('#wizHeader').checked;
         const maxRows = parseInt(qs('#wizPreviewRows').value) || 10;
-        const parsed = parseCSV(text, dlm, maxRows + (hasHdr ? 1 : 0));
 
         const colCount = parsed[0]?.length ?? 0;
         const dataStart = hasHdr ? 1 : 0;
         const headers = hasHdr ? parsed[0] : Array.from({ length: colCount }, (_, i) => `列${i + 1}`);
         const previewRows = parsed.slice(dataStart, dataStart + maxRows);
+        const totalDataRows = parsed.length - dataStart;
 
-        qs('#wizPreviewInfo').textContent = `${Math.min(maxRows, previewRows.length).toLocaleString()} 行をプレビュー表示（最大 ${maxRows.toLocaleString()} 行）`;
+        qs('#wizPreviewInfo').textContent = `全 ${totalDataRows.toLocaleString()} 行 × ${colCount} 列のうち先頭 ${Math.min(maxRows, previewRows.length)} 行を表示`;
 
         const thClass = hasHdr ? '' : ' class="auto-header"';
         qs('#wizPreviewHead').innerHTML = `<tr>${headers.map(h => `<th${thClass}>${escapeHTML(h)}</th>`).join('')}</tr>`;
@@ -4048,20 +3706,18 @@
         _wizArrayBuffer = arrayBuffer;
         _wizFileName = fileName;
         _wizFileHandle = fileHandle;
-        _wizDecodedCache = { encoding: null, text: '' };
 
         // Step1: auto-detect
         const detectedEnc = detectEncodingLabel(arrayBuffer);
         const text = decodeFileBytes(arrayBuffer, detectedEnc);
-        _wizDecodedCache = { encoding: detectedEnc, text };
         const detectedDlm = detectDelimiter(text);
-        const detectSampleRows = parseCSV(text, detectedDlm, 2000);
-        const colCount = detectSampleRows[0]?.length ?? 0;
+        const parsed = parseCSV(text, detectedDlm);
+        const colCount = parsed[0]?.length ?? 0;
 
         // Populate detect info
         qs('#wizDetectEncoding').textContent = detectedEnc === 'utf-8' ? 'UTF-8' : 'Shift-JIS';
         qs('#wizDetectDelimiter').textContent = delimiterDisplayName(detectedDlm);
-        qs('#wizDetectSize').textContent = `先頭 ${detectSampleRows.length.toLocaleString()} 行で判定 / ${colCount} 列`;
+        qs('#wizDetectSize').textContent = `${parsed.length.toLocaleString()} 行 × ${colCount} 列`;
         qs('#wizDetectFileSize').textContent = formatFileSize(arrayBuffer.byteLength);
 
         // Set controls to detected values
@@ -4076,7 +3732,6 @@
       const closeImportWizard = () => {
         $wizOverlay.classList.remove('show');
         _wizArrayBuffer = null;
-        _wizDecodedCache = { encoding: null, text: '' };
       };
 
       const wizExecuteImport = async () => {
@@ -4086,13 +3741,13 @@
 
         if (!text.trim()) { showToast('ファイルが空です', 'error'); return; }
 
+        state.originalText = text;
         state.delimiter = dlm;
         state.data = await parseCSVAsync(text, dlm);
         if (state.data.length === 0) { showToast('データを解析できませんでした', 'error'); return; }
         state.hasHeader = hasHdr;
         state.columnWidths = {};
         state.encoding = qs('#wizEncoding').value;
-        markDataChanged();
         undoStack = []; redoStack = [];
         _fileHandle = _wizFileHandle;
         updateFilenameBadge(_wizFileName);
@@ -4163,13 +3818,7 @@
 
       const saveFile = async () => {
         if (state.data.length === 0) { showToast('保存するデータがありません', 'error'); return; }
-        let text;
-        try {
-          text = await generateOutputAsync(state.delimiter);
-        } catch {
-          showToast('出力の生成に失敗しました', 'error');
-          return;
-        }
+        const text = generateOutput(state.delimiter);
 
         // Overwrite via File System Access API
         if (_fileHandle) {
@@ -4209,27 +3858,20 @@
         }
 
         // Fallback: download
-        void downloadData();
+        downloadData();
       };
 
       const copyData = async () => {
         if (state.data.length === 0) { showToast('コピーするデータがありません', 'error'); return; }
         try {
-          const text = await generateOutputAsync(state.delimiter);
-          await navigator.clipboard.writeText(text);
+          await navigator.clipboard.writeText(generateOutput(state.delimiter));
           showToast(`<span class="material-symbols-outlined">content_copy</span> ${getFormatLabel()}としてコピーしました`, 'success');
         } catch { showToast('コピーに失敗しました', 'error'); }
       };
 
-      const downloadData = async () => {
+      const downloadData = () => {
         if (state.data.length === 0) { showToast('ダウンロードするデータがありません', 'error'); return; }
-        let text;
-        try {
-          text = await generateOutputAsync(state.delimiter);
-        } catch {
-          showToast('出力の生成に失敗しました', 'error');
-          return;
-        }
+        const text = generateOutput(state.delimiter);
         const ext = getFormatExt();
         let blob;
 
@@ -4283,17 +3925,11 @@
         // Check if filtered / selected available
         updateExpTargetHint();
         updateExpFormatUI();
-        scheduleExportPreview(true);
+        updateExportPreview();
         $exportOverlay.classList.add('show');
       };
 
-      const closeExportWizard = () => {
-        if (_exportPreviewTimer !== null) {
-          clearTimeout(_exportPreviewTimer);
-          _exportPreviewTimer = null;
-        }
-        $exportOverlay.classList.remove('show');
-      };
+      const closeExportWizard = () => $exportOverlay.classList.remove('show');
 
       // Show/hide format-dependent options
       const updateExpFormatUI = () => {
@@ -4305,7 +3941,7 @@
       };
 
       const updateExpTargetHint = () => {
-        const filtered = columnFilters.size > 0 || ($filterMode.checked && filteredRows !== null);
+        const filtered = qsa('tr.col-filtered-out', $dataTable).length > 0 || filteredRows !== null;
         const selected = getSelectedCells().length > 0;
         const $hint = qs('#expTargetHint');
         const hints = [];
@@ -4315,8 +3951,7 @@
       };
 
       // Get the data rows to export based on target setting
-      const getExportData = (options = {}) => {
-        const rowLimit = Number.isFinite(options.rowLimit) ? Math.max(0, options.rowLimit) : null;
+      const getExportData = () => {
         const target = $expTarget.value;
         const includeHeader = $expHeader.checked && state.hasHeader;
         const skipEmptyRows = $expSkipEmptyRows.checked;
@@ -4340,7 +3975,6 @@
           for (let r = minR; r <= maxR; r++) {
             rows.push(colRange.map(c => state.data[r]?.[c] ?? ''));
           }
-          if (rowLimit !== null && rows.length > rowLimit) rows = rows.slice(0, rowLimit);
           const headers = includeHeader ? colRange.map(c => state.data[0]?.[c] ?? '') : [];
           // Filter minR>=dataStart rows only (don't include header row as data)
           if (includeHeader && minR === 0) rows = rows.slice(1);
@@ -4348,14 +3982,22 @@
         }
 
         if (target === 'filtered') {
-          rebuildVisibleRows();
-          const visible = rowLimit === null ? _visibleRowIndexes : _visibleRowIndexes.slice(0, rowLimit);
-          rows = visible.map(idx => [...state.data[idx]]);
+          if (virtualState.enabled) {
+            // Virtual mode is enabled only when row filters are inactive.
+            rows = state.data.slice(dataStart).map(r => [...r]);
+          } else {
+          rows = [];
+          const $trs = qsa('tr[data-row]', $dataTable);
+          $trs.forEach($tr => {
+            const idx = parseInt($tr.dataset.row);
+            if (idx < dataStart) return;
+            if ($tr.classList.contains('col-filtered-out')) return;
+            if ($tr.classList.contains('filtered-out')) return;
+            rows.push([...state.data[idx]]);
+          });
+          }
         } else {
-          const sourceRows = rowLimit === null
-            ? state.data.slice(dataStart)
-            : state.data.slice(dataStart, dataStart + rowLimit);
-          rows = sourceRows.map(r => [...r]);
+          rows = state.data.slice(dataStart).map(r => [...r]);
         }
 
         const headers = includeHeader ? [...state.data[0]] : [];
@@ -4384,9 +4026,9 @@
       };
 
       // Generate output string for a given format
-      const generateExportOutput = (exportData = getExportData()) => {
+      const generateExportOutput = () => {
         const fmt = $expFormat.value;
-        const { headers, rows } = exportData;
+        const { headers, rows } = getExportData();
         if (rows.length === 0 && headers.length === 0) return '';
 
         const nl = $expNewline.value === 'crlf' ? '\r\n' : '\n';
@@ -4478,21 +4120,13 @@
       };
 
       const updateExportPreview = () => {
-        const exportData = getExportData({ rowLimit: EXPORT_PREVIEW_ROW_LIMIT });
-        const output = generateExportOutput(exportData);
+        const output = generateExportOutput();
         const lines = output.split('\n');
         const maxPreviewLines = 20;
         const preview = lines.slice(0, maxPreviewLines).join('\n') + (lines.length > maxPreviewLines ? '\n...' : '');
         $expPreview.textContent = preview;
-        $expPreviewInfo.textContent = `プレビュー ${exportData.rows.length}行（最大 ${EXPORT_PREVIEW_ROW_LIMIT} 行）`;
-      };
-
-      const scheduleExportPreview = (immediate = false) => {
-        if (_exportPreviewTimer !== null) clearTimeout(_exportPreviewTimer);
-        _exportPreviewTimer = setTimeout(() => {
-          _exportPreviewTimer = null;
-          updateExportPreview();
-        }, immediate ? 0 : EXPORT_PREVIEW_DEBOUNCE_MS);
+        const { rows } = getExportData();
+        $expPreviewInfo.textContent = `${rows.length}行`;
       };
 
       const getExportExt = () => {
@@ -4550,13 +4184,13 @@
       };
 
       // Wire up export wizard UI events
-      $expFormat.addEventListener('change', () => { updateExpFormatUI(); scheduleExportPreview(); });
+      $expFormat.addEventListener('change', () => { updateExpFormatUI(); updateExportPreview(); });
       $expEncoding.addEventListener('change', (e) => {
         if (e.target.value === 'shift-jis') { $expBom.checked = false; }
-        scheduleExportPreview();
+        updateExportPreview();
       });
       [$expBom, $expNewline, $expQuote, $expTarget, $expHeader, $expSkipEmptyRows, $expSkipEmptyCols].forEach($el =>
-        $el.addEventListener('change', () => scheduleExportPreview())
+        $el.addEventListener('change', updateExportPreview)
       );
       qs('#expCancelBtn').addEventListener('click', closeExportWizard);
       qs('#expCopyBtn').addEventListener('click', exportCopy);
@@ -4970,7 +4604,7 @@
       $searchExactMatch.addEventListener('change', performSearch);
       $searchRegex.addEventListener('change', performSearch);
       $searchTargetCol.addEventListener('change', performSearch);
-      $filterMode.addEventListener('change', () => { performSearchImmediate(); });
+      $filterMode.addEventListener('change', () => { renderTable(); performSearch(); });
       $tableScroll.addEventListener('scroll', scheduleVirtualRender, { passive: true });
       window.addEventListener('resize', scheduleVirtualRender);
       // --- Column Filter Panel Events ---
@@ -5047,13 +4681,11 @@
           state.bom = false;
           qs('#settingBOM').checked = false;
         }
-        markSettingsChanged();
         saveToStorage();
       });
 
       qs('#settingBOM').addEventListener('change', (e) => {
         state.bom = e.target.checked;
-        markSettingsChanged();
         saveToStorage();
       });
 
@@ -5061,19 +4693,16 @@
         state.delimiter = e.target.value;
         updateButtonLabels();
         updateStats();
-        markSettingsChanged();
         saveToStorage();
       });
 
       qs('#settingNewline').addEventListener('change', (e) => {
         state.newline = e.target.value;
-        markSettingsChanged();
         saveToStorage();
       });
 
       qs('#settingQuote').addEventListener('change', (e) => {
         state.quoteStyle = e.target.value;
-        markSettingsChanged();
         saveToStorage();
       });
 
@@ -5104,11 +4733,7 @@
 
       const init = async () => {
         await loadFromStorage();
-        try {
-          await loadSearchHistory();
-        } catch (e) {
-          console.warn('Search history load failed:', e);
-        }
+        await loadSearchHistory();
         resetExportWizard();
         if (state.data.length > 0) renderTable();
         updateStats();
@@ -5119,12 +4744,8 @@
         if (_saveTimer !== null) {
           clearTimeout(_saveTimer);
           _saveTimer = null;
+          IDBStore.set('csvEditor_state', structuredClone(state)).catch(() => {});
         }
-        if (_savedRevision === _saveRevision) return;
-        const revision = _saveRevision;
-        IDBStore.set('csvEditor_state', createPersistedState())
-          .then(() => { _savedRevision = revision; })
-          .catch(() => {});
       };
 
       return { init, flushStorage };

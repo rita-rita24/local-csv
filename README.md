@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/favicon/favicon.png" alt="ArtCSV Logo" width="120" />
+  <img src="public/favicon/favicon.png" alt="LocalCSV Logo" width="120" />
 </p>
 
-<h1 align="center">ArtCSV</h1>
+<h1 align="center">LocalCSV</h1>
 
 <p align="center">
   <strong>どこでも快適なCSV編集を。</strong><br />
@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="public/preview.png" alt="ArtCSV エディタ スクリーンショット" width="720" />
+  <img src="public/preview.png" alt="LocalCSV エディタ スクリーンショット" width="720" />
 </p>
 
 ---
@@ -53,15 +53,15 @@
 
 ## 概要
 
-**ArtCSV** は、ブラウザ上で完結する軽量なCSV/TSVエディタです。
+**LocalCSV** は、ブラウザ上で完結する軽量なCSV/TSVエディタです。
 
 サーバー通信やトラッキングは一切行わず、すべてのデータ処理がブラウザ内で完結します。HTMLファイル1つで動作するため、USBメモリに入れても、自分のサーバーに置いても、どこでもすぐに使い始められます。
 
 ```
-📦 ArtCSV.html (約54KB) — これ1つでCSV編集が完結
+📦 LocalCSV_pro.html (約54KB) — これ1つでCSV編集が完結
 ```
 
-### デモ版（`ArtCSV_demo.html`）の現行仕様
+### デモ版（`LocalCSV_demo.html`）の現行仕様
 
 - 表示されない機能・未使用機能は整理済みで、UIに存在する操作のみ実行できます。
 - デモ版では「開く / 貼り付け / 編集 / 行列の追加削除 / 検索 / Undo・Redo / 設定」を提供します。
@@ -90,7 +90,7 @@
 
 ### HTMLをダウンロードして使う
 
-1. `ArtCSV.html` をダウンロード
+1. `LocalCSV_pro.html` をダウンロード
 2. ブラウザでファイルを開く
 3. テキストエリアにCSV/TSVデータをペースト、またはCtrl+Vで貼り付け
 4. 編集開始！
@@ -101,7 +101,7 @@
 
 ## デザインバリエーション
 
-- `test_ArtCSV.html`: Apple 風デザインシステムをベースに、ヘッダーのガラス表現・モノトーン主体の配色・Blueアクセント（`#0071E3`）で再設計したUIテスト版です。
+- `test_LocalCSV.html`: Apple 風デザインシステムをベースに、ヘッダーのガラス表現・モノトーン主体の配色・Blueアクセント（`#0071E3`）で再設計したUIテスト版です。
 - 既存機能（CSV/TSV編集、検索、置換、エクスポート、モーダル設定）は維持したまま、見た目のみを調整しています。
 
 ---
@@ -271,8 +271,9 @@
 ## プロジェクト構成
 
 ```
-art-csv/
-├── ArtCSV.html                  # エディタ本体（単独で動作するHTMLファイル）
+local-csv/
+├── LocalCSV_pro.html            # エディタ本体（単独で動作するHTMLファイル）
+├── LocalCSV_demo.html           # デモ版（機能制限あり）
 ├── index.html                   # ランディングページ
 ├── package.json                 # プロジェクト設定
 ├── tsconfig.json                # TypeScript設定
@@ -293,7 +294,7 @@ art-csv/
 
 | ファイル | 説明 |
 |---|---|
-| `ArtCSV.html` | エディタ本体。HTML + CSS + JavaScriptが全て内包された単一ファイル。これ単独でCSV編集が可能 |
+| `LocalCSV_pro.html` | エディタ本体。HTML + CSS + JavaScriptが全て内包された単一ファイル。これ単独でCSV編集が可能 |
 | `index.html` | プロジェクトのランディングページ。機能紹介やダウンロードリンクを提供 |
 | `src/main.ts` | ランディングページのインタラクション（ダウンロード、アニメーション等）を記述したTypeScriptソース |
 | `public/css/style.css` | ランディングページのスタイルシート。Material Design 3カラートークンベース |
@@ -305,8 +306,8 @@ art-csv/
 ### セットアップ
 
 ```bash
-git clone https://github.com/rita-rita24/art-csv.git
-cd art-csv
+git clone https://github.com/rita-rita24/local-csv.git
+cd local-csv
 npm install
 ```
 
@@ -322,9 +323,9 @@ npm run watch
 
 ### ローカルでの確認
 
-`index.html` または `ArtCSV.html` をブラウザで直接開くだけで動作します。ローカルサーバーの起動は不要です。
+`index.html` または `LocalCSV_pro.html` をブラウザで直接開くだけで動作します。ローカルサーバーの起動は不要です。
 
-> **補足**: `ArtCSV.html` はエディタ本体のスタンドアロンファイルです。このファイルへの変更は直接HTML内のCSS/JavaScriptを編集してください。
+> **補足**: `LocalCSV_pro.html` はエディタ本体のスタンドアロンファイルです。このファイルへの変更は直接HTML内のCSS/JavaScriptを編集してください。
 
 ---
 
