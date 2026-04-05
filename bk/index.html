@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>ArtCSV | どこでも快適なCSV編集を</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <!-- Favicon -->
+  <link rel="icon" href="public/favicon/favicon.ico" sizes="any" />
+  <!-- Styles -->
+  <link href="public/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- TopNavBar -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <div class="top-nav-brand">
+        <span class="top-nav-logo">ArtCSV</span>
+        <div class="top-nav-links">
+          <a class="top-nav-link" href="#features">特長</a>
+          <a class="top-nav-link" href="#tool">ツール</a>
+          <a class="top-nav-link" href="#release-notes">リリースノート</a>
+        </div>
+      </div>
+      <div class="top-nav-actions">
+        <button id="downloadBtn" class="btn-text">ダウンロード</button>
+        <button id="useNowBtn" class="btn-primary primary-gradient">今すぐ使う</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1 class="hero-title">
+        どこでも快適な<span class="hero-accent">CSV編集</span>を。
+      </h1>
+      <p class="hero-description">
+        たった1つのHTMLファイルで動作。インストール不要、データはローカル完結で安全・高速。洗練された編集体験をお届けします。
+      </p>
+      <div class="hero-actions">
+        <button id="heroUseNowBtn" class="btn-hero-primary primary-gradient shadow-ambient">
+          Webで今すぐ使う
+        </button>
+        <button id="heroDownloadBtn" class="btn-hero-secondary">
+          HTMLをダウンロード
+        </button>
+      </div>
+    </section>
+
+    <!-- Tool Area (Mockup) -->
+    <section class="tool-section" id="tool">
+      <a href="ArtCSV.html" class="tool-preview">
+        <img class="tool-preview-img" src="public/preview.png" alt="ArtCSV エディタ プレビュー" />
+      </a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <div class="feature-card fade-in">
+          <div class="feature-icon primary-gradient">
+            <span class="material-symbols-outlined">security</span>
+          </div>
+          <h3>ローカル完結で安全</h3>
+          <p>すべての処理がブラウザ内で完結。データが外部に送信されることはありません。サーバー通信もトラッキングも一切なし。</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="feature-card fade-in">
+          <div class="feature-icon primary-gradient">
+            <span class="material-symbols-outlined">description</span>
+          </div>
+          <h3>ファイル1つで完結</h3>
+          <p>持ち運べるHTMLファイル1つだけ。USBメモリに入れても、自分のサーバーに置いても、どこでもすぐに使えます。</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="feature-card fade-in">
+          <div class="feature-icon primary-gradient">
+            <span class="material-symbols-outlined">bolt</span>
+          </div>
+          <h3>軽量で高速</h3>
+          <p>大容量データでもストレスなく動作。最適化されたパース処理により、操作中のラグを徹底排除しました。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Release Notes Section -->
+    <section class="release-notes fade-in" id="release-notes">
+      <div class="release-notes-header">
+        <h2>ArtCSVの進化</h2>
+        <div class="release-notes-divider primary-gradient"></div>
+      </div>
+      <div class="release-notes-list">
+        <div class="release-item">
+          <div class="release-version">v1.2.0</div>
+          <div>
+            <div class="release-date">2024-05-10</div>
+            <p class="release-content">ダークモードに対応し、テーマ設定の保持機能を追加しました。</p>
+          </div>
+        </div>
+        <div class="release-item">
+          <div class="release-version">v1.1.5</div>
+          <div>
+            <div class="release-date">2024-03-22</div>
+            <p class="release-content">50MBを超えるCSVファイルのパース性能を改善しました。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">ArtCSV</div>
+      <div class="footer-copy">© 2024 ArtCSV. 精密さを追求して。</div>
+      <div class="footer-links">
+        <a class="footer-link" href="#">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+            </path>
+          </svg>
+          GitHub
+        </a>
+        <a class="footer-link" href="#">プライバシー</a>
+        <a class="footer-link" href="#">利用規約</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="public/js/main.js"></script>
+</body>
+
+</html>

@@ -44,8 +44,8 @@
       :root {
         color-scheme: light;
 
-        --primary:       light-dark(oklch(0.55 0.20 260), oklch(0.49 0.18 260));
-        --primary-hover: light-dark(oklch(0.48 0.22 260), oklch(0.52 0.18 260));
+        --primary:       light-dark(#2ea9df, color-mix(in oklab, #2ea9df 82%, black));
+        --primary-hover: light-dark(color-mix(in oklab, #2ea9df 86%, black), color-mix(in oklab, #2ea9df 92%, white));
         --danger:        light-dark(oklch(0.53 0.22 25),  oklch(0.48 0.20 25));
         --danger-hover:  light-dark(oklch(0.45 0.22 25),  oklch(0.52 0.20 25));
         --success:       light-dark(oklch(0.55 0.18 145), oklch(0.48 0.16 145));
@@ -57,7 +57,7 @@
         --text-muted:    light-dark(oklch(0.50 0.02 255),  oklch(0.76 0.007 250));
         --header-bg:     light-dark(oklch(0.96 0.01 250),  oklch(0.28 0.008 250));
         --highlight:     light-dark(oklch(0.93 0.12 95),   oklch(0.46 0.10 60));
-        --cell-focus-bg: light-dark(oklch(0.95 0.06 260),  oklch(0.34 0.05 260));
+        --cell-focus-bg: light-dark(color-mix(in oklab, #2ea9df 14%, white), color-mix(in oklab, #2ea9df 30%, black));
       }
 
       body {
@@ -187,49 +187,6 @@
       .demo-upgrade-badge:focus-visible {
         outline: 2px solid color-mix(in oklab, var(--primary) 65%, white);
         outline-offset: 2px;
-      }
-
-      body.demo-mode .th-filter-btn {
-        display: none !important;
-      }
-
-      body.demo-mode #colFilterPanel {
-        display: none !important;
-      }
-
-      body.demo-mode .demo-locked {
-        position: relative;
-        border: 1px dashed color-mix(in oklab, var(--danger) 58%, var(--border)) !important;
-        background: color-mix(in oklab, var(--danger) 14%, var(--surface)) !important;
-        color: color-mix(in oklab, var(--danger) 62%, var(--text)) !important;
-        cursor: not-allowed !important;
-        opacity: 1;
-      }
-
-      body.demo-mode .demo-locked:hover {
-        background: color-mix(in oklab, var(--danger) 14%, var(--surface)) !important;
-        transform: none !important;
-      }
-
-      body.demo-mode .demo-locked::after {
-        content: 'DEMO制限';
-        display: inline-block;
-        margin-inline-start: 6px;
-        padding: 1px 6px;
-        border-radius: 999px;
-        border: 1px solid color-mix(in oklab, var(--danger) 50%, var(--border));
-        background: color-mix(in oklab, var(--danger) 10%, var(--surface));
-        color: color-mix(in oklab, var(--danger) 72%, var(--text));
-        font-size: 0.62rem;
-        font-weight: 700;
-        line-height: 1.35;
-      }
-
-      body.demo-mode .th-menu-btn[data-col-drag],
-      body.demo-mode .row-menu-btn[data-row-drag] {
-        cursor: not-allowed !important;
-        opacity: 0.4 !important;
-        filter: grayscale(1);
       }
 
       .header-right {
@@ -457,62 +414,6 @@
         }
       }
 
-      .search-advanced-toggle {
-        margin-inline-start: 0;
-        font-size: 0.85rem;
-        padding: 4px 12px !important;
-      }
-      .search-advanced-toggle.active {
-        background: var(--primary) !important;
-        color: #fff !important;
-        border-color: var(--primary) !important;
-      }
-
-      .search-advanced {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        flex-wrap: wrap;
-        padding-block-start: 8px;
-        border-block-start: 1px solid var(--border);
-      }
-
-      .search-option {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 0.85rem;
-        cursor: pointer;
-        white-space: nowrap;
-
-        & input[type="checkbox"] {
-          accent-color: var(--primary);
-          block-size: auto;
-        }
-      }
-
-      .search-option-group {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.85rem;
-
-        & select {
-          font-size: 0.85rem;
-          padding: 4px 8px;
-          block-size: 30px;
-        }
-      }
-
-      .search-separator {
-        inline-size: 1px;
-        block-size: 24px;
-        background: var(--border);
-      }
-
-      tr.filtered-out { display: none; }
-      tr.col-filtered-out { display: none; }
-
       /* === Paste Zone === */
       .paste-area {
         position: relative;
@@ -567,7 +468,7 @@
       }
 
       table {
-        inline-size: max-content;
+        inline-size: auto;
         border-collapse: collapse;
         font-size: 0.9rem;
         table-layout: fixed;
@@ -620,10 +521,6 @@
         }
       }
 
-      .selecting-cells td[contenteditable] {
-        user-select: none;
-      }
-
       td.highlight {
         background: var(--highlight) !important;
       }
@@ -661,6 +558,15 @@
         border-inline-end: 1px solid var(--border);
       }
 
+      td.row-num[data-row-menu] {
+        cursor: pointer;
+
+        &:hover {
+          background: var(--border);
+          color: var(--text);
+        }
+      }
+
       th.row-num:hover {
         background: var(--header-bg);
       }
@@ -678,22 +584,6 @@
       .row-num-text {
         flex: 1;
         text-align: center;
-      }
-
-      th.drag-insert-before {
-        box-shadow: inset 3px 0 0 var(--primary);
-      }
-
-      th.drag-insert-after {
-        box-shadow: inset -3px 0 0 var(--primary);
-      }
-
-      tr.drag-insert-before > td.row-num {
-        box-shadow: inset 0 3px 0 var(--primary);
-      }
-
-      tr.drag-insert-after > td.row-num {
-        box-shadow: inset 0 -3px 0 var(--primary);
       }
 
       .row-menu-btn {
@@ -743,6 +633,7 @@
         inline-size: 100%;
         block-size: 100%;
         display: flex;
+        min-inline-size: 0;
       }
 
       .th-content {
@@ -754,6 +645,7 @@
         padding: 10px 12px;
         flex: 1;
         inline-size: 100%;
+        min-inline-size: 0;
       }
 
       .th-colnum {
@@ -769,6 +661,7 @@
 
       .th-text {
         flex: 1;
+        min-inline-size: 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -783,17 +676,6 @@
 
       th:hover .th-menu-btn {
         opacity: 1;
-      }
-
-      .th-menu-btn[data-col-drag],
-      .row-menu-btn[data-row-drag] {
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .th-menu-btn[data-col-drag]:active,
-      .row-menu-btn[data-row-drag]:active {
-        cursor: pointer;
       }
 
       /* === Context Menus === */
@@ -840,206 +722,6 @@
         background: var(--border);
         margin-block: 4px;
       }
-
-      /* === Column Filter Panel === */
-      .col-filter-panel {
-        display: none;
-        position: absolute;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        box-shadow: 0 10px 40px oklch(0 0 0 / 0.18);
-        z-index: 1001;
-        inline-size: 340px;
-        max-block-size: 520px;
-        overflow: hidden;
-        flex-direction: column;
-
-        &.show {
-          display: flex;
-        }
-      }
-
-      .col-filter-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 16px;
-        border-block-end: 1px solid var(--border);
-        background: var(--header-bg);
-      }
-
-      .col-filter-title {
-        font-weight: 600;
-        font-size: 0.9rem;
-      }
-
-      .col-filter-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: var(--text-muted);
-        padding: 2px;
-        border-radius: 4px;
-        display: flex;
-        &:hover { background: var(--border); color: var(--text); }
-      }
-
-      .col-filter-section {
-        padding: 12px 16px;
-        border-block-end: 1px solid var(--border);
-        overflow-y: auto;
-        flex-shrink: 1;
-        min-block-size: 0;
-      }
-
-      .col-filter-section-title {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--text-muted);
-        margin-block-end: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
-
-      .col-filter-search {
-        inline-size: 100%;
-        padding: 6px 10px;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        font-size: 0.85rem;
-        background: var(--bg);
-        color: var(--text);
-        margin-block-end: 8px;
-        box-sizing: border-box;
-        &:focus { outline: none; border-color: var(--primary); }
-      }
-
-      .col-filter-values {
-        max-block-size: 160px;
-        overflow-y: auto;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        background: var(--bg);
-      }
-
-      .col-filter-value-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 5px 10px;
-        font-size: 0.85rem;
-        cursor: pointer;
-        &:hover { background: var(--header-bg); }
-
-        & input[type="checkbox"] { accent-color: var(--primary); flex-shrink: 0; }
-        & .cfv-label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        & .cfv-count { font-size: 0.75rem; color: var(--text-muted); flex-shrink: 0; }
-      }
-
-      .col-filter-values-actions {
-        display: flex;
-        gap: 8px;
-        margin-block-start: 6px;
-      }
-
-      .col-filter-conditions {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .col-filter-condition {
-        display: flex;
-        gap: 6px;
-        align-items: center;
-
-        & select {
-          flex: 0 0 auto;
-          inline-size: 120px;
-          padding: 4px 6px;
-          border: 1px solid var(--border);
-          border-radius: 6px;
-          font-size: 0.82rem;
-          background: var(--bg);
-          color: var(--text);
-        }
-        & input {
-          flex: 1;
-          padding: 4px 8px;
-          border: 1px solid var(--border);
-          border-radius: 6px;
-          font-size: 0.82rem;
-          background: var(--bg);
-          color: var(--text);
-          min-inline-size: 0;
-          &:focus { outline: none; border-color: var(--primary); }
-        }
-        & .col-filter-cond-remove {
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: var(--text-muted);
-          padding: 2px;
-          border-radius: 4px;
-          display: flex;
-          font-size: 0.9rem;
-          &:hover { color: var(--danger); }
-        }
-      }
-
-      .col-filter-cond-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-block-start: 8px;
-      }
-
-      .col-filter-logic {
-        display: flex;
-        gap: 12px;
-        font-size: 0.82rem;
-        & label { display: flex; align-items: center; gap: 3px; cursor: pointer; }
-        & input[type="radio"] { accent-color: var(--primary); }
-      }
-
-      .col-filter-footer {
-        display: flex;
-        gap: 8px;
-        padding: 12px 16px;
-        justify-content: flex-end;
-        border-block-start: 1px solid var(--border);
-        margin-block-start: auto;
-      }
-
-      .btn-primary {
-        background: var(--primary) !important;
-        color: #fff !important;
-        border-color: var(--primary) !important;
-        &:hover {
-          background: var(--primary-hover) !important;
-          border-color: var(--primary-hover) !important;
-          filter: none;
-        }
-      }
-
-      .btn-sm {
-        font-size: 0.8rem !important;
-        padding: 4px 10px !important;
-      }
-
-      /* Filter icon in header */
-      .th-filter-btn {
-        padding: 2px;
-        border-radius: 4px;
-        opacity: 0.3;
-        transition: opacity 0.15s;
-        font-size: 1rem !important;
-        cursor: pointer;
-        flex-shrink: 0;
-      }
-      th:hover .th-filter-btn { opacity: 0.7; }
-      .th-filter-btn.has-filter { opacity: 1; color: var(--primary); }
 
       /* === Toast === */
       .toast-container {
@@ -1224,12 +906,6 @@
         }
       }
 
-      .shortcut-hint {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin-inline-start: 4px;
-      }
-
       /* === Settings Modal === */
       .settings-modal {
         max-inline-size: 680px;
@@ -1243,65 +919,6 @@
           align-items: center;
           gap: 8px;
         }
-      }
-
-      /* === Export Wizard === */
-      .export-wizard-modal {
-        max-inline-size: 760px;
-        max-block-size: 92vh;
-        overflow-y: auto;
-
-        & h3 {
-          font-size: 1.2rem;
-          margin-block-end: 16px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-      }
-
-      .export-wizard-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0 24px;
-      }
-
-      .export-preview-section {
-        margin-block-start: 12px;
-        border-block-start: 1px solid var(--border);
-        padding-block-start: 12px;
-        margin-block-end: 16px;
-      }
-
-      .export-preview-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-block-end: 8px;
-      }
-
-      .export-preview-title {
-        font-size: 0.85rem;
-        font-weight: 600;
-      }
-
-      .export-preview-info {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-      }
-
-      .export-preview {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 0.8rem;
-        max-block-size: 200px;
-        overflow: auto;
-        white-space: pre;
-        margin: 0;
-        font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace;
-        line-height: 1.5;
       }
 
       .settings-grid {
@@ -1376,202 +993,6 @@
           accent-color: var(--primary);
           cursor: pointer;
         }
-      }
-
-      /* === Import Wizard === */
-      .import-wizard-modal {
-        max-inline-size: 720px;
-        max-block-size: 90vh;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-
-      .import-wizard-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-block-end: 12px;
-
-        & h3 {
-          font-size: 1.15rem;
-          margin: 0;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-      }
-
-      .wizard-steps {
-        display: flex;
-        gap: 4px;
-        margin-block-end: 16px;
-        background: var(--header-bg);
-        border-radius: 8px;
-        padding: 4px;
-      }
-
-      .wizard-step {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 8px 12px;
-        font-size: 0.82rem;
-        font-weight: 500;
-        color: var(--text-muted);
-        border-radius: 6px;
-        transition: all 0.2s;
-
-        &.active {
-          background: var(--primary);
-          color: #fff;
-        }
-
-        &.done {
-          color: var(--primary);
-        }
-      }
-
-      .wizard-step-num {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        inline-size: 20px;
-        block-size: 20px;
-        border-radius: 50%;
-        font-size: 0.75rem;
-        font-weight: 700;
-        border: 1.5px solid currentColor;
-      }
-
-      .wizard-step.active .wizard-step-num {
-        border-color: #fff;
-      }
-
-      .wizard-page {
-        flex: 1;
-        overflow-y: auto;
-        min-block-size: 0;
-      }
-
-      .wizard-detect-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-block-end: 16px;
-      }
-
-      .wizard-detect-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 14px;
-        background: var(--header-bg);
-        border-radius: 8px;
-        border: 1px solid var(--border);
-
-        & .material-symbols-outlined {
-          font-size: 1.3rem;
-          color: var(--primary);
-        }
-      }
-
-      .wizard-detect-label {
-        font-size: 0.72rem;
-        color: var(--text-muted);
-        line-height: 1.2;
-      }
-
-      .wizard-detect-value {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--text);
-      }
-
-      .wizard-settings {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .wizard-setting-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-
-        & > label:first-child:not(.settings-checkbox) {
-          inline-size: 90px;
-          flex-shrink: 0;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: var(--text);
-        }
-
-        & > .settings-select {
-          flex: 1;
-        }
-      }
-
-      .wizard-preview-toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-block-end: 8px;
-        gap: 8px;
-      }
-
-      .wizard-preview-info {
-        font-size: 0.82rem;
-        color: var(--text-muted);
-      }
-
-      .wizard-preview-scroll {
-        max-block-size: 340px;
-        overflow: auto;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-      }
-
-      .wizard-preview-table {
-        inline-size: 100%;
-        border-collapse: collapse;
-        font-size: 0.82rem;
-      }
-
-      .wizard-preview-table th,
-      .wizard-preview-table td {
-        padding: 6px 10px;
-        border: 1px solid var(--border);
-        white-space: nowrap;
-        max-inline-size: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .wizard-preview-table th {
-        background: var(--primary);
-        color: #fff;
-        font-weight: 600;
-        position: sticky;
-        inset-block-start: 0;
-        z-index: 1;
-      }
-
-      .wizard-preview-table th.auto-header {
-        background: var(--header-bg);
-        color: var(--text-muted);
-      }
-
-      .wizard-preview-table tr:nth-child(even) td {
-        background: var(--header-bg);
-      }
-
-      .import-wizard-actions {
-        margin-block-start: 16px;
-        padding-block-start: 12px;
-        border-block-start: 1px solid var(--border);
       }
 
       /* === Theme Swatches === */
@@ -1760,7 +1181,6 @@
         .btn { padding: 6px 12px; font-size: 0.8rem; }
         .paste-zone { padding: 24px; }
         th, td { padding: 8px; }
-        .shortcut-hint { display: none; }
         .settings-grid { grid-template-columns: 1fr; }
         .demo-upgrade-kpis { grid-template-columns: 1fr; }
         .demo-upgrade-grid { grid-template-columns: 1fr; }
@@ -1769,7 +1189,7 @@
   </style>
 </head>
 
-<body class="demo-mode">
+<body>
   <noscript>
     <style>
       body > *:not(.noscript-warning) { display: none !important; }
@@ -1822,27 +1242,11 @@
           <input type="text" id="searchInput" placeholder="検索..." autocomplete="off" list="searchHistoryList">
           <datalist id="searchHistoryList"></datalist>
         </div>
-        <input type="text" id="replaceInput" placeholder="置換...">
-        <button class="btn" id="replaceNextBtn">置換</button>
-        <button class="btn" id="replaceAllBtn">すべて置換</button>
         <div class="search-nav">
           <button id="searchPrevBtn" title="前へ"><span class="material-symbols-outlined">expand_less</span></button>
           <button id="searchNextBtn" title="次へ"><span class="material-symbols-outlined">expand_more</span></button>
         </div>
         <span class="search-info" id="searchInfo"></span>
-        <button class="btn search-advanced-toggle" id="searchAdvancedToggle" title="詳細検索">詳細</button>
-      </div>
-      <div class="search-advanced" id="searchAdvanced" style="display:none;">
-        <label class="search-option"><input type="checkbox" id="searchCaseSensitive"><span>大文字小文字を区別</span></label>
-        <label class="search-option"><input type="checkbox" id="searchExactMatch"><span>完全一致</span></label>
-        <label class="search-option"><input type="checkbox" id="searchRegex"><span>正規表現</span></label>
-        <label class="search-option"><input type="checkbox" id="filterMode"><span>フィルタ（該当行のみ表示）</span></label>
-        <div class="search-option-group">
-          <label>対象列:</label>
-          <select id="searchTargetCol">
-            <option value="-1">すべて</option>
-          </select>
-        </div>
       </div>
     </div>
 
@@ -1850,7 +1254,6 @@
     <div class="toolbar">
       <div class="toolbar-group">
         <button class="btn" id="openFileBtn" title="ファイルを開く (Ctrl+O)"><span class="material-symbols-outlined">folder_open</span> 開く</button>
-        <button class="btn" id="saveBtn" title="上書き保存 (Ctrl+S)"><span class="material-symbols-outlined">save</span> <span id="saveBtnLabel">保存</span></button>
       </div>
       <div class="toolbar-group">
         <button class="btn" id="undoBtn" disabled title="元に戻す"><span class="material-symbols-outlined">undo</span></button>
@@ -1860,11 +1263,6 @@
         <button class="btn" id="pasteBtn" title="クリップボードから貼り付け"><span class="material-symbols-outlined">content_paste</span> 貼り付け</button>
         <button class="btn" id="addRowBtn" title="行を追加"><span class="material-symbols-outlined">add_box</span> 行追加</button>
         <button class="btn" id="addColBtn" title="列を追加"><span class="material-symbols-outlined">add_box</span> 列追加</button>
-      </div>
-      <div class="toolbar-group">
-        <button class="btn" id="copyBtn" title="コピー"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
-        <button class="btn" id="dlBtn" title="名前を付けて保存"><span class="material-symbols-outlined">download</span> <span id="dlBtnLabel">CSV保存</span></button>
-        <button class="btn" id="exportWizardBtn" title="エクスポート"><span class="material-symbols-outlined">tune</span> エクスポート</button>
       </div>
       <div class="toolbar-group ml-auto">
         <button class="btn btn-danger" id="clearBtn" title="すべてクリア"><span class="material-symbols-outlined">delete</span> クリア</button>
@@ -1894,78 +1292,16 @@
 
   <!-- 列メニュー -->
   <div class="column-menu" id="columnMenu">
-    <div class="menu-item" data-action="sort-asc"><span class="material-symbols-outlined">arrow_upward</span> 昇順に並び替え</div>
-    <div class="menu-item" data-action="sort-desc"><span class="material-symbols-outlined">arrow_downward</span> 降順に並び替え</div>
-    <div class="menu-divider"></div>
     <div class="menu-item" data-action="add-col-left"><span class="material-symbols-outlined">keyboard_double_arrow_left</span> 左に列を追加</div>
     <div class="menu-item" data-action="add-col-right"><span class="material-symbols-outlined">keyboard_double_arrow_right</span> 右に列を追加</div>
     <div class="menu-divider"></div>
-    <div class="menu-item" data-action="copy-col"><span class="material-symbols-outlined">content_copy</span> 列をコピー</div>
-    <div class="menu-item" data-action="dup-col"><span class="material-symbols-outlined">content_copy</span> 列を複製</div>
-    <div class="menu-divider"></div>
     <div class="menu-item danger" data-action="del-col"><span class="material-symbols-outlined">delete</span> 列を削除</div>
-  </div>
-
-  <!-- 列フィルタパネル -->
-  <div class="col-filter-panel" id="colFilterPanel">
-    <div class="col-filter-header">
-      <span class="col-filter-title" id="colFilterTitle">列フィルタ</span>
-      <button class="col-filter-close" id="colFilterClose"><span class="material-symbols-outlined">close</span></button>
-    </div>
-
-    <!-- 値一覧セクション -->
-    <div class="col-filter-section">
-      <div class="col-filter-section-title">値で絞り込み</div>
-      <input type="text" class="col-filter-search" id="colFilterSearch" placeholder="値を検索...">
-      <div class="col-filter-values" id="colFilterValues"></div>
-      <div class="col-filter-values-actions">
-        <button class="btn btn-sm" id="colFilterSelectAll">すべて選択</button>
-        <button class="btn btn-sm" id="colFilterSelectNone">すべて解除</button>
-      </div>
-    </div>
-
-    <!-- 条件フィルタセクション -->
-    <div class="col-filter-section">
-      <div class="col-filter-section-title">条件で絞り込み</div>
-      <div class="col-filter-conditions" id="colFilterConditions">
-        <div class="col-filter-condition" data-cond-idx="0">
-          <select class="col-filter-op">
-            <option value="">（なし）</option>
-            <option value="contains">含む</option>
-            <option value="not_contains">含まない</option>
-            <option value="equals">等しい</option>
-            <option value="not_equals">等しくない</option>
-            <option value="gte">以上</option>
-            <option value="lte">以下</option>
-            <option value="empty">空</option>
-            <option value="not_empty">非空</option>
-          </select>
-          <input type="text" class="col-filter-cond-val" placeholder="値...">
-        </div>
-      </div>
-      <div class="col-filter-cond-actions">
-        <div class="col-filter-logic">
-          <label><input type="radio" name="colFilterLogic" value="and" checked> AND</label>
-          <label><input type="radio" name="colFilterLogic" value="or"> OR</label>
-        </div>
-        <button class="btn btn-sm" id="colFilterAddCond"><span class="material-symbols-outlined" style="font-size:1rem;">add</span> 条件追加</button>
-      </div>
-    </div>
-
-    <!-- アクションボタン -->
-    <div class="col-filter-footer">
-      <button class="btn" id="colFilterClearBtn"><span class="material-symbols-outlined">filter_alt_off</span> フィルタ解除</button>
-      <button class="btn btn-primary" id="colFilterApplyBtn"><span class="material-symbols-outlined">filter_alt</span> 絞り込む</button>
-    </div>
   </div>
 
   <!-- 行メニュー -->
   <div class="column-menu" id="rowMenu">
     <div class="menu-item" data-action="add-row-up"><span class="material-symbols-outlined">keyboard_double_arrow_up</span> 上に行を追加</div>
     <div class="menu-item" data-action="add-row-down"><span class="material-symbols-outlined">keyboard_double_arrow_down</span> 下に行を追加</div>
-    <div class="menu-divider"></div>
-    <div class="menu-item" data-action="copy-row"><span class="material-symbols-outlined">content_copy</span> 行をコピー</div>
-    <div class="menu-item" data-action="dup-row"><span class="material-symbols-outlined">content_copy</span> 行を複製</div>
     <div class="menu-divider"></div>
     <div class="menu-item danger" data-action="del-row"><span class="material-symbols-outlined">delete</span> 行を削除</div>
   </div>
@@ -2005,13 +1341,11 @@
         <h4><span class="material-symbols-outlined">keyboard</span> ショートカット一覧</h4>
         <table class="shortcut-table">
           <tr><td>ファイルを開く</td><td><kbd>Ctrl</kbd> + <kbd>O</kbd></td></tr>
-          <tr><td>上書き保存</td><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td></tr>
           <tr><td>元に戻す</td><td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td></tr>
           <tr><td>やり直す</td><td><kbd>Ctrl</kbd> + <kbd>Y</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td></tr>
           <tr><td>検索</td><td><kbd>Ctrl</kbd> + <kbd>F</kbd></td></tr>
           <tr><td>次/前の検索結果</td><td><kbd>Enter</kbd> / <kbd>Shift</kbd> + <kbd>Enter</kbd>（検索欄内）</td></tr>
           <tr><td>セル移動</td><td><kbd>Tab</kbd> / <kbd>Enter</kbd> / <kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></td></tr>
-          <tr><td>複数セル選択・一括編集</td><td>Pro版で機能解除</td></tr>
           <tr><td>ヘルプを開く</td><td><kbd>?</kbd></td></tr>
         </table>
       </div>
@@ -2143,231 +1477,11 @@
       </div>
 
       <div class="demo-upgrade-note">
-        ※体感速度はデータ内容・端末性能・ブラウザ環境により変動します。Pro版ファイル: <code>v6_ArtCSV_pro.html</code>
+        ※体感速度はデータ内容・端末性能・ブラウザ環境により変動します。Pro版ファイル: <code>ArtCSV_pro.html</code>
       </div>
       <div class="modal-actions">
         <button class="btn" id="demoUpgradeCloseBtn">閉じる</button>
         <button class="btn btn-primary" id="demoUpgradeGoBtn"><span class="material-symbols-outlined">open_in_new</span> 今すぐPro版を開く</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- エクスポート -->
-  <div class="modal-overlay" id="exportWizardOverlay">
-    <div class="modal export-wizard-modal">
-      <h3><span class="material-symbols-outlined">tune</span> エクスポート</h3>
-      <div class="export-wizard-grid">
-
-        <!-- 形式 -->
-        <div class="settings-group">
-          <label>出力形式</label>
-          <select class="settings-select" id="expFormat">
-            <option value="csv">CSV（カンマ区切り）</option>
-            <option value="tsv">TSV（タブ区切り）</option>
-            <option value="txt">TXT（スペース区切り）</option>
-            <option value="json">JSON</option>
-            <option value="ndjson">NDJSON（1行1JSON）</option>
-            <option value="html">HTML Table</option>
-            <option value="markdown">Markdown Table</option>
-          </select>
-        </div>
-
-        <!-- 文字コード -->
-        <div class="settings-group" id="expEncodingGroup">
-          <label>文字コード</label>
-          <select class="settings-select" id="expEncoding">
-            <option value="utf-8">UTF-8</option>
-            <option value="shift-jis">Shift-JIS (CP932)</option>
-            <option value="euc-jp">EUC-JP</option>
-            <option value="iso-2022-jp">ISO-2022-JP (JIS)</option>
-            <option value="utf-16le">UTF-16 LE</option>
-            <option value="utf-16be">UTF-16 BE</option>
-          </select>
-          <label class="settings-checkbox" id="expBomGroup">
-            <input type="checkbox" id="expBom" checked> BOM を付与する
-          </label>
-        </div>
-
-        <!-- 改行コード -->
-        <div class="settings-group" id="expNewlineGroup">
-          <label>改行コード</label>
-          <select class="settings-select" id="expNewline">
-            <option value="crlf">CRLF (Windows)</option>
-            <option value="lf">LF (Linux/Mac)</option>
-          </select>
-        </div>
-
-        <!-- 引用ルール -->
-        <div class="settings-group" id="expQuoteGroup">
-          <label>囲み文字（クオート）</label>
-          <select class="settings-select" id="expQuote">
-            <option value="auto">自動（必要な場合のみ）</option>
-            <option value="all">すべてのフィールドをクオート</option>
-            <option value="none">クオートしない</option>
-          </select>
-        </div>
-
-        <!-- 出力対象 -->
-        <div class="settings-group">
-          <label>出力対象</label>
-          <select class="settings-select" id="expTarget">
-            <option value="all">全件</option>
-            <option value="filtered">フィルタ結果のみ</option>
-            <option value="selected">選択範囲のみ</option>
-          </select>
-          <div class="settings-hint" id="expTargetHint"></div>
-        </div>
-
-        <!-- ヘッダー -->
-        <div class="settings-group">
-          <label class="settings-checkbox">
-            <input type="checkbox" id="expHeader" checked> ヘッダー行を含める
-          </label>
-        </div>
-
-        <!-- 空列/空行 -->
-        <div class="settings-group">
-          <label>空列/空行の扱い</label>
-          <label class="settings-checkbox">
-            <input type="checkbox" id="expSkipEmptyRows"> 空行を除外する
-          </label>
-          <label class="settings-checkbox">
-            <input type="checkbox" id="expSkipEmptyCols"> 空列を除外する
-          </label>
-        </div>
-
-      </div>
-
-      <!-- プレビュー -->
-      <div class="export-preview-section">
-        <div class="export-preview-header">
-          <span class="export-preview-title">プレビュー</span>
-          <span class="export-preview-info" id="expPreviewInfo"></span>
-        </div>
-        <pre class="export-preview" id="expPreview"></pre>
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn" id="expCancelBtn">キャンセル</button>
-        <button class="btn" id="expCopyBtn"><span class="material-symbols-outlined">content_copy</span> コピー</button>
-        <button class="btn btn-primary" id="expDownloadBtn"><span class="material-symbols-outlined">download</span> ダウンロード</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- インポートウィザード -->
-  <div class="modal-overlay" id="importWizardOverlay">
-    <div class="modal import-wizard-modal">
-      <div class="import-wizard-header">
-        <h3>
-          <span class="material-symbols-outlined">upload_file</span>
-          インポートウィザード
-        </h3>
-        <button class="btn" id="importWizardCloseBtn" title="閉じる">
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      </div>
-
-      <!-- ステップインジケータ -->
-      <div class="wizard-steps">
-        <div class="wizard-step active" data-step="1"><span class="wizard-step-num">1</span>選択</div>
-        <div class="wizard-step" data-step="2"><span class="wizard-step-num">2</span>判定</div>
-        <div class="wizard-step" data-step="3"><span class="wizard-step-num">3</span>確認</div>
-      </div>
-
-      <!-- ステップ1: 自動判定結果 -->
-      <div class="wizard-page" id="wizardPage1">
-        <div class="wizard-detect-grid">
-          <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">text_fields</span>
-            <div>
-              <div class="wizard-detect-label">文字コード</div>
-              <div class="wizard-detect-value" id="wizDetectEncoding">-</div>
-            </div>
-          </div>
-          <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">view_column</span>
-            <div>
-              <div class="wizard-detect-label">区切り文字</div>
-              <div class="wizard-detect-value" id="wizDetectDelimiter">-</div>
-            </div>
-          </div>
-          <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">grid_on</span>
-            <div>
-              <div class="wizard-detect-label">行数 / 列数</div>
-              <div class="wizard-detect-value" id="wizDetectSize">-</div>
-            </div>
-          </div>
-          <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">data_object</span>
-            <div>
-              <div class="wizard-detect-label">ファイルサイズ</div>
-              <div class="wizard-detect-value" id="wizDetectFileSize">-</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="wizard-settings">
-          <div class="wizard-setting-row">
-            <label>区切り文字</label>
-            <select class="settings-select" id="wizDelimiter">
-              <option value=",">カンマ (,)</option>
-              <option value="&#9;">タブ (\t)</option>
-              <option value=";">セミコロン (;)</option>
-              <option value=" ">スペース</option>
-            </select>
-          </div>
-          <div class="wizard-setting-row">
-            <label>文字コード</label>
-            <select class="settings-select" id="wizEncoding">
-              <option value="utf-8">UTF-8</option>
-              <option value="shift-jis">Shift-JIS</option>
-              <option value="euc-jp">EUC-JP</option>
-              <option value="iso-2022-jp">ISO-2022-JP (JIS)</option>
-              <option value="utf-16le">UTF-16 LE</option>
-              <option value="utf-16be">UTF-16 BE</option>
-            </select>
-          </div>
-          <div class="wizard-setting-row">
-            <label class="settings-checkbox">
-              <input type="checkbox" id="wizHeader"> 1行目をヘッダーとして扱う
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- ステップ2: プレビュー -->
-      <div class="wizard-page" id="wizardPage2" style="display:none;">
-        <div class="wizard-preview-toolbar">
-          <span class="wizard-preview-info" id="wizPreviewInfo"></span>
-          <select class="settings-select" id="wizPreviewRows" style="inline-size:auto;">
-            <option value="10">10行</option>
-            <option value="20">20行</option>
-            <option value="50">50行</option>
-          </select>
-        </div>
-        <div class="wizard-preview-scroll">
-          <table class="wizard-preview-table" id="wizPreviewTable">
-            <thead id="wizPreviewHead"></thead>
-            <tbody id="wizPreviewBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- フッター -->
-      <div class="modal-actions import-wizard-actions">
-        <button class="btn" id="wizBackBtn" style="display:none;">
-          <span class="material-symbols-outlined">arrow_back</span> 戻る
-        </button>
-        <span style="flex:1;"></span>
-        <button class="btn" id="wizCancelBtn">キャンセル</button>
-        <button class="btn btn-primary" id="wizNextBtn">
-          次へ <span class="material-symbols-outlined">arrow_forward</span>
-        </button>
-        <button class="btn btn-primary" id="wizImportBtn" style="display:none;">
-          <span class="material-symbols-outlined">check</span> 読み込む
-        </button>
       </div>
     </div>
   </div>
@@ -2393,8 +1507,6 @@
       $tmp.textContent = str;
       return $tmp.innerHTML;
     };
-
-    const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     /* ==============================================================
        I18N / Locale
@@ -2524,7 +1636,6 @@
       '次へ': 'Next',
       '読み込む': 'Import',
       'ファイルを開く (Ctrl+O)': 'Open file (Ctrl+O)',
-      '上書き保存 (Ctrl+S)': 'Overwrite save (Ctrl+S)',
       '元に戻す': 'Undo',
       'やり直し': 'Redo',
       'クリップボードから貼り付け': 'Paste from clipboard',
@@ -2818,14 +1929,14 @@
        Theme
        ============================================================== */
 
-    /* --- Accent Color Themes (日本の伝統色) --- */
+    /* --- Accent Color Themes --- */
     const ACCENT_THEMES = [
-      { id: 'ruri',     hue: 260, chroma: 0.20, swatch: '#3451B2' },
-      { id: 'beni',     hue: 15,  chroma: 0.22, swatch: '#C53D43' },
-      { id: 'wakakusa', hue: 145, chroma: 0.18, swatch: '#3B7960' },
-      { id: 'yamabuki', hue: 80,  chroma: 0.18, swatch: '#C4972F' },
-      { id: 'sumire',   hue: 310, chroma: 0.18, swatch: '#8B4C8B' },
-      { id: 'asagi',    hue: 210, chroma: 0.14, swatch: '#3A7D8C' }
+      { id: 'ruri',     swatch: '#2ea9df' },
+      { id: 'beni',     swatch: '#68be8d' },
+      { id: 'wakakusa', swatch: '#f8b500' },
+      { id: 'yamabuki', swatch: '#f596aa' },
+      { id: 'sumire',   swatch: '#b7282e' },
+      { id: 'asagi',    swatch: '#bbbcde' }
     ];
 
     let _currentAccentId = 'ruri'; // default
@@ -2833,15 +1944,11 @@
     const applyAccentTheme = (accentId) => {
       const t = ACCENT_THEMES.find(a => a.id === accentId) ?? ACCENT_THEMES[0];
       _currentAccentId = t.id;
-      const h = t.hue;
-      const c = t.chroma;
-      const darkPrimaryChroma = Math.min(c, 0.20);
-      const darkHoverChroma = Math.min(Math.max(c - 0.02, 0.10), 0.18);
-      const darkCellFocusChroma = Math.min(c * 0.22, 0.05);
+      const sw = t.swatch;
       const r = document.documentElement;
-      r.style.setProperty('--primary',       `light-dark(oklch(0.55 ${c} ${h}), oklch(0.49 ${darkPrimaryChroma} ${h}))`);
-      r.style.setProperty('--primary-hover', `light-dark(oklch(0.48 ${Math.min(c + 0.02, 0.30)} ${h}), oklch(0.52 ${darkHoverChroma} ${h}))`);
-      r.style.setProperty('--cell-focus-bg', `light-dark(oklch(0.95 ${Math.min(c * 0.3, 0.08)} ${h}), oklch(0.34 ${darkCellFocusChroma} ${h}))`);
+      r.style.setProperty('--primary',       `light-dark(${sw}, color-mix(in oklab, ${sw} 82%, black))`);
+      r.style.setProperty('--primary-hover', `light-dark(color-mix(in oklab, ${sw} 86%, black), color-mix(in oklab, ${sw} 92%, white))`);
+      r.style.setProperty('--cell-focus-bg', `light-dark(color-mix(in oklab, ${sw} 14%, white), color-mix(in oklab, ${sw} 30%, black))`);
 
       // Update swatch active state
       qsa('.theme-swatch').forEach(el => el.classList.toggle('active', el.dataset.accent === t.id));
@@ -2955,15 +2062,7 @@
       const $tableBody      = qs('#tableBody');
       const $dataTable      = qs('#dataTable');
       const $searchInput    = qs('#searchInput');
-      const $replaceInput   = qs('#replaceInput');
       const $searchInfo     = qs('#searchInfo');
-      const $searchAdvanced = qs('#searchAdvanced');
-      const $searchAdvancedToggle = qs('#searchAdvancedToggle');
-      const $searchCaseSensitive  = qs('#searchCaseSensitive');
-      const $searchExactMatch     = qs('#searchExactMatch');
-      const $searchRegex          = qs('#searchRegex');
-      const $searchTargetCol      = qs('#searchTargetCol');
-      const $filterMode           = qs('#filterMode');
       const $searchHistoryList    = qs('#searchHistoryList');
       const $undoBtn        = qs('#undoBtn');
       const $redoBtn        = qs('#redoBtn');
@@ -2989,17 +2088,17 @@
         newline: 'crlf',
         quoteStyle: 'auto'
       };
+      const DEFAULT_COLUMN_WIDTH = 150;
+      const MIN_COLUMN_WIDTH = 60;
+      const ROW_NUMBER_COLUMN_WIDTH = 70;
 
       const DEMO_LIMITS = {
         maxRows: 100,
         maxCols: 10,
         maxHistory: 5
       };
-      const DEMO_DISABLE_COLUMN_FILTER = true;
       const DEMO_DISABLE_AUTOSAVE = true;
-      const DEMO_DISABLE_REORDER = true;
-      const DEMO_DISABLE_MULTI_SELECT = true;
-      const DEMO_PRO_PREVIEW_URL = './v6_ArtCSV_pro.html';
+      const DEMO_PRO_PREVIEW_URL = './ArtCSV_pro.html';
 
       const SUPPORTED_ENCODINGS = ['utf-8', 'shift-jis', 'euc-jp', 'iso-2022-jp', 'utf-16le', 'utf-16be'];
       const EXPORT_FALLBACK_ENCODING = 'utf-8';
@@ -3170,13 +2269,6 @@
         return withBom ? prependBytes(new Uint8Array([0xEF, 0xBB, 0xBF]), utf8) : utf8;
       };
 
-      const buildEncodedBlob = (text, enc, withBom = false, mimeType = 'text/plain') => {
-        const normalized = normalizeExportEncoding(enc);
-        const bomFlag = supportsBom(normalized) ? withBom : false;
-        const bytes = encodeToBytes(text, normalized, bomFlag);
-        return new Blob([bytes], { type: `${mimeType};charset=${normalized}` });
-      };
-
       let undoStack = [], redoStack = [];
       const MAX_HISTORY = DEMO_LIMITS.maxHistory;
       const HISTORY_ENTRY_SNAPSHOT = 'snapshot';
@@ -3187,10 +2279,8 @@
       let searchHistory = [];
       const MAX_SEARCH_HISTORY = 20;
       const SEARCH_HISTORY_KEY = 'csvEditor_searchHistory';
-      let filteredRows = null; // Set<rowIndex> when filter mode is active, null when inactive
-      const columnFilters = new Map(); // Map<colIndex, {values?: Set, conditions?: [{op, val}], logic?: 'and'|'or'}>
-      let filterPanelColIndex = -1;
-      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0;
+      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0, resizeLastWidth = 0;
+      let renderedTableWidth = 0;
       const VIRTUAL_ROW_THRESHOLD = 1000;
       const VIRTUAL_ROW_HEIGHT = 42;
       const VIRTUAL_OVERSCAN = 12;
@@ -3205,7 +2295,6 @@
       const SEARCH_FULL_HIGHLIGHT_ROW_THRESHOLD = LARGE_DATA_ROW_THRESHOLD;
       const SEARCH_ROW_TEXT_SEPARATOR = '\u001F';
       const SEARCH_WORKER_ROW_THRESHOLD = 12000;
-      const FILTER_WORKER_ROW_THRESHOLD = 8000;
       const STATS_ASYNC_ROW_THRESHOLD = 5000;
       const STATS_MIN_BATCH_ROWS = 350;
       const STATS_TIME_BUDGET_MS = 12;
@@ -3224,13 +2313,6 @@
       let _searchMatchTruncated = false;
       let _rowSearchCache = [];
       let _currentMatchCell = null;
-      let _columnFilterRows = null;
-      let _columnFilterTaskToken = 0;
-      let _filterWorkerRequestSeq = 0;
-      let _filterWorker = null;
-      let _filterWorkerUrl = '';
-      let _filterWorkerPending = new Map();
-      let _filterWorkerDataRevision = -1;
       let _statsTaskToken = 0;
       let _statsDebounceTimer = null;
       let _skipRenderSearchRefresh = false;
@@ -3245,10 +2327,6 @@
       let _saveIdleHandle = null;
       let _bootHydrationDone = false;
       let _bootUserChanged = false;
-      let _filterValueCache = new Map(); // Map<`${revision}:${headerFlag}:${colIdx}`, [value, count][]>
-      let _exportPreviewTimer = null;
-      const EXPORT_PREVIEW_ROW_LIMIT = 200;
-      const EXPORT_PREVIEW_DEBOUNCE_MS = 120;
       const virtualState = { enabled: false, start: -1, end: -1 };
       const SECURITY_HARDENING = {
         blockContextMenu: true,
@@ -3534,13 +2612,6 @@
       const resetSearchRowCache = () => {
         _rowSearchCache = [];
         _searchWorkerDataRevision = -1;
-        _filterWorkerDataRevision = -1;
-        _columnFilterRows = null;
-        _columnFilterTaskToken++;
-      };
-
-      const showDemoLockedToast = (featureLabel = 'この機能') => {
-        showToast(`${featureLabel}はDEMO版では利用できません。Pro版をご利用ください。`, 'error');
       };
 
       const showDemoLimitToast = (type) => {
@@ -3637,7 +2708,6 @@
         enforceDemoDataLimitsInState();
         resetSearchRowCache();
         _dataRevision++;
-        _filterValueCache.clear();
         _saveRevision++;
       };
 
@@ -3654,7 +2724,6 @@
 
       const markDataChanged = () => {
         _dataRevision++;
-        _filterValueCache.clear();
         resetSearchRowCache();
         _saveRevision++;
         if (!_bootHydrationDone) _bootUserChanged = true;
@@ -3733,7 +2802,6 @@
           _saveRevision = 0;
           _savedRevision = 0;
           _dataRevision = 0;
-          _filterValueCache.clear();
           resetSearchRowCache();
           return;
         }
@@ -3756,7 +2824,6 @@
           _saveRevision = 0;
           _savedRevision = 0;
           _dataRevision = 0;
-          _filterValueCache.clear();
           resetSearchRowCache();
         } catch { /* ignore */ }
       };
@@ -4334,148 +3401,6 @@
         return true;
       };
 
-      const terminateFilterWorker = () => {
-        if (_filterWorker) {
-          _filterWorker.terminate();
-          _filterWorker = null;
-        }
-        if (_filterWorkerUrl) {
-          URL.revokeObjectURL(_filterWorkerUrl);
-          _filterWorkerUrl = '';
-        }
-        _filterWorkerPending.forEach(({ reject }) => reject(new Error('Filter worker terminated')));
-        _filterWorkerPending.clear();
-        _filterWorkerDataRevision = -1;
-      };
-
-      const ensureFilterWorker = () => {
-        if (typeof Worker === 'undefined') return null;
-        if (_filterWorker) return _filterWorker;
-
-        const workerCode = `
-          let data = [];
-
-          const evalCondition = (cellVal, op, condVal) => {
-            switch (op) {
-              case 'contains': return cellVal.toLowerCase().includes(condVal.toLowerCase());
-              case 'not_contains': return !cellVal.toLowerCase().includes(condVal.toLowerCase());
-              case 'equals': return cellVal === condVal;
-              case 'not_equals': return cellVal !== condVal;
-              case 'gte': {
-                const nC = parseFloat(cellVal), nV = parseFloat(condVal);
-                return !isNaN(nC) && !isNaN(nV) ? nC >= nV : cellVal >= condVal;
-              }
-              case 'lte': {
-                const nC = parseFloat(cellVal), nV = parseFloat(condVal);
-                return !isNaN(nC) && !isNaN(nV) ? nC <= nV : cellVal <= condVal;
-              }
-              case 'empty': return cellVal === '';
-              case 'not_empty': return cellVal !== '';
-              default: return true;
-            }
-          };
-
-          const rowPasses = (row, filters) => {
-            for (let i = 0; i < filters.length; i++) {
-              const config = filters[i];
-              const cellVal = row[config.colIdx] ?? '';
-              if (config.values && !config.values.includes(cellVal)) return false;
-              if (config.conditions && config.conditions.length > 0) {
-                const results = config.conditions.map((c) => evalCondition(cellVal, c.op, c.val));
-                const condPass = config.logic === 'and' ? results.every(Boolean) : results.some(Boolean);
-                if (!condPass) return false;
-              }
-            }
-            return true;
-          };
-
-          self.onmessage = (event) => {
-            const { id, type, payload } = event.data || {};
-            try {
-              if (type === 'syncData') {
-                data = Array.isArray(payload?.data) ? payload.data : [];
-                self.postMessage({ id, ok: true, result: { rows: data.length } });
-                return;
-              }
-              if (type === 'valueCounts') {
-                const colIdx = payload?.colIdx ?? 0;
-                const start = payload?.start ?? 0;
-                const localeTag = payload?.localeTag || 'ja-JP';
-                const valueCounts = new Map();
-                for (let i = start; i < data.length; i++) {
-                  const row = data[i] ?? [];
-                  const value = row[colIdx] ?? '';
-                  valueCounts.set(value, (valueCounts.get(value) ?? 0) + 1);
-                }
-                const sorted = Array.from(valueCounts.entries()).sort((a, b) => {
-                  if (a[0] === '' && b[0] !== '') return -1;
-                  if (a[0] !== '' && b[0] === '') return 1;
-                  return a[0].localeCompare(b[0], localeTag);
-                });
-                self.postMessage({ id, ok: true, result: { sorted } });
-                return;
-              }
-              if (type === 'evaluateFilters') {
-                const start = payload?.start ?? 0;
-                const filters = Array.isArray(payload?.filters) ? payload.filters : [];
-                const passingRows = [];
-                for (let i = start; i < data.length; i++) {
-                  const row = data[i] ?? [];
-                  if (rowPasses(row, filters)) passingRows.push(i);
-                }
-                self.postMessage({ id, ok: true, result: { passingRows } });
-                return;
-              }
-              self.postMessage({ id, ok: false, error: 'Unknown filter worker task' });
-            } catch (e) {
-              self.postMessage({ id, ok: false, error: e?.message ?? String(e) });
-            }
-          };
-        `;
-
-        _filterWorkerUrl = URL.createObjectURL(new Blob([workerCode], { type: 'text/javascript' }));
-        _filterWorker = new Worker(_filterWorkerUrl);
-        _filterWorker.onmessage = (event) => {
-          const packet = event.data ?? {};
-          const pending = _filterWorkerPending.get(packet.id);
-          if (!pending) return;
-          _filterWorkerPending.delete(packet.id);
-          if (packet.ok) pending.resolve(packet.result);
-          else pending.reject(new Error(packet.error || 'Filter worker error'));
-        };
-        _filterWorker.onerror = (event) => {
-          console.warn('Filter worker crashed:', event);
-          terminateFilterWorker();
-        };
-        return _filterWorker;
-      };
-
-      const callFilterWorker = (type, payload) => new Promise((resolve, reject) => {
-        const worker = ensureFilterWorker();
-        if (!worker) {
-          reject(new Error('Filter worker unavailable'));
-          return;
-        }
-        const id = ++_filterWorkerRequestSeq;
-        _filterWorkerPending.set(id, { resolve, reject });
-        try {
-          worker.postMessage({ id, type, payload });
-        } catch (e) {
-          _filterWorkerPending.delete(id);
-          reject(e);
-        }
-      });
-
-      const syncFilterWorkerDataIfNeeded = async () => {
-        if (state.data.length < FILTER_WORKER_ROW_THRESHOLD) return false;
-        ensureFilterWorker();
-        if (!_filterWorker) return false;
-        if (_filterWorkerDataRevision === _dataRevision) return true;
-        await callFilterWorker('syncData', { data: state.data });
-        _filterWorkerDataRevision = _dataRevision;
-        return true;
-      };
-
       /* --- Process Data --- */
       const processData = async (text) => {
         if (!text.trim()) { showToast('データが空です', 'error'); return; }
@@ -4500,88 +3425,37 @@
 
       /* --- Render --- */
       const getBodyDataStart = () => state.hasHeader ? 1 : 0;
-
-      const rowPassesColumnFilters = (rowIdx) => {
-        if (DEMO_DISABLE_COLUMN_FILTER) return true;
-        if (columnFilters.size === 0) return true;
-        if (_columnFilterRows) return _columnFilterRows.has(rowIdx);
-        for (const [colIdx, config] of columnFilters) {
-          const cellVal = state.data[rowIdx]?.[colIdx] ?? '';
-          if (config.values && !config.values.has(cellVal)) return false;
-          if (config.conditions.length > 0) {
-            const results = config.conditions.map(c => evalCondition(cellVal, c.op, c.val));
-            const condPass = config.logic === 'and' ? results.every(Boolean) : results.some(Boolean);
-            if (!condPass) return false;
-          }
+      const getColumnWidth = (colIndex) => state.columnWidths[colIndex] ?? DEFAULT_COLUMN_WIDTH;
+      const applyRenderedTableWidth = (width) => {
+        const safeWidth = Math.max(0, Math.round(width));
+        renderedTableWidth = safeWidth;
+        if (safeWidth <= 0) {
+          $dataTable.style.inlineSize = '';
+          $dataTable.style.minInlineSize = '';
+          return;
         }
-        return true;
+        const widthPx = `${safeWidth}px`;
+        $dataTable.style.inlineSize = widthPx;
+        $dataTable.style.minInlineSize = widthPx;
       };
-
-      const serializeColumnFilters = () => (
-        [...columnFilters.entries()].map(([colIdx, config]) => ({
-          colIdx,
-          values: config.values ? [...config.values] : null,
-          conditions: (config.conditions ?? []).map((c) => ({ op: c.op, val: c.val })),
-          logic: config.logic === 'or' ? 'or' : 'and'
-        }))
-      );
-
-      const computeColumnFilterRowsMain = () => {
-        const passing = new Set();
-        const start = getBodyDataStart();
-        for (let rowIdx = start; rowIdx < state.data.length; rowIdx++) {
-          if (rowPassesColumnFilters(rowIdx)) passing.add(rowIdx);
+      const syncRenderedTableWidth = () => {
+        const colCount = state.data[0]?.length ?? 0;
+        if (colCount === 0) {
+          applyRenderedTableWidth(0);
+          return;
         }
-        return passing;
+        const totalWidth = ROW_NUMBER_COLUMN_WIDTH
+          + Array.from({ length: colCount }, (_, i) => getColumnWidth(i))
+            .reduce((sum, width) => sum + width, 0);
+        applyRenderedTableWidth(totalWidth);
       };
-
-      const refreshColumnFilterRows = async () => {
-        if (DEMO_DISABLE_COLUMN_FILTER) {
-          _columnFilterRows = null;
-          return null;
+      const adjustRenderedTableWidth = (delta) => {
+        if (!Number.isFinite(delta) || delta === 0) return;
+        if (renderedTableWidth <= 0) {
+          syncRenderedTableWidth();
+          return;
         }
-        if (columnFilters.size === 0) {
-          _columnFilterRows = null;
-          return null;
-        }
-
-        const token = ++_columnFilterTaskToken;
-        _columnFilterRows = null;
-        const start = getBodyDataStart();
-        const serializedFilters = serializeColumnFilters();
-        let passingRows = null;
-
-        if (state.data.length >= FILTER_WORKER_ROW_THRESHOLD) {
-          try {
-            const synced = await syncFilterWorkerDataIfNeeded();
-            if (synced) {
-              const result = await callFilterWorker('evaluateFilters', {
-                start,
-                filters: serializedFilters
-              });
-              if (token !== _columnFilterTaskToken) return null;
-              passingRows = Array.isArray(result?.passingRows) ? result.passingRows : [];
-            }
-          } catch (e) {
-            console.warn('Filter worker evaluate failed, fallback to main thread', e);
-            terminateFilterWorker();
-          }
-        }
-
-        if (token !== _columnFilterTaskToken) return null;
-
-        if (passingRows) {
-          _columnFilterRows = new Set(passingRows);
-          return _columnFilterRows;
-        }
-
-        _columnFilterRows = computeColumnFilterRowsMain();
-        return _columnFilterRows;
-      };
-
-      const rowPassesSearchFilter = (rowIdx) => {
-        if (!$filterMode.checked || filteredRows === null) return true;
-        return filteredRows.has(rowIdx);
+        applyRenderedTableWidth(renderedTableWidth + delta);
       };
 
       const getVisibleRowCount = () => (
@@ -4602,27 +3476,11 @@
 
       const rebuildVisibleRows = () => {
         const start = getBodyDataStart();
-        const hasSearchFilter = $filterMode.checked && filteredRows !== null;
-        if (columnFilters.size === 0 && !hasSearchFilter) {
-          _visibleRowsMode = 'contiguous';
-          _visibleContiguousStart = start;
-          _visibleContiguousCount = Math.max(0, state.data.length - start);
-          _visibleRowIndexes = [];
-          _visibleRowOffsetMap = new Map();
-          return;
-        }
-
-        _visibleRowsMode = 'mapped';
-        _visibleContiguousStart = 0;
-        _visibleContiguousCount = 0;
+        _visibleRowsMode = 'contiguous';
+        _visibleContiguousStart = start;
+        _visibleContiguousCount = Math.max(0, state.data.length - start);
         _visibleRowIndexes = [];
         _visibleRowOffsetMap = new Map();
-        for (let rowIdx = start; rowIdx < state.data.length; rowIdx++) {
-          if (!rowPassesColumnFilters(rowIdx)) continue;
-          if (!rowPassesSearchFilter(rowIdx)) continue;
-          _visibleRowOffsetMap.set(rowIdx, _visibleRowIndexes.length);
-          _visibleRowIndexes.push(rowIdx);
-        }
       };
 
       const shouldUseVirtualRows = () => {
@@ -4634,24 +3492,20 @@
         const rowNum = state.hasHeader ? rowIndex : rowIndex + 1;
         const matchedCols = searchMatchMap.get(rowIndex);
         const currentMatch = currentMatchIndex >= 0 ? searchMatches[currentMatchIndex] : null;
-        const rowDragTitle = DEMO_DISABLE_REORDER
-          ? 'DEMO版ではドラッグ移動できません / クリックで行メニュー'
-          : 'ドラッグで行を入れ替え / クリックで行メニュー';
-        const rowDraggable = DEMO_DISABLE_REORDER ? 'false' : 'true';
         return `<tr data-row="${rowIndex}">
-          <td class="row-num"><div class="row-num-wrapper">
+          <td class="row-num" data-row-menu="${rowIndex}"><div class="row-num-wrapper">
             <span class="row-num-text">${rowNum}</span>
-            <button class="row-menu-btn" data-row-menu="${rowIndex}" data-row-drag="${rowIndex}" draggable="${rowDraggable}" title="${rowDragTitle}">
+            <button class="row-menu-btn" data-row-menu="${rowIndex}" title="行メニュー">
               <span class="material-symbols-outlined" style="font-size:1rem;">more_vert</span>
             </button>
           </div></td>${
             row.map((c, j) => {
-              const w = state.columnWidths[j] ?? 150;
+              const w = getColumnWidth(j);
               const classes = [];
               if (matchedCols?.has(j)) classes.push('highlight');
               if (currentMatch && currentMatch.row === rowIndex && currentMatch.col === j) classes.push('current-match');
               const classAttr = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
-              return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;">${escapeHTML(c)}</td>`;
+              return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;max-width:${w}px;">${escapeHTML(c)}</td>`;
             }).join('')
           }</tr>`;
       };
@@ -4738,9 +3592,9 @@
         $tableBody.innerHTML = rows.join('');
       };
 
-      const renderForSearchResult = ({ affectsVisibility = false, refreshBody = true, clearHighlights = false } = {}) => {
+      const renderForSearchResult = ({ refreshBody = true, clearHighlights = false } = {}) => {
         _skipRenderSearchRefresh = true;
-        if (affectsVisibility || !$tableContainer.classList.contains('show')) {
+        if (!$tableContainer.classList.contains('show')) {
           renderTable();
         } else if (refreshBody) {
           renderBodyOnly(true);
@@ -4754,6 +3608,7 @@
         if (state.data.length === 0) {
           $tableContainer.classList.remove('show');
           $pasteZone.classList.remove('has-data');
+          syncRenderedTableWidth();
           virtualState.enabled = false;
           virtualState.start = -1;
           virtualState.end = -1;
@@ -4773,28 +3628,20 @@
 
         $tableHead.innerHTML = `<tr><th class="row-num">#</th>${
           headers.map((h, i) => {
-            const w = state.columnWidths[i] ?? 150;
+            const w = getColumnWidth(i);
             const colNum = state.hasHeader ? `<span class="th-colnum">${i + 1}</span>` : '';
             const style = state.hasHeader ? '' : 'color:var(--text-muted);';
-            const hasFilter = columnFilters.has(i);
-            const filterButton = DEMO_DISABLE_COLUMN_FILTER
-              ? ''
-              : `<span class="th-filter-btn material-symbols-outlined${hasFilter ? ' has-filter' : ''}" data-filter-col="${i}" title="フィルタ">filter_alt</span>`;
-            const colDragTitle = DEMO_DISABLE_REORDER
-              ? 'DEMO版ではドラッグ移動できません'
-              : 'ドラッグで列を入れ替え';
-            const colDraggable = DEMO_DISABLE_REORDER ? 'false' : 'true';
-            return `<th style="width:${w}px;min-width:${w}px;" data-col="${i}">
+            return `<th style="width:${w}px;min-width:${w}px;max-width:${w}px;" data-col="${i}">
               <div class="th-wrapper">
                 <div class="th-content">${colNum}<span class="th-text" style="${style}">${escapeHTML(h)}</span>
-                  ${filterButton}
-                  <span class="th-menu-btn material-symbols-outlined" data-col-drag="${i}" draggable="${colDraggable}" title="${colDragTitle}" style="font-size:1.1rem;">more_vert</span>
+                  <span class="th-menu-btn material-symbols-outlined" title="列メニュー" style="font-size:1.1rem;">more_vert</span>
                 </div>
                 <div class="resize-handle" data-resize-col="${i}"></div>
               </div></th>`;
           }).join('')
         }</tr>`;
 
+        syncRenderedTableWidth();
         rebuildVisibleRows();
         virtualState.enabled = shouldUseVirtualRows();
         virtualState.start = -1;
@@ -4803,7 +3650,6 @@
 
         const $sh = qs('#settingHeader');
         if ($sh) $sh.checked = state.hasHeader;
-        updateSearchTargetCols();
         updateSearchInfo();
         if ($searchInput.value && !_skipRenderSearchRefresh) {
           performSearch();
@@ -4824,227 +3670,42 @@
         e.stopPropagation();
         isResizing = true; resizeColumnIndex = colIndex; resizeStartX = e.clientX;
         resizeStartWidth = qs(`th[data-col="${colIndex}"]`).offsetWidth;
+        resizeLastWidth = resizeStartWidth;
+        if (renderedTableWidth <= 0) syncRenderedTableWidth();
         document.body.style.cursor = 'col-resize';
         document.body.style.userSelect = 'none';
       };
 
       document.addEventListener('mousemove', (e) => {
         if (!isResizing) return;
-        const w = Math.max(60, resizeStartWidth + (e.clientX - resizeStartX));
+        const w = Math.max(MIN_COLUMN_WIDTH, resizeStartWidth + (e.clientX - resizeStartX));
+        if (w === resizeLastWidth) return;
+        const widthDelta = w - resizeLastWidth;
+        resizeLastWidth = w;
         state.columnWidths[resizeColumnIndex] = w;
         qsa(`[data-col="${resizeColumnIndex}"]`, $dataTable).forEach($el => {
-          $el.style.width = `${w}px`; $el.style.minWidth = `${w}px`;
+          $el.style.width = `${w}px`;
+          $el.style.minWidth = `${w}px`;
+          $el.style.maxWidth = `${w}px`;
         });
+        adjustRenderedTableWidth(widthDelta);
       });
 
       document.addEventListener('mouseup', () => {
         if (!isResizing) return;
         isResizing = false;
+        resizeLastWidth = 0;
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
         markSettingsChanged();
         saveToStorage();
       });
 
-      /* --- Multi-Cell Selection --- */
-      let _selectionAnchor = null;   // { row, col } — starting point for Shift range
-      let _isDragging = false;
-      let _dragStart = null;         // { row, col }
-
-      const clearSelection = () => {
-        qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
-      };
-
-      const getSelectedCells = () => {
-        if (DEMO_DISABLE_MULTI_SELECT) return [];
-        return qsa('td.selected', $dataTable);
-      };
-
+      /* --- Cell Helpers --- */
       const getCellCoords = ($td) => ({
-        row: parseInt($td.dataset.row),
-        col: parseInt($td.dataset.col)
+        row: parseInt($td.dataset.row, 10),
+        col: parseInt($td.dataset.col, 10)
       });
-
-      const selectCell = ($td) => {
-        if (DEMO_DISABLE_MULTI_SELECT) return;
-        $td.classList.add('selected');
-      };
-
-      const selectRange = (r1, c1, r2, c2) => {
-        if (DEMO_DISABLE_MULTI_SELECT) return;
-        const minR = Math.min(r1, r2), maxR = Math.max(r1, r2);
-        const minC = Math.min(c1, c2), maxC = Math.max(c1, c2);
-        for (let r = minR; r <= maxR; r++) {
-          for (let c = minC; c <= maxC; c++) {
-            const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
-            if ($td) selectCell($td);
-          }
-        }
-      };
-
-      // --- mousedown on cells ---
-      $dataTable.addEventListener('mousedown', (e) => {
-        const $td = e.target.closest('td[contenteditable]');
-        if (!$td) return;
-        // Don't interfere with resize handles
-        if (e.target.closest('.resize-handle')) return;
-        if (DEMO_DISABLE_MULTI_SELECT) {
-          clearSelection();
-          _selectionAnchor = null;
-          _isDragging = false;
-          _dragStart = null;
-          $dataTable.classList.remove('selecting-cells');
-          return;
-        }
-
-        const coords = getCellCoords($td);
-
-        if (e.shiftKey && _selectionAnchor) {
-          // Shift+Click: range selection from anchor
-          e.preventDefault();
-          clearSelection();
-          selectRange(_selectionAnchor.row, _selectionAnchor.col, coords.row, coords.col);
-          return;
-        }
-
-        // Normal click: start drag selection
-        clearSelection();
-        _selectionAnchor = coords;
-        _isDragging = true;
-        _dragStart = coords;
-        selectCell($td);
-        $dataTable.classList.add('selecting-cells');
-      });
-
-      document.addEventListener('mousemove', (e) => {
-        if (DEMO_DISABLE_MULTI_SELECT) return;
-        if (!_isDragging || isResizing) return;
-        const $td = e.target.closest?.('td[contenteditable]');
-        if (!$td) return;
-        const coords = getCellCoords($td);
-        clearSelection();
-        selectRange(_dragStart.row, _dragStart.col, coords.row, coords.col);
-      });
-
-      document.addEventListener('mouseup', () => {
-        if (DEMO_DISABLE_MULTI_SELECT) {
-          _isDragging = false;
-          _dragStart = null;
-          $dataTable.classList.remove('selecting-cells');
-          return;
-        }
-        if (_isDragging) {
-          _isDragging = false;
-          $dataTable.classList.remove('selecting-cells');
-          // If only 1 cell was selected by a plain click, clear selection and let focus handle it
-          const selected = getSelectedCells();
-          if (selected.length === 1) {
-            selected[0].classList.remove('selected');
-            selected[0].focus();
-          }
-        }
-      });
-
-      // --- Copy selected cells (Ctrl+C when cells are selected, not editing) ---
-      const copySelectedCells = async () => {
-        showDemoLockedToast('コピー');
-        return false;
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
-
-        // Build a map of row -> sorted cols
-        const rowMap = new Map();
-        cells.forEach($td => {
-          const { row, col } = getCellCoords($td);
-          if (!rowMap.has(row)) rowMap.set(row, []);
-          rowMap.get(row).push(col);
-        });
-
-        const sortedRows = [...rowMap.keys()].sort((a, b) => a - b);
-        const lines = sortedRows.map(r => {
-          const cols = rowMap.get(r).sort((a, b) => a - b);
-          return cols.map(c => state.data[r]?.[c] ?? '').join('\t');
-        });
-
-        try {
-          await navigator.clipboard.writeText(lines.join('\n'));
-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${cells.length}セルをコピーしました`, 'success');
-          return true;
-        } catch {
-          showToast('コピーに失敗しました', 'error');
-          return false;
-        }
-      };
-
-      // --- Delete selected cells (Delete / Backspace when cells are selected) ---
-      const deleteSelectedCells = () => {
-        if (DEMO_DISABLE_MULTI_SELECT) return false;
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
-        saveToHistory();
-        cells.forEach($td => {
-          const { row, col } = getCellCoords($td);
-          if (state.data[row]) {
-            state.data[row][col] = '';
-            $td.textContent = '';
-          }
-        });
-        updateStats(); saveToStorage();
-        showToast(`<span class="material-symbols-outlined">delete</span> ${cells.length}セルをクリアしました`, 'success');
-        return true;
-      };
-
-      // --- Paste into selected range (Ctrl+V) ---
-      const pasteIntoSelection = (clipText) => {
-        if (DEMO_DISABLE_MULTI_SELECT) return false;
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
-
-        const clipRows = clipText.replace(/\r\n?/g, '\n').replace(/\n$/, '').split('\n');
-        const clipData = clipRows.map(r => r.split('\t'));
-
-        // Build bounding box of selection
-        let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
-        cells.forEach($td => {
-          const { row, col } = getCellCoords($td);
-          minR = Math.min(minR, row); maxR = Math.max(maxR, row);
-          minC = Math.min(minC, col); maxC = Math.max(maxC, col);
-        });
-
-        saveToHistory();
-
-        // If clipboard is multi-cell, paste starting from top-left of selection
-        if (clipData.length > 1 || clipData[0].length > 1) {
-          let count = 0;
-          for (let ri = 0; ri < clipData.length; ri++) {
-            for (let ci = 0; ci < clipData[ri].length; ci++) {
-              const targetR = minR + ri;
-              const targetC = minC + ci;
-              if (targetR < state.data.length && targetC < (state.data[0]?.length ?? 0)) {
-                state.data[targetR][targetC] = clipData[ri][ci];
-                const $td = qs(`td[data-row="${targetR}"][data-col="${targetC}"]`, $dataTable);
-                if ($td) $td.textContent = clipData[ri][ci];
-                count++;
-              }
-            }
-          }
-          updateStats(); saveToStorage();
-          showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
-        } else {
-          // Single value: paste into all selected cells
-          const val = clipData[0][0];
-          cells.forEach($td => {
-            const { row, col } = getCellCoords($td);
-            if (state.data[row]) {
-              state.data[row][col] = val;
-              $td.textContent = val;
-            }
-          });
-          updateStats(); saveToStorage();
-          showToast(`<span class="material-symbols-outlined">content_paste</span> ${cells.length}セルに貼り付けました`, 'success');
-        }
-        return true;
-      };
 
       /* --- Cell Edit --- */
       const handleCellBlur = ($cell) => {
@@ -5102,57 +3763,10 @@
 
       /* --- Search / Replace --- */
 
-      // Build a matcher function from current search options
       const buildMatcher = (query) => {
-        const caseSensitive = $searchCaseSensitive.checked;
-        const exactMatch = $searchExactMatch.checked;
-        const useRegex = $searchRegex.checked;
-        const normalizedQuery = caseSensitive ? query : query.toLowerCase();
-
-        if (useRegex) {
-          try {
-            const flags = caseSensitive ? '' : 'i';
-            const re = new RegExp(query, flags);
-            return exactMatch
-              ? (cell) => { const m = cell.match(re); return m && m[0] === cell; }
-              : (cell) => re.test(cell);
-          } catch { return null; } // invalid regex
-        }
-
-        if (exactMatch) {
-          return caseSensitive
-            ? (cell) => cell === query
-            : (cell) => cell.toLowerCase() === normalizedQuery;
-        }
-
-        return caseSensitive
-          ? (cell) => cell.includes(query)
-          : (cell) => cell.toLowerCase().includes(normalizedQuery);
+        const normalizedQuery = query.toLowerCase();
+        return (cell) => cell.toLowerCase().includes(normalizedQuery);
       };
-
-      // Build regex for replace operations
-      const buildReplaceRegex = (query, globalFlag) => {
-        const caseSensitive = $searchCaseSensitive.checked;
-        const useRegex = $searchRegex.checked;
-        const exactMatch = $searchExactMatch.checked;
-
-        let flags = globalFlag ? 'g' : '';
-        if (!caseSensitive) flags += 'i';
-
-        if (useRegex) {
-          try {
-            return exactMatch
-              ? new RegExp(`^(?:${query})$`, flags)
-              : new RegExp(query, flags);
-          } catch { return null; }
-        }
-
-        return exactMatch
-          ? new RegExp(`^${escapeRegExp(query)}$`, flags)
-          : new RegExp(escapeRegExp(query), flags);
-      };
-
-      const getSearchTargetCol = () => parseInt($searchTargetCol.value);
       const getSearchStoreLimit = () => {
         const rowCount = state.data.length;
         if (rowCount >= HUGE_DATA_ROW_THRESHOLD) return SEARCH_MATCH_STORE_LIMIT_HUGE;
@@ -5193,18 +3807,16 @@
           .map((p) => ({ row: p[0], col: p[1] }));
       };
 
-      const commitSearchResult = ({ matches, matchMap, totalCount, matchedRows, filterBySearch, highlightAllMatches }) => {
+      const commitSearchResult = ({ matches, matchMap, totalCount, highlightAllMatches }) => {
         searchMatches = matches;
         searchMatchMap = matchMap ?? new Map();
         _searchTotalCount = totalCount;
         _searchMatchTruncated = totalCount > matches.length;
         currentMatchIndex = matches.length > 0 ? 0 : -1;
         _searchInProgress = false;
-        filteredRows = filterBySearch ? matchedRows : null;
 
-        const needsBodyRefresh = filterBySearch || highlightAllMatches;
+        const needsBodyRefresh = highlightAllMatches;
         renderForSearchResult({
-          affectsVisibility: filterBySearch,
           refreshBody: needsBodyRefresh,
           clearHighlights: !needsBodyRefresh
         });
@@ -5247,15 +3859,12 @@
         const query = $searchInput.value;
         const token = ++_searchTaskToken;
         if (!query) {
-          const hadResult = searchMatches.length > 0 || filteredRows !== null;
-          const needVisibilityRefresh = $filterMode.checked;
+          const hadResult = searchMatches.length > 0;
           resetSearchState();
-          filteredRows = null;
           if (hadResult) {
             renderForSearchResult({
-              affectsVisibility: needVisibilityRefresh,
-              refreshBody: needVisibilityRefresh,
-              clearHighlights: !needVisibilityRefresh
+              refreshBody: false,
+              clearHighlights: true
             });
           }
           updateSearchInfo();
@@ -5264,13 +3873,10 @@
 
         const matcher = buildMatcher(query);
         if (!matcher) {
-          const needVisibilityRefresh = $filterMode.checked;
           resetSearchState();
-          filteredRows = null;
           renderForSearchResult({
-            affectsVisibility: needVisibilityRefresh,
-            refreshBody: needVisibilityRefresh,
-            clearHighlights: !needVisibilityRefresh
+            refreshBody: false,
+            clearHighlights: true
           });
           $searchInfo.textContent = '無効な正規表現';
           $searchInfo.style.color = 'var(--danger)';
@@ -5282,16 +3888,16 @@
         updateSearchInfo();
 
         const start = state.hasHeader ? 1 : 0;
-        const targetCol = getSearchTargetCol();
+        const targetCol = -1;
         const nextMatches = [];
-        const filterBySearch = $filterMode.checked;
-        const highlightAllMatches = filterBySearch || state.data.length < SEARCH_FULL_HIGHLIGHT_ROW_THRESHOLD;
+        const filterBySearch = false;
+        const highlightAllMatches = state.data.length < SEARCH_FULL_HIGHLIGHT_ROW_THRESHOLD;
         const storeLimit = getSearchStoreLimit();
-        const useRegex = $searchRegex.checked;
-        const exactMatch = $searchExactMatch.checked;
-        const caseSensitive = $searchCaseSensitive.checked;
-        const normalizedQuery = caseSensitive ? query : query.toLowerCase();
-        const canUseRowPrefilter = targetCol < 0 && !useRegex && !exactMatch;
+        const useRegex = false;
+        const exactMatch = false;
+        const caseSensitive = false;
+        const normalizedQuery = query.toLowerCase();
+        const canUseRowPrefilter = true;
 
         if (state.data.length >= SEARCH_WORKER_ROW_THRESHOLD) {
           try {
@@ -5318,11 +3924,9 @@
               if (result?.aborted) return;
               if (result?.invalidRegex) {
                 resetSearchState();
-                filteredRows = null;
                 renderForSearchResult({
-                  affectsVisibility: filterBySearch,
-                  refreshBody: filterBySearch,
-                  clearHighlights: !filterBySearch
+                  refreshBody: false,
+                  clearHighlights: true
                 });
                 $searchInfo.textContent = '無効な正規表現';
                 $searchInfo.style.color = 'var(--danger)';
@@ -5333,17 +3937,12 @@
               const workerMatchMap = highlightAllMatches
                 ? buildSearchMatchMapFromEntries(result?.matchMapEntries)
                 : new Map();
-              const workerMatchedRows = filterBySearch
-                ? new Set(Array.isArray(result?.matchedRows) ? result.matchedRows : [])
-                : null;
               const workerTotal = Number.isFinite(result?.totalCount) ? result.totalCount : workerMatches.length;
 
               commitSearchResult({
                 matches: workerMatches,
                 matchMap: workerMatchMap,
                 totalCount: workerTotal,
-                matchedRows: workerMatchedRows,
-                filterBySearch,
                 highlightAllMatches
               });
               return;
@@ -5355,13 +3954,11 @@
         }
 
         const nextMatchMap = highlightAllMatches ? new Map() : null;
-        const matchedRows = filterBySearch ? new Set() : null;
         let totalCount = 0;
         let rowIndex = start;
 
         const pushMatch = (r, c) => {
           totalCount++;
-          if (matchedRows) matchedRows.add(r);
           if (nextMatches.length >= storeLimit) return;
           nextMatches.push({ row: r, col: c });
           if (nextMatchMap) {
@@ -5393,7 +3990,7 @@
             }
             if (canUseRowPrefilter) {
               const rowSearchText = getRowSearchText(rowIndex);
-              const haystack = caseSensitive ? rowSearchText.raw : rowSearchText.lower;
+              const haystack = rowSearchText.lower;
               if (!haystack.includes(normalizedQuery)) {
                 rowIndex++;
                 processedRows++;
@@ -5418,8 +4015,6 @@
             matches: nextMatches,
             matchMap: nextMatchMap ?? new Map(),
             totalCount,
-            matchedRows: filterBySearch ? matchedRows : null,
-            filterBySearch,
             highlightAllMatches
           });
         };
@@ -5493,24 +4088,17 @@
           const shown = Math.max(0, currentMatchIndex + 1);
           let total = _searchTotalCount.toLocaleString(getLocaleTag());
           if (_searchMatchTruncated) total += '+';
-          let info = `${shown} / ${total}件`;
-          if ($filterMode.checked && filteredRows) {
-            info += ` (${filteredRows.size.toLocaleString(getLocaleTag())}行表示)`;
-          }
-          $searchInfo.textContent = info;
+          $searchInfo.textContent = `${shown} / ${total}件`;
         }
       };
 
       const clearSearch = () => {
-        $searchInput.value = ''; $replaceInput.value = '';
+        $searchInput.value = '';
         cancelSearchTasks();
-        const needVisibilityRefresh = $filterMode.checked;
         resetSearchState();
-        filteredRows = null;
         renderForSearchResult({
-          affectsVisibility: needVisibilityRefresh,
-          refreshBody: needVisibilityRefresh,
-          clearHighlights: !needVisibilityRefresh
+          refreshBody: false,
+          clearHighlights: true
         });
         updateSearchInfo();
       };
@@ -5537,362 +4125,6 @@
         ).join('');
       };
 
-      // Update target column dropdown based on current data
-      const updateSearchTargetCols = () => {
-        const current = $searchTargetCol.value;
-        const colCount = state.data[0]?.length ?? 0;
-        const headers = state.hasHeader ? state.data[0] : null;
-        const allLabel = isEnglish() ? 'All' : 'すべて';
-        $searchTargetCol.innerHTML = `<option value="-1">${allLabel}</option>` +
-          Array.from({ length: colCount }, (_, i) => {
-            const label = headers ? `${i + 1}: ${headers[i]}` : (isEnglish() ? `Column ${i + 1}` : `列 ${i + 1}`);
-            return `<option value="${i}">${escapeHTML(label)}</option>`;
-          }).join('');
-        $searchTargetCol.value = current;
-      };
-
-      const replaceNext = () => {
-        if (currentMatchIndex < 0 || searchMatches.length === 0) return;
-        const { row, col } = searchMatches[currentMatchIndex];
-        const regex = buildReplaceRegex($searchInput.value, false);
-        if (!regex) return;
-        saveToHistory();
-        state.data[row][col] = state.data[row][col].replace(regex, $replaceInput.value);
-        renderTable(); saveToStorage(); performSearchImmediate();
-        showToast('1件置換しました', 'success');
-      };
-
-      const replaceAll = async () => {
-        const search = $searchInput.value;
-        if (!search) return;
-        const regex = buildReplaceRegex(search, true);
-        if (!regex) return;
-        saveToHistory();
-
-        const start = state.hasHeader ? 1 : 0;
-        const targetCol = getSearchTargetCol();
-
-        let count = 0;
-        const shouldUseWorker = state.data.length >= 5000;
-
-        if (shouldUseWorker) {
-          try {
-            showToast('一括置換を実行中...', 'success');
-            const result = await runDataWorker(`
-              self.onmessage = (event) => {
-                const { data, start, targetCol, regexSource, regexFlags, replacement } = event.data;
-                const re = new RegExp(regexSource, regexFlags);
-                let count = 0;
-                const nextData = data.map((row, i) => {
-                  if (i < start) return row;
-                  const nextRow = row.slice();
-                  if (targetCol >= 0) {
-                    if (targetCol >= nextRow.length) return nextRow;
-                    const cell = nextRow[targetCol] ?? '';
-                    const next = cell.replace(re, replacement);
-                    if (cell !== next) {
-                      nextRow[targetCol] = next;
-                      count++;
-                    }
-                    return nextRow;
-                  }
-                  for (let j = 0; j < nextRow.length; j++) {
-                    const cell = nextRow[j] ?? '';
-                    const next = cell.replace(re, replacement);
-                    if (cell !== next) {
-                      nextRow[j] = next;
-                      count++;
-                    }
-                  }
-                  return nextRow;
-                });
-                self.postMessage({ data: nextData, count });
-              };
-            `, {
-              data: state.data,
-              start,
-              targetCol,
-              regexSource: regex.source,
-              regexFlags: regex.flags,
-              replacement: $replaceInput.value
-            });
-
-            state.data = result.data;
-            count = result.count;
-          } catch (e) {
-            console.warn('Worker replace failed, fallback to main thread', e);
-            state.data.forEach((row, i) => {
-              if (i < start) return;
-              row.forEach((cell, j) => {
-                if (targetCol >= 0 && j !== targetCol) return;
-                const next = cell.replace(regex, $replaceInput.value);
-                if (cell !== next) { state.data[i][j] = next; count++; }
-              });
-            });
-          }
-        } else {
-          state.data.forEach((row, i) => {
-            if (i < start) return;
-            row.forEach((cell, j) => {
-              if (targetCol >= 0 && j !== targetCol) return;
-              const next = cell.replace(regex, $replaceInput.value);
-              if (cell !== next) { state.data[i][j] = next; count++; }
-            });
-          });
-        }
-
-        renderTable(); saveToStorage(); performSearchImmediate();
-        showToast(`${count}件置換しました`, 'success');
-      };
-
-      /* --- Column Filter Panel --- */
-      const $colFilterPanel = qs('#colFilterPanel');
-      const $colFilterTitle = qs('#colFilterTitle');
-      const $colFilterSearch = qs('#colFilterSearch');
-      const $colFilterValues = qs('#colFilterValues');
-      const $colFilterConditions = qs('#colFilterConditions');
-
-      const openColFilterPanel = (colIdx, anchorRect) => {
-        if (DEMO_DISABLE_COLUMN_FILTER) {
-          showDemoLockedToast('列フィルタ');
-          return;
-        }
-        filterPanelColIndex = colIdx;
-        closeColumnMenu();
-
-        const colName = state.hasHeader ? state.data[0][colIdx] : (isEnglish() ? `Column ${colIdx + 1}` : `列${colIdx + 1}`);
-        $colFilterTitle.textContent = isEnglish() ? `Filter: "${colName}"` : `「${colName}」のフィルタ`;
-
-        // Populate values list
-        $colFilterValues.innerHTML = `<div class="col-filter-value-item">読み込み中...</div>`;
-        void populateFilterValues(colIdx);
-
-        // Restore conditions if filter exists
-        restoreFilterConditions(colIdx);
-
-        // Position the panel
-        $colFilterPanel.style.top = `${anchorRect.bottom + window.scrollY + 4}px`;
-        $colFilterPanel.style.left = `${Math.min(anchorRect.left, window.innerWidth - 360)}px`;
-        $colFilterPanel.classList.add('show');
-        $colFilterSearch.value = '';
-        $colFilterSearch.focus();
-      };
-
-      const closeColFilterPanel = () => {
-        $colFilterPanel.classList.remove('show');
-        filterPanelColIndex = -1;
-      };
-
-      const computeFilterValuesMain = (colIdx) => {
-        const start = state.hasHeader ? 1 : 0;
-        const valueCounts = new Map();
-        for (let i = start; i < state.data.length; i++) {
-          const v = state.data[i][colIdx] ?? '';
-          valueCounts.set(v, (valueCounts.get(v) ?? 0) + 1);
-        }
-        return [...valueCounts.entries()].sort((a, b) => {
-          if (a[0] === '' && b[0] !== '') return -1;
-          if (a[0] !== '' && b[0] === '') return 1;
-          return a[0].localeCompare(b[0], getLocaleTag());
-        });
-      };
-
-      const populateFilterValues = async (colIdx) => {
-        const revisionAtStart = _dataRevision;
-        const cacheKey = `${_dataRevision}:${state.hasHeader ? 1 : 0}:${colIdx}`;
-        let sorted = _filterValueCache.get(cacheKey);
-        if (!sorted) {
-          if (state.data.length >= FILTER_WORKER_ROW_THRESHOLD) {
-            try {
-              const synced = await syncFilterWorkerDataIfNeeded();
-              if (synced) {
-                const start = state.hasHeader ? 1 : 0;
-                const result = await callFilterWorker('valueCounts', {
-                  colIdx,
-                  start,
-                  localeTag: getLocaleTag()
-                });
-                sorted = Array.isArray(result?.sorted) ? result.sorted : [];
-              }
-            } catch (e) {
-              console.warn('Filter worker value count failed, fallback to main thread', e);
-              terminateFilterWorker();
-            }
-          }
-
-          if (!sorted) {
-            sorted = computeFilterValuesMain(colIdx);
-          }
-          if (revisionAtStart !== _dataRevision) return;
-
-          // Keep cache bounded
-          if (_filterValueCache.size > 24) _filterValueCache.clear();
-          _filterValueCache.set(cacheKey, sorted);
-        }
-
-        if (revisionAtStart !== _dataRevision) return;
-        if (filterPanelColIndex !== colIdx || !$colFilterPanel.classList.contains('show')) return;
-
-        // Determine which values are currently checked
-        const existingFilter = columnFilters.get(colIdx);
-        const checkedValues = existingFilter?.values;
-
-        $colFilterValues.innerHTML = sorted.map(([val, count]) => {
-          const checked = checkedValues ? checkedValues.has(val) : true;
-          const display = val === '' ? '<em>（空）</em>' : escapeHTML(val);
-          return `<label class="col-filter-value-item" data-value="${escapeHTML(val)}">
-            <input type="checkbox" ${checked ? 'checked' : ''} data-filter-value="${escapeHTML(val)}">
-            <span class="cfv-label">${display}</span>
-            <span class="cfv-count">${count}</span>
-          </label>`;
-        }).join('');
-      };
-
-      const restoreFilterConditions = (colIdx) => {
-        const existing = columnFilters.get(colIdx);
-        $colFilterConditions.innerHTML = '';
-
-        if (existing?.conditions?.length) {
-          existing.conditions.forEach((c, idx) => addConditionRow(c.op, c.val));
-          // Restore logic
-          const logic = existing.logic ?? 'and';
-          const $radio = qs(`input[name="colFilterLogic"][value="${logic}"]`);
-          if ($radio) $radio.checked = true;
-        } else {
-          addConditionRow('', '');
-        }
-      };
-
-      const addConditionRow = (op = '', val = '') => {
-        const idx = $colFilterConditions.children.length;
-        const $row = document.createElement('div');
-        $row.className = 'col-filter-condition';
-        $row.dataset.condIdx = idx;
-        const needsValue = !['empty', 'not_empty', ''].includes(op);
-        $row.innerHTML = `
-          <select class="col-filter-op">
-            <option value="" ${op === '' ? 'selected' : ''}>（なし）</option>
-            <option value="contains" ${op === 'contains' ? 'selected' : ''}>含む</option>
-            <option value="not_contains" ${op === 'not_contains' ? 'selected' : ''}>含まない</option>
-            <option value="equals" ${op === 'equals' ? 'selected' : ''}>等しい</option>
-            <option value="not_equals" ${op === 'not_equals' ? 'selected' : ''}>等しくない</option>
-            <option value="gte" ${op === 'gte' ? 'selected' : ''}>以上</option>
-            <option value="lte" ${op === 'lte' ? 'selected' : ''}>以下</option>
-            <option value="empty" ${op === 'empty' ? 'selected' : ''}>空</option>
-            <option value="not_empty" ${op === 'not_empty' ? 'selected' : ''}>非空</option>
-          </select>
-          <input type="text" class="col-filter-cond-val" placeholder="値..." value="${escapeHTML(val)}" ${needsValue ? '' : 'style="display:none;"'}>
-          ${idx > 0 ? '<button class="col-filter-cond-remove" title="削除"><span class="material-symbols-outlined" style="font-size:1rem;">close</span></button>' : ''}
-        `;
-        // Toggle value input visibility based on operator
-        qs('.col-filter-op', $row).addEventListener('change', (e) => {
-          const hide = ['empty', 'not_empty', ''].includes(e.target.value);
-          qs('.col-filter-cond-val', $row).style.display = hide ? 'none' : '';
-        });
-        // Remove button
-        const $rem = qs('.col-filter-cond-remove', $row);
-        if ($rem) $rem.addEventListener('click', () => $row.remove());
-        $colFilterConditions.appendChild($row);
-      };
-
-      // Evaluate a single condition against a cell value
-      const evalCondition = (cellVal, op, condVal) => {
-        switch (op) {
-          case 'contains': return cellVal.toLowerCase().includes(condVal.toLowerCase());
-          case 'not_contains': return !cellVal.toLowerCase().includes(condVal.toLowerCase());
-          case 'equals': return cellVal === condVal;
-          case 'not_equals': return cellVal !== condVal;
-          case 'gte': {
-            const nC = parseFloat(cellVal), nV = parseFloat(condVal);
-            return !isNaN(nC) && !isNaN(nV) ? nC >= nV : cellVal >= condVal;
-          }
-          case 'lte': {
-            const nC = parseFloat(cellVal), nV = parseFloat(condVal);
-            return !isNaN(nC) && !isNaN(nV) ? nC <= nV : cellVal <= condVal;
-          }
-          case 'empty': return cellVal === '';
-          case 'not_empty': return cellVal !== '';
-          default: return true;
-        }
-      };
-
-      // Collect filter config from the panel UI
-      const collectFilterConfig = () => {
-        // Values
-        const $checks = qsa('input[data-filter-value]', $colFilterValues);
-        const allChecked = [...$checks].every(c => c.checked);
-        const noneChecked = [...$checks].every(c => !c.checked);
-        let values = null;
-        if (!allChecked && !noneChecked) {
-          values = new Set();
-          $checks.forEach($c => { if ($c.checked) values.add($c.dataset.filterValue); });
-        }
-
-        // Conditions
-        const conditions = [];
-        qsa('.col-filter-condition', $colFilterConditions).forEach($row => {
-          const op = qs('.col-filter-op', $row).value;
-          const val = qs('.col-filter-cond-val', $row).value;
-          if (op) conditions.push({ op, val });
-        });
-
-        const logic = qs('input[name="colFilterLogic"]:checked')?.value ?? 'and';
-
-        return { values, conditions, logic };
-      };
-
-      // Apply filter for a specific column
-      const applyColumnFilter = async () => {
-        if (DEMO_DISABLE_COLUMN_FILTER) {
-          showDemoLockedToast('列フィルタ');
-          return;
-        }
-        const colIdx = filterPanelColIndex;
-        if (colIdx < 0) return;
-
-        const config = collectFilterConfig();
-        const hasValues = config.values !== null;
-        const hasConds = config.conditions.length > 0;
-
-        if (!hasValues && !hasConds) {
-          columnFilters.delete(colIdx);
-        } else {
-          columnFilters.set(colIdx, config);
-        }
-
-        _columnFilterRows = null;
-        if (columnFilters.size > 0) await refreshColumnFilterRows();
-        renderTable();
-        closeColFilterPanel();
-        const active = columnFilters.size;
-        if (active > 0) {
-          showToast(`<span class="material-symbols-outlined">filter_alt</span> フィルタ適用中（${active}列）`, 'success');
-        }
-      };
-
-      const clearColumnFilter = async (colIdx) => {
-        if (DEMO_DISABLE_COLUMN_FILTER) {
-          showDemoLockedToast('列フィルタ');
-          return;
-        }
-        if (colIdx === undefined) colIdx = filterPanelColIndex;
-        columnFilters.delete(colIdx);
-        _columnFilterRows = null;
-        if (columnFilters.size > 0) await refreshColumnFilterRows();
-        renderTable();
-        closeColFilterPanel();
-        showToast(`<span class="material-symbols-outlined">filter_alt_off</span> フィルタを解除しました`, 'success');
-      };
-
-      // Value search within filter panel
-      const filterValueList = () => {
-        const query = $colFilterSearch.value.toLowerCase();
-        qsa('.col-filter-value-item', $colFilterValues).forEach($item => {
-          const val = $item.dataset.value.toLowerCase();
-          $item.style.display = val.includes(query) || (val === '' && '（空）'.includes(query)) ? '' : 'none';
-        });
-      };
-
       /* --- Column Menu --- */
       const closeColumnMenu = () => $columnMenu.classList.remove('show');
       const closeRowMenu    = () => $rowMenu.classList.remove('show');
@@ -5907,7 +4139,8 @@
 
       const openRowMenu = (e, idx) => {
         e.stopPropagation(); activeRowIndex = idx; closeColumnMenu();
-        const rect = e.target.getBoundingClientRect();
+        const $trigger = e.target.closest?.('td.row-num, [data-row-menu]');
+        const rect = ($trigger ?? e.target).getBoundingClientRect();
         $rowMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
         $rowMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
         $rowMenu.classList.add('show');
@@ -5917,98 +4150,6 @@
       const getColName = () => state.hasHeader
         ? state.data[0][activeColumnIndex]
         : (isEnglish() ? `Column ${activeColumnIndex + 1}` : `列${activeColumnIndex + 1}`);
-
-      const sortColumn = async (dir) => {
-        showDemoLockedToast('並び替え');
-        return;
-        if (activeColumnIndex < 0) return;
-        saveToHistory();
-        const start = state.hasHeader ? 1 : 0;
-        let sorted;
-        const rowsToSort = state.data.slice(start);
-        const shouldUseWorker = rowsToSort.length >= 5000;
-
-        if (shouldUseWorker) {
-          try {
-            showToast('並び替えを実行中...', 'success');
-            const result = await runDataWorker(`
-              self.onmessage = (event) => {
-                const { rows, colIndex, dir, localeTag } = event.data;
-                const sorted = rows.toSorted((a, b) => {
-                  const vA = a[colIndex] ?? '';
-                  const vB = b[colIndex] ?? '';
-                  const nA = parseFloat(vA);
-                  const nB = parseFloat(vB);
-                  if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
-                  return dir === 'asc'
-                    ? vA.localeCompare(vB, localeTag)
-                    : vB.localeCompare(vA, localeTag);
-                });
-                self.postMessage(sorted);
-              };
-            `, {
-              rows: rowsToSort,
-              colIndex: activeColumnIndex,
-              dir,
-              localeTag: getLocaleTag()
-            });
-            sorted = result;
-          } catch (e) {
-            console.warn('Worker sort failed, fallback to main thread', e);
-            sorted = rowsToSort.toSorted((a, b) => {
-              const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
-              const nA = parseFloat(vA), nB = parseFloat(vB);
-              if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
-              return dir === 'asc'
-                ? vA.localeCompare(vB, getLocaleTag())
-                : vB.localeCompare(vA, getLocaleTag());
-            });
-          }
-        } else {
-          sorted = rowsToSort.toSorted((a, b) => {
-            const vA = a[activeColumnIndex] ?? '', vB = b[activeColumnIndex] ?? '';
-            const nA = parseFloat(vA), nB = parseFloat(vB);
-            if (!isNaN(nA) && !isNaN(nB)) return dir === 'asc' ? nA - nB : nB - nA;
-            return dir === 'asc'
-              ? vA.localeCompare(vB, getLocaleTag())
-              : vB.localeCompare(vA, getLocaleTag());
-          });
-        }
-
-        state.data = state.hasHeader ? [state.data[0], ...sorted] : sorted;
-        renderTable(); saveToStorage();
-        showToast(`<span class="material-symbols-outlined">sort</span> 「${escapeHTML(getColName())}」を${dir === 'asc' ? '昇順' : '降順'}に並び替えました`, 'success');
-      };
-
-      const copyColumn = async () => {
-        showDemoLockedToast('列コピー');
-        return;
-        if (activeColumnIndex < 0) return;
-        try {
-          await navigator.clipboard.writeText(state.data.map(r => r[activeColumnIndex] ?? '').join('\n'));
-          showToast(`<span class="material-symbols-outlined">content_copy</span> 「${escapeHTML(getColName())}」をコピーしました`, 'success');
-        } catch { showToast('コピーに失敗しました', 'error'); }
-      };
-
-      const duplicateColumn = () => {
-        showDemoLockedToast('列複製');
-        return;
-        if (activeColumnIndex < 0) return;
-        if (!canAppendColumnDemo()) return;
-        saveToHistory();
-        state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex + 1, 0, r[activeColumnIndex]); return n; });
-
-        const newWidths = {};
-        Object.entries(state.columnWidths).forEach(([key, val]) => {
-          const idx = parseInt(key);
-          newWidths[idx <= activeColumnIndex ? idx : idx + 1] = val;
-        });
-        newWidths[activeColumnIndex + 1] = state.columnWidths[activeColumnIndex] ?? 150;
-        state.columnWidths = newWidths;
-
-        renderTable(); updateStats(); saveToStorage();
-        showToast('列を複製しました', 'success');
-      };
 
       const deleteColumn = () => {
         if (activeColumnIndex < 0) return;
@@ -6079,30 +4220,6 @@
       };
 
       /* --- Row Operations --- */
-      const copyRow = async () => {
-        showDemoLockedToast('行コピー');
-        return;
-        if (activeRowIndex < 0) return;
-        const text = state.data[activeRowIndex].map(cell =>
-          (cell.includes('\t') || cell.includes('"') || cell.includes('\n')) ? `"${cell.replace(/"/g, '""')}"` : cell
-        ).join('\t');
-        try {
-          await navigator.clipboard.writeText(text);
-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${state.hasHeader ? activeRowIndex : activeRowIndex + 1}行目をコピーしました`, 'success');
-        } catch { showToast('コピーに失敗しました', 'error'); }
-      };
-
-      const duplicateRow = () => {
-        showDemoLockedToast('行複製');
-        return;
-        if (activeRowIndex < 0) return;
-        if (!canAppendRowDemo()) return;
-        saveToHistory();
-        state.data.splice(activeRowIndex + 1, 0, [...state.data[activeRowIndex]]);
-        renderTable(); updateStats(); saveToStorage();
-        showToast(`${state.hasHeader ? activeRowIndex : activeRowIndex + 1}行目を複製しました`, 'success');
-      };
-
       const deleteRow = (rowIndex) => {
         saveToHistory();
         state.data.splice(rowIndex, 1);
@@ -6152,30 +4269,6 @@
         addColumnAt(colCount);
       };
 
-      /* --- Export --- */
-      const generateOutputAsync = async (dlm) => {
-        const qs_ = state.quoteStyle;
-        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
-        const lines = [];
-        const chunkRows = 500;
-        for (let i = 0; i < state.data.length; i++) {
-          const row = state.data[i] ?? [];
-          const line = row.map((cell) => {
-            const c = cell ?? '';
-            const escaped = c.replace(/"/g, '""');
-            if (qs_ === 'all') return `"${escaped}"`;
-            if (qs_ === 'none') return c;
-            return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
-              ? `"${escaped}"` : c;
-          }).join(dlm);
-          lines.push(line);
-          if ((i + 1) % chunkRows === 0) {
-            await new Promise(resolve => setTimeout(resolve, 0));
-          }
-        }
-        return lines.join(nl);
-      };
-
       const getFormatLabel = () => {
         const dlm = state.delimiter;
         if (dlm === '\t') return 'TSV';
@@ -6184,14 +4277,7 @@
         return 'TXT';
       };
 
-      const getFormatExt = () => {
-        const dlm = state.delimiter;
-        if (dlm === '\t') return 'tsv';
-        if (dlm === ',') return 'csv';
-        return 'txt';
-      };
-
-      /* --- File Open + Import Wizard --- */
+      /* --- File Open --- */
       const decodeFileBytes = (arrayBuffer, encodingHint = 'utf-8') => {
         const bytes = new Uint8Array(arrayBuffer);
 
@@ -6251,164 +4337,6 @@
 
         return 'utf-8';
       };
-
-      /* --- Import Wizard State --- */
-      const $wizOverlay    = qs('#importWizardOverlay');
-      const $wizPage1      = qs('#wizardPage1');
-      const $wizPage2      = qs('#wizardPage2');
-      const $wizBackBtn    = qs('#wizBackBtn');
-      const $wizNextBtn    = qs('#wizNextBtn');
-      const $wizImportBtn  = qs('#wizImportBtn');
-      const $wizCancelBtn  = qs('#wizCancelBtn');
-      const $wizCloseBtn   = qs('#importWizardCloseBtn');
-      let _wizStep = 1;
-      let _wizArrayBuffer = null;
-      let _wizFileName = '';
-      let _wizFileHandle = null;
-      let _wizDecodedCache = { encoding: null, text: '' };
-
-      const delimiterDisplayName = (d) => {
-        if (d === ',') return 'カンマ (,)';
-        if (d === '\t') return 'タブ (\\t)';
-        if (d === ';') return 'セミコロン (;)';
-        if (d === ' ') return 'スペース';
-        return d;
-      };
-
-      const formatFileSize = (bytes) => {
-        if (bytes < 1024) return `${bytes} B`;
-        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-      };
-
-      const wizSetStep = (step) => {
-        _wizStep = step;
-        qsa('.wizard-step').forEach(el => {
-          const s = parseInt(el.dataset.step);
-          el.classList.toggle('active', s === step);
-          el.classList.toggle('done', s < step);
-        });
-        $wizPage1.style.display = step === 2 ? '' : 'none';
-        $wizPage2.style.display = step === 3 ? '' : 'none';
-        $wizBackBtn.style.display = step > 2 ? '' : 'none';
-        $wizNextBtn.style.display = step === 2 ? '' : 'none';
-        $wizImportBtn.style.display = step === 3 ? '' : 'none';
-      };
-
-      const wizGetCurrentText = () => {
-        const enc = qs('#wizEncoding').value;
-        if (!_wizArrayBuffer) return '';
-        if (_wizDecodedCache.encoding === enc && _wizDecodedCache.text !== '') return _wizDecodedCache.text;
-        const text = decodeFileBytes(_wizArrayBuffer, enc);
-        _wizDecodedCache = { encoding: enc, text };
-        return text;
-      };
-
-      const wizGetCurrentDelimiter = () => qs('#wizDelimiter').value;
-
-      const wizRenderPreview = () => {
-        const text = wizGetCurrentText();
-        const dlm = wizGetCurrentDelimiter();
-        const hasHdr = qs('#wizHeader').checked;
-        const maxRows = parseInt(qs('#wizPreviewRows').value) || 10;
-        const parsed = parseCSV(text, dlm, maxRows + (hasHdr ? 1 : 0));
-
-        const colCount = parsed[0]?.length ?? 0;
-        const dataStart = hasHdr ? 1 : 0;
-        const headers = hasHdr
-          ? parsed[0]
-          : Array.from({ length: colCount }, (_, i) => isEnglish() ? `Column ${i + 1}` : `列${i + 1}`);
-        const previewRows = parsed.slice(dataStart, dataStart + maxRows);
-
-        qs('#wizPreviewInfo').textContent = `${Math.min(maxRows, previewRows.length).toLocaleString(getLocaleTag())} 行をプレビュー表示（最大 ${maxRows.toLocaleString(getLocaleTag())} 行）`;
-
-        const thClass = hasHdr ? '' : ' class="auto-header"';
-        qs('#wizPreviewHead').innerHTML = `<tr>${headers.map(h => `<th${thClass}>${escapeHTML(h)}</th>`).join('')}</tr>`;
-        qs('#wizPreviewBody').innerHTML = previewRows.map(row =>
-          `<tr>${row.map(c => `<td>${escapeHTML(c)}</td>`).join('')}</tr>`
-        ).join('');
-      };
-
-      const openImportWizard = (arrayBuffer, fileName, fileHandle) => {
-        _wizArrayBuffer = arrayBuffer;
-        _wizFileName = fileName;
-        _wizFileHandle = fileHandle;
-        _wizDecodedCache = { encoding: null, text: '' };
-
-        // Step1: auto-detect
-        const detectedEnc = detectEncodingLabel(arrayBuffer);
-        const text = decodeFileBytes(arrayBuffer, detectedEnc);
-        _wizDecodedCache = { encoding: detectedEnc, text };
-        const detectedDlm = detectDelimiter(text);
-        const detectSampleRows = parseCSV(text, detectedDlm, 2000);
-        const colCount = detectSampleRows[0]?.length ?? 0;
-
-        // Populate detect info
-        qs('#wizDetectEncoding').textContent = getEncodingDisplayName(detectedEnc);
-        qs('#wizDetectDelimiter').textContent = delimiterDisplayName(detectedDlm);
-        qs('#wizDetectSize').textContent = `先頭 ${detectSampleRows.length.toLocaleString(getLocaleTag())} 行で判定 / ${colCount.toLocaleString(getLocaleTag())} 列`;
-        qs('#wizDetectFileSize').textContent = formatFileSize(arrayBuffer.byteLength);
-
-        // Set controls to detected values
-        qs('#wizEncoding').value = normalizeEncoding(detectedEnc);
-        qs('#wizDelimiter').value = detectedDlm;
-        qs('#wizHeader').checked = false;
-
-        wizSetStep(2);
-        $wizOverlay.classList.add('show');
-      };
-
-      const closeImportWizard = () => {
-        $wizOverlay.classList.remove('show');
-        _wizArrayBuffer = null;
-        _wizDecodedCache = { encoding: null, text: '' };
-      };
-
-      const wizExecuteImport = async () => {
-        const text = wizGetCurrentText();
-        const dlm = wizGetCurrentDelimiter();
-        const hasHdr = qs('#wizHeader').checked;
-
-        if (!text.trim()) { showToast('ファイルが空です', 'error'); return; }
-
-        state.delimiter = dlm;
-        const parsed = await parseCSVAsync(text, dlm, DEMO_LIMITS.maxRows + 1);
-        const { rows, rowTrimmed, colTrimmed } = normalizeDemoDataRows(parsed);
-        state.data = rows;
-        if (state.data.length === 0) { showToast('データを解析できませんでした', 'error'); return; }
-        state.hasHeader = hasHdr;
-        state.columnWidths = {};
-        const requestedEncoding = normalizeEncoding(qs('#wizEncoding').value);
-        state.encoding = normalizeExportEncoding(requestedEncoding);
-        if (state.encoding !== requestedEncoding) {
-          showToast('この文字コードは外部ライブラリなしでは出力できません。UTF-8に切り替えました。', 'error');
-        }
-        markDataChanged();
-        undoStack = []; redoStack = [];
-        _fileHandle = _wizFileHandle;
-        updateFilenameBadge(_wizFileName);
-        updateHistoryButtons(); renderTable(); updateStats(); updateButtonLabels(); saveToStorage();
-        closeImportWizard();
-        if (rowTrimmed || colTrimmed) showDemoLimitToast('dataset');
-        showToast(`<span class="material-symbols-outlined">folder_open</span> ${escapeHTML(_wizFileName)} を読み込みました（${state.data.length}行）`, 'success');
-      };
-
-      // Wizard event listeners
-      $wizNextBtn.addEventListener('click', () => {
-        wizSetStep(3);
-        wizRenderPreview();
-      });
-      $wizBackBtn.addEventListener('click', () => wizSetStep(_wizStep - 1));
-      $wizImportBtn.addEventListener('click', wizExecuteImport);
-      $wizCancelBtn.addEventListener('click', closeImportWizard);
-      $wizCloseBtn.addEventListener('click', closeImportWizard);
-      $wizOverlay.addEventListener('click', (e) => { if (e.target === $wizOverlay) closeImportWizard(); });
-
-      // Re-render preview when settings change on page 2
-      qs('#wizDelimiter').addEventListener('change', () => { if (_wizStep === 3) wizRenderPreview(); });
-      qs('#wizEncoding').addEventListener('change', () => { if (_wizStep === 3) wizRenderPreview(); });
-      qs('#wizHeader').addEventListener('change', () => { if (_wizStep === 3) wizRenderPreview(); });
-      qs('#wizPreviewRows').addEventListener('change', () => { if (_wizStep === 3) wizRenderPreview(); });
 
       const loadFileDirect = async (arrayBuffer, fileName, fileHandle = null) => {
         const detectedEnc = detectEncodingLabel(arrayBuffer);
@@ -6471,470 +4399,6 @@
         input.click();
       };
 
-      /* --- Save (overwrite) --- */
-      const buildBlob = (text) => {
-        return buildEncodedBlob(text, state.encoding, state.bom, 'text/plain');
-      };
-
-      const saveFile = async () => {
-        showDemoLockedToast('保存');
-        return;
-        if (state.data.length === 0) { showToast('保存するデータがありません', 'error'); return; }
-        let text;
-        try {
-          text = await generateOutputAsync(state.delimiter);
-        } catch {
-          showToast('出力の生成に失敗しました', 'error');
-          return;
-        }
-
-        // Overwrite via File System Access API
-        if (_fileHandle) {
-          try {
-            const writable = await _fileHandle.createWritable();
-            await writable.write(buildBlob(text));
-            await writable.close();
-            showToast(`<span class="material-symbols-outlined">save</span> ${escapeHTML(_fileHandle.name)} に保存しました`, 'success');
-            return;
-          } catch (e) {
-            if (e.name === 'AbortError') return;
-            showToast('上書き保存に失敗しました。名前を付けて保存します。', 'error');
-          }
-        }
-
-        // Save As via File System Access API
-        if (window.showSaveFilePicker) {
-          try {
-            const ext = getFormatExt();
-            const handle = await window.showSaveFilePicker({
-              suggestedName: `data_${new Date().toISOString().slice(0, 10)}.${ext}`,
-              types: [{
-                description: isEnglish() ? `${getFormatLabel()} file` : `${getFormatLabel()} ファイル`,
-                accept: { 'text/*': [`.${ext}`] }
-              }]
-            });
-            _fileHandle = handle;
-            const writable = await handle.createWritable();
-            await writable.write(buildBlob(text));
-            await writable.close();
-            updateFilenameBadge(handle.name);
-            showToast(`<span class="material-symbols-outlined">save</span> ${escapeHTML(handle.name)} に保存しました`, 'success');
-          } catch (e) {
-            if (e.name !== 'AbortError') showToast('保存に失敗しました', 'error');
-          }
-          return;
-        }
-
-        // Fallback: download
-        void downloadData();
-      };
-
-      const copyData = async () => {
-        showDemoLockedToast('コピー');
-        return;
-        if (state.data.length === 0) { showToast('コピーするデータがありません', 'error'); return; }
-        try {
-          const text = await generateOutputAsync(state.delimiter);
-          await navigator.clipboard.writeText(text);
-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${getFormatLabel()}としてコピーしました`, 'success');
-        } catch { showToast('コピーに失敗しました', 'error'); }
-      };
-
-      const downloadData = async () => {
-        showDemoLockedToast('ダウンロード');
-        return;
-        if (state.data.length === 0) { showToast('ダウンロードするデータがありません', 'error'); return; }
-        let text;
-        try {
-          text = await generateOutputAsync(state.delimiter);
-        } catch {
-          showToast('出力の生成に失敗しました', 'error');
-          return;
-        }
-        const ext = getFormatExt();
-        let blob;
-        try {
-          blob = buildEncodedBlob(text, state.encoding, state.bom, 'text/plain');
-        } catch {
-          showToast('この文字コードは外部ライブラリなしでは出力できません。UTF-8に切り替えました。', 'error');
-          state.encoding = EXPORT_FALLBACK_ENCODING;
-          state.bom = supportsBom(state.encoding) ? state.bom : false;
-          saveToStorage();
-          return;
-        }
-
-        const objectUrl = URL.createObjectURL(blob);
-        const $a = document.createElement('a');
-        $a.href = objectUrl;
-        $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
-        document.body.appendChild($a);
-        $a.click();
-        $a.remove();
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
-        showToast(`<span class="material-symbols-outlined">download</span> ${getFormatLabel()}ファイルをダウンロードしました`, 'success');
-      };
-
-      /* --- Export Wizard --- */
-      const $exportOverlay = qs('#exportWizardOverlay');
-      const $expFormat    = qs('#expFormat');
-      const $expEncoding  = qs('#expEncoding');
-      const $expBom       = qs('#expBom');
-      const $expNewline   = qs('#expNewline');
-      const $expQuote     = qs('#expQuote');
-      const $expTarget    = qs('#expTarget');
-      const $expHeader    = qs('#expHeader');
-      const $expSkipEmptyRows = qs('#expSkipEmptyRows');
-      const $expSkipEmptyCols = qs('#expSkipEmptyCols');
-      const $expPreview   = qs('#expPreview');
-      const $expPreviewInfo = qs('#expPreviewInfo');
-
-      const syncBomCheckbox = ($checkbox, encoding) => {
-        const enabled = supportsBom(encoding);
-        $checkbox.disabled = !enabled;
-        if (!enabled) $checkbox.checked = false;
-      };
-
-      const syncExportBomState = () => {
-        syncBomCheckbox($expBom, $expEncoding.value);
-      };
-
-      const openExportWizard = () => {
-        showDemoLockedToast('エクスポート');
-        return;
-        if (state.data.length === 0) { showToast('エクスポートするデータがありません', 'error'); return; }
-        // Sync current settings
-        syncEncodingSelectSupport($expEncoding, { forExport: true });
-        $expEncoding.value = normalizeExportEncoding(state.encoding);
-        $expBom.checked = state.bom;
-        $expNewline.value = state.newline;
-        $expQuote.value = state.quoteStyle;
-        $expHeader.checked = state.hasHeader;
-        // Detect delimiter -> format
-        if (state.delimiter === '\t') $expFormat.value = 'tsv';
-        else if (state.delimiter === ',') $expFormat.value = 'csv';
-        else $expFormat.value = 'txt';
-
-        // Check if filtered / selected available
-        normalizeExportTarget();
-        updateExpTargetHint();
-        updateExpFormatUI();
-        syncExportBomState();
-        scheduleExportPreview(true);
-        $exportOverlay.classList.add('show');
-      };
-
-      const closeExportWizard = () => {
-        if (_exportPreviewTimer !== null) {
-          clearTimeout(_exportPreviewTimer);
-          _exportPreviewTimer = null;
-        }
-        $exportOverlay.classList.remove('show');
-      };
-
-      // Show/hide format-dependent options
-      const updateExpFormatUI = () => {
-        const fmt = $expFormat.value;
-        const isDSV = ['csv', 'tsv', 'txt'].includes(fmt);
-        qs('#expQuoteGroup').style.display = isDSV ? '' : 'none';
-        qs('#expNewlineGroup').style.display = isDSV || fmt === 'ndjson' ? '' : 'none';
-        qs('#expEncodingGroup').style.display = isDSV ? '' : 'none';
-        qs('#expBomGroup').style.display = isDSV ? '' : 'none';
-      };
-
-      const getExportTargetAvailability = () => ({
-        filtered: columnFilters.size > 0 || ($filterMode.checked && filteredRows !== null),
-        selected: getSelectedCells().length > 0,
-      });
-
-      const normalizeExportTarget = () => {
-        const { filtered, selected } = getExportTargetAvailability();
-        if ($expTarget.value === 'selected' && !selected) {
-          $expTarget.value = filtered ? 'filtered' : 'all';
-        } else if ($expTarget.value === 'filtered' && !filtered) {
-          $expTarget.value = selected ? 'selected' : 'all';
-        }
-      };
-
-      const updateExpTargetHint = () => {
-        const { filtered, selected } = getExportTargetAvailability();
-        const target = $expTarget.value;
-        const $hint = qs('#expTargetHint');
-        const hints = [];
-        if (target === 'filtered' && !filtered) hints.push('フィルタ未使用（全件と同じ結果）');
-        if (target === 'selected' && !selected) hints.push('選択なし');
-        $hint.textContent = hints.length ? `（${hints.join('・')}）` : '';
-      };
-
-      // Get the data rows to export based on target setting
-      const getExportData = (options = {}) => {
-        const rowLimit = Number.isFinite(options.rowLimit) ? Math.max(0, options.rowLimit) : null;
-        const target = $expTarget.value;
-        const includeHeader = $expHeader.checked && state.hasHeader;
-        const skipEmptyRows = $expSkipEmptyRows.checked;
-        const skipEmptyCols = $expSkipEmptyCols.checked;
-        const dataStart = state.hasHeader ? 1 : 0;
-
-        let rows;
-        if (target === 'selected') {
-          // Get unique rows from selection
-          const cells = getSelectedCells();
-          if (cells.length === 0) return { headers: [], rows: [] };
-          let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
-          cells.forEach($td => {
-            const r = parseInt($td.dataset.row), c = parseInt($td.dataset.col);
-            minR = Math.min(minR, r); maxR = Math.max(maxR, r);
-            minC = Math.min(minC, c); maxC = Math.max(maxC, c);
-          });
-          const colRange = [];
-          for (let c = minC; c <= maxC; c++) colRange.push(c);
-          rows = [];
-          for (let r = minR; r <= maxR; r++) {
-            rows.push(colRange.map(c => state.data[r]?.[c] ?? ''));
-          }
-          if (rowLimit !== null && rows.length > rowLimit) rows = rows.slice(0, rowLimit);
-          const headers = includeHeader ? colRange.map(c => state.data[0]?.[c] ?? '') : [];
-          // Filter minR>=dataStart rows only (don't include header row as data)
-          if (includeHeader && minR === 0) rows = rows.slice(1);
-          return applyEmptyFilters({ headers, rows }, skipEmptyRows, skipEmptyCols);
-        }
-
-        if (target === 'filtered') {
-          rebuildVisibleRows();
-          const visible = rowLimit === null ? _visibleRowIndexes : _visibleRowIndexes.slice(0, rowLimit);
-          rows = visible.map(idx => [...state.data[idx]]);
-        } else {
-          const sourceRows = rowLimit === null
-            ? state.data.slice(dataStart)
-            : state.data.slice(dataStart, dataStart + rowLimit);
-          rows = sourceRows.map(r => [...r]);
-        }
-
-        const headers = includeHeader ? [...state.data[0]] : [];
-        return applyEmptyFilters({ headers, rows }, skipEmptyRows, skipEmptyCols);
-      };
-
-      const applyEmptyFilters = ({ headers, rows }, skipEmptyRows, skipEmptyCols) => {
-        // Remove empty rows
-        if (skipEmptyRows) {
-          rows = rows.filter(r => r.some(c => c !== ''));
-        }
-        // Remove empty columns
-        if (skipEmptyCols && rows.length > 0) {
-          const colCount = Math.max(headers.length, rows[0]?.length ?? 0);
-          const nonEmptyCols = [];
-          for (let c = 0; c < colCount; c++) {
-            if (rows.some(r => (r[c] ?? '') !== '')) nonEmptyCols.push(c);
-          }
-          rows = rows.map(r => nonEmptyCols.map(c => r[c] ?? ''));
-          if (headers.length) {
-            const newHeaders = nonEmptyCols.map(c => headers[c] ?? '');
-            return { headers: newHeaders, rows };
-          }
-        }
-        return { headers, rows };
-      };
-
-      // Generate output string for a given format
-      const generateExportOutput = (exportData = getExportData()) => {
-        const fmt = $expFormat.value;
-        const { headers, rows } = exportData;
-        if (rows.length === 0 && headers.length === 0) return '';
-
-        const nl = $expNewline.value === 'crlf' ? '\r\n' : '\n';
-        const qs_ = $expQuote.value;
-
-        const quoteDSV = (c, dlm) => {
-          const cell = c ?? '';
-          const escaped = cell.replace(/"/g, '""');
-          if (qs_ === 'all') return `"${escaped}"`;
-          if (qs_ === 'none') return cell;
-          return (cell.includes(dlm) || cell.includes('"') || cell.includes('\n') || cell.includes('\r'))
-            ? `"${escaped}"` : cell;
-        };
-
-        const dsvOutput = (dlm) => {
-          const lines = [];
-          if (headers.length) lines.push(headers.map(c => quoteDSV(c, dlm)).join(dlm));
-          rows.forEach(r => lines.push(r.map(c => quoteDSV(c, dlm)).join(dlm)));
-          return lines.join(nl);
-        };
-
-        switch (fmt) {
-          case 'csv': return dsvOutput(',');
-          case 'tsv': return dsvOutput('\t');
-          case 'txt': return dsvOutput(' ');
-
-          case 'json': {
-            if (headers.length) {
-              const arr = rows.map(r => {
-                const obj = {};
-                headers.forEach((h, i) => obj[h || `col${i + 1}`] = r[i] ?? '');
-                return obj;
-              });
-              return JSON.stringify(arr, null, 2);
-            }
-            return JSON.stringify(rows, null, 2);
-          }
-
-          case 'ndjson': {
-            if (headers.length) {
-              return rows.map(r => {
-                const obj = {};
-                headers.forEach((h, i) => obj[h || `col${i + 1}`] = r[i] ?? '');
-                return JSON.stringify(obj);
-              }).join(nl);
-            }
-            return rows.map(r => JSON.stringify(r)).join(nl);
-          }
-
-          case 'html': {
-            let html = '<table>\n';
-            if (headers.length) {
-              html += '  <thead>\n    <tr>' + headers.map(h => `<th>${escapeHTML(h)}</th>`).join('') + '</tr>\n  </thead>\n';
-            }
-            html += '  <tbody>\n';
-            rows.forEach(r => {
-              html += '    <tr>' + r.map(c => `<td>${escapeHTML(c)}</td>`).join('') + '</tr>\n';
-            });
-            html += '  </tbody>\n</table>';
-            return html;
-          }
-
-          case 'markdown': {
-            const allRows = headers.length ? [headers, ...rows] : rows;
-            if (allRows.length === 0) return '';
-            const colCount = Math.max(...allRows.map(r => r.length));
-            // Compute column widths
-            const widths = Array(colCount).fill(3);
-            allRows.forEach(r => {
-              for (let i = 0; i < colCount; i++) {
-                widths[i] = Math.max(widths[i], (r[i] ?? '').length);
-              }
-            });
-            const pad = (s, w) => s + ' '.repeat(Math.max(0, w - s.length));
-            const formatRow = r => '| ' + Array.from({ length: colCount }, (_, i) => pad(r[i] ?? '', widths[i])).join(' | ') + ' |';
-
-            const lines = [];
-            if (headers.length) {
-              lines.push(formatRow(headers));
-              lines.push('| ' + widths.map(w => '-'.repeat(w)).join(' | ') + ' |');
-              rows.forEach(r => lines.push(formatRow(r)));
-            } else {
-              allRows.forEach(r => lines.push(formatRow(r)));
-            }
-            return lines.join('\n');
-          }
-
-          default: return '';
-        }
-      };
-
-      const updateExportPreview = () => {
-        const exportData = getExportData({ rowLimit: EXPORT_PREVIEW_ROW_LIMIT });
-        const output = generateExportOutput(exportData);
-        $expPreview.textContent = output;
-        $expPreviewInfo.textContent = `プレビュー ${exportData.rows.length.toLocaleString(getLocaleTag())}行（最大 ${EXPORT_PREVIEW_ROW_LIMIT.toLocaleString(getLocaleTag())} 行）`;
-      };
-
-      const scheduleExportPreview = (immediate = false) => {
-        if (_exportPreviewTimer !== null) clearTimeout(_exportPreviewTimer);
-        _exportPreviewTimer = setTimeout(() => {
-          _exportPreviewTimer = null;
-          updateExportPreview();
-        }, immediate ? 0 : EXPORT_PREVIEW_DEBOUNCE_MS);
-      };
-
-      const getExportExt = () => {
-        const fmt = $expFormat.value;
-        if (fmt === 'json' || fmt === 'ndjson') return 'json';
-        if (fmt === 'html') return 'html';
-        if (fmt === 'markdown') return 'md';
-        if (fmt === 'tsv') return 'tsv';
-        if (fmt === 'csv') return 'csv';
-        return 'txt';
-      };
-
-      const exportCopy = async () => {
-        showDemoLockedToast('エクスポート');
-        return;
-        const text = generateExportOutput();
-        if (!text) { showToast('エクスポートするデータがありません', 'error'); return; }
-        try {
-          await navigator.clipboard.writeText(text);
-          showToast(`<span class="material-symbols-outlined">content_copy</span> クリップボードにコピーしました`, 'success');
-          closeExportWizard();
-        } catch { showToast('コピーに失敗しました', 'error'); }
-      };
-
-      const exportDownload = () => {
-        showDemoLockedToast('エクスポート');
-        return;
-        const text = generateExportOutput();
-        if (!text) { showToast('エクスポートするデータがありません', 'error'); return; }
-
-        const fmt = $expFormat.value;
-        const isDSV = ['csv', 'tsv', 'txt'].includes(fmt);
-        const enc = normalizeExportEncoding($expEncoding.value);
-        let blob;
-
-        if (isDSV) {
-          try {
-            blob = buildEncodedBlob(text, enc, $expBom.checked, 'text/plain');
-          } catch {
-            showToast('この文字コードは外部ライブラリなしでは出力できません。UTF-8に切り替えました。', 'error');
-            $expEncoding.value = EXPORT_FALLBACK_ENCODING;
-            syncExportBomState();
-            return;
-          }
-        } else {
-          const mimeType = fmt === 'json' || fmt === 'ndjson' ? 'application/json;charset=utf-8'
-            : fmt === 'html' ? 'text/html;charset=utf-8'
-            : 'text/plain;charset=utf-8';
-          blob = new Blob([text], { type: mimeType });
-        }
-
-        const ext = getExportExt();
-        const objectUrl = URL.createObjectURL(blob);
-        const $a = document.createElement('a');
-        $a.href = objectUrl;
-        $a.download = `data_${new Date().toISOString().slice(0, 10)}.${ext}`;
-        document.body.appendChild($a);
-        $a.click();
-        $a.remove();
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
-        showToast(`<span class="material-symbols-outlined">download</span> ${ext.toUpperCase()}ファイルをダウンロードしました`, 'success');
-        closeExportWizard();
-      };
-
-      // Wire up export wizard UI events
-      $expFormat.addEventListener('change', () => {
-        updateExpFormatUI();
-        syncExportBomState();
-        scheduleExportPreview();
-      });
-      $expEncoding.addEventListener('change', () => {
-        const requested = normalizeEncoding($expEncoding.value);
-        const normalized = normalizeExportEncoding(requested);
-        if (requested !== normalized) {
-          $expEncoding.value = normalized;
-          showToast('この文字コードは外部ライブラリなしでは出力できません。UTF-8に切り替えました。', 'error');
-        }
-        syncExportBomState();
-        scheduleExportPreview();
-      });
-      [$expBom, $expNewline, $expQuote, $expHeader, $expSkipEmptyRows, $expSkipEmptyCols].forEach($el =>
-        $el.addEventListener('change', () => scheduleExportPreview())
-      );
-      $expTarget.addEventListener('change', () => {
-        updateExpTargetHint();
-        scheduleExportPreview();
-      });
-      qs('#expCancelBtn').addEventListener('click', closeExportWizard);
-      qs('#expCopyBtn').addEventListener('click', exportCopy);
-      qs('#expDownloadBtn').addEventListener('click', exportDownload);
-      qs('#exportWizardBtn').addEventListener('click', openExportWizard);
-      $exportOverlay.addEventListener('click', (e) => { if (e.target === $exportOverlay) closeExportWizard(); });
-
       /* --- Clear --- */
       const confirmClearAll = () => {
         if (state.data.length === 0) return;
@@ -6949,21 +4413,14 @@
 
       /* --- Menu Delegation --- */
       const colActions = {
-        'sort-asc':  () => sortColumn('asc'),
-        'sort-desc': () => sortColumn('desc'),
-        'open-filter': () => showDemoLockedToast('列フィルタ'),
         'add-col-left': addColumnLeft,
         'add-col-right': addColumnRight,
-        'copy-col':  copyColumn,
-        'dup-col':   duplicateColumn,
         'del-col':   confirmDeleteColumn,
       };
 
       const rowActions = {
         'add-row-up': addRowAbove,
         'add-row-down': addRowBelow,
-        'copy-row': copyRow,
-        'dup-row':  duplicateRow,
         'del-row':  confirmDeleteRow,
       };
 
@@ -6979,13 +4436,6 @@
 
       /* --- Table Event Delegation --- */
       $dataTable.addEventListener('click', (e) => {
-        // Filter icon click
-        const $fb = e.target.closest('.th-filter-btn');
-        if ($fb) {
-          e.stopPropagation();
-          showDemoLockedToast('列フィルタ');
-          return;
-        }
         const $th = e.target.closest('.th-content');
         if ($th) { const ci = parseInt($th.closest('th').dataset.col); if (!isNaN(ci)) openColumnMenu(e, ci); return; }
         const $rm = e.target.closest('[data-row-menu]');
@@ -7028,54 +4478,17 @@
       document.addEventListener('keydown', (e) => {
         if (e.isComposing || e.keyCode === 229) return;
 
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveFile(); return; }
         if ((e.ctrlKey || e.metaKey) && e.key === 'o') { e.preventDefault(); openFile(); return; }
         if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
         if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
         if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
 
-        // Copy selected cells with Ctrl+C
-        if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-          const selected = getSelectedCells();
-          if (selected.length > 0) { e.preventDefault(); copySelectedCells(); return; }
-        }
-
-        // Paste into selected cells with Ctrl+V
-        if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
-          const selected = getSelectedCells();
-          if (selected.length > 0) {
-            // Let the paste event handler below handle it
-            return;
-          }
-        }
-
-        // Select all cells with Ctrl+A when focused on a cell
-        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
-          if (DEMO_DISABLE_MULTI_SELECT) return;
-          const tag = document.activeElement.tagName;
-          if (tag === 'TD' && state.data.length > 0) {
-            e.preventDefault();
-            clearSelection();
-            const start = state.hasHeader ? 1 : 0;
-            const colCount = state.data[0]?.length ?? 0;
-            selectRange(start, 0, state.data.length - 1, colCount - 1);
-            return;
-          }
-        }
-
-        // Delete / Backspace selected cells
-        if ((e.key === 'Delete' || e.key === 'Backspace') && getSelectedCells().length > 0) {
-          const tag = document.activeElement.tagName;
-          const editable = document.activeElement.isContentEditable;
-          // Only intercept when not actively editing a cell's text
-          if (tag !== 'TD' || !editable || getSelectedCells().length > 1) {
-            e.preventDefault(); deleteSelectedCells(); return;
-          }
-        }
-
         if (e.key === 'Escape') {
-          if (getSelectedCells().length > 0) { clearSelection(); return; }
-          clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); qs('#infoOverlay')?.classList.remove('show'); qs('#demoUpgradeOverlay')?.classList.remove('show'); closeImportWizard(); return;
+          clearSearch();
+          qs('#settingsOverlay')?.classList.remove('show');
+          qs('#infoOverlay')?.classList.remove('show');
+          qs('#demoUpgradeOverlay')?.classList.remove('show');
+          return;
         }
         if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
           const tag = document.activeElement.tagName;
@@ -7089,226 +4502,9 @@
         if (document.activeElement.tagName === 'TD' && document.activeElement.isContentEditable) handleCellNavigation(e, document.activeElement);
       });
 
-      /* --- Row/Column Drag Reorder --- */
-      let draggedColumnIndex = -1;
-      let draggedRowIndex = -1;
-      let columnDropIndex = -1;
-      let rowDropIndex = -1;
-
-      const clearDragOverTarget = () => {
-        qsa('th.drag-insert-before, th.drag-insert-after', $dataTable).forEach($el => $el.classList.remove('drag-insert-before', 'drag-insert-after'));
-        qsa('tr.drag-insert-before, tr.drag-insert-after', $dataTable).forEach($el => $el.classList.remove('drag-insert-before', 'drag-insert-after'));
-      };
-
-      const getColumnDropIndexAt = (clientX) => {
-        const $ths = qsa('th[data-col]', $tableHead);
-        if ($ths.length === 0) return { index: -1, $target: null, before: true };
-
-        const firstRect = $ths[0].getBoundingClientRect();
-        if (clientX <= firstRect.left) {
-          const idx = parseInt($ths[0].dataset.col, 10);
-          return { index: idx, $target: $ths[0], before: true };
-        }
-
-        const lastTh = $ths[$ths.length - 1];
-        const lastRect = lastTh.getBoundingClientRect();
-        if (clientX >= lastRect.right) {
-          const idx = parseInt(lastTh.dataset.col, 10);
-          return { index: idx + 1, $target: lastTh, before: false };
-        }
-
-        for (const $th of $ths) {
-          const rect = $th.getBoundingClientRect();
-          if (clientX >= rect.left && clientX <= rect.right) {
-            const idx = parseInt($th.dataset.col, 10);
-            const before = clientX < rect.left + rect.width / 2;
-            return { index: before ? idx : idx + 1, $target: $th, before };
-          }
-        }
-
-        return { index: -1, $target: null, before: true };
-      };
-
-      const getRowDropIndexAt = (clientY) => {
-        const $trs = qsa('tr[data-row]', $tableBody);
-        if ($trs.length === 0) return { index: -1, $target: null, before: true };
-
-        const firstRect = $trs[0].getBoundingClientRect();
-        if (clientY <= firstRect.top) {
-          const idx = parseInt($trs[0].dataset.row, 10);
-          return { index: idx, $target: $trs[0], before: true };
-        }
-
-        const lastTr = $trs[$trs.length - 1];
-        const lastRect = lastTr.getBoundingClientRect();
-        if (clientY >= lastRect.bottom) {
-          const idx = parseInt(lastTr.dataset.row, 10);
-          return { index: idx + 1, $target: lastTr, before: false };
-        }
-
-        for (const $tr of $trs) {
-          const rect = $tr.getBoundingClientRect();
-          if (clientY >= rect.top && clientY <= rect.bottom) {
-            const idx = parseInt($tr.dataset.row, 10);
-            const before = clientY < rect.top + rect.height / 2;
-            return { index: before ? idx : idx + 1, $target: $tr, before };
-          }
-        }
-
-        return { index: -1, $target: null, before: true };
-      };
-
-      const moveColumn = (fromIndex, dropIndex) => {
-        if (DEMO_DISABLE_REORDER) {
-          showDemoLockedToast('行/列のドラッグ移動');
-          return;
-        }
-        const colCount = state.data[0]?.length ?? 0;
-        if (fromIndex < 0 || colCount <= 1) return;
-        const targetIndex = Math.max(0, Math.min(dropIndex, colCount));
-        if (targetIndex === fromIndex || targetIndex === fromIndex + 1) return;
-
-        saveToHistory();
-        state.data = state.data.map(row => {
-          const next = [...row];
-          const [moved] = next.splice(fromIndex, 1);
-          const insertIndex = targetIndex > fromIndex ? targetIndex - 1 : targetIndex;
-          next.splice(insertIndex, 0, moved);
-          return next;
-        });
-
-        const widths = Array.from({ length: colCount }, (_, i) => state.columnWidths[i]);
-        const [movedWidth] = widths.splice(fromIndex, 1);
-        const insertIndex = targetIndex > fromIndex ? targetIndex - 1 : targetIndex;
-        widths.splice(insertIndex, 0, movedWidth);
-        const newWidths = {};
-        widths.forEach((w, i) => { if (w !== undefined) newWidths[i] = w; });
-        state.columnWidths = newWidths;
-
-        renderTable(); updateStats(); saveToStorage();
-        showToast('列を移動しました', 'success');
-      };
-
-      const moveRow = (fromIndex, dropIndex) => {
-        if (DEMO_DISABLE_REORDER) {
-          showDemoLockedToast('行/列のドラッグ移動');
-          return;
-        }
-        const rowCount = state.data.length;
-        if (fromIndex < 0 || rowCount <= 1) return;
-        const targetIndex = Math.max(0, Math.min(dropIndex, rowCount));
-        if (targetIndex === fromIndex || targetIndex === fromIndex + 1) return;
-
-        saveToHistory();
-        const [moved] = state.data.splice(fromIndex, 1);
-        const insertIndex = targetIndex > fromIndex ? targetIndex - 1 : targetIndex;
-        state.data.splice(insertIndex, 0, moved);
-        renderTable(); updateStats(); saveToStorage();
-        showToast('行を移動しました', 'success');
-      };
-
-      $dataTable.addEventListener('dragstart', (e) => {
-        if (DEMO_DISABLE_REORDER) {
-          const $dragTarget = e.target.closest('[data-col-drag], [data-row-drag]');
-          if ($dragTarget) {
-            e.preventDefault();
-            showDemoLockedToast('行/列のドラッグ移動');
-          }
-          return;
-        }
-        const $col = e.target.closest('[data-col-drag]');
-        if ($col) {
-          draggedColumnIndex = parseInt($col.dataset.colDrag, 10);
-          columnDropIndex = -1;
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/plain', `col:${draggedColumnIndex}`);
-          closeColumnMenu();
-          return;
-        }
-        const $row = e.target.closest('[data-row-drag]');
-        if ($row) {
-          draggedRowIndex = parseInt($row.dataset.rowDrag, 10);
-          rowDropIndex = -1;
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/plain', `row:${draggedRowIndex}`);
-          closeRowMenu();
-        }
-      });
-
-      $tableScroll.addEventListener('dragover', (e) => {
-        if (DEMO_DISABLE_REORDER) return;
-        if (draggedColumnIndex >= 0) {
-          e.preventDefault();
-          const { index, $target, before } = getColumnDropIndexAt(e.clientX);
-          columnDropIndex = index;
-          clearDragOverTarget();
-          if ($target) $target.classList.add(before ? 'drag-insert-before' : 'drag-insert-after');
-          return;
-        }
-        if (draggedRowIndex >= 0) {
-          e.preventDefault();
-          const { index, $target, before } = getRowDropIndexAt(e.clientY);
-          rowDropIndex = index;
-          clearDragOverTarget();
-          if ($target) $target.classList.add(before ? 'drag-insert-before' : 'drag-insert-after');
-        }
-      });
-
-      $tableScroll.addEventListener('drop', (e) => {
-        if (DEMO_DISABLE_REORDER) {
-          draggedColumnIndex = -1;
-          draggedRowIndex = -1;
-          columnDropIndex = -1;
-          rowDropIndex = -1;
-          clearDragOverTarget();
-          return;
-        }
-        if (draggedColumnIndex >= 0) {
-          e.preventDefault();
-          columnDropIndex = getColumnDropIndexAt(e.clientX).index;
-          clearDragOverTarget();
-          if (columnDropIndex >= 0) moveColumn(draggedColumnIndex, columnDropIndex);
-          draggedColumnIndex = -1;
-          columnDropIndex = -1;
-          return;
-        }
-        if (draggedRowIndex >= 0) {
-          e.preventDefault();
-          rowDropIndex = getRowDropIndexAt(e.clientY).index;
-          clearDragOverTarget();
-          if (rowDropIndex >= 0) moveRow(draggedRowIndex, rowDropIndex);
-          draggedRowIndex = -1;
-          rowDropIndex = -1;
-        }
-      });
-
-      $dataTable.addEventListener('dragend', () => {
-        if (DEMO_DISABLE_REORDER) {
-          draggedColumnIndex = -1;
-          draggedRowIndex = -1;
-          columnDropIndex = -1;
-          rowDropIndex = -1;
-          clearDragOverTarget();
-          return;
-        }
-        draggedColumnIndex = -1;
-        draggedRowIndex = -1;
-        columnDropIndex = -1;
-        rowDropIndex = -1;
-        clearDragOverTarget();
-      });
-
       document.addEventListener('paste', (e) => {
         const text = e.clipboardData?.getData('text');
         if (!text) return;
-
-        // If cells are selected, paste into the selection
-        const selected = DEMO_DISABLE_MULTI_SELECT ? [] : getSelectedCells();
-        if (selected.length > 0) {
-          e.preventDefault();
-          pasteIntoSelection(text);
-          return;
-        }
 
         // If a single cell is focused and table has data, paste starting from that cell
         if ($pasteZone.classList.contains('has-data') && document.activeElement.tagName === 'TD' && document.activeElement.isContentEditable) {
@@ -7348,15 +4544,12 @@
 
       /* --- Toolbar Wiring --- */
       qs('#openFileBtn').addEventListener('click', openFile);
-      qs('#saveBtn').addEventListener('click', saveFile);
       $undoBtn.addEventListener('click', undo);
       $redoBtn.addEventListener('click', redo);
       qs('#pasteBtn').addEventListener('click', triggerPaste);
       $pasteZone.addEventListener('click', triggerPaste);
       qs('#addRowBtn').addEventListener('click', addRow);
       qs('#addColBtn').addEventListener('click', addColumn);
-      qs('#copyBtn').addEventListener('click', copyData);
-      qs('#dlBtn').addEventListener('click', downloadData);
       qs('#clearBtn').addEventListener('click', confirmClearAll);
 
       $searchInput.addEventListener('input', performSearch);
@@ -7368,156 +4561,10 @@
           if (e.shiftKey) navigateMatch(-1); else navigateMatch(1);
         }
       });
-      qs('#replaceNextBtn').addEventListener('click', replaceNext);
-      qs('#replaceAllBtn').addEventListener('click', replaceAll);
       qs('#searchPrevBtn').addEventListener('click', () => navigateMatch(-1));
       qs('#searchNextBtn').addEventListener('click', () => navigateMatch(1));
-
-      // Advanced search toggle
-      $searchAdvancedToggle.addEventListener('click', () => {
-        const visible = $searchAdvanced.style.display !== 'none';
-        $searchAdvanced.style.display = visible ? 'none' : 'flex';
-        $searchAdvancedToggle.classList.toggle('active', !visible);
-      });
-
-      // Re-run search when options change
-      $searchCaseSensitive.addEventListener('change', performSearch);
-      $searchExactMatch.addEventListener('change', performSearch);
-      $searchRegex.addEventListener('change', performSearch);
-      $searchTargetCol.addEventListener('change', performSearch);
-      $filterMode.addEventListener('change', () => {
-        if (!$filterMode.checked) {
-          cancelSearchTasks();
-          filteredRows = null;
-          renderForSearchResult({
-            affectsVisibility: false,
-            refreshBody: false,
-            clearHighlights: true
-          });
-          updateSearchInfo();
-          return;
-        }
-        performSearchImmediate();
-      });
       $tableScroll.addEventListener('scroll', scheduleVirtualRender, { passive: true });
       window.addEventListener('resize', scheduleVirtualRender);
-      // --- Column Filter Panel Events ---
-      qs('#colFilterClose').addEventListener('click', closeColFilterPanel);
-      qs('#colFilterApplyBtn').addEventListener('click', applyColumnFilter);
-      qs('#colFilterClearBtn').addEventListener('click', () => clearColumnFilter());
-      qs('#colFilterAddCond').addEventListener('click', () => addConditionRow());
-      qs('#colFilterSelectAll').addEventListener('click', () => {
-        qsa('input[data-filter-value]', $colFilterValues).forEach(c => c.checked = true);
-      });
-      qs('#colFilterSelectNone').addEventListener('click', () => {
-        qsa('input[data-filter-value]', $colFilterValues).forEach(c => c.checked = false);
-      });
-      $colFilterSearch.addEventListener('input', filterValueList);
-
-      // Close filter panel on outside click
-      document.addEventListener('click', (e) => {
-        if ($colFilterPanel.classList.contains('show') &&
-            !$colFilterPanel.contains(e.target) &&
-            !e.target.closest('.th-filter-btn') &&
-            !e.target.closest('[data-action="open-filter"]')) {
-          closeColFilterPanel();
-        }
-      });
-
-      const applyDemoModeUI = () => {
-        const normalizeMenuDividers = ($menu) => {
-          if (!$menu) return;
-          const children = Array.from($menu.children);
-          children.forEach(($child) => {
-            if ($child.classList.contains('menu-divider')) $child.style.display = 'none';
-          });
-
-          let seenVisibleItem = false;
-          let $pendingDivider = null;
-          children.forEach(($child) => {
-            if ($child.classList.contains('menu-divider')) {
-              if (seenVisibleItem && !$pendingDivider) $pendingDivider = $child;
-              return;
-            }
-            if (!$child.classList.contains('menu-item')) return;
-            if (getComputedStyle($child).display === 'none') return;
-
-            if (seenVisibleItem && $pendingDivider) $pendingDivider.style.display = '';
-            seenVisibleItem = true;
-            $pendingDivider = null;
-          });
-        };
-
-        [
-          '#copyBtn',
-          '#saveBtn',
-          '#dlBtn',
-          '#exportWizardBtn',
-        ].forEach((selector) => {
-          const $btn = qs(selector);
-          if (!$btn) return;
-          $btn.style.display = 'none';
-          $btn.setAttribute('aria-hidden', 'true');
-        });
-
-        qsa('.toolbar .toolbar-group').forEach(($group) => {
-          const visibleButtons = qsa('.btn', $group).filter(($btn) => getComputedStyle($btn).display !== 'none');
-          if (visibleButtons.length === 0) $group.style.display = 'none';
-        });
-
-        const $replaceNextBtn = qs('#replaceNextBtn');
-        const $replaceAllBtn = qs('#replaceAllBtn');
-        [$replaceInput, $replaceNextBtn, $replaceAllBtn].forEach(($el) => {
-          if (!$el) return;
-          $el.disabled = true;
-          $el.style.display = 'none';
-        });
-
-        $searchAdvanced.style.display = 'none';
-        $searchAdvancedToggle.classList.remove('active');
-        $searchAdvancedToggle.disabled = true;
-        $searchAdvancedToggle.style.display = 'none';
-        $searchCaseSensitive.checked = false;
-        $searchExactMatch.checked = false;
-        $searchRegex.checked = false;
-        $filterMode.checked = false;
-        $searchCaseSensitive.disabled = true;
-        $searchExactMatch.disabled = true;
-        $searchRegex.disabled = true;
-        $filterMode.disabled = true;
-        $searchTargetCol.value = '-1';
-        $searchTargetCol.disabled = true;
-        filteredRows = null;
-        columnFilters.clear();
-        closeColFilterPanel();
-        if (DEMO_DISABLE_MULTI_SELECT) {
-          clearSelection();
-          _selectionAnchor = null;
-          _isDragging = false;
-          _dragStart = null;
-          $dataTable.classList.remove('selecting-cells');
-        }
-
-        [
-          '#columnMenu .menu-item[data-action="sort-asc"]',
-          '#columnMenu .menu-item[data-action="sort-desc"]',
-          '#columnMenu .menu-item[data-action="copy-col"]',
-          '#columnMenu .menu-item[data-action="dup-col"]',
-          '#rowMenu .menu-item[data-action="copy-row"]',
-          '#rowMenu .menu-item[data-action="dup-row"]',
-        ].forEach((selector) => {
-          const $item = qs(selector);
-          if ($item) $item.style.display = 'none';
-        });
-
-        const $openFilterItem = qs('#columnMenu .menu-item[data-action="open-filter"]');
-        if ($openFilterItem) {
-          $openFilterItem.style.display = 'none';
-        }
-
-        normalizeMenuDividers($columnMenu);
-        normalizeMenuDividers($rowMenu);
-      };
 
       const openDemoUpgradeModal = () => {
         $demoUpgradeOverlay?.classList.add('show');
@@ -7546,14 +4593,6 @@
       /* --- Button Labels --- */
       const updateButtonLabels = () => {
         const label = getFormatLabel();
-        const $copyLabel = qs('#copyBtnLabel');
-        const $dlLabel = qs('#dlBtnLabel');
-        const $saveLabel = qs('#saveBtnLabel');
-        if ($copyLabel) $copyLabel.textContent = isEnglish() ? `${label} Copy` : `${label}コピー`;
-        if ($dlLabel) $dlLabel.textContent = isEnglish() ? `${label} Save` : `${label}保存`;
-        if ($saveLabel) $saveLabel.textContent = _fileHandle
-          ? (isEnglish() ? 'Overwrite Save' : '上書き保存')
-          : (isEnglish() ? 'Save' : '保存');
         $dataFormat.textContent = label;
       };
 
@@ -7572,7 +4611,10 @@
       const $settingLanguage = qs('#settingLanguage');
 
       const syncSettingBomState = () => {
-        syncBomCheckbox($settingBOM, $settingEncoding.value);
+        const encoding = normalizeExportEncoding($settingEncoding.value);
+        const bomSupported = supportsBom(encoding);
+        $settingBOM.disabled = !bomSupported;
+        if (!bomSupported) $settingBOM.checked = false;
       };
 
       const openSettings = () => {
@@ -7653,40 +4695,18 @@
           setLanguage(e.target.value);
           updateButtonLabels();
           updateSearchInfo();
-          updateSearchTargetCols();
           updateStats();
         });
       }
 
       /* --- Init --- */
-      const resetExportWizard = () => {
-        $exportOverlay.classList.remove('show');
-        $expFormat.value = 'csv';
-        syncEncodingSelectSupport($expEncoding, { forExport: true });
-        $expEncoding.value = EXPORT_FALLBACK_ENCODING;
-        $expBom.checked = true;
-        $expNewline.value = 'crlf';
-        $expQuote.value = 'auto';
-        $expTarget.value = 'all';
-        $expHeader.checked = true;
-        $expSkipEmptyRows.checked = false;
-        $expSkipEmptyCols.checked = false;
-        $expPreview.textContent = '';
-        $expPreviewInfo.textContent = '';
-        qs('#expTargetHint').textContent = '';
-        syncExportBomState();
-      };
-
       const handleLanguageChange = () => {
         updateButtonLabels();
-        updateSearchTargetCols();
         updateSearchInfo();
         updateStats();
         syncEncodingSelectSupport($settingEncoding, { forExport: true });
-        syncEncodingSelectSupport($expEncoding, { forExport: true });
-        updateExpTargetHint();
+        syncSettingBomState();
         if ($settingLanguage) $settingLanguage.value = _currentLanguage;
-        if ($exportOverlay.classList.contains('show')) scheduleExportPreview(true);
       };
 
       registerLanguageChangeHandler(() => {
@@ -7694,8 +4714,6 @@
       });
 
       const init = async ({ hydrationBarrier = null } = {}) => {
-        resetExportWizard();
-        applyDemoModeUI();
         initDevtoolsGuard();
         if (!HAS_LEGACY_ENCODING_LIB) {
           showToast('外部エンコーディングライブラリ未使用のため、一部文字コードの出力は無効です', 'error');

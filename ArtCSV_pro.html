@@ -44,8 +44,8 @@
       :root {
         color-scheme: light;
 
-        --primary:       light-dark(oklch(0.55 0.20 260), oklch(0.49 0.18 260));
-        --primary-hover: light-dark(oklch(0.48 0.22 260), oklch(0.52 0.18 260));
+        --primary:       light-dark(#2ea9df, color-mix(in oklab, #2ea9df 82%, black));
+        --primary-hover: light-dark(color-mix(in oklab, #2ea9df 86%, black), color-mix(in oklab, #2ea9df 92%, white));
         --danger:        light-dark(oklch(0.53 0.22 25),  oklch(0.48 0.20 25));
         --danger-hover:  light-dark(oklch(0.45 0.22 25),  oklch(0.52 0.20 25));
         --success:       light-dark(oklch(0.55 0.18 145), oklch(0.48 0.16 145));
@@ -57,7 +57,7 @@
         --text-muted:    light-dark(oklch(0.50 0.02 255),  oklch(0.76 0.007 250));
         --header-bg:     light-dark(oklch(0.96 0.01 250),  oklch(0.28 0.008 250));
         --highlight:     light-dark(oklch(0.93 0.12 95),   oklch(0.46 0.10 60));
-        --cell-focus-bg: light-dark(oklch(0.95 0.06 260),  oklch(0.34 0.05 260));
+        --cell-focus-bg: light-dark(color-mix(in oklab, #2ea9df 14%, white), color-mix(in oklab, #2ea9df 30%, black));
       }
 
       body {
@@ -483,7 +483,7 @@
       }
 
       table {
-        inline-size: max-content;
+        inline-size: auto;
         border-collapse: collapse;
         font-size: 0.9rem;
         table-layout: fixed;
@@ -577,6 +577,15 @@
         border-inline-end: 1px solid var(--border);
       }
 
+      td.row-num[data-row-menu] {
+        cursor: pointer;
+
+        &:hover {
+          background: var(--border);
+          color: var(--text);
+        }
+      }
+
       th.row-num:hover {
         background: var(--header-bg);
       }
@@ -659,6 +668,7 @@
         inline-size: 100%;
         block-size: 100%;
         display: flex;
+        min-inline-size: 0;
       }
 
       .th-content {
@@ -670,6 +680,7 @@
         padding: 10px 12px;
         flex: 1;
         inline-size: 100%;
+        min-inline-size: 0;
       }
 
       .th-colnum {
@@ -685,6 +696,7 @@
 
       .th-text {
         flex: 1;
+        min-inline-size: 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -767,7 +779,7 @@
         box-shadow: 0 10px 40px oklch(0 0 0 / 0.18);
         z-index: 1001;
         inline-size: 340px;
-        max-block-size: 520px;
+        max-block-size: min(620px, calc(100vh - 24px));
         overflow: hidden;
         flex-direction: column;
 
@@ -804,9 +816,19 @@
       .col-filter-section {
         padding: 12px 16px;
         border-block-end: 1px solid var(--border);
-        overflow-y: auto;
-        flex-shrink: 1;
         min-block-size: 0;
+      }
+
+      .col-filter-section:first-of-type {
+        overflow: hidden;
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+      }
+
+      .col-filter-section:last-of-type {
+        overflow-y: auto;
+        flex: 1 1 auto;
       }
 
       .col-filter-section-title {
@@ -832,11 +854,17 @@
       }
 
       .col-filter-values {
-        max-block-size: 160px;
+        max-block-size: 192px;
         overflow-y: auto;
         border: 1px solid var(--border);
         border-radius: 6px;
         background: var(--bg);
+      }
+
+      .col-filter-section:first-of-type .col-filter-values {
+        flex: 1 1 auto;
+        max-block-size: none;
+        min-block-size: 192px;
       }
 
       .col-filter-value-item {
@@ -856,7 +884,7 @@
       .col-filter-values-actions {
         display: flex;
         gap: 8px;
-        margin-block-start: 6px;
+        margin-block-start: 10px;
       }
 
       .col-filter-conditions {
@@ -2162,6 +2190,10 @@
     };
 
     const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const parseDatasetIndex = (value) => {
+      const idx = Number.parseInt(String(value ?? ''), 10);
+      return Number.isInteger(idx) ? idx : -1;
+    };
 
     /* ==============================================================
        I18N / Locale
@@ -2646,14 +2678,14 @@
        Theme
        ============================================================== */
 
-    /* --- Accent Color Themes (日本の伝統色) --- */
+    /* --- Accent Color Themes --- */
     const ACCENT_THEMES = [
-      { id: 'ruri',     hue: 260, chroma: 0.20, swatch: '#3451B2' },
-      { id: 'beni',     hue: 15,  chroma: 0.22, swatch: '#C53D43' },
-      { id: 'wakakusa', hue: 145, chroma: 0.18, swatch: '#3B7960' },
-      { id: 'yamabuki', hue: 80,  chroma: 0.18, swatch: '#C4972F' },
-      { id: 'sumire',   hue: 310, chroma: 0.18, swatch: '#8B4C8B' },
-      { id: 'asagi',    hue: 210, chroma: 0.14, swatch: '#3A7D8C' }
+      { id: 'ruri',     swatch: '#2ea9df' },
+      { id: 'beni',     swatch: '#68be8d' },
+      { id: 'wakakusa', swatch: '#f8b500' },
+      { id: 'yamabuki', swatch: '#f596aa' },
+      { id: 'sumire',   swatch: '#b7282e' },
+      { id: 'asagi',    swatch: '#bbbcde' }
     ];
 
     let _currentAccentId = 'ruri'; // default
@@ -2661,15 +2693,11 @@
     const applyAccentTheme = (accentId) => {
       const t = ACCENT_THEMES.find(a => a.id === accentId) ?? ACCENT_THEMES[0];
       _currentAccentId = t.id;
-      const h = t.hue;
-      const c = t.chroma;
-      const darkPrimaryChroma = Math.min(c, 0.20);
-      const darkHoverChroma = Math.min(Math.max(c - 0.02, 0.10), 0.18);
-      const darkCellFocusChroma = Math.min(c * 0.22, 0.05);
+      const sw = t.swatch;
       const r = document.documentElement;
-      r.style.setProperty('--primary',       `light-dark(oklch(0.55 ${c} ${h}), oklch(0.49 ${darkPrimaryChroma} ${h}))`);
-      r.style.setProperty('--primary-hover', `light-dark(oklch(0.48 ${Math.min(c + 0.02, 0.30)} ${h}), oklch(0.52 ${darkHoverChroma} ${h}))`);
-      r.style.setProperty('--cell-focus-bg', `light-dark(oklch(0.95 ${Math.min(c * 0.3, 0.08)} ${h}), oklch(0.34 ${darkCellFocusChroma} ${h}))`);
+      r.style.setProperty('--primary',       `light-dark(${sw}, color-mix(in oklab, ${sw} 82%, black))`);
+      r.style.setProperty('--primary-hover', `light-dark(color-mix(in oklab, ${sw} 86%, black), color-mix(in oklab, ${sw} 92%, white))`);
+      r.style.setProperty('--cell-focus-bg', `light-dark(color-mix(in oklab, ${sw} 14%, white), color-mix(in oklab, ${sw} 30%, black))`);
 
       // Update swatch active state
       qsa('.theme-swatch').forEach(el => el.classList.toggle('active', el.dataset.accent === t.id));
@@ -2813,6 +2841,9 @@
         newline: 'crlf',
         quoteStyle: 'auto'
       };
+      const DEFAULT_COLUMN_WIDTH = 150;
+      const MIN_COLUMN_WIDTH = 60;
+      const ROW_NUMBER_COLUMN_WIDTH = 70;
 
       const SUPPORTED_ENCODINGS = ['utf-8', 'shift-jis', 'euc-jp', 'iso-2022-jp', 'utf-16le', 'utf-16be'];
       const EXPORT_FALLBACK_ENCODING = 'utf-8';
@@ -3003,7 +3034,8 @@
       let filteredRows = null; // Set<rowIndex> when filter mode is active, null when inactive
       const columnFilters = new Map(); // Map<colIndex, {values?: Set, conditions?: [{op, val}], logic?: 'and'|'or'}>
       let filterPanelColIndex = -1;
-      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0;
+      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0, resizeLastWidth = 0;
+      let renderedTableWidth = 0;
       const VIRTUAL_ROW_THRESHOLD = 1000;
       const VIRTUAL_ROW_HEIGHT = 42;
       const VIRTUAL_OVERSCAN = 12;
@@ -3344,6 +3376,34 @@
 
       const cloneDataMatrix = (rows) => rows.map(row => [...row]);
       const cloneColumnWidths = (widths) => ({ ...widths });
+      const normalizeCellValue = (value) => (
+        value === null || value === undefined ? '' : (typeof value === 'string' ? value : String(value))
+      );
+      const normalizeDataMatrix = (data) => {
+        if (!Array.isArray(data)) return [];
+        const rows = data
+          .filter((row) => Array.isArray(row))
+          .map((row) => row.map((cell) => normalizeCellValue(cell)));
+        let maxCols = 0;
+        rows.forEach((row) => {
+          if (row.length > maxCols) maxCols = row.length;
+        });
+        if (maxCols === 0) return rows;
+        return rows.map((row) => (
+          row.length === maxCols ? row : [...row, ...Array(maxCols - row.length).fill('')]
+        ));
+      };
+      const normalizeColumnWidths = (widths) => {
+        if (!widths || typeof widths !== 'object' || Array.isArray(widths)) return {};
+        const normalized = {};
+        Object.entries(widths).forEach(([key, value]) => {
+          const idx = Number.parseInt(key, 10);
+          const width = Number(value);
+          if (!Number.isInteger(idx) || idx < 0 || !Number.isFinite(width)) return;
+          normalized[idx] = Math.max(MIN_COLUMN_WIDTH, Math.round(width));
+        });
+        return normalized;
+      };
       const resetSearchRowCache = () => {
         _rowSearchCache = [];
         _searchWorkerDataRevision = -1;
@@ -3457,11 +3517,12 @@
         try {
           const saved = await IDBStore.get('csvEditor_state');
           if (saved) {
+            const data = normalizeDataMatrix(saved.data);
             state = {
-              data: Array.isArray(saved.data) ? saved.data : [],
-              hasHeader: !!saved.hasHeader,
-              delimiter: typeof saved.delimiter === 'string' ? saved.delimiter : ',',
-              columnWidths: saved.columnWidths && typeof saved.columnWidths === 'object' ? saved.columnWidths : {},
+              data,
+              hasHeader: !!saved.hasHeader && data.length > 0,
+              delimiter: typeof saved.delimiter === 'string' && saved.delimiter.length > 0 ? saved.delimiter : ',',
+              columnWidths: normalizeColumnWidths(saved.columnWidths),
               encoding: normalizeExportEncoding(typeof saved.encoding === 'string' ? saved.encoding : 'utf-8'),
               bom: typeof saved.bom === 'boolean' ? saved.bom : true,
               newline: saved.newline === 'lf' ? 'lf' : 'crlf',
@@ -4106,18 +4167,13 @@
               if (type === 'valueCounts') {
                 const colIdx = payload?.colIdx ?? 0;
                 const start = payload?.start ?? 0;
-                const localeTag = payload?.localeTag || 'ja-JP';
                 const valueCounts = new Map();
                 for (let i = start; i < data.length; i++) {
                   const row = data[i] ?? [];
                   const value = row[colIdx] ?? '';
                   valueCounts.set(value, (valueCounts.get(value) ?? 0) + 1);
                 }
-                const sorted = Array.from(valueCounts.entries()).sort((a, b) => {
-                  if (a[0] === '' && b[0] !== '') return -1;
-                  if (a[0] !== '' && b[0] === '') return 1;
-                  return a[0].localeCompare(b[0], localeTag);
-                });
+                const sorted = Array.from(valueCounts.entries());
                 self.postMessage({ id, ok: true, result: { sorted } });
                 return;
               }
@@ -4203,6 +4259,38 @@
 
       /* --- Render --- */
       const getBodyDataStart = () => state.hasHeader ? 1 : 0;
+      const getColumnWidth = (colIndex) => state.columnWidths[colIndex] ?? DEFAULT_COLUMN_WIDTH;
+      const applyRenderedTableWidth = (width) => {
+        const safeWidth = Math.max(0, Math.round(width));
+        renderedTableWidth = safeWidth;
+        if (safeWidth <= 0) {
+          $dataTable.style.inlineSize = '';
+          $dataTable.style.minInlineSize = '';
+          return;
+        }
+        const widthPx = `${safeWidth}px`;
+        $dataTable.style.inlineSize = widthPx;
+        $dataTable.style.minInlineSize = widthPx;
+      };
+      const syncRenderedTableWidth = () => {
+        const colCount = state.data[0]?.length ?? 0;
+        if (colCount === 0) {
+          applyRenderedTableWidth(0);
+          return;
+        }
+        const totalWidth = ROW_NUMBER_COLUMN_WIDTH
+          + Array.from({ length: colCount }, (_, i) => getColumnWidth(i))
+            .reduce((sum, width) => sum + width, 0);
+        applyRenderedTableWidth(totalWidth);
+      };
+      const adjustRenderedTableWidth = (delta) => {
+        if (!Number.isFinite(delta) || delta === 0) return;
+        if (renderedTableWidth <= 0) {
+          syncRenderedTableWidth();
+          return;
+        }
+        applyRenderedTableWidth(renderedTableWidth + delta);
+      };
 
       const rowPassesColumnFilters = (rowIdx) => {
         if (columnFilters.size === 0) return true;
@@ -4333,19 +4421,19 @@
         const matchedCols = searchMatchMap.get(rowIndex);
         const currentMatch = currentMatchIndex >= 0 ? searchMatches[currentMatchIndex] : null;
         return `<tr data-row="${rowIndex}">
-          <td class="row-num"><div class="row-num-wrapper">
+          <td class="row-num" data-row-menu="${rowIndex}"><div class="row-num-wrapper">
             <span class="row-num-text">${rowNum}</span>
             <button class="row-menu-btn" data-row-menu="${rowIndex}" data-row-drag="${rowIndex}" draggable="true" title="ドラッグで行を入れ替え / クリックで行メニュー">
               <span class="material-symbols-outlined" style="font-size:1rem;">more_vert</span>
             </button>
           </div></td>${
             row.map((c, j) => {
-              const w = state.columnWidths[j] ?? 150;
+              const w = getColumnWidth(j);
               const classes = [];
               if (matchedCols?.has(j)) classes.push('highlight');
               if (currentMatch && currentMatch.row === rowIndex && currentMatch.col === j) classes.push('current-match');
               const classAttr = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
-              return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;">${escapeHTML(c)}</td>`;
+              return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;max-width:${w}px;">${escapeHTML(c)}</td>`;
             }).join('')
           }</tr>`;
       };
@@ -4448,6 +4536,7 @@
         if (state.data.length === 0) {
           $tableContainer.classList.remove('show');
           $pasteZone.classList.remove('has-data');
+          syncRenderedTableWidth();
           virtualState.enabled = false;
           virtualState.start = -1;
           virtualState.end = -1;
@@ -4467,11 +4556,11 @@
 
         $tableHead.innerHTML = `<tr><th class="row-num">#</th>${
           headers.map((h, i) => {
-            const w = state.columnWidths[i] ?? 150;
+            const w = getColumnWidth(i);
             const colNum = state.hasHeader ? `<span class="th-colnum">${i + 1}</span>` : '';
             const style = state.hasHeader ? '' : 'color:var(--text-muted);';
             const hasFilter = columnFilters.has(i);
-            return `<th style="width:${w}px;min-width:${w}px;" data-col="${i}">
+            return `<th style="width:${w}px;min-width:${w}px;max-width:${w}px;" data-col="${i}">
               <div class="th-wrapper">
                 <div class="th-content">${colNum}<span class="th-text" style="${style}">${escapeHTML(h)}</span>
                   <span class="th-filter-btn material-symbols-outlined${hasFilter ? ' has-filter' : ''}" data-filter-col="${i}" title="フィルタ">filter_alt</span>
@@ -4482,6 +4571,7 @@
           }).join('')
         }</tr>`;
 
+        syncRenderedTableWidth();
         rebuildVisibleRows();
         virtualState.enabled = shouldUseVirtualRows();
         virtualState.start = -1;
@@ -4511,22 +4601,31 @@
         e.stopPropagation();
         isResizing = true; resizeColumnIndex = colIndex; resizeStartX = e.clientX;
         resizeStartWidth = qs(`th[data-col="${colIndex}"]`).offsetWidth;
+        resizeLastWidth = resizeStartWidth;
+        if (renderedTableWidth <= 0) syncRenderedTableWidth();
         document.body.style.cursor = 'col-resize';
         document.body.style.userSelect = 'none';
       };
 
       document.addEventListener('mousemove', (e) => {
         if (!isResizing) return;
-        const w = Math.max(60, resizeStartWidth + (e.clientX - resizeStartX));
+        const w = Math.max(MIN_COLUMN_WIDTH, resizeStartWidth + (e.clientX - resizeStartX));
+        if (w === resizeLastWidth) return;
+        const widthDelta = w - resizeLastWidth;
+        resizeLastWidth = w;
         state.columnWidths[resizeColumnIndex] = w;
         qsa(`[data-col="${resizeColumnIndex}"]`, $dataTable).forEach($el => {
-          $el.style.width = `${w}px`; $el.style.minWidth = `${w}px`;
+          $el.style.width = `${w}px`;
+          $el.style.minWidth = `${w}px`;
+          $el.style.maxWidth = `${w}px`;
         });
+        adjustRenderedTableWidth(widthDelta);
       });
 
       document.addEventListener('mouseup', () => {
         if (!isResizing) return;
         isResizing = false;
+        resizeLastWidth = 0;
         document.body.style.cursor = '';
         document.body.style.userSelect = '';
         markSettingsChanged();
@@ -4545,9 +4644,10 @@
       const getSelectedCells = () => qsa('td.selected', $dataTable);
 
       const getCellCoords = ($td) => ({
-        row: parseInt($td.dataset.row),
-        col: parseInt($td.dataset.col)
+        row: parseDatasetIndex($td?.dataset?.row),
+        col: parseDatasetIndex($td?.dataset?.col)
       });
+      const hasValidCellCoords = ({ row, col }) => row >= 0 && col >= 0;
 
       const selectCell = ($td) => $td.classList.add('selected');
 
@@ -4570,6 +4670,7 @@
         if (e.target.closest('.resize-handle')) return;
 
         const coords = getCellCoords($td);
+        if (!hasValidCellCoords(coords)) return;
 
         if (e.shiftKey && _selectionAnchor) {
           // Shift+Click: range selection from anchor
@@ -4593,6 +4694,7 @@
         const $td = e.target.closest?.('td[contenteditable]');
         if (!$td) return;
         const coords = getCellCoords($td);
+        if (!_dragStart || !hasValidCellCoords(coords)) return;
         clearSelection();
         selectRange(_dragStart.row, _dragStart.col, coords.row, coords.col);
       });
@@ -4618,10 +4720,13 @@
         // Build a map of row -> sorted cols
         const rowMap = new Map();
         cells.forEach($td => {
-          const { row, col } = getCellCoords($td);
+          const coords = getCellCoords($td);
+          if (!hasValidCellCoords(coords)) return;
+          const { row, col } = coords;
           if (!rowMap.has(row)) rowMap.set(row, []);
           rowMap.get(row).push(col);
         });
+        if (rowMap.size === 0) return false;
 
         const sortedRows = [...rowMap.keys()].sort((a, b) => a - b);
         const lines = sortedRows.map(r => {
@@ -4643,16 +4748,20 @@
       const deleteSelectedCells = () => {
         const cells = getSelectedCells();
         if (cells.length === 0) return false;
+        const validCoords = cells
+          .map($td => getCellCoords($td))
+          .filter((coords) => hasValidCellCoords(coords));
+        if (validCoords.length === 0) return false;
         saveToHistory();
-        cells.forEach($td => {
-          const { row, col } = getCellCoords($td);
+        validCoords.forEach(({ row, col }) => {
           if (state.data[row]) {
             state.data[row][col] = '';
-            $td.textContent = '';
+            const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
+            if ($td) $td.textContent = '';
           }
         });
         updateStats(); saveToStorage();
-        showToast(`<span class="material-symbols-outlined">delete</span> ${cells.length}セルをクリアしました`, 'success');
+        showToast(`<span class="material-symbols-outlined">delete</span> ${validCoords.length}セルをクリアしました`, 'success');
         return true;
       };
 
@@ -4663,11 +4772,14 @@
 
         const clipRows = clipText.replace(/\r\n?/g, '\n').replace(/\n$/, '').split('\n');
         const clipData = clipRows.map(r => r.split('\t'));
+        const validCoords = cells
+          .map($td => getCellCoords($td))
+          .filter((coords) => hasValidCellCoords(coords));
+        if (validCoords.length === 0) return false;
 
         // Build bounding box of selection
         let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
-        cells.forEach($td => {
-          const { row, col } = getCellCoords($td);
+        validCoords.forEach(({ row, col }) => {
           minR = Math.min(minR, row); maxR = Math.max(maxR, row);
           minC = Math.min(minC, col); maxC = Math.max(maxC, col);
         });
@@ -4694,15 +4806,17 @@
         } else {
           // Single value: paste into all selected cells
           const val = clipData[0][0];
-          cells.forEach($td => {
-            const { row, col } = getCellCoords($td);
+          let count = 0;
+          validCoords.forEach(({ row, col }) => {
             if (state.data[row]) {
               state.data[row][col] = val;
-              $td.textContent = val;
+              const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
+              if ($td) $td.textContent = val;
+              count++;
             }
           });
           updateStats(); saveToStorage();
-          showToast(`<span class="material-symbols-outlined">content_paste</span> ${cells.length}セルに貼り付けました`, 'success');
+          showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
         }
         return true;
       };
@@ -4813,7 +4927,10 @@
           : new RegExp(escapeRegExp(query), flags);
       };
 
-      const getSearchTargetCol = () => parseInt($searchTargetCol.value);
+      const getSearchTargetCol = () => {
+        const targetCol = Number.parseInt($searchTargetCol.value, 10);
+        return Number.isInteger(targetCol) ? targetCol : -1;
+      };
       const getSearchStoreLimit = () => {
         const rowCount = state.data.length;
         if (rowCount >= HUGE_DATA_ROW_THRESHOLD) return SEARCH_MATCH_STORE_LIMIT_HUGE;
@@ -5209,7 +5326,9 @@
             const label = headers ? `${i + 1}: ${headers[i]}` : (isEnglish() ? `Column ${i + 1}` : `列 ${i + 1}`);
             return `<option value="${i}">${escapeHTML(label)}</option>`;
           }).join('');
-        $searchTargetCol.value = current;
+        const parsedCurrent = Number.parseInt(current, 10);
+        const hasValidCurrent = Number.isInteger(parsedCurrent) && parsedCurrent >= -1 && parsedCurrent < colCount;
+        $searchTargetCol.value = hasValidCurrent ? String(parsedCurrent) : '-1';
       };
 
       const replaceNext = () => {
@@ -5329,7 +5448,7 @@
 
         // Position the panel
         $colFilterPanel.style.top = `${anchorRect.bottom + window.scrollY + 4}px`;
-        $colFilterPanel.style.left = `${Math.min(anchorRect.left, window.innerWidth - 360)}px`;
+        $colFilterPanel.style.left = `${_clampHorizontal(anchorRect.left, 360)}px`;
         $colFilterPanel.classList.add('show');
         $colFilterSearch.value = '';
         $colFilterSearch.focus();
@@ -5347,11 +5466,7 @@
           const v = state.data[i][colIdx] ?? '';
           valueCounts.set(v, (valueCounts.get(v) ?? 0) + 1);
         }
-        return [...valueCounts.entries()].sort((a, b) => {
-          if (a[0] === '' && b[0] !== '') return -1;
-          if (a[0] !== '' && b[0] === '') return 1;
-          return a[0].localeCompare(b[0], getLocaleTag());
-        });
+        return [...valueCounts.entries()];
       };
 
       const populateFilterValues = async (colIdx) => {
@@ -5388,7 +5503,7 @@
         }
 
         if (revisionAtStart !== _dataRevision) return;
-        if (filterPanelColIndex !== colIdx || !$colFilterPanel.classList.contains('show')) return;
+        if (filterPanelColIndex !== colIdx) return;
 
         // Determine which values are currently checked
         const existingFilter = columnFilters.get(colIdx);
@@ -5477,12 +5592,13 @@
       const collectFilterConfig = () => {
         // Values
         const $checks = qsa('input[data-filter-value]', $colFilterValues);
-        const allChecked = [...$checks].every(c => c.checked);
-        const noneChecked = [...$checks].every(c => !c.checked);
+        const allChecked = $checks.length > 0 && [...$checks].every(c => c.checked);
         let values = null;
-        if (!allChecked && !noneChecked) {
+        if ($checks.length > 0 && !allChecked) {
           values = new Set();
-          $checks.forEach($c => { if ($c.checked) values.add($c.dataset.filterValue); });
+          $checks.forEach($c => {
+            if ($c.checked) values.add($c.dataset.filterValue ?? '');
+          });
         }
 
         // Conditions
@@ -5537,12 +5653,18 @@
       const filterValueList = () => {
         const query = $colFilterSearch.value.toLowerCase();
         qsa('.col-filter-value-item', $colFilterValues).forEach($item => {
-          const val = $item.dataset.value.toLowerCase();
+          const val = ($item.dataset.value ?? '').toLowerCase();
           $item.style.display = val.includes(query) || (val === '' && '（空）'.includes(query)) ? '' : 'none';
         });
       };
 
       /* --- Column Menu --- */
+      const _clampHorizontal = (left, width, margin = 8) => {
+        const min = margin;
+        const max = Math.max(min, window.innerWidth - width - margin);
+        return Math.min(Math.max(left, min), max);
+      };
+
       const closeColumnMenu = () => $columnMenu.classList.remove('show');
       const closeRowMenu    = () => $rowMenu.classList.remove('show');
 
@@ -5550,25 +5672,36 @@
         e.stopPropagation(); activeColumnIndex = idx; closeRowMenu();
         const rect = e.target.closest('th').getBoundingClientRect();
         $columnMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
-        $columnMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+        $columnMenu.style.left = `${_clampHorizontal(rect.left, 220)}px`;
         $columnMenu.classList.add('show');
       };
 
       const openRowMenu = (e, idx) => {
         e.stopPropagation(); activeRowIndex = idx; closeColumnMenu();
-        const rect = e.target.getBoundingClientRect();
+        const $trigger = e.target.closest?.('td.row-num, [data-row-menu]');
+        const rect = ($trigger ?? e.target).getBoundingClientRect();
         $rowMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
-        $rowMenu.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+        $rowMenu.style.left = `${_clampHorizontal(rect.left, 220)}px`;
         $rowMenu.classList.add('show');
       };
 
       /* --- Column Operations --- */
-      const getColName = () => state.hasHeader
-        ? state.data[0][activeColumnIndex]
-        : (isEnglish() ? `Column ${activeColumnIndex + 1}` : `列${activeColumnIndex + 1}`);
+      const getColumnCount = () => state.data[0]?.length ?? 0;
+      const hasValidActiveColumn = () => (
+        Number.isInteger(activeColumnIndex) &&
+        activeColumnIndex >= 0 &&
+        activeColumnIndex < getColumnCount()
+      );
+      const getColName = () => {
+        if (!hasValidActiveColumn()) return isEnglish() ? 'Column' : '列';
+        if (state.hasHeader) {
+          return state.data[0]?.[activeColumnIndex] ?? (isEnglish() ? `Column ${activeColumnIndex + 1}` : `列${activeColumnIndex + 1}`);
+        }
+        return isEnglish() ? `Column ${activeColumnIndex + 1}` : `列${activeColumnIndex + 1}`;
+      };
 
       const sortColumn = async (dir) => {
-        if (activeColumnIndex < 0) return;
+        if (!hasValidActiveColumn()) return;
         saveToHistory();
         const start = state.hasHeader ? 1 : 0;
         let sorted;
@@ -5628,7 +5761,7 @@
       };
 
       const copyColumn = async () => {
-        if (activeColumnIndex < 0) return;
+        if (!hasValidActiveColumn()) return;
         try {
           await navigator.clipboard.writeText(state.data.map(r => r[activeColumnIndex] ?? '').join('\n'));
           showToast(`<span class="material-symbols-outlined">content_copy</span> 「${escapeHTML(getColName())}」をコピーしました`, 'success');
@@ -5636,7 +5769,7 @@
       };
 
       const duplicateColumn = () => {
-        if (activeColumnIndex < 0) return;
+        if (!hasValidActiveColumn()) return;
         saveToHistory();
         state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex + 1, 0, r[activeColumnIndex]); return n; });
 
@@ -5653,7 +5786,7 @@
       };
 
       const deleteColumn = () => {
-        if (activeColumnIndex < 0) return;
+        if (!hasValidActiveColumn()) return;
         saveToHistory();
         state.data = state.data.map(r => { const n = [...r]; n.splice(activeColumnIndex, 1); return n; });
 
@@ -5706,23 +5839,26 @@
       };
 
       const addColumnLeft = () => {
-        if (activeColumnIndex < 0) return;
+        if (!hasValidActiveColumn()) return;
         addColumnAt(activeColumnIndex);
       };
 
       const addColumnRight = () => {
-        if (activeColumnIndex < 0) return;
+        if (!hasValidActiveColumn()) return;
         addColumnAt(activeColumnIndex + 1);
       };
 
       const confirmDeleteColumn = () => {
+        if (!hasValidActiveColumn()) return;
         openModal('列を削除', `「${getColName()}」を削除しますか？この操作は元に戻せます。`, deleteColumn);
       };
 
       /* --- Row Operations --- */
       const copyRow = async () => {
-        if (activeRowIndex < 0) return;
-        const text = state.data[activeRowIndex].map(cell =>
+        if (!Number.isInteger(activeRowIndex) || activeRowIndex < 0 || activeRowIndex >= state.data.length) return;
+        const rowData = state.data[activeRowIndex];
+        if (!Array.isArray(rowData)) return;
+        const text = rowData.map(cell =>
           (cell.includes('\t') || cell.includes('"') || cell.includes('\n')) ? `"${cell.replace(/"/g, '""')}"` : cell
         ).join('\t');
         try {
@@ -5732,7 +5868,7 @@
       };
 
       const duplicateRow = () => {
-        if (activeRowIndex < 0) return;
+        if (!Number.isInteger(activeRowIndex) || activeRowIndex < 0 || activeRowIndex >= state.data.length) return;
         saveToHistory();
         state.data.splice(activeRowIndex + 1, 0, [...state.data[activeRowIndex]]);
         renderTable(); updateStats(); saveToStorage();
@@ -5740,6 +5876,7 @@
       };
 
       const deleteRow = (rowIndex) => {
+        if (!Number.isInteger(rowIndex) || rowIndex < 0 || rowIndex >= state.data.length) return;
         saveToHistory();
         state.data.splice(rowIndex, 1);
         if (state.data.length === 0) {
@@ -5772,7 +5909,7 @@
       };
 
       const confirmDeleteRow = () => {
-        if (activeRowIndex < 0) return;
+        if (!Number.isInteger(activeRowIndex) || activeRowIndex < 0 || activeRowIndex >= state.data.length) return;
         const rowNum = state.hasHeader ? activeRowIndex : activeRowIndex + 1;
         openModal('行を削除', `${rowNum}行目を削除しますか？`, () => deleteRow(activeRowIndex));
       };
@@ -6067,9 +6204,18 @@
         input.accept = '.csv,.tsv,.txt,text/csv,text/tab-separated-values,text/plain';
         input.addEventListener('change', async () => {
           const file = input.files?.[0];
-          if (!file) return;
-          const buf = await file.arrayBuffer();
-          openImportWizard(buf, file.name, null);
+          if (!file) {
+            input.remove();
+            return;
+          }
+          try {
+            const buf = await file.arrayBuffer();
+            openImportWizard(buf, file.name, null);
+          } catch (e) {
+            showToast('ファイルを開けませんでした', 'error');
+          } finally {
+            input.remove();
+          }
         });
         input.click();
       };
@@ -6543,6 +6689,7 @@
         'sort-asc':  () => sortColumn('asc'),
         'sort-desc': () => sortColumn('desc'),
         'open-filter': () => {
+          if (!hasValidActiveColumn()) return;
           const $th = qs(`th[data-col="${activeColumnIndex}"]`, $dataTable);
           if ($th) openColFilterPanel(activeColumnIndex, $th.getBoundingClientRect());
         },
@@ -6584,12 +6731,19 @@
         const $th = e.target.closest('.th-content');
         if ($th) { const ci = parseInt($th.closest('th').dataset.col); if (!isNaN(ci)) openColumnMenu(e, ci); return; }
         const $rm = e.target.closest('[data-row-menu]');
-        if ($rm) { openRowMenu(e, parseInt($rm.dataset.rowMenu)); return; }
+        if ($rm) {
+          const rowMenuIndex = Number.parseInt($rm.dataset.rowMenu, 10);
+          if (!Number.isNaN(rowMenuIndex)) openRowMenu(e, rowMenuIndex);
+          return;
+        }
       });
 
       $dataTable.addEventListener('mousedown', (e) => {
         const $h = e.target.closest('.resize-handle');
-        if ($h) startResize(e, parseInt($h.dataset.resizeCol));
+        if ($h) {
+          const resizeCol = Number.parseInt($h.dataset.resizeCol, 10);
+          if (!Number.isNaN(resizeCol)) startResize(e, resizeCol);
+        }
       });
 
       $dataTable.addEventListener('blur', (e) => {
@@ -6878,7 +7032,9 @@
           // Only intercept for multi-cell clipboard data
           if (clipData.length > 1 || clipData[0].length > 1) {
             e.preventDefault();
-            const { row, col } = getCellCoords(document.activeElement);
+            const coords = getCellCoords(document.activeElement);
+            if (!hasValidCellCoords(coords)) return;
+            const { row, col } = coords;
             saveToHistory();
             let count = 0;
             for (let ri = 0; ri < clipData.length; ri++) {
