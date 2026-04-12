@@ -9,18 +9,14 @@ const $ = (selector) => {
         throw new Error(`Element not found: ${selector}`);
     return el;
 };
-/* ---- Download LocalCSV_pro.html ---- */
-// ページ読み込み時に事前取得し Blob URL を準備する。
-// クリック時に同期的に使うことでユーザージェスチャーを維持し、
-// download 属性が確実に尊重されるようにする。
+/* ---- Download LocalCSV.html ---- */
+// ページ読み込み時に事前取得し、未準備ならクリック時に取得完了を待つ。
+// これにより、読み込み直後のクリックでも遷移ではなくダウンロードを優先する。
+const EDITOR_FILE_PATH = "LocalCSV.html";
+const DOWNLOAD_FILE_NAME = "localcsv.html";
 let editorBlobUrl = null;
-fetch("LocalCSV_pro.html")
-    .then((res) => (res.ok ? res.text() : Promise.reject(new Error(`${res.status}`))))
-    .then((html) => {
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    editorBlobUrl = URL.createObjectURL(blob);
-})
-    .catch(() => { });
+let editorBlobLoadPromise = null;
+const canPrefetchEditor = window.location.protocol !== "file:";
 const triggerDownload = (href, fileName) => {
     const anchor = document.createElement("a");
     anchor.href = href;
@@ -29,23 +25,50 @@ const triggerDownload = (href, fileName) => {
     anchor.click();
     anchor.remove();
 };
+const loadEditorBlobUrl = () => {
+    if (!canPrefetchEditor)
+        return Promise.resolve(null);
+    if (editorBlobUrl)
+        return Promise.resolve(editorBlobUrl);
+    if (editorBlobLoadPromise)
+        return editorBlobLoadPromise;
+    editorBlobLoadPromise = fetch(EDITOR_FILE_PATH)
+        .then((res) => (res.ok ? res.text() : Promise.reject(new Error(`${res.status}`))))
+        .then((html) => {
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        editorBlobUrl = URL.createObjectURL(blob);
+        return editorBlobUrl;
+    })
+        .catch(() => null)
+        .finally(() => {
+        editorBlobLoadPromise = null;
+    });
+    return editorBlobLoadPromise;
+};
+const downloadEditorHtml = async () => {
+    const blobUrl = await loadEditorBlobUrl();
+    triggerDownload(blobUrl ?? EDITOR_FILE_PATH, DOWNLOAD_FILE_NAME);
+};
+if (canPrefetchEditor) {
+    void loadEditorBlobUrl();
+}
 /* ---- NavBar: Download / Use Now ---- */
 const downloadBtn = $("#downloadBtn");
 const useNowBtn = $("#useNowBtn");
 downloadBtn.addEventListener("click", () => {
-    triggerDownload(editorBlobUrl ?? "LocalCSV_pro.html", "localcsv.html");
+    void downloadEditorHtml();
 });
 useNowBtn.addEventListener("click", () => {
-    window.location.href = "LocalCSV_pro.html";
+    window.location.href = "LocalCSV.html";
 });
 /* ---- Hero: Use Now on Web / Download HTML ---- */
 const heroUseNowBtn = $("#heroUseNowBtn");
 const heroDownloadBtn = $("#heroDownloadBtn");
 heroUseNowBtn.addEventListener("click", () => {
-    window.location.href = "LocalCSV_pro.html";
+    window.location.href = "LocalCSV.html";
 });
 heroDownloadBtn.addEventListener("click", () => {
-    triggerDownload(editorBlobUrl ?? "LocalCSV_pro.html", "localcsv.html");
+    void downloadEditorHtml();
 });
 /* ---- Scroll fade-in observer ---- */
 const observer = new IntersectionObserver((entries) => {

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>LocalCSV（ロカシー）| 制約環境専用のCSV実務エディタ</title>
+  <meta name="description" content="インストール不要・外部送信なし。メモ帳ではつらいCSV編集を、表形式で速く安全に。" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%232563eb' d='M10 10.02h5V21h-5zM17 21h3c1.1 0 2-.9 2-2v-9h-5v11zm3-18H5c-1.1 0-2 .9-2 2v3h19V5c0-1.1-.9-2-2-2zM3 19c0 1.1.9 2 2 2h3V10.02H3V19z'/></svg>">
+  <link href="public/css/redesign.css" rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- Glass NavBar -->
+  <header class="glass-nav" id="glass-nav">
+    <nav class="glass-nav-inner">
+      <a class="glass-nav-logo" href="#home">LocalCSV</a>
+      <div class="glass-nav-links" id="navLinks">
+        <a class="glass-nav-link" href="#home">ホーム</a>
+        <a class="glass-nav-link" href="#features">特徴</a>
+        <a class="glass-nav-link" href="#functions">機能</a>
+        <a class="glass-nav-link" href="#faq">FAQ</a>
+      </div>
+      <div class="glass-nav-actions" style="display: flex; gap: 0.5rem; align-items: center;">
+        <a class="glass-nav-cta" href="LocalCSV.html">
+          ブラウザで利用する
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
+        <a class="glass-nav-cta" href="LocalCSV.html" download="localcsv.html" data-download-editor>
+          HTMLをダウンロード
+          <span class="material-symbols-outlined" aria-hidden="true">download</span>
+        </a>
+      </div>
+      <button class="glass-nav-toggle" id="navToggle" aria-label="メニュー">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 1. Hero -->
+    <section class="hero" id="home">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-glow-2" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <p class="hero-brand">LocalCSV<span class="hero-brand-sub">（ロカシー）</span></p>
+          <p class="hero-tagline">制約環境専用のCSV実務エディタ</p>
+          <h1 class="hero-title">制約環境でも、<br />CSV編集を<br /><span class="hero-accent">"実務レベル"</span>に。</h1>
+          <p class="hero-desc">インストール不要。外部送信なし。<br />メモ帳ではつらいCSV編集を、表形式で速く安全に。</p>
+          <div class="hero-badges">
+            <span class="badge-chip">ローカル完結</span>
+            <span class="badge-chip">アカウント登録不要</span>
+            <span class="badge-chip">ブラウザで動作</span>
+            <span class="badge-chip">CSVを外部送信しない</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn-primary-cta" href="LocalCSV.html">ブラウザで利用する <span class="material-symbols-outlined"
+                aria-hidden="true">arrow_forward</span></a>
+            <a class="btn-primary-cta" href="LocalCSV.html" download="localcsv.html" data-download-editor>HTMLをダウンロードする
+              <span class="material-symbols-outlined" aria-hidden="true">download</span></a>
+          </div>
+        </div>
+        <div class="hero-aside">
+          <div class="hero-aside-card glass-card">
+            <p>"開ける"だけではなく、<br /><strong>"壊さず、見やすく、速く直せる"</strong><br />ためのCSVエディタです。</p>
+          </div>
+          <img class="hero-preview-img" src="public/preview.png" alt="LocalCSV エディタ プレビュー" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 共感 -->
+    <section class="section" id="empathy">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">こんなCSV編集、まだ続けますか？</h2>
+          <p class="section-lead">便利なCSVツールはあっても、現場では使えないことがあります。<br />その結果、メモ帳や汎用エディタで、時間をかけて直すしかない。<br />LocalCSV
+            は、そんな制約環境のために作った実務用ツールです。</p>
+        </div>
+        <div class="pain-grid">
+          <div class="pain-card glass-card fade-in"><span class="material-symbols-outlined pain-icon">block</span>
+            <h3>.exe を入れられない</h3>
+            <p>便利なCSVツールがあっても、現場のルールで導入できない。</p>
+          </div>
+          <div class="pain-card glass-card fade-in"><span class="material-symbols-outlined pain-icon">cloud_off</span>
+            <h3>外部サイトにアップできない</h3>
+            <p>業務データだから、Webツールにそのまま渡せない。</p>
+          </div>
+          <div class="pain-card glass-card fade-in"><span class="material-symbols-outlined pain-icon">grid_off</span>
+            <h3>メモ帳だと列が見づらい</h3>
+            <p>どの列を直しているのか分かりづらく、確認にも時間がかかる。</p>
+          </div>
+          <div class="pain-card glass-card fade-in"><span class="material-symbols-outlined pain-icon">warning</span>
+            <h3>一括修正が怖い</h3>
+            <p>置換やコピペで、思わぬ列ずれや壊れ方をすることがある。</p>
+          </div>
+          <div class="pain-card glass-card fade-in"><span
+              class="material-symbols-outlined pain-icon">hourglass_top</span>
+            <h3>少し直すだけで時間が溶ける</h3>
+            <p>10行だけ修正したいのに、全体を目で追うしかない。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 既存手段の限界 -->
+    <section class="section section--muted" id="limits">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">問題は、CSVツールがないことではありません。</h2>
+          <p class="section-subtitle">"使えるツールが、現場で使えないこと"です。</p>
+          <p class="section-lead">LocalCSV は、無料ツールとの機能勝負ではなく、<br />"制約環境でも使いやすいこと" を最優先に考えています。</p>
+        </div>
+        <div class="limit-table-wrap glass-card fade-in">
+          <table class="limit-table">
+            <thead>
+              <tr>
+                <th>手段</th>
+                <th>よくある問題</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>外部Webツール</td>
+                <td>CSVを持ち出せない</td>
+              </tr>
+              <tr>
+                <td>サードパーティexe</td>
+                <td>導入許可が通りにくい</td>
+              </tr>
+              <tr>
+                <td>メモ帳・汎用エディタ</td>
+                <td>表で見えず、修正ミスが起きやすい</td>
+              </tr>
+              <tr>
+                <td>Excel頼みの運用</td>
+                <td>文字コードや崩れが不安</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-closing fade-in">
+          だから必要なのは、高機能すぎるCSVツールではありません。<br /><strong>制約環境でも使いやすい、現実的なCSV実務エディタです。</strong></p>
+      </div>
+    </section>
+
+    <!-- 4. 解決策 -->
+    <section class="section" id="features">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">そのために作ったのが、<br />LocalCSV（ロカシー）です。</h2>
+          <p class="section-lead">LocalCSV
+            は、制約環境専用のCSV実務エディタです。<br />ブラウザで動作し、CSVを表形式で開いて、そのまま編集できます。<br />検索、絞り込み、一括置換、保存まで、実務で本当に使う機能に絞りました。</p>
+        </div>
+        <div class="value-grid">
+          <div class="value-card glass-card fade-in"><span
+              class="material-symbols-outlined value-icon">visibility</span>
+            <h3>見やすい</h3>
+            <p class="value-headline">表形式で確認しやすい</p>
+            <p>列と行が見えるので、メモ帳より直感的に編集できます。</p>
+          </div>
+          <div class="value-card glass-card fade-in"><span class="material-symbols-outlined value-icon">bolt</span>
+            <h3>速い</h3>
+            <p class="value-headline">必要なところだけ素早く直せる</p>
+            <p>検索、絞り込み、一括修正で、地味な手作業を減らします。</p>
+          </div>
+          <div class="value-card glass-card fade-in"><span
+              class="material-symbols-outlined value-icon">verified_user</span>
+            <h3>安心</h3>
+            <p class="value-headline">保存前に確認できる</p>
+            <p>変更箇所を見比べながら進められるので、壊しにくい運用を作れます。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 機能 -->
+    <section class="section section--muted" id="functions">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">実務で効く機能だけを、先に入れました。</h2>
+        </div>
+        <div class="func-grid">
+          <div class="func-card glass-card fade-in"><span class="material-symbols-outlined func-icon">table_chart</span>
+            <h3>表形式編集</h3>
+            <p class="func-sub">CSVをそのまま表で編集</p>
+            <p>行と列を見ながら修正できるので、対象箇所を追いやすくなります。</p>
+          </div>
+          <div class="func-card glass-card fade-in"><span class="material-symbols-outlined func-icon">search</span>
+            <h3>検索・絞り込み</h3>
+            <p class="func-sub">必要な行だけ見つけて直せる</p>
+            <p>全部を目で追わずに、対象データだけを絞って編集できます。</p>
+          </div>
+          <div class="func-card glass-card fade-in"><span
+              class="material-symbols-outlined func-icon">find_replace</span>
+            <h3>一括置換</h3>
+            <p class="func-sub">同じ修正をまとめて反映</p>
+            <p>同じ値の修正を何度も繰り返す必要がありません。</p>
+          </div>
+          <div class="func-card glass-card fade-in"><span class="material-symbols-outlined func-icon">sort</span>
+            <h3>並び替え</h3>
+            <p class="func-sub">列の値で昇順・降順に並び替え</p>
+            <p>任意の列を基準にデータを並び替えて、必要な行を見つけやすくできます。</p>
+          </div>
+          <div class="func-card glass-card fade-in"><span class="material-symbols-outlined func-icon">download</span>
+            <h3>CSV保存・エクスポート</h3>
+            <p class="func-sub">文字コードや形式を選んで保存</p>
+            <p>CSV・TSV・JSONなど多形式に対応し、文字コードや改行コードを指定して保存できます。</p>
+          </div>
+          <div class="func-card glass-card fade-in"><span class="material-symbols-outlined func-icon">translate</span>
+            <h3>文字コード対応</h3>
+            <p class="func-sub">現場で起きやすい文字化け事故を減らす</p>
+            <p>文字コードを意識した読み込み・保存ができます。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 利用イメージ -->
+    <section class="section" id="steps">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">使い方は、開く → 見つける → 直す → 保存 の4ステップ。</h2>
+        </div>
+        <div class="step-list">
+          <div class="step-item glass-card fade-in">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>CSVを開く</h3>
+              <p>ファイルを読み込むだけで、表形式で内容を確認できます。</p>
+            </div>
+          </div>
+          <div class="step-item glass-card fade-in">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>必要な箇所を見つける</h3>
+              <p>検索や絞り込み機能を使って、対象データだけを素早く見つけます。</p>
+            </div>
+          </div>
+          <div class="step-item glass-card fade-in">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>データを直す</h3>
+              <p>セルを直接クリックするか、一括置換を使ってデータを効率よく修正します。</p>
+            </div>
+          </div>
+          <div class="step-item glass-card fade-in">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h3>保存・エクスポートする</h3>
+              <p>編集が終わったら、文字コードや出力形式を選んで保存します。</p>
+            </div>
+          </div>
+        </div>
+        <div class="section-mid-cta fade-in">
+          <p>ブラウザですぐに試すか、HTMLを保存してオフラインでも使えます。</p>
+          <div class="section-actions">
+            <a class="btn-primary-cta" href="LocalCSV.html">ブラウザで利用する <span class="material-symbols-outlined"
+                aria-hidden="true">arrow_forward</span></a>
+            <a class="btn-primary-cta" href="LocalCSV.html" download="localcsv.html" data-download-editor>HTMLをダウンロードする
+              <span class="material-symbols-outlined" aria-hidden="true">download</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 利用シーン -->
+    <section class="section section--muted" id="scenes">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">こういう場面で、LocalCSV はすぐ効きます。</h2>
+        </div>
+        <div class="scene-grid">
+          <div class="scene-card glass-card fade-in"><span class="material-symbols-outlined scene-icon">edit_note</span>
+            <h3>マスタCSVの名称だけまとめて直したい</h3>
+            <p>対象データを絞って、一括で更新できます。</p>
+          </div>
+          <div class="scene-card glass-card fade-in"><span
+              class="material-symbols-outlined scene-icon">filter_list</span>
+            <h3>数百行の中から該当行だけ修正したい</h3>
+            <p>検索とフィルタで、必要な行だけを見つけられます。</p>
+          </div>
+          <div class="scene-card glass-card fade-in"><span class="material-symbols-outlined scene-icon">preview</span>
+            <h3>保存前に変更箇所を確認したい</h3>
+            <p>差分で見比べながら進められるので、不安を減らせます。</p>
+          </div>
+          <div class="scene-card glass-card fade-in"><span class="material-symbols-outlined scene-icon">timer</span>
+            <h3>メモ帳編集の確認時間を減らしたい</h3>
+            <p>表形式で見えるだけでも、確認の負担が大きく変わります。</p>
+          </div>
+        </div>
+        <div class="scene-savings fade-in">
+          <p><strong>1回10分の短縮でも、月8回なら80分。</strong><br />地味なCSV作業ほど、毎月の差が大きくなります。</p>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- 9. 安心 -->
+    <section class="section section--muted" id="trust">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title">業務データを扱うからこそ、安心して使える設計に。</h2>
+          <p class="section-lead">LocalCSV は、制約環境での利用を前提に考えています。<br />業務データを扱う場面でも、できるだけ不安なく使えるように設計しています。</p>
+        </div>
+        <div class="trust-grid">
+          <div class="trust-item glass-card fade-in"><span class="material-symbols-outlined trust-icon">language</span>
+            <p>ブラウザで動作します</p>
+          </div>
+          <div class="trust-item glass-card fade-in"><span class="material-symbols-outlined trust-icon">computer</span>
+            <p>ファイルはローカルで処理します</p>
+          </div>
+          <div class="trust-item glass-card fade-in"><span class="material-symbols-outlined trust-icon">security</span>
+            <p>CSV内容を外部サーバーへ送信しません</p>
+          </div>
+          <div class="trust-item glass-card fade-in"><span
+              class="material-symbols-outlined trust-icon">person_off</span>
+            <p>アカウント登録なしで試せます</p>
+          </div>
+          <div class="trust-item glass-card fade-in"><span class="material-symbols-outlined trust-icon">checklist</span>
+            <p>推奨ブラウザと動作条件を明記します</p>
+          </div>
+        </div>
+        <p class="trust-note fade-in">※ 実際の動作条件は、ご利用環境に合わせて事前にご確認ください。</p>
+      </div>
+    </section>
+
+
+
+    <!-- 11. FAQ -->
+    <section class="section section--muted" id="faq">
+      <div class="section-inner section-inner--narrow">
+        <div class="section-header">
+          <h2 class="section-title">よくある質問</h2>
+        </div>
+        <div class="faq-list" id="faqList">
+          <details class="faq-item glass-card">
+            <summary class="faq-question"><span>社内PCでも使えますか？</span><span class="material-symbols-outlined faq-chevron"
+                aria-hidden="true">expand_more</span></summary>
+            <div class="faq-answer">
+              <p>ブラウザ上で動作します。ただし、実際の利用可否は社内ルールや環境に依存するため、まずはご自身の環境でご確認ください。</p>
+            </div>
+          </details>
+          <details class="faq-item glass-card">
+            <summary class="faq-question"><span>CSVは外部に送信されますか？</span><span
+                class="material-symbols-outlined faq-chevron" aria-hidden="true">expand_more</span></summary>
+            <div class="faq-answer">
+              <p>送信しない設計を前提にしています。CSV内容はローカルで処理する想定です。</p>
+            </div>
+          </details>
+          <details class="faq-item glass-card">
+            <summary class="faq-question"><span>Excelは必要ですか？</span><span class="material-symbols-outlined faq-chevron"
+                aria-hidden="true">expand_more</span></summary>
+            <div class="faq-answer">
+              <p>必要ありません。ブラウザだけで利用できます。</p>
+            </div>
+          </details>
+          <details class="faq-item glass-card">
+            <summary class="faq-question"><span>どんな人に向いていますか？</span><span class="material-symbols-outlined faq-chevron"
+                aria-hidden="true">expand_more</span></summary>
+            <div class="faq-answer">
+              <p>制約環境でCSVを編集する必要がある人に向いています。特に、メモ帳や汎用エディタでの修正に時間がかかっている人におすすめです。</p>
+            </div>
+          </details>
+          <details class="faq-item glass-card">
+            <summary class="faq-question"><span>Shift_JISのCSVも扱えますか？</span><span
+                class="material-symbols-outlined faq-chevron" aria-hidden="true">expand_more</span></summary>
+            <div class="faq-answer">
+              <p>はい。Shift_JIS（CP932）、EUC-JP、ISO-2022-JP（JIS）、UTF-16 LE/BEに対応しています。読み込み時に自動判別し、保存時にも文字コードを指定できます。</p>
+            </div>
+          </details>
+          <details class="faq-item glass-card">
+            <summary class="faq-question"><span>すべて無料ですか？</span><span class="material-symbols-outlined faq-chevron"
+                aria-hidden="true">expand_more</span></summary>
+            <div class="faq-answer">
+              <p>はい。個人開発のツールとして、全機能を無料で公開しています。</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. 最終CTA -->
+    <section class="final-cta" id="final-cta">
+      <div class="final-cta-inner">
+        <h2 class="final-cta-title">メモ帳でCSVを直す時間を、<br />今日で終わらせませんか。</h2>
+        <p class="final-cta-desc">ブラウザで今すぐ使うか、HTMLをダウンロードしてそのまま使えます。</p>
+        <div class="final-cta-actions">
+          <a class="btn-primary-cta btn-primary-cta--lg" href="LocalCSV.html">ブラウザで利用する <span
+              class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+          <a class="btn-primary-cta btn-primary-cta--lg" href="LocalCSV.html" download="localcsv.html"
+            data-download-editor>HTMLをダウンロードする <span class="material-symbols-outlined"
+              aria-hidden="true">download</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand-block">
+          <span class="footer-logo">LocalCSV<span class="footer-logo-sub">（ロカシー）</span></span>
+          <p class="footer-tagline">制約環境専用のCSV実務エディタ</p>
+        </div>
+        <div class="footer-nav">
+          <a href="#home">ホーム</a><a href="#features">特徴</a><a href="#functions">機能</a><a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-note">LocalCSV は、制約環境でのCSV実務を少しでも楽にすることを目的としています。<br />実際のご利用可否は、各組織のルールや環境をご確認ください。</p>
+        <div class="footer-legal"><a href="#">動作環境</a><a href="#">利用規約</a><a href="#">プライバシーポリシー</a><a
+            href="#">お問い合わせ</a></div>
+        <p class="footer-copy">© 2026 LocalCSV. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="public/js/redesign.js"></script>
+</body>
+
+</html>
