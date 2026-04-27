@@ -54,6 +54,14 @@
 
 /* ---- BASE ---- */
 @layer base {
+  @font-face {
+    font-family: "Material Symbols Outlined";
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url("../fonts/material-symbols-outlined-f400.woff2") format("woff2");
+  }
+
   :root {
     --color-primary: oklch(0.58 0.22 264);
     --color-primary-hover: oklch(0.53 0.24 264);
@@ -100,6 +108,7 @@
   }
 
   .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
     font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
   }
 }
@@ -228,6 +237,55 @@
   .btn-primary-cta--lg {
     padding: 1.125rem 2.25rem;
     font-size: 1.125rem;
+  }
+
+  .lp-toast-viewport {
+    position: fixed;
+    top: max(calc(env(safe-area-inset-top) + 5.5rem), 5.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 180;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: min(92vw, 24rem);
+    max-width: min(92vw, 24rem);
+    pointer-events: none;
+  }
+
+  .lp-toast {
+    padding: 0.75rem 0.95rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-outline);
+    background: oklch(1 0 0 / 0.95);
+    color: var(--color-on-surface);
+    box-shadow: var(--shadow-soft);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity var(--transition), transform var(--transition);
+  }
+
+  .lp-toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .lp-toast.is-leaving {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  .lp-toast--success {
+    border-color: oklch(0.72 0.15 160 / 0.45);
+    background: oklch(0.98 0.02 160 / 0.96);
+  }
+
+  .lp-toast--error {
+    border-color: oklch(0.64 0.24 28 / 0.48);
+    background: oklch(0.97 0.03 28 / 0.97);
   }
 
   .btn-secondary-cta {
@@ -1144,6 +1202,12 @@
 
     .glass-nav-inner {
       position: relative;
+    }
+
+    .lp-toast-viewport {
+      top: max(calc(env(safe-area-inset-top) + 5rem), 5rem);
+      width: min(calc(100vw - 2rem), 22rem);
+      max-width: min(calc(100vw - 2rem), 22rem);
     }
 
     .hero {
