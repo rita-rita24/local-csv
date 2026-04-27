@@ -1864,94 +1864,6 @@
         th, td { padding: 8px; }
         .shortcut-hint { display: none; }
         .settings-grid { grid-template-columns: 1fr; }
-        .status-bar { flex-wrap: wrap; gap: 8px 12px; padding: 6px 10px; font-size: 0.78rem; }
-      }
-
-      .status-bar {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 6px 12px;
-        margin-block-start: 6px;
-        font-size: 0.82rem;
-        color: var(--text-muted, #475569);
-        background: var(--bg-soft, #f8fafc);
-        border: 1px solid var(--border, #e2e8f0);
-        border-radius: 8px;
-        font-variant-numeric: tabular-nums;
-        user-select: none;
-      }
-      .status-bar .status-item { display: inline-flex; align-items: baseline; gap: 4px; }
-      .status-bar .status-item .label { opacity: 0.75; }
-      .status-bar .status-item .value { font-weight: 600; color: var(--text, #0f172a); }
-      .status-bar .status-item.muted .value { font-weight: 500; color: var(--text-muted, #64748b); }
-      .status-bar .status-spacer { flex: 1; }
-
-      .palette-overlay { align-items: flex-start; padding-block-start: 10vh; }
-      .palette-modal {
-        inline-size: min(560px, 92vw);
-        max-block-size: 70vh;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        border-radius: 12px;
-      }
-      .palette-search {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 14px;
-        border-block-end: 1px solid var(--border, #e2e8f0);
-      }
-      .palette-search .material-symbols-outlined { color: var(--text-muted, #64748b); }
-      .palette-search input {
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        background: transparent;
-        color: inherit;
-        padding: 4px 0;
-      }
-      .palette-list {
-        list-style: none;
-        margin: 0;
-        padding: 6px 0;
-        overflow-y: auto;
-        max-block-size: 50vh;
-      }
-      .palette-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 14px;
-        cursor: pointer;
-        line-height: 1.3;
-      }
-      .palette-item .palette-icon {
-        flex: 0 0 auto;
-        color: var(--text-muted, #64748b);
-        font-size: 18px;
-      }
-      .palette-item .palette-text { flex: 1; min-width: 0; }
-      .palette-item .palette-title { color: var(--text, #0f172a); font-size: 0.92rem; }
-      .palette-item .palette-hint { color: var(--text-muted, #64748b); font-size: 0.75rem; margin-block-start: 2px; }
-      .palette-item .palette-shortcut {
-        flex: 0 0 auto;
-        color: var(--text-muted, #94a3b8);
-        font-size: 0.72rem;
-        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-      }
-      .palette-item.active,
-      .palette-item:hover {
-        background: var(--accent-soft, rgba(15, 118, 110, 0.08));
-      }
-      .palette-empty {
-        padding: 18px 14px;
-        color: var(--text-muted, #64748b);
-        font-size: 0.85rem;
-        text-align: center;
       }
     }
   </style>
@@ -2089,10 +2001,6 @@
         <button class="btn" id="addColBtn"><span class="material-symbols-outlined">add_box</span> 列追加</button>
       </div>
       <div class="toolbar-group">
-        <button class="btn" id="transposeBtn" title="行と列を入れ替え"><span class="material-symbols-outlined">swap_horiz</span> 行列入替</button>
-        <button class="btn" id="commandPaletteBtn" title="コマンドパレット (Ctrl+K)"><span class="material-symbols-outlined">terminal</span> コマンド</button>
-      </div>
-      <div class="toolbar-group">
         <button class="btn" id="copyBtn"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
         <button class="btn" id="dlBtn"><span class="material-symbols-outlined">download</span> <span id="dlBtnLabel">CSV保存</span></button>
         <button class="btn" id="exportWizardBtn"><span class="material-symbols-outlined">tune</span> エクスポート</button>
@@ -2120,18 +2028,6 @@
           <tbody id="tableBody"></tbody>
         </table>
       </div>
-    </div>
-
-    <!-- 集計ステータスバー -->
-    <div class="status-bar" id="statusBar" role="status" aria-live="polite">
-      <span class="status-item muted" id="statusBarSelectionInfo"><span class="label">選択:</span> <span class="value" data-status-selection>なし</span></span>
-      <span class="status-item" id="statusBarCount" hidden><span class="label">件数:</span> <span class="value" data-status-count>0</span></span>
-      <span class="status-item" id="statusBarNumeric" hidden><span class="label">数値:</span> <span class="value" data-status-numeric>0</span></span>
-      <span class="status-item" id="statusBarSum" hidden><span class="label">合計:</span> <span class="value" data-status-sum>0</span></span>
-      <span class="status-item" id="statusBarAvg" hidden><span class="label">平均:</span> <span class="value" data-status-avg>0</span></span>
-      <span class="status-item" id="statusBarMin" hidden><span class="label">最小:</span> <span class="value" data-status-min>0</span></span>
-      <span class="status-item" id="statusBarMax" hidden><span class="label">最大:</span> <span class="value" data-status-max>0</span></span>
-      <span class="status-spacer"></span>
     </div>
   </div>
 
@@ -2215,18 +2111,6 @@
     <div class="menu-item danger" data-action="del-row"><span class="material-symbols-outlined">delete</span> 行を削除</div>
   </div>
 
-  <!-- コマンドパレット -->
-  <div class="modal-overlay palette-overlay" id="paletteOverlay" aria-hidden="true">
-    <div class="modal palette-modal" role="dialog" aria-modal="true" aria-labelledby="paletteTitle" tabindex="-1">
-      <h3 id="paletteTitle" class="visually-hidden" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;">コマンドパレット</h3>
-      <div class="palette-search">
-        <span class="material-symbols-outlined" aria-hidden="true">search</span>
-        <input type="text" id="paletteInput" placeholder="コマンドを検索..." autocomplete="off" spellcheck="false" aria-label="コマンドを検索" aria-controls="paletteList">
-      </div>
-      <ul class="palette-list" id="paletteList" role="listbox" aria-label="コマンド一覧"></ul>
-    </div>
-  </div>
-
   <!-- トースト -->
   <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="false" aria-relevant="additions text"></div>
 
@@ -2279,8 +2163,6 @@
           <tr><td>選択セルをクリア</td><td><kbd>Delete</kbd></td></tr>
           <tr><td>複数セルへの一括反映</td><td>貼り付け（<kbd>Ctrl</kbd> + <kbd>V</kbd>）</td></tr>
           <tr><td>選択解除</td><td><kbd>Esc</kbd></td></tr>
-          <tr><td>コマンドパレット</td><td><kbd>Ctrl</kbd> + <kbd>K</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td></tr>
-          <tr><td>行列入替（Transpose）</td><td>ツールバー「行列入替」ボタン</td></tr>
           <tr><td>ヘルプを開く</td><td><kbd>?</kbd></td></tr>
         </table>
       </div>
@@ -2973,39 +2855,7 @@
       'エクスポートするデータがありません': 'No data to export',
       'この文字コードは外部ライブラリなしでは出力できません。UTF-8に切り替えました。': 'This encoding cannot be exported without an external library. Switched to UTF-8.',
       '保護モード: 開発者ツール系ショートカットは無効です': 'Protection mode: developer-tool shortcuts are disabled',
-      '外部エンコーディングライブラリ未使用のため、一部文字コードの出力は無効です': 'Some output encodings are disabled because no external encoding library is loaded',
-      '行列入替': 'Transpose',
-      '行と列を入れ替え': 'Swap rows and columns',
-      '行と列を入れ替えました': 'Transposed rows and columns',
-      'コマンド': 'Commands',
-      'コマンドパレット': 'Command Palette',
-      'コマンドパレット (Ctrl+K)': 'Command palette (Ctrl+K)',
-      'コマンドを検索': 'Search commands',
-      'コマンドを検索...': 'Search commands...',
-      'コマンドが見つかりません': 'No matching command',
-      '一致するコマンドがありません': 'No matching command',
-      '選択:': 'Selection:',
-      '件数:': 'Count:',
-      '数値:': 'Numeric:',
-      '合計:': 'Sum:',
-      '平均:': 'Avg:',
-      '最小:': 'Min:',
-      '最大:': 'Max:',
-      'なし': 'None',
-      'ヘルプを開く': 'Open help',
-      '設定を開く': 'Open settings',
-      'エクスポートを開く': 'Open export',
-      '検索を開く': 'Open search',
-      '行列入替（Transpose）': 'Transpose (rows ↔ columns)',
-      'ツールバー「行列入替」ボタン': 'Toolbar "Transpose" button',
-      'ヘッダー行の切替': 'Toggle header row',
-      'CSVをコピー': 'Copy as CSV',
-      'CSVをダウンロード': 'Download CSV',
-      'ダークモード切替': 'Toggle dark mode',
-      '言語: 日本語/English': 'Language: Japanese/English',
-      'データを開く': 'Open file',
-      '保存（上書き）': 'Save (overwrite)',
-      '貼り付けからインポート': 'Paste to import'
+      '外部エンコーディングライブラリ未使用のため、一部文字コードの出力は無効です': 'Some output encodings are disabled because no external encoding library is loaded'
     };
 
     const JA_EN_REGEX_RULES = [
@@ -7953,13 +7803,11 @@
 	        $modalOverlay.classList.contains('show') ||
 	        $exportOverlay.classList.contains('show') ||
 	        $wizOverlay.classList.contains('show') ||
-	        $paletteOverlay?.classList.contains('show') ||
 	        qs('#settingsOverlay')?.classList.contains('show') ||
 	        qs('#infoOverlay')?.classList.contains('show')
 	      );
 
 	      const closeActiveOverlay = () => {
-	        if ($paletteOverlay?.classList.contains('show')) { closeCommandPalette(); return true; }
 	        if ($modalOverlay.classList.contains('show')) { closeModal(); return true; }
 	        if ($exportOverlay.classList.contains('show')) { closeExportWizard(); return true; }
 	        if ($wizOverlay.classList.contains('show')) { closeImportWizard(); return true; }
@@ -7999,16 +7847,8 @@
 	        if (key === 'escape') {
 	          if (closeActiveOverlay()) { e.preventDefault(); return; }
 	          if (isTextInputContext()) return;
-	          if (getSelectedCells().length > 0) { clearSelection(); scheduleStatusBarUpdate(); return; }
+	          if (getSelectedCells().length > 0) { clearSelection(); return; }
 	          clearSearch();
-	          return;
-	        }
-	        // Command palette opens from any context (cells, search, modals are excluded below)
-	        if ((e.ctrlKey || e.metaKey) && (key === 'k' || (e.shiftKey && key === 'p'))) {
-	          if (!$paletteOverlay.classList.contains('show')) {
-	            e.preventDefault();
-	            openCommandPalette();
-	          }
 	          return;
 	        }
 	        if (isTextInputContext() || hasOpenOverlay()) return;
@@ -8331,340 +8171,6 @@
           void processData(text);
         }
       });
-
-      /* --- Aggregation Status Bar --- */
-      const $statusBar = qs('#statusBar');
-      const $statusItemSelection = qs('#statusBarSelectionInfo');
-      const $statusItems = {
-        count:   qs('#statusBarCount'),
-        numeric: qs('#statusBarNumeric'),
-        sum:     qs('#statusBarSum'),
-        avg:     qs('#statusBarAvg'),
-        min:     qs('#statusBarMin'),
-        max:     qs('#statusBarMax')
-      };
-      const $statusValues = {
-        selection: qs('[data-status-selection]', $statusBar),
-        count:     qs('[data-status-count]',     $statusBar),
-        numeric:   qs('[data-status-numeric]',   $statusBar),
-        sum:       qs('[data-status-sum]',       $statusBar),
-        avg:       qs('[data-status-avg]',       $statusBar),
-        min:       qs('[data-status-min]',       $statusBar),
-        max:       qs('[data-status-max]',       $statusBar)
-      };
-
-      const NUMBER_LIKE_RE = /^-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?$/;
-      const parseStatusNumber = (val) => {
-        if (val == null) return NaN;
-        const s = String(val).trim();
-        if (!s) return NaN;
-        if (!NUMBER_LIKE_RE.test(s)) return NaN;
-        return Number(s.replace(/,/g, ''));
-      };
-      const formatStatusNumber = (n) => {
-        if (!Number.isFinite(n)) return '-';
-        return n.toLocaleString(getLocaleTag(), { maximumFractionDigits: 6 });
-      };
-
-      const STATUS_AGG_KEYS = ['count', 'numeric', 'sum', 'avg', 'min', 'max'];
-      let _statusBarTimer = null;
-      const scheduleStatusBarUpdate = () => {
-        if (_statusBarTimer !== null) return;
-        _statusBarTimer = requestAnimationFrame(() => {
-          _statusBarTimer = null;
-          updateStatusBar();
-        });
-      };
-
-      const updateStatusBar = () => {
-        if (!$statusBar) return;
-        const cells = qsa('td.selected', $dataTable);
-        if (cells.length === 0) {
-          $statusValues.selection.textContent = isEnglish() ? 'None' : 'なし';
-          $statusItemSelection.classList.add('muted');
-          STATUS_AGG_KEYS.forEach(k => { $statusItems[k].hidden = true; });
-          return;
-        }
-        $statusItemSelection.classList.remove('muted');
-
-        let nonEmpty = 0;
-        let numericCount = 0;
-        let sum = 0;
-        let min = Infinity;
-        let max = -Infinity;
-        let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
-
-        for (const $td of cells) {
-          const r = parseInt($td.dataset.row, 10);
-          const c = parseInt($td.dataset.col, 10);
-          if (!Number.isNaN(r)) { if (r < minR) minR = r; if (r > maxR) maxR = r; }
-          if (!Number.isNaN(c)) { if (c < minC) minC = c; if (c > maxC) maxC = c; }
-          const raw = state.data[r]?.[c];
-          if (raw != null && String(raw).length > 0) nonEmpty++;
-          const n = parseStatusNumber(raw);
-          if (Number.isFinite(n)) {
-            numericCount++;
-            sum += n;
-            if (n < min) min = n;
-            if (n > max) max = n;
-          }
-        }
-
-        const selRows = Number.isFinite(minR) ? maxR - minR + 1 : 0;
-        const selCols = Number.isFinite(minC) ? maxC - minC + 1 : 0;
-        const selCount = cells.length;
-        const locale = getLocaleTag();
-        $statusValues.selection.textContent = isEnglish()
-          ? `${selCount.toLocaleString(locale)} cells (${selRows}×${selCols})`
-          : `${selCount.toLocaleString(locale)}セル（${selRows}×${selCols}）`;
-
-        $statusValues.count.textContent   = nonEmpty.toLocaleString(locale);
-        $statusValues.numeric.textContent = numericCount.toLocaleString(locale);
-        $statusItems.count.hidden   = false;
-        $statusItems.numeric.hidden = false;
-
-        if (numericCount > 0) {
-          $statusValues.sum.textContent = formatStatusNumber(sum);
-          $statusValues.avg.textContent = formatStatusNumber(sum / numericCount);
-          $statusValues.min.textContent = formatStatusNumber(min);
-          $statusValues.max.textContent = formatStatusNumber(max);
-          ['sum','avg','min','max'].forEach(k => { $statusItems[k].hidden = false; });
-        } else {
-          ['sum','avg','min','max'].forEach(k => { $statusItems[k].hidden = true; });
-        }
-      };
-
-      // Update status bar whenever selection state may have changed.
-      document.addEventListener('mouseup', scheduleStatusBarUpdate);
-      document.addEventListener('mousemove', () => { if (_isDragging) scheduleStatusBarUpdate(); });
-      document.addEventListener('keyup', scheduleStatusBarUpdate, true);
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a') scheduleStatusBarUpdate();
-        if (e.key === 'Escape' || e.key === 'Delete' || e.key === 'Backspace') scheduleStatusBarUpdate();
-      }, true);
-
-      /* --- Transpose --- */
-      const transposeData = () => {
-        const rows = state.data;
-        if (!rows || rows.length === 0) {
-          showToast('データがありません', 'error');
-          return;
-        }
-        const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
-        if (colCount === 0) {
-          showToast('データがありません', 'error');
-          return;
-        }
-        saveToHistory();
-        const next = new Array(colCount);
-        for (let c = 0; c < colCount; c++) {
-          const newRow = new Array(rows.length);
-          for (let r = 0; r < rows.length; r++) {
-            newRow[r] = rows[r]?.[c] ?? '';
-          }
-          next[c] = newRow;
-        }
-        state.data = next;
-        state.hasHeader = false;
-        state.columnWidths = {};
-        _columnFilterRows = null;
-        filteredRows = null;
-        clearSelection();
-        renderTable();
-        updateStats();
-        updateButtonLabels();
-        saveToStorage();
-        scheduleStatusBarUpdate();
-        showToast('<span class="material-symbols-outlined">swap_horiz</span> 行と列を入れ替えました', 'success');
-      };
-
-      /* --- Select all data cells (for command palette) --- */
-      const selectAllDataCells = () => {
-        if (state.data.length === 0) return;
-        clearSelection();
-        const start = state.hasHeader ? 1 : 0;
-        const colCount = state.data[0]?.length ?? 0;
-        if (colCount === 0) return;
-        selectRange(start, 0, state.data.length - 1, colCount - 1);
-        scheduleStatusBarUpdate();
-      };
-
-      /* --- Theme / Language toggles for command palette --- */
-      const toggleThemeMode = () => {
-        const current = document.documentElement.dataset.theme ||
-          document.documentElement.style.colorScheme ||
-          'light';
-        setTheme(current === 'dark' ? 'light' : 'dark');
-      };
-      const toggleLanguage = () => {
-        setLanguage(_currentLanguage === 'ja' ? 'en' : 'ja');
-      };
-
-      /* --- Command Palette --- */
-      const $paletteOverlay = qs('#paletteOverlay');
-      const $paletteInput   = qs('#paletteInput');
-      const $paletteList    = qs('#paletteList');
-
-      const PALETTE_COMMANDS = [
-        { id: 'open',      icon: 'folder_open',   title: 'データを開く',           shortcut: 'Ctrl+O',         run: openFile },
-        { id: 'save',      icon: 'save',          title: '保存（上書き）',         shortcut: 'Ctrl+S',         run: saveFile },
-        { id: 'undo',      icon: 'undo',          title: '元に戻す',               shortcut: 'Ctrl+Z',         run: undo },
-        { id: 'redo',      icon: 'redo',          title: 'やり直し',               shortcut: 'Ctrl+Y',         run: redo },
-        { id: 'paste',     icon: 'content_paste', title: '貼り付けからインポート', shortcut: 'Ctrl+V',         run: triggerPaste },
-        { id: 'add-row',   icon: 'add_box',       title: '行追加',                 shortcut: '',               run: addRow },
-        { id: 'add-col',   icon: 'add_box',       title: '列追加',                 shortcut: '',               run: addColumn },
-        { id: 'transpose', icon: 'swap_horiz',    title: '行列入替',               shortcut: '',               run: transposeData },
-        { id: 'copy',      icon: 'content_copy',  title: 'CSVをコピー',            shortcut: '',               run: copyData },
-        { id: 'download',  icon: 'download',      title: 'CSVをダウンロード',      shortcut: '',               run: downloadData },
-        { id: 'export',    icon: 'tune',          title: 'エクスポートを開く',     shortcut: '',               run: openExportWizard },
-        { id: 'search',    icon: 'search',        title: '検索を開く',             shortcut: 'Ctrl+F',         run: () => $searchInput.focus() },
-        { id: 'header',    icon: 'view_headline', title: 'ヘッダー行の切替',       shortcut: '',               run: toggleHeader },
-        { id: 'select-all',icon: 'select_all',    title: 'すべて選択',             shortcut: 'Ctrl+A',         run: selectAllDataCells },
-        { id: 'theme',     icon: 'dark_mode',     title: 'ダークモード切替',       shortcut: '',               run: toggleThemeMode },
-        { id: 'language',  icon: 'translate',     title: '言語: 日本語/English',   shortcut: '',               run: toggleLanguage },
-        { id: 'help',      icon: 'help',          title: 'ヘルプを開く',           shortcut: '?',              run: openInfoModal }
-      ];
-
-      let _paletteFiltered = [];
-      let _paletteIndex = 0;
-
-      const fuzzyScore = (text, query) => {
-        if (!query) return 1;
-        const t = text.toLowerCase();
-        const q = query.toLowerCase();
-        if (t.includes(q)) return 1000 - t.indexOf(q);
-        let ti = 0;
-        let qi = 0;
-        let score = 0;
-        let lastMatch = -1;
-        while (ti < t.length && qi < q.length) {
-          if (t[ti] === q[qi]) {
-            score += (lastMatch >= 0 && ti - lastMatch === 1) ? 5 : 2;
-            lastMatch = ti;
-            qi++;
-          }
-          ti++;
-        }
-        return qi === q.length ? score : 0;
-      };
-
-      const renderPaletteList = () => {
-        const query = $paletteInput.value.trim();
-        const scored = PALETTE_COMMANDS
-          .map(cmd => {
-            const title = isEnglish() ? translateText(cmd.title) : cmd.title;
-            const score = fuzzyScore(title, query) || fuzzyScore(cmd.id, query) || fuzzyScore(cmd.title, query);
-            return { cmd, title, score };
-          })
-          .filter(item => !query || item.score > 0)
-          .sort((a, b) => b.score - a.score);
-
-        _paletteFiltered = scored.map(s => s.cmd);
-        _paletteIndex = 0;
-        if (_paletteFiltered.length === 0) {
-          const msg = isEnglish() ? 'No matching command' : '一致するコマンドがありません';
-          $paletteList.innerHTML = `<li class="palette-empty">${msg}</li>`;
-          return;
-        }
-        $paletteList.replaceChildren(...scored.map((item, idx) => {
-          const $li = document.createElement('li');
-          $li.className = 'palette-item' + (idx === 0 ? ' active' : '');
-          $li.setAttribute('role', 'option');
-          $li.dataset.idx = String(idx);
-          $li.dataset.cmdId = item.cmd.id;
-          $li.setAttribute('aria-selected', idx === 0 ? 'true' : 'false');
-
-          const $icon = document.createElement('span');
-          $icon.className = 'material-symbols-outlined palette-icon';
-          $icon.textContent = item.cmd.icon;
-
-          const $text = document.createElement('div');
-          $text.className = 'palette-text';
-          const $title = document.createElement('div');
-          $title.className = 'palette-title';
-          $title.textContent = item.title;
-          $text.appendChild($title);
-
-          $li.appendChild($icon);
-          $li.appendChild($text);
-          if (item.cmd.shortcut) {
-            const $sc = document.createElement('span');
-            $sc.className = 'palette-shortcut';
-            $sc.textContent = item.cmd.shortcut;
-            $li.appendChild($sc);
-          }
-          return $li;
-        }));
-      };
-
-      const setPaletteIndex = (idx) => {
-        if (_paletteFiltered.length === 0) return;
-        const max = _paletteFiltered.length;
-        _paletteIndex = ((idx % max) + max) % max;
-        const items = qsa('.palette-item', $paletteList);
-        items.forEach((el, i) => {
-          const isActive = i === _paletteIndex;
-          el.classList.toggle('active', isActive);
-          el.setAttribute('aria-selected', isActive ? 'true' : 'false');
-          if (isActive) el.scrollIntoView({ block: 'nearest' });
-        });
-      };
-
-      const closeCommandPalette = () => {
-        closeOverlay($paletteOverlay);
-      };
-
-      const runPaletteCommand = (cmd) => {
-        if (!cmd) return;
-        closeCommandPalette();
-        // Defer so the overlay state settles before running the action
-        setTimeout(() => {
-          try { cmd.run?.(); }
-          catch (err) { console.error('Command failed', err); }
-        }, 0);
-      };
-
-      const openCommandPalette = () => {
-        $paletteInput.value = '';
-        renderPaletteList();
-        openOverlay($paletteOverlay, { focusSelector: '#paletteInput' });
-      };
-
-      $paletteInput.addEventListener('input', renderPaletteList);
-      $paletteInput.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          setPaletteIndex(_paletteIndex + 1);
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          setPaletteIndex(_paletteIndex - 1);
-        } else if (e.key === 'Enter') {
-          e.preventDefault();
-          runPaletteCommand(_paletteFiltered[_paletteIndex]);
-        } else if (e.key === 'Escape') {
-          e.preventDefault();
-          closeCommandPalette();
-        }
-      });
-      $paletteList.addEventListener('click', (e) => {
-        const $item = e.target.closest('.palette-item');
-        if (!$item) return;
-        const idx = parseInt($item.dataset.idx, 10);
-        if (Number.isNaN(idx)) return;
-        runPaletteCommand(_paletteFiltered[idx]);
-      });
-      $paletteList.addEventListener('mousemove', (e) => {
-        const $item = e.target.closest('.palette-item');
-        if (!$item) return;
-        const idx = parseInt($item.dataset.idx, 10);
-        if (!Number.isNaN(idx) && idx !== _paletteIndex) setPaletteIndex(idx);
-      });
-      $paletteOverlay.addEventListener('click', (e) => {
-        if (e.target === $paletteOverlay) closeCommandPalette();
-      });
-
-      qs('#transposeBtn').addEventListener('click', transposeData);
-      qs('#commandPaletteBtn').addEventListener('click', openCommandPalette);
 
       /* --- Toolbar Wiring --- */
       qs('#openFileBtn').addEventListener('click', openFile);
