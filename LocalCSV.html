@@ -1865,135 +1865,6 @@
         .shortcut-hint { display: none; }
         .settings-grid { grid-template-columns: 1fr; }
       }
-
-      /* === Aggregation Status Bar === */
-      .agg-bar {
-        display: none;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-block-start: 8px;
-        padding: 6px 14px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        font-size: 0.85rem;
-        color: var(--text-muted);
-
-        &.show {
-          display: flex;
-        }
-
-        & .agg-item {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          white-space: nowrap;
-        }
-
-        & .agg-label {
-          font-weight: 600;
-          color: var(--text-muted);
-        }
-
-        & .agg-value {
-          font-weight: 600;
-          color: var(--text);
-          font-variant-numeric: tabular-nums;
-        }
-
-        & .agg-empty {
-          color: var(--text-muted);
-          font-style: italic;
-        }
-      }
-
-      /* === Command Palette === */
-      .cmd-palette-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: oklch(0 0 0 / 0.4);
-        z-index: 4000;
-        align-items: flex-start;
-        justify-content: center;
-        padding-block-start: 12vh;
-        padding-inline: 16px;
-
-        &.show {
-          display: flex;
-        }
-      }
-
-      .cmd-palette {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        inline-size: 100%;
-        max-inline-size: 560px;
-        box-shadow: 0 20px 60px oklch(0 0 0 / 0.3);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .cmd-palette-input {
-        inline-size: 100%;
-        padding: 14px 16px;
-        border: none;
-        outline: none;
-        background: var(--surface);
-        color: var(--text);
-        font-size: 1rem;
-        border-block-end: 1px solid var(--border);
-      }
-
-      .cmd-palette-list {
-        list-style: none;
-        margin: 0;
-        padding: 6px 0;
-        max-block-size: 50vh;
-        overflow-y: auto;
-      }
-
-      .cmd-palette-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 14px;
-        cursor: pointer;
-        color: var(--text);
-        font-size: 0.9rem;
-
-        & .material-symbols-outlined {
-          font-size: 1.1rem;
-          color: var(--text-muted);
-        }
-
-        & .cmd-palette-item-label {
-          flex: 1;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        & .cmd-palette-item-hint {
-          font-size: 0.75rem;
-          color: var(--text-muted);
-        }
-
-        &.is-active,
-        &:hover {
-          background: var(--header-bg);
-        }
-      }
-
-      .cmd-palette-empty {
-        padding: 18px;
-        text-align: center;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-      }
     }
   </style>
 </head>
@@ -2125,9 +1996,9 @@
         <button class="btn" id="redoBtn" disabled title="やり直し"><span class="material-symbols-outlined">redo</span></button>
       </div>
       <div class="toolbar-group">
-        <button class="btn" id="pasteBtn" title="クリップボードから貼り付け"><span class="material-symbols-outlined">content_paste</span> 貼り付け</button>
-        <button class="btn" id="addRowBtn" title="行を追加"><span class="material-symbols-outlined">add_box</span> 行追加</button>
-        <button class="btn" id="addColBtn" title="列を追加"><span class="material-symbols-outlined">add_box</span> 列追加</button>
+        <button class="btn" id="pasteBtn"><span class="material-symbols-outlined">content_paste</span> 貼り付け</button>
+        <button class="btn" id="addRowBtn"><span class="material-symbols-outlined">add_box</span> 行追加</button>
+        <button class="btn" id="addColBtn"><span class="material-symbols-outlined">add_box</span> 列追加</button>
       </div>
       <div class="toolbar-group">
         <button class="btn" id="copyBtn"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
@@ -2157,25 +2028,6 @@
           <tbody id="tableBody"></tbody>
         </table>
       </div>
-    </div>
-
-    <!-- 集計バー -->
-    <div class="agg-bar" id="aggBar" role="status" aria-live="polite">
-      <span class="agg-item agg-empty" id="aggEmpty">範囲を選択すると集計が表示されます</span>
-      <span class="agg-item" data-agg="count" hidden><span class="agg-label">件数:</span> <span class="agg-value" id="aggCount">0</span></span>
-      <span class="agg-item" data-agg="numeric" hidden><span class="agg-label">数値:</span> <span class="agg-value" id="aggNumCount">0</span></span>
-      <span class="agg-item" data-agg="sum" hidden><span class="agg-label">合計:</span> <span class="agg-value" id="aggSum">0</span></span>
-      <span class="agg-item" data-agg="avg" hidden><span class="agg-label">平均:</span> <span class="agg-value" id="aggAvg">0</span></span>
-      <span class="agg-item" data-agg="min" hidden><span class="agg-label">最小:</span> <span class="agg-value" id="aggMin">0</span></span>
-      <span class="agg-item" data-agg="max" hidden><span class="agg-label">最大:</span> <span class="agg-value" id="aggMax">0</span></span>
-    </div>
-  </div>
-
-  <!-- コマンドパレット -->
-  <div class="cmd-palette-overlay" id="cmdPaletteOverlay" role="dialog" aria-modal="true" aria-labelledby="cmdPaletteInput">
-    <div class="cmd-palette" role="combobox" aria-haspopup="listbox" aria-expanded="true">
-      <input type="text" class="cmd-palette-input" id="cmdPaletteInput" placeholder="コマンドを検索..." autocomplete="off" aria-controls="cmdPaletteList" aria-autocomplete="list">
-      <ul class="cmd-palette-list" id="cmdPaletteList" role="listbox"></ul>
     </div>
   </div>
 
@@ -2312,7 +2164,6 @@
           <tr><td>複数セルへの一括反映</td><td>貼り付け（<kbd>Ctrl</kbd> + <kbd>V</kbd>）</td></tr>
           <tr><td>選択解除</td><td><kbd>Esc</kbd></td></tr>
           <tr><td>ヘルプを開く</td><td><kbd>?</kbd></td></tr>
-          <tr><td>コマンドパレット</td><td><kbd>Ctrl</kbd> + <kbd>K</kbd></td></tr>
         </table>
       </div>
 
@@ -3004,33 +2855,7 @@
       'エクスポートするデータがありません': 'No data to export',
       'この文字コードは外部ライブラリなしでは出力できません。UTF-8に切り替えました。': 'This encoding cannot be exported without an external library. Switched to UTF-8.',
       '保護モード: 開発者ツール系ショートカットは無効です': 'Protection mode: developer-tool shortcuts are disabled',
-      '外部エンコーディングライブラリ未使用のため、一部文字コードの出力は無効です': 'Some output encodings are disabled because no external encoding library is loaded',
-      '行列入替': 'Transpose',
-      '行と列を入れ替え': 'Swap rows and columns',
-      '行と列を入れ替えました': 'Rows and columns swapped',
-      '入れ替えるデータがありません': 'No data to transpose',
-      '範囲を選択すると集計が表示されます': 'Select a range to see aggregations',
-      '件数:': 'Count:',
-      '数値:': 'Numeric:',
-      '合計:': 'Sum:',
-      '平均:': 'Avg:',
-      '最小:': 'Min:',
-      '最大:': 'Max:',
-      'コマンドを検索...': 'Search commands...',
-      'コマンドパレット': 'Command Palette',
-      '該当するコマンドがありません': 'No matching commands',
-      'コマンドの実行に失敗しました': 'Command failed',
-      'ファイルを開く': 'Open file',
-      '上書き保存': 'Overwrite save',
-      'CSVをコピー': 'Copy CSV',
-      'CSVをダウンロード': 'Download CSV',
-      'エクスポートウィザードを開く': 'Open Export Wizard',
-      '行と列を入れ替え (Transpose)': 'Transpose (swap rows/columns)',
-      'ヘッダー行の有無を切り替え': 'Toggle header row',
-      '検索にフォーカス': 'Focus search',
-      '検索/フィルタを解除': 'Clear search/filter',
-      '設定を開く': 'Open settings',
-      'ヘルプを開く': 'Open help'
+      '外部エンコーディングライブラリ未使用のため、一部文字コードの出力は無効です': 'Some output encodings are disabled because no external encoding library is loaded'
     };
 
     const JA_EN_REGEX_RULES = [
@@ -3065,7 +2890,6 @@
       { re: /列を追加しました（位置を調整）/g, to: 'Added column (position adjusted)' },
       { re: /列を追加しました/g, to: 'Added column' },
       { re: /行を追加しました/g, to: 'Added row' },
-      { re: /行と列を入れ替えました（(\d[\d,]*)行 × (\d[\d,]*)列）/g, to: 'Transposed ($1 rows × $2 columns)' },
       { re: /列を削除しました/g, to: 'Deleted column' },
       { re: /行を削除しました/g, to: 'Deleted row' },
       { re: /列を複製しました/g, to: 'Duplicated column' },
@@ -3640,6 +3464,37 @@
       const $colCount       = qs('#colCount');
       const $dataSize       = qs('#dataSize');
       const $dataFormat     = qs('#dataFormat');
+      const $encodingChipSelect = qs('#encodingChipSelect');
+      const $saveStatus     = qs('#saveStatus');
+      const $themeModeToggle = qs('#themeModeToggle');
+
+      /* --- Save Status --- */
+      const SAVE_STATUS_LABELS = {
+        idle: '-',
+        saving: '保存中…',
+        saved: '保存済み',
+        unsaved: '未保存',
+        fallback: '一時保存のみ',
+        error: '保存不可'
+      };
+      let _currentSaveState = 'idle';
+
+      const updateSaveStatusBadge = (status) => {
+        _currentSaveState = status;
+        $saveStatus.dataset.state = status;
+        $saveStatus.textContent = SAVE_STATUS_LABELS[status] || status;
+        if (status === 'fallback') {
+          $saveStatus.title = isEnglish()
+            ? 'IndexedDB/localStorage unavailable. Memory-only temporary save; reload cannot resume this data. Export before closing.'
+            : 'IndexedDB/localStorageが利用できないため、一時保存のみです。再読み込みでは再開できません。閉じる前にエクスポートしてください。';
+        } else if (status === 'error') {
+          $saveStatus.title = isEnglish()
+            ? 'Saving failed. Export before closing.'
+            : '保存に失敗しました。閉じる前にエクスポートしてください。';
+        } else {
+          $saveStatus.title = isEnglish() ? 'Save status' : '保存状態';
+        }
+      };
 
       /* --- State --- */
       let state = {
@@ -5615,7 +5470,6 @@
           _visibleContiguousCount = 0;
           _visibleRowIndexes = [];
           _visibleRowOffsetMap = new Map();
-          if ($aggBar) $aggBar.classList.remove('show');
           return;
         }
         $tableContainer.classList.add('show');
@@ -5656,7 +5510,6 @@
         if ($searchInput.value && !_skipRenderSearchRefresh) {
           performSearch();
         }
-        scheduleUpdateAggregation();
       };
 
       /* --- Toggle Header --- */
@@ -5711,88 +5564,9 @@
 
       const clearSelection = () => {
         qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
-        scheduleUpdateAggregation();
       };
 
       const getSelectedCells = () => qsa('td.selected', $dataTable);
-
-      /* --- Aggregation Bar --- */
-      const NUMBER_PARSE_RE = /^-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?$/;
-      const parseAggNumber = (raw) => {
-        if (raw == null) return null;
-        const s = String(raw).trim();
-        if (s === '') return null;
-        if (!NUMBER_PARSE_RE.test(s)) return null;
-        const n = Number(s.replace(/,/g, ''));
-        return Number.isFinite(n) ? n : null;
-      };
-
-      const formatAggNumber = (n) => {
-        if (!Number.isFinite(n)) return '-';
-        const abs = Math.abs(n);
-        const isInt = Number.isInteger(n);
-        if (isInt) return n.toLocaleString(getLocaleTag());
-        if (abs !== 0 && (abs < 1e-3 || abs >= 1e15)) return n.toExponential(4);
-        const fixed = Number(n.toFixed(6));
-        return fixed.toLocaleString(getLocaleTag(), { maximumFractionDigits: 6 });
-      };
-
-      const setAggItemVisible = (key, visible) => {
-        const $item = qs(`.agg-item[data-agg="${key}"]`, $aggBar);
-        if ($item) $item.hidden = !visible;
-      };
-
-      const updateAggregation = () => {
-        if (!$aggBar) return;
-        if (state.data.length === 0) {
-          $aggBar.classList.remove('show');
-          return;
-        }
-        $aggBar.classList.add('show');
-        const cells = getSelectedCells();
-        const count = cells.length;
-        if (count === 0) {
-          $aggEmpty.hidden = false;
-          ['count', 'numeric', 'sum', 'avg', 'min', 'max'].forEach((k) => setAggItemVisible(k, false));
-          return;
-        }
-        $aggEmpty.hidden = true;
-        let numCount = 0;
-        let sum = 0;
-        let min = Infinity;
-        let max = -Infinity;
-        for (const $td of cells) {
-          const n = parseAggNumber($td.textContent);
-          if (n === null) continue;
-          numCount++;
-          sum += n;
-          if (n < min) min = n;
-          if (n > max) max = n;
-        }
-        $aggCount.textContent = count.toLocaleString(getLocaleTag());
-        setAggItemVisible('count', true);
-        if (numCount === 0) {
-          $aggNumCount.textContent = '0';
-          setAggItemVisible('numeric', true);
-          ['sum', 'avg', 'min', 'max'].forEach((k) => setAggItemVisible(k, false));
-          return;
-        }
-        $aggNumCount.textContent = numCount.toLocaleString(getLocaleTag());
-        $aggSum.textContent = formatAggNumber(sum);
-        $aggAvg.textContent = formatAggNumber(sum / numCount);
-        $aggMin.textContent = formatAggNumber(min);
-        $aggMax.textContent = formatAggNumber(max);
-        ['numeric', 'sum', 'avg', 'min', 'max'].forEach((k) => setAggItemVisible(k, true));
-      };
-
-      let _aggUpdateScheduled = false;
-      const scheduleUpdateAggregation = () => {
-        if (_aggUpdateScheduled) return;
-        _aggUpdateScheduled = true;
-        const run = () => { _aggUpdateScheduled = false; updateAggregation(); };
-        if (typeof requestAnimationFrame === 'function') requestAnimationFrame(run);
-        else setTimeout(run, 0);
-      };
 
       const getCellCoords = ($td) => ({
         row: parseDatasetIndex($td?.dataset?.row),
@@ -5800,10 +5574,7 @@
       });
       const hasValidCellCoords = ({ row, col }) => row >= 0 && col >= 0;
 
-      const selectCell = ($td) => {
-        $td.classList.add('selected');
-        scheduleUpdateAggregation();
-      };
+      const selectCell = ($td) => $td.classList.add('selected');
 
       const selectRange = (r1, c1, r2, c2) => {
         const minR = Math.min(r1, r2), maxR = Math.max(r1, r2);
@@ -5811,10 +5582,9 @@
         for (let r = minR; r <= maxR; r++) {
           for (let c = minC; c <= maxC; c++) {
             const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
-            if ($td) $td.classList.add('selected');
+            if ($td) selectCell($td);
           }
         }
-        scheduleUpdateAggregation();
       };
 
       // --- mousedown on cells ---
@@ -7176,34 +6946,6 @@
         addColumnAt(colCount);
       };
 
-      /* --- Transpose (swap rows and columns) --- */
-      const transposeData = () => {
-        if (state.data.length === 0) {
-          showToast('入れ替えるデータがありません', 'error');
-          return;
-        }
-        const colCount = state.data.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
-        if (colCount === 0) {
-          showToast('入れ替えるデータがありません', 'error');
-          return;
-        }
-        saveToHistory();
-        const transposed = [];
-        for (let c = 0; c < colCount; c++) {
-          const newRow = new Array(state.data.length);
-          for (let r = 0; r < state.data.length; r++) {
-            newRow[r] = state.data[r]?.[c] ?? '';
-          }
-          transposed.push(newRow);
-        }
-        state.data = transposed;
-        state.columnWidths = {};
-        state.hasHeader = false;
-        clearSelection();
-        renderTable(); updateStats(); saveToStorage();
-        showToast(`<span class="material-symbols-outlined">swap_horiz</span> 行と列を入れ替えました（${transposed.length}行 × ${state.data[0]?.length ?? 0}列）`, 'success');
-      };
-
       const SPREADSHEET_FORMULA_PREFIX_RE = /^[\t\r ]*[=+\-@]/;
       const sanitizeSpreadsheetFormulaCell = (cell, enabled = true) => {
         const value = cell ?? '';
@@ -8099,14 +7841,22 @@
         }
       }, true);
 
-      document.addEventListener('keydown', (e) => {
-        if (e.isComposing || e.keyCode === 229) return;
-
-        if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); saveFile(); return; }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'o') { e.preventDefault(); openFile(); return; }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
+	      document.addEventListener('keydown', (e) => {
+	        if (e.isComposing || e.keyCode === 229) return;
+	        const key = e.key.toLowerCase();
+	        if (key === 'escape') {
+	          if (closeActiveOverlay()) { e.preventDefault(); return; }
+	          if (isTextInputContext()) return;
+	          if (getSelectedCells().length > 0) { clearSelection(); return; }
+	          clearSearch();
+	          return;
+	        }
+	        if (isTextInputContext() || hasOpenOverlay()) return;
+	        if ((e.ctrlKey || e.metaKey) && key === 's') { e.preventDefault(); saveFile(); return; }
+	        if ((e.ctrlKey || e.metaKey) && key === 'o') { e.preventDefault(); openFile(); return; }
+	        if ((e.ctrlKey || e.metaKey) && key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); return; }
+	        if ((e.ctrlKey || e.metaKey) && (key === 'y' || (key === 'z' && e.shiftKey))) { e.preventDefault(); redo(); return; }
+	        if ((e.ctrlKey || e.metaKey) && key === 'f') { e.preventDefault(); $searchInput.focus(); return; }
 
 	        // Copy selected cells with Ctrl+C
 	        if ((e.ctrlKey || e.metaKey) && key === 'c') {
@@ -8146,16 +7896,12 @@
           }
         }
 
-        if (e.key === 'Escape') {
-          if (getSelectedCells().length > 0) { clearSelection(); return; }
-          clearSearch(); qs('#settingsOverlay')?.classList.remove('show'); qs('#infoOverlay')?.classList.remove('show'); closeImportWizard(); return;
-        }
-        if (e.key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-          const tag = document.activeElement.tagName;
-          const editable = document.activeElement.isContentEditable;
-          if (tag !== 'INPUT' && tag !== 'TEXTAREA' && !editable) {
-            e.preventDefault();
-            qs('#infoOverlay').classList.add('show');
+	        if (key === '?' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+	          const tag = document.activeElement.tagName;
+	          const editable = document.activeElement.isContentEditable;
+	          if (tag !== 'INPUT' && tag !== 'TEXTAREA' && !editable) {
+	            e.preventDefault();
+            openInfoModal();
             return;
           }
         }
@@ -8435,7 +8181,6 @@
       $pasteZone.addEventListener('click', triggerPaste);
       qs('#addRowBtn').addEventListener('click', addRow);
       qs('#addColBtn').addEventListener('click', addColumn);
-      qs('#transposeBtn').addEventListener('click', transposeData);
       qs('#copyBtn').addEventListener('click', copyData);
       qs('#dlBtn').addEventListener('click', downloadData);
       qs('#clearBtn').addEventListener('click', confirmClearAll);
@@ -8638,129 +8383,6 @@
           updateStats();
         });
       }
-
-      /* --- Command Palette --- */
-      const $cmdPaletteOverlay = qs('#cmdPaletteOverlay');
-      const $cmdPaletteInput   = qs('#cmdPaletteInput');
-      const $cmdPaletteList    = qs('#cmdPaletteList');
-
-      const COMMANDS = [
-        { id: 'open',         label: 'ファイルを開く',                 icon: 'folder_open',         hint: 'Ctrl+O', run: () => openFile() },
-        { id: 'save',         label: '上書き保存',                     icon: 'save',                hint: 'Ctrl+S', run: () => saveFile() },
-        { id: 'paste',        label: 'クリップボードから貼り付け',     icon: 'content_paste',       hint: '',       run: () => triggerPaste() },
-        { id: 'copy',         label: 'CSVをコピー',                    icon: 'content_copy',        hint: '',       run: () => copyData() },
-        { id: 'download',     label: 'CSVをダウンロード',              icon: 'download',            hint: '',       run: () => downloadData() },
-        { id: 'export',       label: 'エクスポートウィザードを開く',   icon: 'tune',                hint: '',       run: () => openExportWizard() },
-        { id: 'undo',         label: '元に戻す',                       icon: 'undo',                hint: 'Ctrl+Z', run: () => undo() },
-        { id: 'redo',         label: 'やり直し',                       icon: 'redo',                hint: 'Ctrl+Y', run: () => redo() },
-        { id: 'add-row',      label: '行を追加',                       icon: 'add_box',             hint: '',       run: () => addRow() },
-        { id: 'add-col',      label: '列を追加',                       icon: 'add_box',             hint: '',       run: () => addColumn() },
-        { id: 'transpose',    label: '行と列を入れ替え (Transpose)',   icon: 'swap_horiz',          hint: '',       run: () => transposeData() },
-        { id: 'toggle-header', label: 'ヘッダー行の有無を切り替え',    icon: 'view_headline',       hint: '',       run: () => toggleHeader() },
-        { id: 'search',       label: '検索にフォーカス',               icon: 'search',              hint: 'Ctrl+F', run: () => $searchInput.focus() },
-        { id: 'clear-search', label: '検索/フィルタを解除',            icon: 'filter_alt_off',      hint: '',       run: () => clearSearch() },
-        { id: 'settings',     label: '設定を開く',                     icon: 'settings',            hint: '',       run: () => openSettings() },
-        { id: 'help',         label: 'ヘルプを開く',                   icon: 'help',                hint: '?',      run: () => $infoOverlay.classList.add('show') },
-        { id: 'clear-all',    label: 'すべてクリア',                   icon: 'delete',              hint: '',       run: () => confirmClearAll() }
-      ];
-
-      let _cmdActiveIndex = 0;
-      let _cmdFilteredCommands = [];
-
-      const fuzzyMatch = (label, query) => {
-        if (!query) return true;
-        const haystack = label.toLowerCase();
-        const needle = query.toLowerCase();
-        if (haystack.includes(needle)) return true;
-        let i = 0;
-        for (const ch of needle) {
-          const found = haystack.indexOf(ch, i);
-          if (found < 0) return false;
-          i = found + 1;
-        }
-        return true;
-      };
-
-      const renderCmdPalette = () => {
-        const query = $cmdPaletteInput.value.trim();
-        _cmdFilteredCommands = COMMANDS.filter((c) => fuzzyMatch(translateText(c.label), query));
-        if (_cmdFilteredCommands.length === 0) {
-          $cmdPaletteList.innerHTML = `<li class="cmd-palette-empty">${translateText('該当するコマンドがありません')}</li>`;
-          _cmdActiveIndex = 0;
-          return;
-        }
-        _cmdActiveIndex = Math.max(0, Math.min(_cmdActiveIndex, _cmdFilteredCommands.length - 1));
-        $cmdPaletteList.innerHTML = _cmdFilteredCommands.map((c, idx) => `
-          <li class="cmd-palette-item${idx === _cmdActiveIndex ? ' is-active' : ''}" role="option" data-cmd-idx="${idx}" aria-selected="${idx === _cmdActiveIndex}">
-            <span class="material-symbols-outlined">${escapeHTML(c.icon)}</span>
-            <span class="cmd-palette-item-label">${escapeHTML(translateText(c.label))}</span>
-            ${c.hint ? `<span class="cmd-palette-item-hint">${escapeHTML(c.hint)}</span>` : ''}
-          </li>
-        `).join('');
-      };
-
-      const openCommandPalette = () => {
-        $cmdPaletteInput.value = '';
-        _cmdActiveIndex = 0;
-        renderCmdPalette();
-        $cmdPaletteOverlay.classList.add('show');
-        setTimeout(() => $cmdPaletteInput.focus(), 0);
-      };
-
-      const closeCommandPalette = () => {
-        $cmdPaletteOverlay.classList.remove('show');
-      };
-
-      const runActiveCommand = () => {
-        const cmd = _cmdFilteredCommands[_cmdActiveIndex];
-        if (!cmd) return;
-        closeCommandPalette();
-        try {
-          cmd.run();
-        } catch (err) {
-          console.error('Command failed:', err);
-          showToast('コマンドの実行に失敗しました', 'error');
-        }
-      };
-
-      const moveCmdActive = (delta) => {
-        if (_cmdFilteredCommands.length === 0) return;
-        _cmdActiveIndex = (_cmdActiveIndex + delta + _cmdFilteredCommands.length) % _cmdFilteredCommands.length;
-        renderCmdPalette();
-        const $active = qs('.cmd-palette-item.is-active', $cmdPaletteList);
-        if ($active && typeof $active.scrollIntoView === 'function') {
-          $active.scrollIntoView({ block: 'nearest' });
-        }
-      };
-
-      $cmdPaletteInput.addEventListener('input', () => { _cmdActiveIndex = 0; renderCmdPalette(); });
-      $cmdPaletteInput.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowDown') { e.preventDefault(); moveCmdActive(1); }
-        else if (e.key === 'ArrowUp') { e.preventDefault(); moveCmdActive(-1); }
-        else if (e.key === 'Enter') { e.preventDefault(); runActiveCommand(); }
-        else if (e.key === 'Escape') { e.preventDefault(); closeCommandPalette(); }
-      });
-      $cmdPaletteList.addEventListener('click', (e) => {
-        const $item = e.target.closest?.('.cmd-palette-item');
-        if (!$item) return;
-        const idx = parseInt($item.dataset.cmdIdx, 10);
-        if (Number.isInteger(idx)) {
-          _cmdActiveIndex = idx;
-          runActiveCommand();
-        }
-      });
-      $cmdPaletteList.addEventListener('mousemove', (e) => {
-        const $item = e.target.closest?.('.cmd-palette-item');
-        if (!$item) return;
-        const idx = parseInt($item.dataset.cmdIdx, 10);
-        if (Number.isInteger(idx) && idx !== _cmdActiveIndex) {
-          _cmdActiveIndex = idx;
-          renderCmdPalette();
-        }
-      });
-      $cmdPaletteOverlay.addEventListener('click', (e) => {
-        if (e.target === $cmdPaletteOverlay) closeCommandPalette();
-      });
 
       /* --- Init --- */
       const resetExportWizard = () => {
