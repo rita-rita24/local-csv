@@ -4350,12 +4350,27 @@
         const colCount = Array.isArray(data) && Array.isArray(data[0]) ? data[0].length : 0;
         return { rowCount, colCount };
       };
-      const normalizePersistedState = (saved, localColumnWidths = {}) => {
-        const data = normalizeDataMatrix(saved?.data);
+      const normalizePersistedState = async (saved, localColumnWidths = {}) => {
+        const delimiter = typeof saved?.delimiter === 'string' && saved.delimiter.length > 0 ? saved.delimiter : ',';
+        let rawData;
+        if (saved?.version === 2 && typeof saved?.csv === 'string') {
+          if (saved.csv.length === 0) {
+            rawData = [];
+          } else {
+            try {
+              rawData = await parseCSVAsync(saved.csv, delimiter);
+            } catch {
+              rawData = [];
+            }
+          }
+        } else {
+          rawData = saved?.data;
+        }
+        const data = normalizeDataMatrix(rawData);
         const normalized = {
           data,
           hasHeader: !!saved?.hasHeader && data.length > 0,
-          delimiter: typeof saved?.delimiter === 'string' && saved.delimiter.length > 0 ? saved.delimiter : ',',
+          delimiter,
           columnWidths: normalizeColumnWidths(saved?.columnWidths),
           encoding: normalizeExportEncoding(typeof saved?.encoding === 'string' ? saved.encoding : 'utf-8'),
           bom: typeof saved?.bom === 'boolean' ? saved.bom : true,
@@ -4431,8 +4446,46 @@
         _saveRevision++;
       };
 
-      const createPersistedState = () => ({
-        data: state.data,
+      const buildPersistCsvLine = (row, dlm, qs_) => row.map((cell) => {
+        const c = cell == null ? '' : String(cell);
+        const escaped = c.replace(/"/g, '""');
+        if (qs_ === 'all') return `"${escaped}"`;
+        if (qs_ === 'none') return c;
+        return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
+          ? `"${escaped}"` : c;
+      }).join(dlm);
+
+      const serializeStateAsCsvSync = () => {
+        if (!state.data || state.data.length === 0) return '';
+        const dlm = state.delimiter || ',';
+        const qs_ = state.quoteStyle;
+        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
+        const lines = new Array(state.data.length);
+        for (let i = 0; i < state.data.length; i++) {
+          lines[i] = buildPersistCsvLine(state.data[i] ?? [], dlm, qs_);
+        }
+        return lines.join(nl);
+      };
+
+      const serializeStateAsCsv = async () => {
+        if (!state.data || state.data.length === 0) return '';
+        const dlm = state.delimiter || ',';
+        const qs_ = state.quoteStyle;
+        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
+        const lines = new Array(state.data.length);
+        const chunkRows = 500;
+        for (let i = 0; i < state.data.length; i++) {
+          lines[i] = buildPersistCsvLine(state.data[i] ?? [], dlm, qs_);
+          if ((i + 1) % chunkRows === 0) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+          }
+        }
+        return lines.join(nl);
+      };
+
+      const buildPersistEnvelope = (csv) => ({
+        version: 2,
+        csv,
         hasHeader: state.hasHeader,
         delimiter: state.delimiter,
         columnWidths: state.columnWidths,
@@ -4443,6 +4496,9 @@
         savedAt: new Date().toISOString(),
         ...getDataShapeMeta(state.data, state.hasHeader)
       });
+
+      const createPersistedStateAsync = async () => buildPersistEnvelope(await serializeStateAsCsv());
+      const createPersistedStateSync = () => buildPersistEnvelope(serializeStateAsCsvSync());
 
       const markDataChanged = () => {
         _dataRevision++;
@@ -4493,22 +4549,25 @@
         updateSaveStatusBadge('unsaved');
         _saveTimer = setTimeout(() => {
           _saveTimer = null;
-          scheduleIdlePersist(() => {
+          scheduleIdlePersist(async () => {
             if (_savedRevision === _saveRevision) return;
             updateSaveStatusBadge('saving');
             const revision = _saveRevision;
-            IDBStore.set(PRO_STATE_STORAGE_KEY, createPersistedState())
-              .then(() => {
-                _savedRevision = revision;
-                if (_saveRevision === revision) {
-                  updateSaveStatusBadge(IDBStore.isFallback() ? 'fallback' : 'saved');
-                }
-              })
-              .catch(e => {
-                console.warn('IndexedDB save failed:', e);
-                updateSaveStatusBadge('error');
-                showToast('<span class="material-symbols-outlined">error</span> 自動保存に失敗しました。手動でエクスポートしてください。', 'error');
-              });
+            try {
+              const persisted = await createPersistedStateAsync();
+              if (revision !== _saveRevision) {
+                /* a newer change came in while we were serializing — let the next idle pass handle it */
+              }
+              await IDBStore.set(PRO_STATE_STORAGE_KEY, persisted);
+              _savedRevision = revision;
+              if (_saveRevision === revision) {
+                updateSaveStatusBadge(IDBStore.isFallback() ? 'fallback' : 'saved');
+              }
+            } catch (e) {
+              console.warn('IndexedDB save failed:', e);
+              updateSaveStatusBadge('error');
+              showToast('<span class="material-symbols-outlined">error</span> 自動保存に失敗しました。手動でエクスポートしてください。', 'error');
+            }
           });
         }, getAutosaveDebounceMs());
       };
@@ -4549,7 +4608,7 @@
           }
           hasSavedObject = !!saved && typeof saved === 'object';
           if (hasSavedObject) {
-            const normalizedState = normalizePersistedState(saved, localColumnWidths);
+            const normalizedState = await normalizePersistedState(saved, localColumnWidths);
             applyLoadedState(normalizedState);
           } else if (Object.keys(localColumnWidths).length > 0) {
             state.columnWidths = localColumnWidths;
@@ -9186,7 +9245,7 @@
         cancelIdlePersist();
         if (_savedRevision === _saveRevision) return;
         const revision = _saveRevision;
-        IDBStore.set(PRO_STATE_STORAGE_KEY, createPersistedState())
+        IDBStore.set(PRO_STATE_STORAGE_KEY, createPersistedStateSync())
           .then(() => {
             _savedRevision = revision;
             updateSaveStatusBadge(IDBStore.isFallback() ? 'fallback' : 'saved');
