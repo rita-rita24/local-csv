@@ -6907,11 +6907,17 @@
         return isEnglish() ? `Column ${activeColumnIndex + 1}` : `列${activeColumnIndex + 1}`;
       };
 
+      const STRICT_NUMERIC_RE = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/;
+      const parseStrictNumeric = (text) => {
+        const trimmed = String(text).trim();
+        if (trimmed === '' || !STRICT_NUMERIC_RE.test(trimmed)) return NaN;
+        return Number(trimmed);
+      };
       const compareSortableValues = (valueA, valueB, dir, localeTag) => {
         const textA = valueA ?? '';
         const textB = valueB ?? '';
-        const numberA = Number.parseFloat(textA);
-        const numberB = Number.parseFloat(textB);
+        const numberA = parseStrictNumeric(textA);
+        const numberB = parseStrictNumeric(textB);
         if (Number.isFinite(numberA) && Number.isFinite(numberB)) {
           return dir === 'asc' ? numberA - numberB : numberB - numberA;
         }
@@ -6937,11 +6943,17 @@
           try {
             showToast('並び替えを実行中...', 'success');
             const result = await runDataWorker(`
+              const STRICT_NUMERIC_RE = /^[+-]?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][+-]?\\d+)?$/;
+              const parseStrictNumeric = (text) => {
+                const trimmed = String(text).trim();
+                if (trimmed === '' || !STRICT_NUMERIC_RE.test(trimmed)) return NaN;
+                return Number(trimmed);
+              };
               const compareSortableValues = (valueA, valueB, dir, localeTag) => {
                 const textA = valueA ?? '';
                 const textB = valueB ?? '';
-                const numberA = Number.parseFloat(textA);
-                const numberB = Number.parseFloat(textB);
+                const numberA = parseStrictNumeric(textA);
+                const numberB = parseStrictNumeric(textB);
                 if (Number.isFinite(numberA) && Number.isFinite(numberB)) {
                   return dir === 'asc' ? numberA - numberB : numberB - numberA;
                 }
