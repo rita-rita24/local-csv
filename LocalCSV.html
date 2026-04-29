@@ -5234,9 +5234,11 @@
               if (type === 'valueCounts') {
                 const colIdx = payload?.colIdx ?? 0;
                 const start = payload?.start ?? 0;
+                const filters = Array.isArray(payload?.filters) ? payload.filters : [];
                 const valueCounts = new Map();
                 for (let i = start; i < data.length; i++) {
                   const row = data[i] ?? [];
+                  if (filters.length > 0 && !rowPasses(row, filters)) continue;
                   const value = row[colIdx] ?? '';
                   valueCounts.set(value, (valueCounts.get(value) ?? 0) + 1);
                 }
@@ -6629,19 +6631,53 @@
         filterPanelColIndex = -1;
       };
 
+      const serializeOtherColumnFilters = (excludeColIdx) => (
+        [...columnFilters.entries()]
+          .filter(([colIdx]) => colIdx !== excludeColIdx)
+          .map(([colIdx, config]) => ({
+            colIdx,
+            values: config.values ? [...config.values] : null,
+            conditions: (config.conditions ?? []).map((c) => ({ op: c.op, val: c.val })),
+            logic: config.logic === 'or' ? 'or' : 'and'
+          }))
+      );
+
+      const rowPassesOtherColumnFilters = (rowIdx, excludeColIdx) => {
+        for (const [colIdx, config] of columnFilters) {
+          if (colIdx === excludeColIdx) continue;
+          const cellVal = state.data[rowIdx]?.[colIdx] ?? '';
+          if (config.values && !config.values.has(cellVal)) return false;
+          if (config.conditions.length > 0) {
+            const results = config.conditions.map(c => evalCondition(cellVal, c.op, c.val));
+            const condPass = config.logic === 'and' ? results.every(Boolean) : results.some(Boolean);
+            if (!condPass) return false;
+          }
+        }
+        return true;
+      };
+
       const computeFilterValuesMain = (colIdx) => {
         const start = state.hasHeader ? 1 : 0;
         const valueCounts = new Map();
+        const hasOtherFilters = [...columnFilters.keys()].some((idx) => idx !== colIdx);
         for (let i = start; i < state.data.length; i++) {
+          if (hasOtherFilters && !rowPassesOtherColumnFilters(i, colIdx)) continue;
           const v = state.data[i][colIdx] ?? '';
           valueCounts.set(v, (valueCounts.get(v) ?? 0) + 1);
         }
         return [...valueCounts.entries()];
       };
 
+      const buildFilterValueCacheKey = (colIdx) => {
+        const otherFilters = serializeOtherColumnFilters(colIdx);
+        const ctx = otherFilters.length === 0 ? '' : JSON.stringify(otherFilters);
+        return `${_dataRevision}:${state.hasHeader ? 1 : 0}:${colIdx}:${ctx}`;
+      };
+
       const populateFilterValues = async (colIdx) => {
         const revisionAtStart = _dataRevision;
-        const cacheKey = `${_dataRevision}:${state.hasHeader ? 1 : 0}:${colIdx}`;
+        const otherFilters = serializeOtherColumnFilters(colIdx);
+        const cacheKey = buildFilterValueCacheKey(colIdx);
         let sorted = _filterValueCache.get(cacheKey);
         if (!sorted) {
           if (state.data.length >= FILTER_WORKER_ROW_THRESHOLD) {
@@ -6652,7 +6688,8 @@
                 const result = await callFilterWorker('valueCounts', {
                   colIdx,
                   start,
-                  localeTag: getLocaleTag()
+                  localeTag: getLocaleTag(),
+                  filters: otherFilters
                 });
                 sorted = Array.isArray(result?.sorted) ? result.sorted : [];
               }
