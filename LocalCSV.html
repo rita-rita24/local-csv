@@ -3930,6 +3930,7 @@
       const MAX_HISTORY = 20;
       const HISTORY_ENTRY_SNAPSHOT = 'snapshot';
       const HISTORY_ENTRY_CELL = 'cell';
+      const HISTORY_ENTRY_CELL_BATCH = 'cell-batch';
       let activeColumnIndex = -1, activeRowIndex = -1;
       let searchMatches = [], currentMatchIndex = -1;
       let searchMatchMap = new Map(); // Map<rowIndex, Set<colIndex>>
@@ -4548,6 +4549,11 @@
         after
       });
 
+      const createCellBatchHistoryEntry = (changes) => ({
+        type: HISTORY_ENTRY_CELL_BATCH,
+        changes
+      });
+
       const trimHistoryStack = (stack) => {
         if (stack.length > MAX_HISTORY) stack.shift();
       };
@@ -4574,6 +4580,17 @@
         updateHistoryButtons();
       };
 
+      const saveCellBatchToHistory = (changes) => {
+        const filtered = changes.filter((c) => c.before !== c.after);
+        if (filtered.length === 0) return false;
+        undoStack.push(createCellBatchHistoryEntry(filtered));
+        trimHistoryStack(undoStack);
+        redoStack = [];
+        markDataChanged();
+        updateHistoryButtons();
+        return true;
+      };
+
       const applyHistoryEntry = (entry, mode) => {
         if (!entry) return false;
         if (entry.type === HISTORY_ENTRY_SNAPSHOT) {
@@ -4584,6 +4601,15 @@
           const row = state.data[entry.row];
           if (!row) return false;
           row[entry.col] = mode === 'undo' ? entry.before : entry.after;
+          markDataChanged();
+          return true;
+        }
+        if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          for (const change of entry.changes) {
+            const row = state.data[change.row];
+            if (!row) continue;
+            row[change.col] = mode === 'undo' ? change.before : change.after;
+          }
           markDataChanged();
           return true;
         }
@@ -4603,6 +4629,8 @@
           redoEntry = createSnapshotHistoryEntry();
         } else if (entry.type === HISTORY_ENTRY_CELL) {
           redoEntry = createCellHistoryEntry(entry.row, entry.col, entry.before, entry.after);
+        } else if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          redoEntry = createCellBatchHistoryEntry(entry.changes);
         }
         const applied = applyHistoryEntry(entry, 'undo');
         if (!applied) {
@@ -4623,6 +4651,8 @@
           undoEntry = createSnapshotHistoryEntry();
         } else if (entry.type === HISTORY_ENTRY_CELL) {
           undoEntry = createCellHistoryEntry(entry.row, entry.col, entry.before, entry.after);
+        } else if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          undoEntry = createCellBatchHistoryEntry(entry.changes);
         }
         const applied = applyHistoryEntry(entry, 'redo');
         if (!applied) {
@@ -4642,13 +4672,32 @@
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
       };
 
-      const calcRowBytes = (row, delimiter, encoding) => {
-        const line = row.join(delimiter);
+      const buildCsvLine = (row, delimiter, quoteStyle) => (
+        row.map((cell) => {
+          const c = cell ?? '';
+          const escaped = String(c).replace(/"/g, '""');
+          if (quoteStyle === 'all') return `"${escaped}"`;
+          if (quoteStyle === 'none') return String(c);
+          return (String(c).includes(delimiter) || String(c).includes('"') || String(c).includes('\n') || String(c).includes('\r'))
+            ? `"${escaped}"` : String(c);
+        }).join(delimiter)
+      );
+
+      const calcRowBytes = (row, delimiter, encoding, quoteStyle, suffix) => {
+        const line = buildCsvLine(row, delimiter, quoteStyle) + suffix;
         try {
           return encodeToBytes(line, encoding, false).length;
         } catch {
           return line.length;
         }
+      };
+
+      const calcBomBytes = (encoding, withBom) => {
+        if (!withBom) return 0;
+        const normalized = normalizeEncoding(encoding);
+        if (normalized === 'utf-8') return 3;
+        if (normalized === 'utf-16le' || normalized === 'utf-16be') return 2;
+        return 0;
       };
 
       const updateStats = () => {
@@ -4669,6 +4718,9 @@
         const rows = state.data;
         const delimiter = state.delimiter;
         const encoding = state.encoding;
+        const quoteStyle = state.quoteStyle;
+        const newline = state.newline === 'crlf' ? '\r\n' : '\n';
+        const bomBytes = calcBomBytes(encoding, supportsBom(encoding) && state.bom);
 
         if (rows.length === 0) {
           $dataSize.textContent = '0 B';
@@ -4676,10 +4728,10 @@
         }
 
         const calcSync = () => {
-          let bytes = 0;
+          let bytes = bomBytes;
           for (let i = 0; i < rows.length; i++) {
-            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding);
-            if (i < rows.length - 1) bytes += 1; // '\n'
+            const suffix = i < rows.length - 1 ? newline : '';
+            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding, quoteStyle, suffix);
           }
           return bytes;
         };
@@ -4691,7 +4743,7 @@
 
         $dataSize.textContent = '計算中...';
         let i = 0;
-        let bytes = 0;
+        let bytes = bomBytes;
 
         const runChunk = () => {
           if (token !== _statsTaskToken) return;
@@ -4701,8 +4753,8 @@
             i < rows.length &&
             (processed < STATS_MIN_BATCH_ROWS || (performance.now() - startedAt) < STATS_TIME_BUDGET_MS)
           ) {
-            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding);
-            if (i < rows.length - 1) bytes += 1;
+            const suffix = i < rows.length - 1 ? newline : '';
+            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding, quoteStyle, suffix);
             i++;
             processed++;
           }
@@ -5234,9 +5286,11 @@
               if (type === 'valueCounts') {
                 const colIdx = payload?.colIdx ?? 0;
                 const start = payload?.start ?? 0;
+                const filters = Array.isArray(payload?.filters) ? payload.filters : [];
                 const valueCounts = new Map();
                 for (let i = start; i < data.length; i++) {
                   const row = data[i] ?? [];
+                  if (filters.length > 0 && !rowPasses(row, filters)) continue;
                   const value = row[colIdx] ?? '';
                   valueCounts.set(value, (valueCounts.get(value) ?? 0) + 1);
                 }
@@ -5827,14 +5881,19 @@
           .map($td => getCellCoords($td))
           .filter((coords) => hasValidCellCoords(coords));
         if (validCoords.length === 0) return false;
-        saveToHistory();
+        const changes = [];
         validCoords.forEach(({ row, col }) => {
           if (state.data[row]) {
+            const before = state.data[row][col];
+            if (before === '') return;
+            changes.push({ row, col, before, after: '' });
             state.data[row][col] = '';
             const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
             if ($td) $td.textContent = '';
           }
         });
+        if (changes.length === 0) return false;
+        saveCellBatchToHistory(changes);
         updateStats(); saveToStorage();
         showToast(`<span class="material-symbols-outlined">delete</span> ${validCoords.length}セルをクリアしました`, 'success');
         return true;
@@ -5859,7 +5918,7 @@
           minC = Math.min(minC, col); maxC = Math.max(maxC, col);
         });
 
-        saveToHistory();
+        const changes = [];
 
         // If clipboard is multi-cell, paste starting from top-left of selection
         if (clipData.length > 1 || clipData[0].length > 1) {
@@ -5869,13 +5928,17 @@
               const targetR = minR + ri;
               const targetC = minC + ci;
               if (targetR < state.data.length && targetC < (state.data[0]?.length ?? 0)) {
-                state.data[targetR][targetC] = clipData[ri][ci];
+                const before = state.data[targetR][targetC];
+                const after = clipData[ri][ci];
+                if (before !== after) changes.push({ row: targetR, col: targetC, before, after });
+                state.data[targetR][targetC] = after;
                 const $td = qs(`td[data-row="${targetR}"][data-col="${targetC}"]`, $dataTable);
-                if ($td) $td.textContent = clipData[ri][ci];
+                if ($td) $td.textContent = after;
                 count++;
               }
             }
           }
+          if (changes.length > 0) saveCellBatchToHistory(changes);
           updateStats(); saveToStorage();
           showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
         } else {
@@ -5884,12 +5947,15 @@
           let count = 0;
           validCoords.forEach(({ row, col }) => {
             if (state.data[row]) {
+              const before = state.data[row][col];
+              if (before !== val) changes.push({ row, col, before, after: val });
               state.data[row][col] = val;
               const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
               if ($td) $td.textContent = val;
               count++;
             }
           });
+          if (changes.length > 0) saveCellBatchToHistory(changes);
           updateStats(); saveToStorage();
           showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
         }
@@ -5906,7 +5972,15 @@
           state.data[row][col] = val;
           updateStats();
           saveToStorage();
+          if (columnFilters.size > 0) {
+            void refreshColumnFilterRows().then(() => {
+              if (filterPanelColIndex < 0) renderTable();
+            });
+          }
           if ($searchInput.value) performSearchImmediate();
+          else if (columnFilters.size === 0 && $filterMode.checked && filteredRows !== null) {
+            renderTable();
+          }
         }
       };
 
@@ -6621,19 +6695,53 @@
         filterPanelColIndex = -1;
       };
 
+      const serializeOtherColumnFilters = (excludeColIdx) => (
+        [...columnFilters.entries()]
+          .filter(([colIdx]) => colIdx !== excludeColIdx)
+          .map(([colIdx, config]) => ({
+            colIdx,
+            values: config.values ? [...config.values] : null,
+            conditions: (config.conditions ?? []).map((c) => ({ op: c.op, val: c.val })),
+            logic: config.logic === 'or' ? 'or' : 'and'
+          }))
+      );
+
+      const rowPassesOtherColumnFilters = (rowIdx, excludeColIdx) => {
+        for (const [colIdx, config] of columnFilters) {
+          if (colIdx === excludeColIdx) continue;
+          const cellVal = state.data[rowIdx]?.[colIdx] ?? '';
+          if (config.values && !config.values.has(cellVal)) return false;
+          if (config.conditions.length > 0) {
+            const results = config.conditions.map(c => evalCondition(cellVal, c.op, c.val));
+            const condPass = config.logic === 'and' ? results.every(Boolean) : results.some(Boolean);
+            if (!condPass) return false;
+          }
+        }
+        return true;
+      };
+
       const computeFilterValuesMain = (colIdx) => {
         const start = state.hasHeader ? 1 : 0;
         const valueCounts = new Map();
+        const hasOtherFilters = [...columnFilters.keys()].some((idx) => idx !== colIdx);
         for (let i = start; i < state.data.length; i++) {
+          if (hasOtherFilters && !rowPassesOtherColumnFilters(i, colIdx)) continue;
           const v = state.data[i][colIdx] ?? '';
           valueCounts.set(v, (valueCounts.get(v) ?? 0) + 1);
         }
         return [...valueCounts.entries()];
       };
 
+      const buildFilterValueCacheKey = (colIdx) => {
+        const otherFilters = serializeOtherColumnFilters(colIdx);
+        const ctx = otherFilters.length === 0 ? '' : JSON.stringify(otherFilters);
+        return `${_dataRevision}:${state.hasHeader ? 1 : 0}:${colIdx}:${ctx}`;
+      };
+
       const populateFilterValues = async (colIdx) => {
         const revisionAtStart = _dataRevision;
-        const cacheKey = `${_dataRevision}:${state.hasHeader ? 1 : 0}:${colIdx}`;
+        const otherFilters = serializeOtherColumnFilters(colIdx);
+        const cacheKey = buildFilterValueCacheKey(colIdx);
         let sorted = _filterValueCache.get(cacheKey);
         if (!sorted) {
           if (state.data.length >= FILTER_WORKER_ROW_THRESHOLD) {
@@ -6644,7 +6752,8 @@
                 const result = await callFilterWorker('valueCounts', {
                   colIdx,
                   start,
-                  localeTag: getLocaleTag()
+                  localeTag: getLocaleTag(),
+                  filters: otherFilters
                 });
                 sorted = Array.isArray(result?.sorted) ? result.sorted : [];
               }
@@ -6862,11 +6971,17 @@
         return isEnglish() ? `Column ${activeColumnIndex + 1}` : `列${activeColumnIndex + 1}`;
       };
 
+      const STRICT_NUMERIC_RE = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/;
+      const parseStrictNumeric = (text) => {
+        const trimmed = String(text).trim();
+        if (trimmed === '' || !STRICT_NUMERIC_RE.test(trimmed)) return NaN;
+        return Number(trimmed);
+      };
       const compareSortableValues = (valueA, valueB, dir, localeTag) => {
         const textA = valueA ?? '';
         const textB = valueB ?? '';
-        const numberA = Number.parseFloat(textA);
-        const numberB = Number.parseFloat(textB);
+        const numberA = parseStrictNumeric(textA);
+        const numberB = parseStrictNumeric(textB);
         if (Number.isFinite(numberA) && Number.isFinite(numberB)) {
           return dir === 'asc' ? numberA - numberB : numberB - numberA;
         }
@@ -6892,11 +7007,17 @@
           try {
             showToast('並び替えを実行中...', 'success');
             const result = await runDataWorker(`
+              const STRICT_NUMERIC_RE = /^[+-]?(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][+-]?\\d+)?$/;
+              const parseStrictNumeric = (text) => {
+                const trimmed = String(text).trim();
+                if (trimmed === '' || !STRICT_NUMERIC_RE.test(trimmed)) return NaN;
+                return Number(trimmed);
+              };
               const compareSortableValues = (valueA, valueB, dir, localeTag) => {
                 const textA = valueA ?? '';
                 const textB = valueB ?? '';
-                const numberA = Number.parseFloat(textA);
-                const numberB = Number.parseFloat(textB);
+                const numberA = parseStrictNumeric(textA);
+                const numberB = parseStrictNumeric(textB);
                 if (Number.isFinite(numberA) && Number.isFinite(numberB)) {
                   return dir === 'asc' ? numberA - numberB : numberB - numberA;
                 }
@@ -8304,19 +8425,23 @@
             const coords = getCellCoords(document.activeElement);
             if (!hasValidCellCoords(coords)) return;
             const { row, col } = coords;
-            saveToHistory();
+            const changes = [];
             let count = 0;
             for (let ri = 0; ri < clipData.length; ri++) {
               for (let ci = 0; ci < clipData[ri].length; ci++) {
                 const tR = row + ri, tC = col + ci;
                 if (tR < state.data.length && tC < (state.data[0]?.length ?? 0)) {
-                  state.data[tR][tC] = clipData[ri][ci];
+                  const before = state.data[tR][tC];
+                  const after = clipData[ri][ci];
+                  if (before !== after) changes.push({ row: tR, col: tC, before, after });
+                  state.data[tR][tC] = after;
                   const $td = qs(`td[data-row="${tR}"][data-col="${tC}"]`, $dataTable);
-                  if ($td) $td.textContent = clipData[ri][ci];
+                  if ($td) $td.textContent = after;
                   count++;
                 }
               }
             }
+            if (changes.length > 0) saveCellBatchToHistory(changes);
             updateStats(); saveToStorage();
             showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
             return;
@@ -8840,6 +8965,7 @@
       $settingBOM.addEventListener('change', (e) => {
         state.bom = e.target.checked;
         syncSettingBomState();
+        updateStats();
         markSettingsChanged();
         saveToStorage();
       });
@@ -8854,12 +8980,14 @@
 
       qs('#settingNewline').addEventListener('change', (e) => {
         state.newline = e.target.value;
+        updateStats();
         markSettingsChanged();
         saveToStorage();
       });
 
       qs('#settingQuote').addEventListener('change', (e) => {
         state.quoteStyle = e.target.value;
+        updateStats();
         markSettingsChanged();
         saveToStorage();
       });
