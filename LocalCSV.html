@@ -8602,10 +8602,9 @@
       }, true);
 
       /* --- Transpose --- */
-      const _runTranspose = () => {
-        const rows = state.data;
-        const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
-        saveToHistory();
+      const TRANSPOSE_WORKER_CELL_THRESHOLD = 5000;
+
+      const transposeMatrixSync = (rows, colCount) => {
         const next = new Array(colCount);
         for (let c = 0; c < colCount; c++) {
           const newRow = new Array(rows.length);
@@ -8614,6 +8613,46 @@
           }
           next[c] = newRow;
         }
+        return next;
+      };
+
+      const transposeMatrixViaWorker = async (rows, colCount) => {
+        const workerCode = `
+          self.onmessage = (event) => {
+            const { rows, colCount } = event.data;
+            const next = new Array(colCount);
+            for (let c = 0; c < colCount; c++) {
+              const newRow = new Array(rows.length);
+              for (let r = 0; r < rows.length; r++) {
+                newRow[r] = rows[r] && rows[r][c] != null ? rows[r][c] : '';
+              }
+              next[c] = newRow;
+            }
+            self.postMessage(next);
+          };
+        `;
+        return runDataWorker(workerCode, { rows, colCount });
+      };
+
+      const _runTranspose = async () => {
+        const rows = state.data;
+        const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
+        const cellCount = rows.length * colCount;
+
+        saveToHistory();
+
+        let next;
+        if (cellCount >= TRANSPOSE_WORKER_CELL_THRESHOLD && typeof Worker !== 'undefined') {
+          try {
+            next = await transposeMatrixViaWorker(rows, colCount);
+          } catch (e) {
+            console.warn('Transpose worker failed, fallback to main thread', e);
+            next = transposeMatrixSync(rows, colCount);
+          }
+        } else {
+          next = transposeMatrixSync(rows, colCount);
+        }
+
         state.data = next;
         state.hasHeader = false;
         state.columnWidths = {};
