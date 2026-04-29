@@ -1951,7 +1951,7 @@
         align-items: center;
         gap: 14px;
         padding: 6px 12px;
-        margin-block-start: 6px;
+        margin-block-end: 6px;
         font-size: 0.82rem;
         color: var(--text-muted, #475569);
         background: var(--bg-soft, #f8fafc);
@@ -1960,6 +1960,7 @@
         font-variant-numeric: tabular-nums;
         user-select: none;
       }
+      .status-bar[hidden] { display: none; }
       .status-bar .status-item { display: inline-flex; align-items: baseline; gap: 4px; }
       .status-bar .status-item .label { opacity: 0.75; }
       .status-bar .status-item .value { font-weight: 600; color: var(--text, #0f172a); }
@@ -2182,6 +2183,18 @@
       </div>
     </div>
 
+    <!-- 集計ステータスバー（ツールバー直下、設定で表示切替） -->
+    <div class="status-bar" id="statusBar" role="status" aria-live="polite" hidden>
+      <span class="status-item muted" id="statusBarSelectionInfo"><span class="label">選択:</span> <span class="value" data-status-selection>なし</span></span>
+      <span class="status-item" id="statusBarCount" hidden><span class="label">件数:</span> <span class="value" data-status-count>0</span></span>
+      <span class="status-item" id="statusBarNumeric" hidden><span class="label">数値:</span> <span class="value" data-status-numeric>0</span></span>
+      <span class="status-item" id="statusBarSum" hidden><span class="label">合計:</span> <span class="value" data-status-sum>0</span></span>
+      <span class="status-item" id="statusBarAvg" hidden><span class="label">平均:</span> <span class="value" data-status-avg>0</span></span>
+      <span class="status-item" id="statusBarMin" hidden><span class="label">最小:</span> <span class="value" data-status-min>0</span></span>
+      <span class="status-item" id="statusBarMax" hidden><span class="label">最大:</span> <span class="value" data-status-max>0</span></span>
+      <span class="status-spacer"></span>
+    </div>
+
     <!-- ペーストエリア -->
     <div class="paste-area">
       <div class="paste-zone" id="pasteZone" tabindex="0">
@@ -2201,18 +2214,6 @@
         </table>
       </div>
       <div class="fill-handle" id="fillHandle" hidden role="button" aria-label="オートフィル"></div>
-    </div>
-
-    <!-- 集計ステータスバー -->
-    <div class="status-bar" id="statusBar" role="status" aria-live="polite">
-      <span class="status-item muted" id="statusBarSelectionInfo"><span class="label">選択:</span> <span class="value" data-status-selection>なし</span></span>
-      <span class="status-item" id="statusBarCount" hidden><span class="label">件数:</span> <span class="value" data-status-count>0</span></span>
-      <span class="status-item" id="statusBarNumeric" hidden><span class="label">数値:</span> <span class="value" data-status-numeric>0</span></span>
-      <span class="status-item" id="statusBarSum" hidden><span class="label">合計:</span> <span class="value" data-status-sum>0</span></span>
-      <span class="status-item" id="statusBarAvg" hidden><span class="label">平均:</span> <span class="value" data-status-avg>0</span></span>
-      <span class="status-item" id="statusBarMin" hidden><span class="label">最小:</span> <span class="value" data-status-min>0</span></span>
-      <span class="status-item" id="statusBarMax" hidden><span class="label">最大:</span> <span class="value" data-status-max>0</span></span>
-      <span class="status-spacer"></span>
     </div>
   </div>
 
@@ -2435,6 +2436,12 @@
           <label class="settings-checkbox">
             <input type="checkbox" id="settingHeader"> 1行目をヘッダー（列名）として扱う
           </label>
+        </div>
+        <div class="settings-group">
+          <label class="settings-checkbox">
+            <input type="checkbox" id="settingShowStatusBar"> ステータスバー（合計など）を表示
+          </label>
+          <div class="settings-hint">選択範囲の件数・合計・平均・最小・最大をツールバー直下に表示します。</div>
         </div>
         <div class="settings-group" id="settingLanguageGroup">
           <label>表示言語</label>
@@ -3220,6 +3227,8 @@
       '入替中...': 'Transposing...',
       'データがありません': 'No data',
       'ファイルが空です': 'File is empty',
+      'ステータスバー（合計など）を表示': 'Show status bar (sum, average, etc.)',
+      '選択範囲の件数・合計・平均・最小・最大をツールバー直下に表示します。': 'Shows count, sum, average, min, and max of the selected cells just below the toolbar.',
       '10行': '10 rows',
       '20行': '20 rows',
       '50行': '50 rows'
@@ -6062,6 +6071,12 @@
           parts.push(`<tr class="virtual-spacer"><td colspan="${colCount + 1}" style="height:${bottomSpacer}px;"></td></tr>`);
         }
         $tableBody.innerHTML = parts.join('');
+        /*
+         * Defensive: buildBodyRowHTML already emits the `selected` class
+         * from _selectionModel, but re-syncing visuals here protects against
+         * stale state if the model was updated while a render was in flight.
+         */
+        refreshRenderedSelectionVisuals();
       };
 
       const scheduleVirtualRender = () => {
@@ -9608,7 +9623,36 @@
 
       const STATUS_AGG_KEYS = ['count', 'numeric', 'sum', 'avg', 'min', 'max'];
       let _statusBarTimer = null;
+      /*
+       * Status bar visibility is a per-user UI preference, persisted in
+       * IDB. Default OFF — the bar is hidden until explicitly enabled in
+       * the settings dialog.
+       */
+      const STATUS_BAR_VISIBLE_KEY = 'csvEditor_statusBarVisible';
+      let _statusBarVisible = false;
+
+      const setStatusBarVisible = (visible, { persist = true } = {}) => {
+        _statusBarVisible = !!visible;
+        if ($statusBar) $statusBar.hidden = !_statusBarVisible;
+        if (_statusBarVisible) updateStatusBar();
+        if (persist) IDBStore.set(STATUS_BAR_VISIBLE_KEY, _statusBarVisible).catch(() => {});
+      };
+
+      const initStatusBarVisibility = async () => {
+        try {
+          const saved = await IDBStore.get(STATUS_BAR_VISIBLE_KEY);
+          if (typeof saved === 'boolean') {
+            setStatusBarVisible(saved, { persist: false });
+          } else {
+            setStatusBarVisible(false, { persist: false });
+          }
+        } catch {
+          setStatusBarVisible(false, { persist: false });
+        }
+      };
+
       const scheduleStatusBarUpdate = () => {
+        if (!_statusBarVisible) return;
         if (_statusBarTimer !== null) return;
         _statusBarTimer = requestAnimationFrame(() => {
           _statusBarTimer = null;
@@ -9618,6 +9662,7 @@
 
       const updateStatusBar = () => {
         if (!$statusBar) return;
+        if (!_statusBarVisible) return;
         const totalSelected = selectionCount();
         if (totalSelected === 0) {
           $statusValues.selection.textContent = isEnglish() ? 'None' : 'なし';
@@ -10130,6 +10175,7 @@
         qs('#settingNewline').value = state.newline;
         qs('#settingQuote').value = state.quoteStyle;
         qs('#settingHeader').checked = state.hasHeader;
+        qs('#settingShowStatusBar').checked = _statusBarVisible;
         if ($settingLanguage) $settingLanguage.value = _currentLanguage;
         openOverlay($settingsOverlay, { focusSelector: '#settingDelimiter' });
       };
@@ -10180,6 +10226,10 @@
 
       qs('#settingHeader').addEventListener('change', () => {
         toggleHeader();
+      });
+
+      qs('#settingShowStatusBar').addEventListener('change', (e) => {
+        setStatusBarVisible(e.target.checked, { persist: true });
       });
 
       if ($settingLanguage) {
@@ -10235,6 +10285,7 @@
         if (!HAS_LEGACY_ENCODING_LIB) {
           showToast('外部エンコーディングライブラリ未使用のため、一部文字コードの出力は無効です', 'error');
         }
+        await initStatusBarVisibility();
         updateStats();
         updateButtonLabels();
         if (qs('#settingLanguage')) qs('#settingLanguage').value = _currentLanguage;
