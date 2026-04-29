@@ -4018,6 +4018,8 @@
       let _filterWorkerPending = new Map();
       let _filterWorkerDataRevision = -1;
       let _filterWorkerDirtyRows = null;
+      /* Persistent selection model — see selection helpers below. */
+      let _selectionModel = new Map();
       let _statsTaskToken = 0;
       let _statsDebounceTimer = null;
       let _skipRenderSearchRefresh = false;
@@ -4574,6 +4576,11 @@
           _columnFilterTaskToken++;
         } else {
           resetSearchRowCache();
+          /*
+           * Structural change: row indices may no longer correspond to the
+           * cells the user originally selected, so drop the model.
+           */
+          clearSelectionModel();
         }
         _saveRevision++;
         if (!_bootHydrationDone) _bootUserChanged = true;
@@ -5815,6 +5822,7 @@
         const rowNum = state.hasHeader ? rowIndex : rowIndex + 1;
         const matchedCols = searchMatchMap.get(rowIndex);
         const currentMatch = currentMatchIndex >= 0 ? searchMatches[currentMatchIndex] : null;
+        const selectedCols = _selectionModel.get(rowIndex);
         return `<tr data-row="${rowIndex}">
           <td class="row-num" data-row-menu="${rowIndex}"><div class="row-num-wrapper">
             <span class="row-num-text">${rowNum}</span>
@@ -5829,6 +5837,7 @@
               const isCurrentMatch = currentMatch && currentMatch.row === rowIndex && currentMatch.col === j;
               if (isMatchedCell) classes.push('highlight');
               if (isCurrentMatch) classes.push('current-match');
+              if (selectedCols?.has(j)) classes.push('selected');
               const classAttr = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
               const cellHtml = renderCellTextWithSearchHit(c, { isMatchedCell, isCurrentMatch });
               return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;max-width:${w}px;">${cellHtml}</td>`;
@@ -6035,10 +6044,65 @@
       let _isDragging = false;
       let _dragStart = null;         // { row, col }
 
+      /*
+       * Persistent selection model.
+       *
+       * Selections used to live entirely in the DOM (`td.selected`), which
+       * meant range selection ran a querySelector per cell — quadratic in
+       * (rows × cols) — and selections were silently lost when virtual
+       * scrolling replaced rows. The model (declared above as
+       * `_selectionModel`) stores selected coordinates as
+       * Map<rowIdx, Set<colIdx>> so that
+       *   - selectRange is O(R×C) data manipulation but no DOM queries,
+       *   - virtual scroll re-renders read from the model in
+       *     buildBodyRowHTML and restore the visual,
+       *   - status bar aggregation can include cells outside the viewport.
+       */
+      const clearSelectionModel = () => { _selectionModel = new Map(); };
+      const isCellSelected = (rowIdx, colIdx) => _selectionModel.get(rowIdx)?.has(colIdx) === true;
+      const addCellToSelectionModel = (rowIdx, colIdx) => {
+        let set = _selectionModel.get(rowIdx);
+        if (!set) { set = new Set(); _selectionModel.set(rowIdx, set); }
+        set.add(colIdx);
+      };
+      const removeCellFromSelectionModel = (rowIdx, colIdx) => {
+        const set = _selectionModel.get(rowIdx);
+        if (!set) return;
+        set.delete(colIdx);
+        if (set.size === 0) _selectionModel.delete(rowIdx);
+      };
+      const selectionCount = () => {
+        let total = 0;
+        for (const set of _selectionModel.values()) total += set.size;
+        return total;
+      };
+      const getSelectedCoords = () => {
+        const out = [];
+        for (const [r, cols] of _selectionModel) {
+          for (const c of cols) out.push({ row: r, col: c });
+        }
+        return out;
+      };
+
+      const refreshRenderedSelectionVisuals = () => {
+        /* Sync the `selected` class on currently-rendered TDs to the model. */
+        const rendered = qsa('td[data-row][data-col]', $dataTable);
+        for (const $td of rendered) {
+          const r = parseInt($td.dataset.row, 10);
+          const c = parseInt($td.dataset.col, 10);
+          const should = isCellSelected(r, c);
+          if (should !== $td.classList.contains('selected')) {
+            $td.classList.toggle('selected', should);
+          }
+        }
+      };
+
       const clearSelection = () => {
+        clearSelectionModel();
         qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
       };
 
+      /* Returns rendered DOM cells with `selected` class. */
       const getSelectedCells = () => qsa('td.selected', $dataTable);
 
       const getCellCoords = ($td) => ({
@@ -6047,17 +6111,27 @@
       });
       const hasValidCellCoords = ({ row, col }) => row >= 0 && col >= 0;
 
-      const selectCell = ($td) => $td.classList.add('selected');
+      const selectCell = ($td) => {
+        const coords = getCellCoords($td);
+        if (hasValidCellCoords(coords)) addCellToSelectionModel(coords.row, coords.col);
+        $td.classList.add('selected');
+      };
+
+      const selectCellByCoords = (rowIdx, colIdx) => {
+        addCellToSelectionModel(rowIdx, colIdx);
+        const $td = qs(`td[data-row="${rowIdx}"][data-col="${colIdx}"]`, $dataTable);
+        if ($td) $td.classList.add('selected');
+      };
 
       const selectRange = (r1, c1, r2, c2) => {
         const minR = Math.min(r1, r2), maxR = Math.max(r1, r2);
         const minC = Math.min(c1, c2), maxC = Math.max(c1, c2);
         for (let r = minR; r <= maxR; r++) {
           for (let c = minC; c <= maxC; c++) {
-            const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
-            if ($td) selectCell($td);
+            addCellToSelectionModel(r, c);
           }
         }
+        refreshRenderedSelectionVisuals();
       };
 
       // --- mousedown on cells ---
@@ -6102,39 +6176,29 @@
           _isDragging = false;
           $dataTable.classList.remove('selecting-cells');
           // If only 1 cell was selected by a plain click, clear selection and let focus handle it
-          const selected = getSelectedCells();
-          if (selected.length === 1) {
-            selected[0].classList.remove('selected');
-            selected[0].focus();
+          if (selectionCount() === 1) {
+            const [{ row, col }] = getSelectedCoords();
+            clearSelection();
+            const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
+            if ($td) $td.focus();
           }
         }
       });
 
       // --- Copy selected cells (Ctrl+C when cells are selected, not editing) ---
       const copySelectedCells = async () => {
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
+        if (selectionCount() === 0) return false;
 
-        // Build a map of row -> sorted cols
-        const rowMap = new Map();
-        cells.forEach($td => {
-          const coords = getCellCoords($td);
-          if (!hasValidCellCoords(coords)) return;
-          const { row, col } = coords;
-          if (!rowMap.has(row)) rowMap.set(row, []);
-          rowMap.get(row).push(col);
-        });
-        if (rowMap.size === 0) return false;
-
-        const sortedRows = [...rowMap.keys()].sort((a, b) => a - b);
+        const sortedRows = [..._selectionModel.keys()].sort((a, b) => a - b);
         const lines = sortedRows.map(r => {
-          const cols = rowMap.get(r).sort((a, b) => a - b);
+          const cols = [..._selectionModel.get(r)].sort((a, b) => a - b);
           return cols.map(c => state.data[r]?.[c] ?? '').join('\t');
         });
+        const totalCells = selectionCount();
 
         try {
           await navigator.clipboard.writeText(lines.join('\n'));
-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${cells.length}セルをコピーしました`, 'success');
+          showToast(`<span class="material-symbols-outlined">content_copy</span> ${totalCells}セルをコピーしました`, 'success');
           return true;
         } catch {
           showToast('コピーに失敗しました', 'error');
@@ -6144,11 +6208,7 @@
 
       // --- Delete selected cells (Delete / Backspace when cells are selected) ---
       const deleteSelectedCells = () => {
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
-        const validCoords = cells
-          .map($td => getCellCoords($td))
-          .filter((coords) => hasValidCellCoords(coords));
+        const validCoords = getSelectedCoords();
         if (validCoords.length === 0) return false;
         const changes = [];
         validCoords.forEach(({ row, col }) => {
@@ -6170,15 +6230,11 @@
 
       // --- Paste into selected range (Ctrl+V) ---
       const pasteIntoSelection = (clipText) => {
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
+        const validCoords = getSelectedCoords();
+        if (validCoords.length === 0) return false;
 
         const clipRows = clipText.replace(/\r\n?/g, '\n').replace(/\n$/, '').split('\n');
         const clipData = clipRows.map(r => r.split('\t'));
-        const validCoords = cells
-          .map($td => getCellCoords($td))
-          .filter((coords) => hasValidCellCoords(coords));
-        if (validCoords.length === 0) return false;
 
         // Build bounding box of selection
         let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
@@ -7968,7 +8024,7 @@
 
       const getExportTargetAvailability = () => ({
         filtered: columnFilters.size > 0 || ($filterMode.checked && filteredRows !== null),
-        selected: getSelectedCells().length > 0,
+        selected: selectionCount() > 0,
       });
 
       const normalizeExportTarget = () => {
@@ -8002,14 +8058,16 @@
         let rows;
         if (target === 'selected') {
           // Get unique rows from selection
-          const cells = getSelectedCells();
-          if (cells.length === 0) return { headers: [], rows: [] };
+          if (selectionCount() === 0) return { headers: [], rows: [] };
           let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
-          cells.forEach($td => {
-            const r = parseInt($td.dataset.row), c = parseInt($td.dataset.col);
-            minR = Math.min(minR, r); maxR = Math.max(maxR, r);
-            minC = Math.min(minC, c); maxC = Math.max(maxC, c);
-          });
+          for (const [r, cols] of _selectionModel) {
+            if (r < minR) minR = r;
+            if (r > maxR) maxR = r;
+            for (const c of cols) {
+              if (c < minC) minC = c;
+              if (c > maxC) maxC = c;
+            }
+          }
           const colRange = [];
           for (let c = minC; c <= maxC; c++) colRange.push(c);
           rows = [];
@@ -8390,7 +8448,7 @@
 	        if (key === 'escape') {
 	          if (closeActiveOverlay()) { e.preventDefault(); return; }
 	          if (isTextInputContext()) return;
-	          if (getSelectedCells().length > 0) { clearSelection(); scheduleStatusBarUpdate(); return; }
+	          if (selectionCount() > 0) { clearSelection(); scheduleStatusBarUpdate(); return; }
 	          clearSearch();
 	          return;
 	        }
@@ -8411,14 +8469,12 @@
 
 	        // Copy selected cells with Ctrl+C
 	        if ((e.ctrlKey || e.metaKey) && key === 'c') {
-	          const selected = getSelectedCells();
-	          if (selected.length > 0) { e.preventDefault(); copySelectedCells(); return; }
+	          if (selectionCount() > 0) { e.preventDefault(); copySelectedCells(); return; }
 	        }
 
 	        // Paste into selected cells with Ctrl+V
 	        if ((e.ctrlKey || e.metaKey) && key === 'v') {
-	          const selected = getSelectedCells();
-	          if (selected.length > 0) {
+	          if (selectionCount() > 0) {
 	            // Let the paste event handler below handle it
 	            return;
 	          }
@@ -8438,11 +8494,11 @@
         }
 
         // Delete / Backspace selected cells
-        if ((e.key === 'Delete' || e.key === 'Backspace') && getSelectedCells().length > 0) {
+        if ((e.key === 'Delete' || e.key === 'Backspace') && selectionCount() > 0) {
           const tag = document.activeElement.tagName;
           const editable = document.activeElement.isContentEditable;
           // Only intercept when not actively editing a cell's text
-          if (tag !== 'TD' || !editable || getSelectedCells().length > 1) {
+          if (tag !== 'TD' || !editable || selectionCount() > 1) {
             e.preventDefault(); deleteSelectedCells(); return;
           }
         }
@@ -8678,8 +8734,7 @@
 	        if (!text) return;
 
         // If cells are selected, paste into the selection
-        const selected = getSelectedCells();
-        if (selected.length > 0) {
+        if (selectionCount() > 0) {
           e.preventDefault();
           pasteIntoSelection(text);
           return;
@@ -8773,8 +8828,8 @@
 
       const updateStatusBar = () => {
         if (!$statusBar) return;
-        const cells = qsa('td.selected', $dataTable);
-        if (cells.length === 0) {
+        const totalSelected = selectionCount();
+        if (totalSelected === 0) {
           $statusValues.selection.textContent = isEnglish() ? 'None' : 'なし';
           $statusItemSelection.classList.add('muted');
           STATUS_AGG_KEYS.forEach(k => { $statusItems[k].hidden = true; });
@@ -8789,25 +8844,28 @@
         let max = -Infinity;
         let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
 
-        for (const $td of cells) {
-          const r = parseInt($td.dataset.row, 10);
-          const c = parseInt($td.dataset.col, 10);
-          if (!Number.isNaN(r)) { if (r < minR) minR = r; if (r > maxR) maxR = r; }
-          if (!Number.isNaN(c)) { if (c < minC) minC = c; if (c > maxC) maxC = c; }
-          const raw = state.data[r]?.[c];
-          if (raw != null && String(raw).length > 0) nonEmpty++;
-          const n = parseStatusNumber(raw);
-          if (Number.isFinite(n)) {
-            numericCount++;
-            sum += n;
-            if (n < min) min = n;
-            if (n > max) max = n;
+        for (const [r, cols] of _selectionModel) {
+          if (r < minR) minR = r;
+          if (r > maxR) maxR = r;
+          const row = state.data[r];
+          for (const c of cols) {
+            if (c < minC) minC = c;
+            if (c > maxC) maxC = c;
+            const raw = row?.[c];
+            if (raw != null && String(raw).length > 0) nonEmpty++;
+            const n = parseStatusNumber(raw);
+            if (Number.isFinite(n)) {
+              numericCount++;
+              sum += n;
+              if (n < min) min = n;
+              if (n > max) max = n;
+            }
           }
         }
 
         const selRows = Number.isFinite(minR) ? maxR - minR + 1 : 0;
         const selCols = Number.isFinite(minC) ? maxC - minC + 1 : 0;
-        const selCount = cells.length;
+        const selCount = totalSelected;
         const locale = getLocaleTag();
         $statusValues.selection.textContent = isEnglish()
           ? `${selCount.toLocaleString(locale)} cells (${selRows}×${selCols})`
