@@ -243,18 +243,18 @@
       .header-right {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
       }
 
       .stats {
         display: flex;
         align-items: center;
-        gap: 16px;
-        font-size: 0.9rem;
+        gap: 10px;
+        font-size: 0.78rem;
         color: var(--text-muted);
         background: var(--surface);
-        min-block-size: 36px;
-        padding: 0 16px;
+        min-block-size: 30px;
+        padding: 0 10px;
         border-radius: 8px;
         border: 1px solid var(--border);
 
@@ -273,25 +273,25 @@
       .encoding-control {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        min-block-size: 30px;
+        gap: 4px;
+        min-block-size: 26px;
       }
 
       .encoding-control-label {
-        font-size: 0.78rem;
+        font-size: 0.72rem;
         font-weight: 600;
         white-space: nowrap;
       }
 
       .encoding-control .settings-select {
         inline-size: auto;
-        min-inline-size: 10.4rem;
-        max-inline-size: 12.8rem;
-        block-size: 24px;
+        min-inline-size: 8rem;
+        max-inline-size: 11rem;
+        block-size: 22px;
         padding-block: 0;
-        padding-inline: 8px 2.25rem;
+        padding-inline: 6px 1.75rem;
         border-radius: 4px;
-        font-size: 0.75rem;
+        font-size: 0.72rem;
         font-weight: 600;
         line-height: 1;
       }
@@ -300,11 +300,11 @@
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        min-block-size: 24px;
-        font-size: 0.75rem;
+        min-block-size: 22px;
+        font-size: 0.72rem;
         font-weight: 600;
         line-height: 1;
-        padding: 0 8px;
+        padding: 0 6px;
         border-radius: 4px;
         transition: background 0.3s ease, color 0.3s ease;
       }
@@ -334,15 +334,22 @@
       }
 
       .theme-toggle {
-        inline-size: 36px;
-        block-size: 36px;
+        inline-size: 30px;
+        block-size: 30px;
         border-radius: 6px;
         border: 1px solid var(--border);
         background: var(--surface);
         color: var(--text);
         cursor: pointer;
-        font-size: 1.2rem;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         transition: background 0.2s;
+
+        & .material-symbols-outlined {
+          font-size: 1.05rem;
+        }
 
         &:hover {
           background: var(--header-bg);
@@ -489,46 +496,52 @@
       .search-bar {
         display: flex;
         flex-direction: column;
-        padding: 12px 16px;
+        padding: 8px 12px;
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 12px;
         margin-block-end: 8px;
-        gap: 8px;
+        gap: 6px;
 
         & input[type="text"], & select {
-          padding: 6px 12px;
+          padding: 4px 10px;
           border: 1px solid var(--border);
           border-radius: 6px;
-          font-size: 0.9rem;
+          font-size: 0.82rem;
           background: var(--bg);
           color: var(--text);
-          block-size: 36px;
+          block-size: 30px;
 
           &:focus {
             outline: none;
             border-color: var(--primary);
           }
         }
+
+        & .btn {
+          padding: 4px 10px;
+          font-size: 0.8rem;
+          min-block-size: 30px;
+        }
       }
 
       .search-main-row {
         display: flex;
-        gap: 12px;
+        gap: 8px;
         align-items: center;
         flex-wrap: wrap;
 
-        & > input[type="text"] { min-inline-size: 200px; }
+        & > input[type="text"] { min-inline-size: 180px; }
       }
 
       .search-input-wrapper {
         position: relative;
-        min-inline-size: 200px;
+        min-inline-size: 180px;
         & input { inline-size: 100%; }
       }
 
       .search-info {
-        font-size: 0.85rem;
+        font-size: 0.78rem;
         color: var(--text-muted);
       }
 
@@ -537,14 +550,21 @@
         gap: 4px;
 
         & button {
-          inline-size: 36px;
-          block-size: 36px;
+          inline-size: 30px;
+          block-size: 30px;
           border: 1px solid var(--border);
           background: var(--bg);
           border-radius: 6px;
           cursor: pointer;
-          font-size: 1rem;
+          font-size: 0.95rem;
           color: var(--text);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+
+          & .material-symbols-outlined {
+            font-size: 1rem;
+          }
 
           &:hover {
             background: var(--header-bg);
@@ -554,8 +574,8 @@
 
       .search-advanced-toggle {
         margin-inline-start: 0;
-        font-size: 0.85rem;
-        padding: 4px 12px !important;
+        font-size: 0.8rem;
+        padding: 4px 10px !important;
       }
       .search-advanced-toggle.active {
         background: var(--primary) !important;
@@ -2101,7 +2121,6 @@
       </div>
       <div class="toolbar-group">
         <button class="btn" id="transposeBtn" title="行と列を入れ替え"><span class="material-symbols-outlined">swap_horiz</span> 行列入替</button>
-        <button class="btn" id="commandPaletteBtn" title="コマンドパレット (Ctrl+K)"><span class="material-symbols-outlined">terminal</span> コマンド</button>
       </div>
       <div class="toolbar-group">
         <button class="btn" id="copyBtn"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
@@ -3580,9 +3599,12 @@
 
     let _modalCallback = null;
 
-    const openModal = (title, message, onConfirm) => {
+    const openModal = (title, message, onConfirm, options = {}) => {
+      const { confirmLabel = '削除', confirmVariant = 'btn-danger' } = options;
       $modalTitle.textContent   = translateText(title);
       $modalMessage.textContent = translateText(message);
+      $modalConfirmBtn.textContent = translateText(confirmLabel);
+      $modalConfirmBtn.className = `btn ${confirmVariant}`;
       _modalCallback = onConfirm;
       openOverlay($modalOverlay, { focusSelector: '#modalConfirmBtn' });
     };
@@ -8580,17 +8602,9 @@
       }, true);
 
       /* --- Transpose --- */
-      const transposeData = () => {
+      const _runTranspose = () => {
         const rows = state.data;
-        if (!rows || rows.length === 0) {
-          showToast('データがありません', 'error');
-          return;
-        }
         const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
-        if (colCount === 0) {
-          showToast('データがありません', 'error');
-          return;
-        }
         saveToHistory();
         const next = new Array(colCount);
         for (let c = 0; c < colCount; c++) {
@@ -8612,6 +8626,31 @@
         saveToStorage();
         scheduleStatusBarUpdate();
         showToast('<span class="material-symbols-outlined">swap_horiz</span> 行と列を入れ替えました', 'success');
+      };
+
+      const transposeData = () => {
+        const rows = state.data;
+        if (!rows || rows.length === 0) {
+          showToast('データがありません', 'error');
+          return;
+        }
+        const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
+        if (colCount === 0) {
+          showToast('データがありません', 'error');
+          return;
+        }
+        const cellCount = rows.length * colCount;
+        const heavy = cellCount >= 50000;
+        const sizeText = `現在のデータは ${rows.length.toLocaleString()} 行 × ${colCount.toLocaleString()} 列で、入替後は ${colCount.toLocaleString()} 行 × ${rows.length.toLocaleString()} 列になります。`;
+        const heavyText = heavy ? ' データ量が多いため、処理中は数秒間操作できなくなることがあります。' : '';
+        const message =
+          '行と列を入れ替えます。元の各行が新しい1列、各列が新しい1行になります。' +
+          '入替後はヘッダー行設定が解除され、現在の選択状態と列フィルタはリセットされます。「元に戻す」で取り消せます。' +
+          sizeText + heavyText;
+        openModal('行と列を入れ替え', message, () => {
+          showToast('<span class="material-symbols-outlined">swap_horiz</span> 入替中...');
+          requestAnimationFrame(() => requestAnimationFrame(_runTranspose));
+        }, { confirmLabel: '入れ替える', confirmVariant: 'btn-primary' });
       };
 
       /* --- Select all data cells (for command palette) --- */
@@ -8800,7 +8839,6 @@
       });
 
       qs('#transposeBtn').addEventListener('click', transposeData);
-      qs('#commandPaletteBtn').addEventListener('click', openCommandPalette);
 
       /* --- Toolbar Wiring --- */
       qs('#openFileBtn').addEventListener('click', openFile);
