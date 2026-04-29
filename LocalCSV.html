@@ -4003,6 +4003,7 @@
       let _searchWorkerUrl = '';
       let _searchWorkerPending = new Map();
       let _searchWorkerDataRevision = -1;
+      let _searchWorkerDirtyRows = null;   // Set<rowIdx> for cell-level diff sync; null = full re-sync required
       let _searchInProgress = false;
       let _searchTotalCount = 0;
       let _searchMatchTruncated = false;
@@ -4016,6 +4017,7 @@
       let _filterWorkerUrl = '';
       let _filterWorkerPending = new Map();
       let _filterWorkerDataRevision = -1;
+      let _filterWorkerDirtyRows = null;
       let _statsTaskToken = 0;
       let _statsDebounceTimer = null;
       let _skipRenderSearchRefresh = false;
@@ -4415,9 +4417,22 @@
       const resetSearchRowCache = () => {
         _rowSearchCache = [];
         _searchWorkerDataRevision = -1;
+        _searchWorkerDirtyRows = null;
         _filterWorkerDataRevision = -1;
+        _filterWorkerDirtyRows = null;
         _columnFilterRows = null;
         _columnFilterTaskToken++;
+      };
+
+      const invalidateRowSearchCache = (rowIdx) => {
+        if (rowIdx >= 0 && rowIdx < _rowSearchCache.length) {
+          _rowSearchCache[rowIdx] = undefined;
+        }
+      };
+
+      const noteDirtyRowForWorkers = (rowIdx) => {
+        if (_searchWorkerDirtyRows !== null) _searchWorkerDirtyRows.add(rowIdx);
+        if (_filterWorkerDirtyRows !== null) _filterWorkerDirtyRows.add(rowIdx);
       };
 
       const createStateSnapshot = () => ({
@@ -4500,10 +4515,27 @@
       const createPersistedStateAsync = async () => buildPersistEnvelope(await serializeStateAsCsv());
       const createPersistedStateSync = () => buildPersistEnvelope(serializeStateAsCsvSync());
 
-      const markDataChanged = () => {
+      /*
+       * Updates revision and worker-sync bookkeeping.
+       * Pass `{ dirtyRows: Iterable<number> }` for cell-level edits so workers
+       * can be patched with a row-diff instead of a full re-sync. Anything
+       * structural (rows added/removed/reordered, full replace) should call
+       * with no args, which forces the next worker sync to send full data.
+       */
+      const markDataChanged = (opts) => {
         _dataRevision++;
         _filterValueCache.clear();
-        resetSearchRowCache();
+        const dirtyRows = opts?.dirtyRows;
+        if (dirtyRows !== undefined) {
+          for (const rowIdx of dirtyRows) {
+            invalidateRowSearchCache(rowIdx);
+            noteDirtyRowForWorkers(rowIdx);
+          }
+          _columnFilterRows = null;
+          _columnFilterTaskToken++;
+        } else {
+          resetSearchRowCache();
+        }
         _saveRevision++;
         if (!_bootHydrationDone) _bootUserChanged = true;
       };
@@ -4668,7 +4700,7 @@
           trimHistoryStack(undoStack);
         }
         redoStack = [];
-        markDataChanged();
+        markDataChanged({ dirtyRows: [row] });
         updateHistoryButtons();
       };
 
@@ -4678,7 +4710,9 @@
         undoStack.push(createCellBatchHistoryEntry(filtered));
         trimHistoryStack(undoStack);
         redoStack = [];
-        markDataChanged();
+        const dirtyRows = new Set();
+        for (const change of filtered) dirtyRows.add(change.row);
+        markDataChanged({ dirtyRows });
         updateHistoryButtons();
         return true;
       };
@@ -4693,16 +4727,18 @@
           const row = state.data[entry.row];
           if (!row) return false;
           row[entry.col] = mode === 'undo' ? entry.before : entry.after;
-          markDataChanged();
+          markDataChanged({ dirtyRows: [entry.row] });
           return true;
         }
         if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          const dirtyRows = new Set();
           for (const change of entry.changes) {
             const row = state.data[change.row];
             if (!row) continue;
             row[change.col] = mode === 'undo' ? change.before : change.after;
+            dirtyRows.add(change.row);
           }
-          markDataChanged();
+          markDataChanged({ dirtyRows });
           return true;
         }
         return false;
@@ -5299,8 +5335,21 @@
             const { id, type, payload } = event.data || {};
             try {
               if (type === 'syncData') {
-                data = Array.isArray(payload?.data) ? payload.data : [];
-                rowCache = new Array(data.length);
+                if (Array.isArray(payload?.data)) {
+                  data = payload.data;
+                  rowCache = new Array(data.length);
+                } else if (Array.isArray(payload?.dirty)) {
+                  for (const entry of payload.dirty) {
+                    const idx = entry?.idx | 0;
+                    if (idx < 0) continue;
+                    if (idx >= data.length) {
+                      data.length = idx + 1;
+                      rowCache.length = idx + 1;
+                    }
+                    data[idx] = Array.isArray(entry.row) ? entry.row : [];
+                    rowCache[idx] = undefined;
+                  }
+                }
                 self.postMessage({ id, ok: true, result: { rows: data.length } });
                 return;
               }
@@ -5367,8 +5416,19 @@
         ensureSearchWorker();
         if (!_searchWorker) return false;
         if (_searchWorkerDataRevision === _dataRevision) return true;
-        await callSearchWorker('syncData', { data: state.data });
+        const dirty = _searchWorkerDirtyRows;
+        const canDiff = dirty !== null && _searchWorkerDataRevision >= 0 && dirty.size > 0 && dirty.size < state.data.length;
+        if (canDiff) {
+          const payload = { dirty: [] };
+          for (const idx of dirty) {
+            payload.dirty.push({ idx, row: state.data[idx] ?? [] });
+          }
+          await callSearchWorker('syncData', payload);
+        } else {
+          await callSearchWorker('syncData', { data: state.data });
+        }
         _searchWorkerDataRevision = _dataRevision;
+        _searchWorkerDirtyRows = new Set();
         return true;
       };
 
@@ -5431,7 +5491,16 @@
             const { id, type, payload } = event.data || {};
             try {
               if (type === 'syncData') {
-                data = Array.isArray(payload?.data) ? payload.data : [];
+                if (Array.isArray(payload?.data)) {
+                  data = payload.data;
+                } else if (Array.isArray(payload?.dirty)) {
+                  for (const entry of payload.dirty) {
+                    const idx = entry?.idx | 0;
+                    if (idx < 0) continue;
+                    if (idx >= data.length) data.length = idx + 1;
+                    data[idx] = Array.isArray(entry.row) ? entry.row : [];
+                  }
+                }
                 self.postMessage({ id, ok: true, result: { rows: data.length } });
                 return;
               }
@@ -5506,8 +5575,19 @@
         ensureFilterWorker();
         if (!_filterWorker) return false;
         if (_filterWorkerDataRevision === _dataRevision) return true;
-        await callFilterWorker('syncData', { data: state.data });
+        const dirty = _filterWorkerDirtyRows;
+        const canDiff = dirty !== null && _filterWorkerDataRevision >= 0 && dirty.size > 0 && dirty.size < state.data.length;
+        if (canDiff) {
+          const payload = { dirty: [] };
+          for (const idx of dirty) {
+            payload.dirty.push({ idx, row: state.data[idx] ?? [] });
+          }
+          await callFilterWorker('syncData', payload);
+        } else {
+          await callFilterWorker('syncData', { data: state.data });
+        }
         _filterWorkerDataRevision = _dataRevision;
+        _filterWorkerDirtyRows = new Set();
         return true;
       };
 
