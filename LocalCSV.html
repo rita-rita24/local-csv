@@ -4317,6 +4317,31 @@
       };
 
       const cloneDataMatrix = (rows) => rows.map(row => [...row]);
+      /*
+       * Copy-on-write bookkeeping for snapshot history.
+       * After saveToHistory(), each row in state.data is shared with the
+       * snapshot. _ownedRowsSinceSnapshot tracks which rows have already
+       * been replaced with an owned copy since the latest snapshot, so the
+       * first in-place mutation per row replaces the row reference and
+       * subsequent mutations are free.
+       *   null  → no live snapshot, all rows are exclusively owned
+       *   Set   → snapshot live; rows in the Set have already been cloned
+       */
+      let _ownedRowsSinceSnapshot = null;
+      const beginSnapshotEpoch = () => {
+        _ownedRowsSinceSnapshot = new Set();
+      };
+      const ensureRowOwned = (rowIdx) => {
+        if (_ownedRowsSinceSnapshot === null) return;
+        if (_ownedRowsSinceSnapshot.has(rowIdx)) return;
+        const row = state.data[rowIdx];
+        if (row !== undefined) state.data[rowIdx] = row.slice();
+        _ownedRowsSinceSnapshot.add(rowIdx);
+      };
+      const setCellValue = (rowIdx, colIdx, val) => {
+        ensureRowOwned(rowIdx);
+        state.data[rowIdx][colIdx] = val;
+      };
       const cloneColumnWidths = (widths) => ({ ...widths });
       const normalizeCellValue = (value) => (
         value === null || value === undefined ? '' : (typeof value === 'string' ? value : String(value))
@@ -4435,26 +4460,40 @@
         if (_filterWorkerDirtyRows !== null) _filterWorkerDirtyRows.add(rowIdx);
       };
 
-      const createStateSnapshot = () => ({
-        data: cloneDataMatrix(state.data),
-        hasHeader: state.hasHeader,
-        delimiter: state.delimiter,
-        columnWidths: cloneColumnWidths(state.columnWidths),
-        encoding: normalizeExportEncoding(state.encoding),
-        bom: state.bom,
-        newline: state.newline,
-        quoteStyle: state.quoteStyle
-      });
+      const createStateSnapshot = () => {
+        /*
+         * Shallow row-reference copy: O(rows) instead of O(rows × cols).
+         * Subsequent mutations go through ensureRowOwned to keep the
+         * snapshot's row references intact (Copy-on-Write).
+         */
+        const snapshot = {
+          data: state.data.slice(),
+          hasHeader: state.hasHeader,
+          delimiter: state.delimiter,
+          columnWidths: cloneColumnWidths(state.columnWidths),
+          encoding: normalizeExportEncoding(state.encoding),
+          bom: state.bom,
+          newline: state.newline,
+          quoteStyle: state.quoteStyle
+        };
+        beginSnapshotEpoch();
+        return snapshot;
+      };
 
       const applyStateSnapshot = (snapshot) => {
+        /*
+         * The snapshot's row array is shared with this state — future
+         * in-place writes must clone rows on first use (CoW).
+         */
         state = {
           ...state,
           ...snapshot,
-          data: cloneDataMatrix(snapshot.data ?? []),
+          data: (snapshot.data ?? []).slice(),
           columnWidths: cloneColumnWidths(snapshot.columnWidths ?? {})
         };
         state.encoding = normalizeExportEncoding(state.encoding);
         if (!supportsBom(state.encoding)) state.bom = false;
+        beginSnapshotEpoch();
         resetSearchRowCache();
         _dataRevision++;
         _filterValueCache.clear();
@@ -4724,18 +4763,16 @@
           return true;
         }
         if (entry.type === HISTORY_ENTRY_CELL) {
-          const row = state.data[entry.row];
-          if (!row) return false;
-          row[entry.col] = mode === 'undo' ? entry.before : entry.after;
+          if (!state.data[entry.row]) return false;
+          setCellValue(entry.row, entry.col, mode === 'undo' ? entry.before : entry.after);
           markDataChanged({ dirtyRows: [entry.row] });
           return true;
         }
         if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
           const dirtyRows = new Set();
           for (const change of entry.changes) {
-            const row = state.data[change.row];
-            if (!row) continue;
-            row[change.col] = mode === 'undo' ? change.before : change.after;
+            if (!state.data[change.row]) continue;
+            setCellValue(change.row, change.col, mode === 'undo' ? change.before : change.after);
             dirtyRows.add(change.row);
           }
           markDataChanged({ dirtyRows });
@@ -6119,7 +6156,7 @@
             const before = state.data[row][col];
             if (before === '') return;
             changes.push({ row, col, before, after: '' });
-            state.data[row][col] = '';
+            setCellValue(row, col, '');
             const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
             if ($td) $td.textContent = '';
           }
@@ -6163,7 +6200,7 @@
                 const before = state.data[targetR][targetC];
                 const after = clipData[ri][ci];
                 if (before !== after) changes.push({ row: targetR, col: targetC, before, after });
-                state.data[targetR][targetC] = after;
+                setCellValue(targetR, targetC, after);
                 const $td = qs(`td[data-row="${targetR}"][data-col="${targetC}"]`, $dataTable);
                 if ($td) $td.textContent = after;
                 count++;
@@ -6181,7 +6218,7 @@
             if (state.data[row]) {
               const before = state.data[row][col];
               if (before !== val) changes.push({ row, col, before, after: val });
-              state.data[row][col] = val;
+              setCellValue(row, col, val);
               const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
               if ($td) $td.textContent = val;
               count++;
@@ -6200,8 +6237,8 @@
         const val = $cell.textContent;
         const prev = state.data[row]?.[col];
         if (prev !== val && prev !== undefined) {
+          setCellValue(row, col, val);
           saveCellEditToHistory(row, col, prev, val);
-          state.data[row][col] = val;
           updateStats();
           saveToStorage();
           if (columnFilters.size > 0) {
@@ -6805,7 +6842,8 @@
         const regex = buildReplaceRegex($searchInput.value, false);
         if (!regex) return;
         saveToHistory();
-        state.data[row][col] = state.data[row][col].replace(regex, $replaceInput.value);
+        const next = state.data[row][col].replace(regex, $replaceInput.value);
+        setCellValue(row, col, next);
         renderTable(); saveToStorage(); performSearchImmediate();
         showToast('1件置換しました', 'success');
       };
@@ -6874,7 +6912,7 @@
               row.forEach((cell, j) => {
                 if (targetCol >= 0 && j !== targetCol) return;
                 const next = cell.replace(regex, $replaceInput.value);
-                if (cell !== next) { state.data[i][j] = next; count++; }
+                if (cell !== next) { setCellValue(i, j, next); count++; }
               });
             });
           }
@@ -6884,7 +6922,7 @@
             row.forEach((cell, j) => {
               if (targetCol >= 0 && j !== targetCol) return;
               const next = cell.replace(regex, $replaceInput.value);
-              if (cell !== next) { state.data[i][j] = next; count++; }
+              if (cell !== next) { setCellValue(i, j, next); count++; }
             });
           });
         }
