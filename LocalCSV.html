@@ -3930,6 +3930,7 @@
       const MAX_HISTORY = 20;
       const HISTORY_ENTRY_SNAPSHOT = 'snapshot';
       const HISTORY_ENTRY_CELL = 'cell';
+      const HISTORY_ENTRY_CELL_BATCH = 'cell-batch';
       let activeColumnIndex = -1, activeRowIndex = -1;
       let searchMatches = [], currentMatchIndex = -1;
       let searchMatchMap = new Map(); // Map<rowIndex, Set<colIndex>>
@@ -4548,6 +4549,11 @@
         after
       });
 
+      const createCellBatchHistoryEntry = (changes) => ({
+        type: HISTORY_ENTRY_CELL_BATCH,
+        changes
+      });
+
       const trimHistoryStack = (stack) => {
         if (stack.length > MAX_HISTORY) stack.shift();
       };
@@ -4574,6 +4580,17 @@
         updateHistoryButtons();
       };
 
+      const saveCellBatchToHistory = (changes) => {
+        const filtered = changes.filter((c) => c.before !== c.after);
+        if (filtered.length === 0) return false;
+        undoStack.push(createCellBatchHistoryEntry(filtered));
+        trimHistoryStack(undoStack);
+        redoStack = [];
+        markDataChanged();
+        updateHistoryButtons();
+        return true;
+      };
+
       const applyHistoryEntry = (entry, mode) => {
         if (!entry) return false;
         if (entry.type === HISTORY_ENTRY_SNAPSHOT) {
@@ -4584,6 +4601,15 @@
           const row = state.data[entry.row];
           if (!row) return false;
           row[entry.col] = mode === 'undo' ? entry.before : entry.after;
+          markDataChanged();
+          return true;
+        }
+        if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          for (const change of entry.changes) {
+            const row = state.data[change.row];
+            if (!row) continue;
+            row[change.col] = mode === 'undo' ? change.before : change.after;
+          }
           markDataChanged();
           return true;
         }
@@ -4603,6 +4629,8 @@
           redoEntry = createSnapshotHistoryEntry();
         } else if (entry.type === HISTORY_ENTRY_CELL) {
           redoEntry = createCellHistoryEntry(entry.row, entry.col, entry.before, entry.after);
+        } else if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          redoEntry = createCellBatchHistoryEntry(entry.changes);
         }
         const applied = applyHistoryEntry(entry, 'undo');
         if (!applied) {
@@ -4623,6 +4651,8 @@
           undoEntry = createSnapshotHistoryEntry();
         } else if (entry.type === HISTORY_ENTRY_CELL) {
           undoEntry = createCellHistoryEntry(entry.row, entry.col, entry.before, entry.after);
+        } else if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          undoEntry = createCellBatchHistoryEntry(entry.changes);
         }
         const applied = applyHistoryEntry(entry, 'redo');
         if (!applied) {
@@ -5829,14 +5859,19 @@
           .map($td => getCellCoords($td))
           .filter((coords) => hasValidCellCoords(coords));
         if (validCoords.length === 0) return false;
-        saveToHistory();
+        const changes = [];
         validCoords.forEach(({ row, col }) => {
           if (state.data[row]) {
+            const before = state.data[row][col];
+            if (before === '') return;
+            changes.push({ row, col, before, after: '' });
             state.data[row][col] = '';
             const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
             if ($td) $td.textContent = '';
           }
         });
+        if (changes.length === 0) return false;
+        saveCellBatchToHistory(changes);
         updateStats(); saveToStorage();
         showToast(`<span class="material-symbols-outlined">delete</span> ${validCoords.length}セルをクリアしました`, 'success');
         return true;
@@ -5861,7 +5896,7 @@
           minC = Math.min(minC, col); maxC = Math.max(maxC, col);
         });
 
-        saveToHistory();
+        const changes = [];
 
         // If clipboard is multi-cell, paste starting from top-left of selection
         if (clipData.length > 1 || clipData[0].length > 1) {
@@ -5871,13 +5906,17 @@
               const targetR = minR + ri;
               const targetC = minC + ci;
               if (targetR < state.data.length && targetC < (state.data[0]?.length ?? 0)) {
-                state.data[targetR][targetC] = clipData[ri][ci];
+                const before = state.data[targetR][targetC];
+                const after = clipData[ri][ci];
+                if (before !== after) changes.push({ row: targetR, col: targetC, before, after });
+                state.data[targetR][targetC] = after;
                 const $td = qs(`td[data-row="${targetR}"][data-col="${targetC}"]`, $dataTable);
-                if ($td) $td.textContent = clipData[ri][ci];
+                if ($td) $td.textContent = after;
                 count++;
               }
             }
           }
+          if (changes.length > 0) saveCellBatchToHistory(changes);
           updateStats(); saveToStorage();
           showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
         } else {
@@ -5886,12 +5925,15 @@
           let count = 0;
           validCoords.forEach(({ row, col }) => {
             if (state.data[row]) {
+              const before = state.data[row][col];
+              if (before !== val) changes.push({ row, col, before, after: val });
               state.data[row][col] = val;
               const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
               if ($td) $td.textContent = val;
               count++;
             }
           });
+          if (changes.length > 0) saveCellBatchToHistory(changes);
           updateStats(); saveToStorage();
           showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
         }
@@ -8361,19 +8403,23 @@
             const coords = getCellCoords(document.activeElement);
             if (!hasValidCellCoords(coords)) return;
             const { row, col } = coords;
-            saveToHistory();
+            const changes = [];
             let count = 0;
             for (let ri = 0; ri < clipData.length; ri++) {
               for (let ci = 0; ci < clipData[ri].length; ci++) {
                 const tR = row + ri, tC = col + ci;
                 if (tR < state.data.length && tC < (state.data[0]?.length ?? 0)) {
-                  state.data[tR][tC] = clipData[ri][ci];
+                  const before = state.data[tR][tC];
+                  const after = clipData[ri][ci];
+                  if (before !== after) changes.push({ row: tR, col: tC, before, after });
+                  state.data[tR][tC] = after;
                   const $td = qs(`td[data-row="${tR}"][data-col="${tC}"]`, $dataTable);
-                  if ($td) $td.textContent = clipData[ri][ci];
+                  if ($td) $td.textContent = after;
                   count++;
                 }
               }
             }
+            if (changes.length > 0) saveCellBatchToHistory(changes);
             updateStats(); saveToStorage();
             showToast(`<span class="material-symbols-outlined">content_paste</span> ${count}セルに貼り付けました`, 'success');
             return;
