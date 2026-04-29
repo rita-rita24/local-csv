@@ -670,10 +670,30 @@
         border-radius: 12px;
         border: 1px solid var(--border);
         overflow: hidden;
+        position: relative;
 
         &.show {
           display: block;
         }
+      }
+
+      .fill-handle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--accent, #2563eb);
+        border: 2px solid var(--surface, #fff);
+        box-sizing: border-box;
+        z-index: 6;
+        cursor: crosshair;
+        pointer-events: auto;
+        border-radius: 1px;
+        box-shadow: 0 1px 3px oklch(0 0 0 / 0.25);
+      }
+      .fill-handle[hidden] { display: none; }
+      td.fill-preview {
+        outline: 2px dashed var(--accent, #2563eb) !important;
+        outline-offset: -2px;
       }
 
       .table-scroll {
@@ -1451,6 +1471,34 @@
         grid-column: 1 / -1;
       }
 
+      .compare-modal { max-width: 520px; }
+      .compare-result-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .compare-stat {
+        padding: 14px;
+        border-radius: 10px;
+        text-align: center;
+        background: var(--bg-elevated, #f5f5f7);
+        border: 1px solid var(--border, #e5e5ea);
+      }
+      .compare-stat-label {
+        font-size: 0.85rem;
+        color: var(--text-muted, #888);
+        margin-bottom: 6px;
+      }
+      .compare-stat-value {
+        font-size: 1.6rem;
+        font-weight: 600;
+      }
+      .compare-stat-added .compare-stat-value { color: #16a34a; }
+      .compare-stat-removed .compare-stat-value { color: #dc2626; }
+      .compare-stat-changed .compare-stat-value { color: #d97706; }
+      .compare-stat-match .compare-stat-value { color: var(--text-muted, #888); }
+
       .settings-select {
         inline-size: 100%;
         padding: 8px 12px;
@@ -2121,6 +2169,8 @@
       </div>
       <div class="toolbar-group">
         <button class="btn" id="transposeBtn" title="行と列を入れ替え"><span class="material-symbols-outlined">swap_horiz</span> 行列入替</button>
+        <button class="btn" id="compareBtn" title="別の CSV/TSV と比較"><span class="material-symbols-outlined">compare_arrows</span> <span id="compareBtnLabel">比較</span></button>
+        <button class="btn" id="textTransformBtn" title="選択セルのテキスト変換" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">text_format</span> <span id="textTransformBtnLabel">テキスト変換</span></button>
       </div>
       <div class="toolbar-group">
         <button class="btn" id="copyBtn"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
@@ -2150,6 +2200,7 @@
           <tbody id="tableBody"></tbody>
         </table>
       </div>
+      <div class="fill-handle" id="fillHandle" hidden role="button" aria-label="オートフィル"></div>
     </div>
 
     <!-- 集計ステータスバー -->
@@ -2166,6 +2217,23 @@
   </div>
 
   <!-- 列メニュー -->
+  <div class="column-menu" id="textTransformMenu" role="menu">
+    <div class="menu-item" data-transform="upper" role="menuitem"><span class="material-symbols-outlined">format_size</span> 大文字 (UPPER)</div>
+    <div class="menu-item" data-transform="lower" role="menuitem"><span class="material-symbols-outlined">format_size</span> 小文字 (lower)</div>
+    <div class="menu-item" data-transform="title" role="menuitem"><span class="material-symbols-outlined">format_size</span> タイトルケース (Title)</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-transform="trim" role="menuitem"><span class="material-symbols-outlined">space_bar</span> 前後の空白を除去 (trim)</div>
+    <div class="menu-item" data-transform="collapse" role="menuitem"><span class="material-symbols-outlined">space_bar</span> 連続空白を 1 つに (collapse)</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-transform="snake" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> snake_case</div>
+    <div class="menu-item" data-transform="camel" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> camelCase</div>
+    <div class="menu-item" data-transform="pascal" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> PascalCase</div>
+    <div class="menu-item" data-transform="kebab" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> kebab-case</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-transform="halfwidth" role="menuitem"><span class="material-symbols-outlined">compress</span> 全角 → 半角</div>
+    <div class="menu-item" data-transform="fullwidth" role="menuitem"><span class="material-symbols-outlined">expand</span> 半角 → 全角</div>
+  </div>
+
   <div class="column-menu" id="columnMenu">
     <div class="menu-item" data-action="sort-asc"><span class="material-symbols-outlined">arrow_upward</span> 昇順に並び替え</div>
     <div class="menu-item" data-action="sort-desc"><span class="material-symbols-outlined">arrow_downward</span> 降順に並び替え</div>
@@ -2382,6 +2450,62 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 比較 -->
+  <input type="file" id="compareFileInput" accept=".csv,.tsv,.txt" hidden>
+  <div class="modal-overlay" id="compareOptionsOverlay" aria-hidden="true">
+    <div class="modal compare-modal" role="dialog" aria-modal="true" aria-labelledby="compareOptionsTitle" tabindex="-1">
+      <h3 id="compareOptionsTitle"><span class="material-symbols-outlined">compare_arrows</span> 比較オプション</h3>
+      <div class="settings-grid">
+        <div class="settings-group">
+          <label>比較対象ファイル</label>
+          <div class="settings-hint" id="compareFileSummary">—</div>
+        </div>
+        <div class="settings-group">
+          <label>比較モード</label>
+          <label class="settings-checkbox"><input type="radio" name="compareMode" value="position" checked> 位置ベース（同じ行・列を直接比較）</label>
+          <label class="settings-checkbox"><input type="radio" name="compareMode" value="key"> キー（先頭列）ベース</label>
+        </div>
+        <div class="settings-group">
+          <label class="settings-checkbox"><input type="checkbox" id="compareIgnoreHeader" checked> ヘッダー行を除外して比較</label>
+          <div class="settings-hint">現在のテーブルでヘッダー設定が ON のときのみ有効</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="compareCancelBtn">キャンセル</button>
+        <button class="btn btn-primary" id="compareRunBtn"><span class="material-symbols-outlined">play_arrow</span> 比較する</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="compareResultOverlay" aria-hidden="true">
+    <div class="modal compare-modal" role="dialog" aria-modal="true" aria-labelledby="compareResultTitle" tabindex="-1">
+      <h3 id="compareResultTitle"><span class="material-symbols-outlined">difference</span> 比較結果</h3>
+      <div class="compare-result-grid">
+        <div class="compare-stat compare-stat-added">
+          <div class="compare-stat-label">追加</div>
+          <div class="compare-stat-value" id="compareStatAdded">0</div>
+        </div>
+        <div class="compare-stat compare-stat-removed">
+          <div class="compare-stat-label">削除</div>
+          <div class="compare-stat-value" id="compareStatRemoved">0</div>
+        </div>
+        <div class="compare-stat compare-stat-changed">
+          <div class="compare-stat-label">変更</div>
+          <div class="compare-stat-value" id="compareStatChanged">0</div>
+        </div>
+        <div class="compare-stat compare-stat-match">
+          <div class="compare-stat-label">一致</div>
+          <div class="compare-stat-value" id="compareStatMatch">0</div>
+        </div>
+      </div>
+      <div class="settings-hint" id="compareResultMeta">—</div>
+      <div class="modal-actions">
+        <button class="btn" id="compareResultCloseBtn">閉じる</button>
+        <button class="btn btn-primary" id="compareDownloadBtn"><span class="material-symbols-outlined">download</span> 差分 CSV をダウンロード</button>
       </div>
     </div>
   </div>
@@ -3035,7 +3159,70 @@
       '言語: 日本語/English': 'Language: Japanese/English',
       'データを開く': 'Open file',
       '保存（上書き）': 'Save (overwrite)',
-      '貼り付けからインポート': 'Paste to import'
+      '貼り付けからインポート': 'Paste to import',
+      /* --- CSV Compare --- */
+      '比較': 'Compare',
+      '別の CSV/TSV と比較': 'Compare with another CSV/TSV',
+      '比較オプション': 'Compare options',
+      '比較対象ファイル': 'Comparison file',
+      '比較モード': 'Comparison mode',
+      '位置ベース（同じ行・列を直接比較）': 'Position-based (compare same row/column directly)',
+      'キー（先頭列）ベース': 'Key (first column) based',
+      'ヘッダー行を除外して比較': 'Exclude header row from comparison',
+      '現在のテーブルでヘッダー設定が ON のときのみ有効': 'Effective only when the current table has header rows enabled',
+      '比較する': 'Compare',
+      '比較結果': 'Compare results',
+      '差分 CSV をダウンロード': 'Download diff CSV',
+      '追加': 'Added',
+      '変更': 'Changed',
+      '一致': 'Matched',
+      'CSV を比較': 'Compare CSV',
+      '比較対象のデータがありません': 'No data to compare',
+      '比較対象ファイルを選択してください': 'Pick a comparison file first',
+      '比較ファイルの読み込みに失敗しました': 'Failed to load comparison file',
+      '差分 CSV をダウンロードしました': 'Diff CSV downloaded',
+      /* --- Text Transformations --- */
+      'テキスト変換': 'Text transform',
+      '選択セルのテキスト変換': 'Transform text in selected cells',
+      '大文字 (UPPER)': 'Uppercase (UPPER)',
+      '小文字 (lower)': 'Lowercase (lower)',
+      'タイトルケース (Title)': 'Title Case',
+      '前後の空白を除去 (trim)': 'Trim spaces (trim)',
+      '連続空白を 1 つに (collapse)': 'Collapse spaces',
+      '全角 → 半角': 'Full-width → Half-width',
+      '半角 → 全角': 'Half-width → Full-width',
+      'セルを選択してください': 'Select cells first',
+      '変更はありません': 'No changes',
+      'テキスト変換: 大文字': 'Text transform: UPPER',
+      'テキスト変換: 小文字': 'Text transform: lower',
+      'テキスト変換: タイトルケース': 'Text transform: Title Case',
+      'テキスト変換: 前後空白除去': 'Text transform: Trim',
+      'テキスト変換: 連続空白を 1 つに': 'Text transform: Collapse spaces',
+      'テキスト変換: snake_case': 'Text transform: snake_case',
+      'テキスト変換: camelCase': 'Text transform: camelCase',
+      'テキスト変換: PascalCase': 'Text transform: PascalCase',
+      'テキスト変換: kebab-case': 'Text transform: kebab-case',
+      'テキスト変換: 全角→半角': 'Text transform: Full-width → Half-width',
+      'テキスト変換: 半角→全角': 'Text transform: Half-width → Full-width',
+      /* --- Autofill --- */
+      'オートフィル': 'Autofill',
+      /* --- Misc gaps --- */
+      'LocalCSV アイコン': 'LocalCSV icon',
+      'コマンド一覧': 'Command list',
+      'ドラッグで列を入れ替え': 'Drag to reorder column',
+      'ドラッグで行を入れ替え': 'Drag to reorder row',
+      'フィルタ': 'Filter',
+      '区切り文字': 'Delimiter',
+      'ヘッダーを有効にしました': 'Header enabled',
+      'ヘッダーを無効にしました': 'Header disabled',
+      '自動保存に失敗しました。手動でエクスポートしてください。': 'Auto-save failed. Please export manually.',
+      '計算中...': 'Calculating...',
+      '入替中...': 'Transposing...',
+      'データがありません': 'No data',
+      'ファイルが空です': 'File is empty',
+      '10行': '10 rows',
+      '20行': '20 rows',
+      '50行': '50 rows'
     };
 
     const JA_EN_REGEX_RULES = [
@@ -3128,8 +3315,9 @@
       if (node.nodeValue !== next) node.nodeValue = next;
     };
 
+    const I18N_ATTRS = ['title', 'placeholder', 'aria-label'];
     const applyI18nToElementAttrs = (el) => {
-      ['title', 'placeholder'].forEach((attr) => {
+      I18N_ATTRS.forEach((attr) => {
         if (!el.hasAttribute(attr)) return;
         if (getAttrSource(el, attr) === undefined) setAttrSource(el, attr, el.getAttribute(attr));
         const original = getAttrSource(el, attr) ?? '';
@@ -3156,7 +3344,7 @@
           textNode = walker.nextNode();
         }
         if (root.querySelectorAll) {
-          root.querySelectorAll('[title],[placeholder]').forEach((el) => applyI18nToElementAttrs(el));
+          root.querySelectorAll('[title],[placeholder],[aria-label]').forEach((el) => applyI18nToElementAttrs(el));
         }
       } finally {
         _i18nApplying = false;
@@ -3200,7 +3388,7 @@
         childList: true,
         characterData: true,
         attributes: true,
-        attributeFilter: ['title', 'placeholder']
+        attributeFilter: ['title', 'placeholder', 'aria-label']
       });
     };
 
@@ -5992,6 +6180,7 @@
         if ($searchInput.value && !_skipRenderSearchRefresh) {
           performSearch();
         }
+        refreshFillHandlePosition();
       };
 
       /* --- Toggle Header --- */
@@ -6095,11 +6284,13 @@
             $td.classList.toggle('selected', should);
           }
         }
+        refreshFillHandlePosition();
       };
 
       const clearSelection = () => {
         clearSelectionModel();
         qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
+        refreshFillHandlePosition();
       };
 
       /* Returns rendered DOM cells with `selected` class. */
@@ -6133,6 +6324,265 @@
         }
         refreshRenderedSelectionVisuals();
       };
+
+      /* --- Autofill (fill handle) --- */
+      const $fillHandle = qs('#fillHandle');
+      let _fillState = { active: false, bounds: null, direction: null, extent: null, previewCells: [] };
+
+      const getSelectionRectBounds = () => {
+        if (selectionCount() === 0) return null;
+        let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
+        for (const [r, cols] of _selectionModel) {
+          if (r < minR) minR = r;
+          if (r > maxR) maxR = r;
+          for (const c of cols) {
+            if (c < minC) minC = c;
+            if (c > maxC) maxC = c;
+          }
+        }
+        if (!Number.isFinite(minR)) return null;
+        return { minR, maxR, minC, maxC };
+      };
+
+      const refreshFillHandlePosition = () => {
+        if (_fillState.active) return; /* don't reposition while dragging */
+        const bounds = getSelectionRectBounds();
+        if (!bounds || !$tableContainer.classList.contains('show')) {
+          $fillHandle.hidden = true;
+          return;
+        }
+        const $td = qs(`td[data-row="${bounds.maxR}"][data-col="${bounds.maxC}"]`, $dataTable);
+        if (!$td) {
+          $fillHandle.hidden = true;
+          return;
+        }
+        const cellRect = $td.getBoundingClientRect();
+        const tcRect = $tableContainer.getBoundingClientRect();
+        if (cellRect.right < tcRect.left || cellRect.bottom < tcRect.top
+            || cellRect.left > tcRect.right || cellRect.top > tcRect.bottom) {
+          $fillHandle.hidden = true;
+          return;
+        }
+        $fillHandle.style.left = `${cellRect.right - tcRect.left - 5}px`;
+        $fillHandle.style.top  = `${cellRect.bottom - tcRect.top - 5}px`;
+        $fillHandle.hidden = false;
+      };
+
+      const clearFillPreview = () => {
+        for (const $td of qsa('td.fill-preview', $dataTable)) {
+          $td.classList.remove('fill-preview');
+        }
+        _fillState.previewCells = [];
+      };
+
+      const renderFillPreview = (direction, bounds, extent) => {
+        clearFillPreview();
+        if (direction === 'down') {
+          for (let r = bounds.maxR + 1; r <= extent; r++) {
+            for (let c = bounds.minC; c <= bounds.maxC; c++) {
+              const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
+              if ($td) $td.classList.add('fill-preview');
+            }
+          }
+        } else if (direction === 'right') {
+          for (let r = bounds.minR; r <= bounds.maxR; r++) {
+            for (let c = bounds.maxC + 1; c <= extent; c++) {
+              const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
+              if ($td) $td.classList.add('fill-preview');
+            }
+          }
+        }
+      };
+
+      const NUMERIC_RE = /^-?\d+(?:\.\d+)?$/;
+      const detectFillPattern = (values) => {
+        if (!values || values.length === 0) {
+          return { type: 'repeat', generator: () => '' };
+        }
+        const trimmed = values.map((v) => (v == null ? '' : String(v)));
+
+        /* 1) Arithmetic progression */
+        if (trimmed.every((v) => v.trim() !== '' && NUMERIC_RE.test(v.trim()))) {
+          const nums = trimmed.map((v) => Number(v.trim()));
+          if (nums.length === 1) {
+            const last = nums[0];
+            return { type: 'arithmetic', generator: (idx) => String(last + (idx + 1)) };
+          }
+          const step = nums[1] - nums[0];
+          let arithmetic = true;
+          for (let i = 2; i < nums.length; i++) {
+            if (Math.abs(nums[i] - nums[i - 1] - step) > 1e-9) { arithmetic = false; break; }
+          }
+          if (arithmetic) {
+            const last = nums[nums.length - 1];
+            return { type: 'arithmetic', generator: (idx) => {
+              const v = last + step * (idx + 1);
+              return Number.isInteger(v) ? String(v) : String(parseFloat(v.toFixed(10)));
+            }};
+          }
+        }
+
+        /* 2) Numeric suffix increment (e.g. A001, A002 → A003) */
+        const suffixMatches = trimmed.map((v) => /^(.*?)(\d+)$/.exec(v));
+        if (suffixMatches.every((m) => m !== null) && suffixMatches.length > 0) {
+          const prefixes = suffixMatches.map((m) => m[1]);
+          const samePrefix = prefixes.every((p) => p === prefixes[0]);
+          if (samePrefix) {
+            const numbers = suffixMatches.map((m) => parseInt(m[2], 10));
+            const padding = suffixMatches[suffixMatches.length - 1][2].length;
+            let step = 1;
+            if (numbers.length >= 2) {
+              const candidate = numbers[1] - numbers[0];
+              let consistent = true;
+              for (let i = 2; i < numbers.length; i++) {
+                if (numbers[i] - numbers[i - 1] !== candidate) { consistent = false; break; }
+              }
+              if (consistent) step = candidate;
+            }
+            const last = numbers[numbers.length - 1];
+            const prefix = prefixes[0];
+            return { type: 'suffix', generator: (idx) => {
+              const next = last + step * (idx + 1);
+              const numStr = next < 0
+                ? '-' + Math.abs(next).toString().padStart(padding, '0')
+                : next.toString().padStart(padding, '0');
+              return prefix + numStr;
+            }};
+          }
+        }
+
+        /* 3) Repeat the source values */
+        return { type: 'repeat', generator: (idx) => trimmed[idx % trimmed.length] };
+      };
+
+      const applyFill = () => {
+        const { direction, bounds, extent } = _fillState;
+        if (!direction || !bounds) return;
+        const changes = [];
+        if (direction === 'down') {
+          if (extent <= bounds.maxR) return;
+          for (let c = bounds.minC; c <= bounds.maxC; c++) {
+            const sourceVals = [];
+            for (let r = bounds.minR; r <= bounds.maxR; r++) {
+              sourceVals.push(state.data[r]?.[c] ?? '');
+            }
+            const pattern = detectFillPattern(sourceVals);
+            for (let r = bounds.maxR + 1; r <= extent; r++) {
+              if (!state.data[r]) continue;
+              const before = state.data[r]?.[c] ?? '';
+              const after = pattern.generator(r - bounds.maxR - 1);
+              if (before !== after) {
+                setCellValue(r, c, after);
+                changes.push({ row: r, col: c, before, after });
+              }
+            }
+          }
+        } else if (direction === 'right') {
+          if (extent <= bounds.maxC) return;
+          for (let r = bounds.minR; r <= bounds.maxR; r++) {
+            if (!state.data[r]) continue;
+            const sourceVals = [];
+            for (let c = bounds.minC; c <= bounds.maxC; c++) {
+              sourceVals.push(state.data[r]?.[c] ?? '');
+            }
+            const pattern = detectFillPattern(sourceVals);
+            for (let c = bounds.maxC + 1; c <= extent; c++) {
+              const before = state.data[r]?.[c];
+              if (before === undefined) continue;
+              const after = pattern.generator(c - bounds.maxC - 1);
+              if (before !== after) {
+                setCellValue(r, c, after);
+                changes.push({ row: r, col: c, before, after });
+              }
+            }
+          }
+        }
+        if (changes.length > 0) {
+          saveCellBatchToHistory(changes);
+          renderTable();
+          updateStats();
+          saveToStorage();
+          /* Extend selection to cover the filled range so subsequent fills work
+             on the new total range. */
+          clearSelectionModel();
+          if (direction === 'down') {
+            for (let r = bounds.minR; r <= extent; r++) {
+              for (let c = bounds.minC; c <= bounds.maxC; c++) {
+                addCellToSelectionModel(r, c);
+              }
+            }
+          } else {
+            for (let r = bounds.minR; r <= bounds.maxR; r++) {
+              for (let c = bounds.minC; c <= extent; c++) {
+                addCellToSelectionModel(r, c);
+              }
+            }
+          }
+          refreshRenderedSelectionVisuals();
+        }
+      };
+
+      const cancelFillDrag = () => {
+        clearFillPreview();
+        _fillState = { active: false, bounds: null, direction: null, extent: null, previewCells: [] };
+        refreshFillHandlePosition();
+      };
+
+      $fillHandle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const bounds = getSelectionRectBounds();
+        if (!bounds) return;
+        _fillState = {
+          active: true,
+          bounds,
+          direction: null,
+          extent: null,
+          previewCells: [],
+          startX: e.clientX,
+          startY: e.clientY
+        };
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!_fillState.active) return;
+        if (_fillState.direction === null) {
+          const dx = e.clientX - _fillState.startX;
+          const dy = e.clientY - _fillState.startY;
+          if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+          _fillState.direction = Math.abs(dy) >= Math.abs(dx) ? 'down' : 'right';
+        }
+        const $td = e.target.closest?.('td[data-row][data-col]');
+        if (!$td) return;
+        const r = parseInt($td.dataset.row, 10);
+        const c = parseInt($td.dataset.col, 10);
+        if (!Number.isFinite(r) || !Number.isFinite(c)) return;
+        const b = _fillState.bounds;
+        if (_fillState.direction === 'down') {
+          const target = Math.max(b.maxR, Math.min(state.data.length - 1, r));
+          if (target !== _fillState.extent) {
+            _fillState.extent = target;
+            renderFillPreview('down', b, target);
+          }
+        } else {
+          const colCount = state.data[0]?.length ?? 0;
+          const target = Math.max(b.maxC, Math.min(colCount - 1, c));
+          if (target !== _fillState.extent) {
+            _fillState.extent = target;
+            renderFillPreview('right', b, target);
+          }
+        }
+      }, true);
+
+      document.addEventListener('mouseup', () => {
+        if (!_fillState.active) return;
+        const hadDirection = _fillState.direction !== null;
+        if (hadDirection) applyFill();
+        cancelFillDrag();
+      }, true);
+
+      window.addEventListener('resize', refreshFillHandlePosition);
+      $tableScroll.addEventListener('scroll', refreshFillHandlePosition, { passive: true });
 
       // --- mousedown on cells ---
       $dataTable.addEventListener('mousedown', (e) => {
@@ -6205,6 +6655,136 @@
           return false;
         }
       };
+
+      /* --- Text transformations on selected cells --- */
+      const splitWordTokens = (s) => {
+        if (s == null) return [];
+        return String(s)
+          .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+          .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+          .split(/[\s_\-./]+/)
+          .filter((t) => t.length > 0);
+      };
+      const upperFirst = (s) => s.length === 0 ? '' : s[0].toUpperCase() + s.slice(1).toLowerCase();
+      const lowerFirst = (s) => s.length === 0 ? '' : s[0].toLowerCase() + s.slice(1);
+      const transformUpper  = (s) => (s ?? '').toUpperCase();
+      const transformLower  = (s) => (s ?? '').toLowerCase();
+      const transformTitle  = (s) => splitWordTokens(s).map(upperFirst).join(' ');
+      const transformTrim   = (s) => (s ?? '').trim();
+      const transformCollapse = (s) => (s ?? '').replace(/\s+/g, ' ');
+      const transformSnake  = (s) => splitWordTokens(s).map((t) => t.toLowerCase()).join('_');
+      const transformKebab  = (s) => splitWordTokens(s).map((t) => t.toLowerCase()).join('-');
+      const transformPascal = (s) => splitWordTokens(s).map(upperFirst).join('');
+      const transformCamel  = (s) => {
+        const tokens = splitWordTokens(s).map(upperFirst);
+        if (tokens.length === 0) return '';
+        return lowerFirst(tokens[0]) + tokens.slice(1).join('');
+      };
+      const transformHalfWidth = (s) => {
+        if (!s) return '';
+        return String(s)
+          .replace(/[！-～]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+          .replace(/　/g, ' ');
+      };
+      const transformFullWidth = (s) => {
+        if (!s) return '';
+        return String(s)
+          .replace(/[!-~]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) + 0xfee0))
+          .replace(/ /g, '　');
+      };
+
+      const TEXT_TRANSFORMS = {
+        upper:     { fn: transformUpper,    labelJa: '大文字',           labelEn: 'UPPER' },
+        lower:     { fn: transformLower,    labelJa: '小文字',           labelEn: 'lower' },
+        title:     { fn: transformTitle,    labelJa: 'タイトルケース',    labelEn: 'Title Case' },
+        trim:      { fn: transformTrim,     labelJa: '前後空白除去',      labelEn: 'Trim' },
+        collapse:  { fn: transformCollapse, labelJa: '連続空白を 1 つに',  labelEn: 'Collapse spaces' },
+        snake:     { fn: transformSnake,    labelJa: 'snake_case',       labelEn: 'snake_case' },
+        camel:     { fn: transformCamel,    labelJa: 'camelCase',        labelEn: 'camelCase' },
+        pascal:    { fn: transformPascal,   labelJa: 'PascalCase',       labelEn: 'PascalCase' },
+        kebab:     { fn: transformKebab,    labelJa: 'kebab-case',       labelEn: 'kebab-case' },
+        halfwidth: { fn: transformHalfWidth, labelJa: '全角→半角',        labelEn: 'Full-width → Half-width' },
+        fullwidth: { fn: transformFullWidth, labelJa: '半角→全角',        labelEn: 'Half-width → Full-width' }
+      };
+
+      const applyTextTransform = (transformId) => {
+        const transform = TEXT_TRANSFORMS[transformId];
+        if (!transform) return;
+        let coords = getSelectedCoords();
+        if (coords.length === 0) {
+          /* Fall back: a plain click clears the selection model but leaves
+             _selectionAnchor pointing at the last-clicked cell, so we can
+             still operate on a single cell that has just been activated. */
+          const $focus = document.activeElement;
+          if ($focus && $focus.tagName === 'TD' && $focus.dataset.row != null) {
+            const r = parseInt($focus.dataset.row, 10);
+            const c = parseInt($focus.dataset.col, 10);
+            if (Number.isFinite(r) && Number.isFinite(c)) coords = [{ row: r, col: c }];
+          } else if (_selectionAnchor && Number.isFinite(_selectionAnchor.row) && Number.isFinite(_selectionAnchor.col)) {
+            coords = [{ row: _selectionAnchor.row, col: _selectionAnchor.col }];
+          }
+        }
+        if (coords.length === 0) {
+          showToast(isEnglish() ? 'Select cells first' : 'セルを選択してください', 'error');
+          return;
+        }
+        const changes = [];
+        for (const { row, col } of coords) {
+          const before = state.data[row]?.[col] ?? '';
+          const after = transform.fn(before);
+          if (before !== after) {
+            setCellValue(row, col, after);
+            changes.push({ row, col, before, after });
+          }
+        }
+        if (changes.length === 0) {
+          showToast(isEnglish() ? 'No changes' : '変更はありません', 'success');
+          return;
+        }
+        saveCellBatchToHistory(changes);
+        renderTable();
+        updateStats();
+        saveToStorage();
+        const label = isEnglish() ? transform.labelEn : transform.labelJa;
+        const msg = isEnglish()
+          ? `Transformed ${changes.length} cells (${label})`
+          : `${changes.length}セルを変換しました（${label}）`;
+        showToast(msg, 'success');
+      };
+
+      const $textTransformBtn = qs('#textTransformBtn');
+      const $textTransformMenu = qs('#textTransformMenu');
+      const closeTextTransformMenu = () => {
+        $textTransformMenu.classList.remove('show');
+        $textTransformBtn.setAttribute('aria-expanded', 'false');
+      };
+      const openTextTransformMenu = () => {
+        const rect = $textTransformBtn.getBoundingClientRect();
+        $textTransformMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+        $textTransformMenu.style.left = `${_clampHorizontal(rect.left, 240)}px`;
+        $textTransformMenu.classList.add('show');
+        $textTransformBtn.setAttribute('aria-expanded', 'true');
+      };
+      $textTransformBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if ($textTransformMenu.classList.contains('show')) {
+          closeTextTransformMenu();
+        } else {
+          openTextTransformMenu();
+        }
+      });
+      $textTransformMenu.addEventListener('click', (e) => {
+        const item = e.target.closest('.menu-item');
+        if (!item) return;
+        const id = item.dataset.transform;
+        closeTextTransformMenu();
+        applyTextTransform(id);
+      });
+      document.addEventListener('click', (e) => {
+        if (!$textTransformMenu.contains(e.target) && e.target !== $textTransformBtn && !$textTransformBtn.contains(e.target)) {
+          closeTextTransformMenu();
+        }
+      });
 
       // --- Delete selected cells (Delete / Backspace when cells are selected) ---
       const deleteSelectedCells = () => {
@@ -7861,6 +8441,216 @@
         input.click();
       };
 
+      /* --- Compare with another CSV/TSV --- */
+      let _compareTarget = null;       /* { fileName, encoding, delimiter, data: Array<Array<string>> } */
+      let _compareLastDiff = null;     /* { added, removed, changed, match, mode } */
+      const $compareOptionsOverlay = qs('#compareOptionsOverlay');
+      const $compareResultOverlay = qs('#compareResultOverlay');
+      const $compareFileInput = qs('#compareFileInput');
+
+      const openCompareDialog = () => {
+        if (!state.data || state.data.length === 0) {
+          showToast(isEnglish() ? 'No data to compare' : '比較対象のデータがありません', 'error');
+          return;
+        }
+        $compareFileInput.value = '';
+        $compareFileInput.click();
+      };
+
+      const loadCompareFile = async (file) => {
+        try {
+          const buf = await file.arrayBuffer();
+          const detectedEnc = detectEncodingLabel(buf);
+          const text = decodeFileBytes(buf, detectedEnc);
+          const detectedDlm = detectDelimiter(text);
+          const data = await parseCSVAsync(text, detectedDlm);
+          _compareTarget = {
+            fileName: file.name,
+            encoding: detectedEnc,
+            delimiter: detectedDlm,
+            data: Array.isArray(data) ? data : []
+          };
+          const summary = isEnglish()
+            ? `${file.name} — ${_compareTarget.data.length.toLocaleString()} rows × ${(_compareTarget.data[0]?.length ?? 0).toLocaleString()} cols (${detectedEnc})`
+            : `${file.name} — ${_compareTarget.data.length.toLocaleString()} 行 × ${(_compareTarget.data[0]?.length ?? 0).toLocaleString()} 列 (${detectedEnc})`;
+          qs('#compareFileSummary').textContent = summary;
+          openOverlay($compareOptionsOverlay, { focusSelector: '#compareRunBtn' });
+        } catch (e) {
+          console.warn('Compare load failed', e);
+          showToast(isEnglish() ? 'Failed to load comparison file' : '比較ファイルの読み込みに失敗しました', 'error');
+        }
+      };
+
+      const closeCompareOptions = () => closeOverlay($compareOptionsOverlay);
+      const closeCompareResult = () => closeOverlay($compareResultOverlay);
+
+      const computeDiffPositionBased = (currRows, otherRows) => {
+        const added = [];
+        const removed = [];
+        const changed = [];
+        let match = 0;
+        const maxRows = Math.max(currRows.length, otherRows.length);
+        for (let r = 0; r < maxRows; r++) {
+          const cRow = currRows[r];
+          const oRow = otherRows[r];
+          if (cRow === undefined && oRow !== undefined) {
+            added.push({ rowIdx: r, row: oRow });
+            continue;
+          }
+          if (cRow !== undefined && oRow === undefined) {
+            removed.push({ rowIdx: r, row: cRow });
+            continue;
+          }
+          if (cRow === undefined && oRow === undefined) continue;
+          const maxCols = Math.max(cRow.length, oRow.length);
+          let rowChanged = false;
+          for (let c = 0; c < maxCols; c++) {
+            const before = cRow[c] ?? '';
+            const after = oRow[c] ?? '';
+            if (before !== after) {
+              changed.push({ rowIdx: r, colIdx: c, before, after });
+              rowChanged = true;
+            }
+          }
+          if (!rowChanged) match++;
+        }
+        return { mode: 'position', added, removed, changed, match };
+      };
+
+      const computeDiffKeyBased = (currRows, otherRows) => {
+        const currMap = new Map();
+        for (let r = 0; r < currRows.length; r++) {
+          const key = currRows[r]?.[0] ?? '';
+          if (key === '') continue;
+          if (!currMap.has(key)) currMap.set(key, { rowIdx: r, row: currRows[r] });
+        }
+        const otherMap = new Map();
+        for (let r = 0; r < otherRows.length; r++) {
+          const key = otherRows[r]?.[0] ?? '';
+          if (key === '') continue;
+          if (!otherMap.has(key)) otherMap.set(key, { rowIdx: r, row: otherRows[r] });
+        }
+        const added = [];
+        const removed = [];
+        const changed = [];
+        let match = 0;
+        for (const [key, oEntry] of otherMap) {
+          if (!currMap.has(key)) {
+            added.push({ key, rowIdx: oEntry.rowIdx, row: oEntry.row });
+          } else {
+            const cEntry = currMap.get(key);
+            const cRow = cEntry.row;
+            const oRow = oEntry.row;
+            const maxCols = Math.max(cRow.length, oRow.length);
+            let rowChanged = false;
+            for (let c = 1; c < maxCols; c++) {
+              const before = cRow[c] ?? '';
+              const after = oRow[c] ?? '';
+              if (before !== after) {
+                changed.push({ key, rowIdx: cEntry.rowIdx, colIdx: c, before, after });
+                rowChanged = true;
+              }
+            }
+            if (!rowChanged) match++;
+          }
+        }
+        for (const [key, cEntry] of currMap) {
+          if (!otherMap.has(key)) {
+            removed.push({ key, rowIdx: cEntry.rowIdx, row: cEntry.row });
+          }
+        }
+        return { mode: 'key', added, removed, changed, match };
+      };
+
+      const formatDiffAsCsv = (diff) => {
+        const lines = ['op,row,column,before,after'];
+        const escapeCell = (s) => {
+          const v = s == null ? '' : String(s);
+          return (v.includes(',') || v.includes('"') || v.includes('\n') || v.includes('\r'))
+            ? `"${v.replace(/"/g, '""')}"` : v;
+        };
+        const renderRow = (row) => row.map(escapeCell).join('|');
+        const renderRowKey = (rec) => rec.key !== undefined ? String(rec.key) : String(rec.rowIdx ?? '');
+        for (const a of diff.added) {
+          lines.push(['added', renderRowKey(a), '', '', renderRow(a.row ?? [])].map(escapeCell).join(','));
+        }
+        for (const r of diff.removed) {
+          lines.push(['removed', renderRowKey(r), '', renderRow(r.row ?? []), ''].map(escapeCell).join(','));
+        }
+        for (const c of diff.changed) {
+          lines.push(['changed', renderRowKey(c), String(c.colIdx ?? ''), c.before, c.after].map(escapeCell).join(','));
+        }
+        return lines.join('\n');
+      };
+
+      const renderCompareResult = (diff) => {
+        qs('#compareStatAdded').textContent   = diff.added.length.toLocaleString(getLocaleTag());
+        qs('#compareStatRemoved').textContent = diff.removed.length.toLocaleString(getLocaleTag());
+        qs('#compareStatChanged').textContent = diff.changed.length.toLocaleString(getLocaleTag());
+        qs('#compareStatMatch').textContent   = diff.match.toLocaleString(getLocaleTag());
+        const modeLabel = diff.mode === 'key'
+          ? (isEnglish() ? 'key column' : 'キー（先頭列）')
+          : (isEnglish() ? 'position' : '位置');
+        const meta = isEnglish()
+          ? `Mode: ${modeLabel} · Source: ${_compareTarget?.fileName ?? ''}`
+          : `モード: ${modeLabel} ／ 比較先: ${_compareTarget?.fileName ?? ''}`;
+        qs('#compareResultMeta').textContent = meta;
+      };
+
+      const runCompare = async () => {
+        if (!_compareTarget) {
+          showToast(isEnglish() ? 'Pick a comparison file first' : '比較対象ファイルを選択してください', 'error');
+          return;
+        }
+        const mode = qs('input[name="compareMode"]:checked')?.value || 'position';
+        const ignoreHeader = qs('#compareIgnoreHeader').checked;
+        /*
+         * When `ignoreHeader` is checked, skip the first row of BOTH files
+         * symmetrically. Aligning by `state.hasHeader` alone would mismatch
+         * the rows when one side has a semantic header and the other doesn't.
+         */
+        const currRows = ignoreHeader ? state.data.slice(1) : state.data;
+        const otherRows = ignoreHeader ? _compareTarget.data.slice(1) : _compareTarget.data;
+        let diff;
+        if (mode === 'key') {
+          diff = computeDiffKeyBased(currRows, otherRows);
+        } else {
+          diff = computeDiffPositionBased(currRows, otherRows);
+        }
+        _compareLastDiff = diff;
+        closeCompareOptions();
+        renderCompareResult(diff);
+        openOverlay($compareResultOverlay, { focusSelector: '#compareResultCloseBtn' });
+      };
+
+      const downloadCompareDiff = () => {
+        if (!_compareLastDiff) return;
+        const csv = formatDiffAsCsv(_compareLastDiff);
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+        const objectUrl = URL.createObjectURL(blob);
+        const $a = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 10);
+        $a.href = objectUrl;
+        $a.download = `diff_${stamp}.csv`;
+        document.body.appendChild($a);
+        $a.click();
+        $a.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+        showToast(isEnglish() ? 'Diff CSV downloaded' : '差分 CSV をダウンロードしました', 'success');
+      };
+
+      $compareFileInput.addEventListener('change', () => {
+        const file = $compareFileInput.files?.[0];
+        if (!file) return;
+        loadCompareFile(file);
+      });
+      qs('#compareCancelBtn').addEventListener('click', closeCompareOptions);
+      qs('#compareRunBtn').addEventListener('click', runCompare);
+      qs('#compareResultCloseBtn').addEventListener('click', closeCompareResult);
+      qs('#compareDownloadBtn').addEventListener('click', downloadCompareDiff);
+      $compareOptionsOverlay.addEventListener('click', (e) => { if (e.target === $compareOptionsOverlay) closeCompareOptions(); });
+      $compareResultOverlay.addEventListener('click', (e) => { if (e.target === $compareResultOverlay) closeCompareResult(); });
+
       /* --- Save (overwrite) --- */
       const buildBlob = (text) => {
         return buildEncodedBlob(text, state.encoding, state.bom, 'text/plain');
@@ -9023,6 +9813,18 @@
         { id: 'add-row',   icon: 'add_box',       title: '行追加',                 shortcut: '',               run: addRow },
         { id: 'add-col',   icon: 'add_box',       title: '列追加',                 shortcut: '',               run: addColumn },
         { id: 'transpose', icon: 'swap_horiz',    title: '行列入替',               shortcut: '',               run: transposeData },
+        { id: 'compare',   icon: 'compare_arrows',title: 'CSV を比較',             shortcut: '',               run: openCompareDialog },
+        { id: 'tx-upper',     icon: 'text_format', title: 'テキスト変換: 大文字',          shortcut: '', run: () => applyTextTransform('upper') },
+        { id: 'tx-lower',     icon: 'text_format', title: 'テキスト変換: 小文字',          shortcut: '', run: () => applyTextTransform('lower') },
+        { id: 'tx-title',     icon: 'text_format', title: 'テキスト変換: タイトルケース',  shortcut: '', run: () => applyTextTransform('title') },
+        { id: 'tx-trim',      icon: 'space_bar',   title: 'テキスト変換: 前後空白除去',    shortcut: '', run: () => applyTextTransform('trim') },
+        { id: 'tx-collapse',  icon: 'space_bar',   title: 'テキスト変換: 連続空白を 1 つに',shortcut: '', run: () => applyTextTransform('collapse') },
+        { id: 'tx-snake',     icon: 'linear_scale',title: 'テキスト変換: snake_case',      shortcut: '', run: () => applyTextTransform('snake') },
+        { id: 'tx-camel',     icon: 'linear_scale',title: 'テキスト変換: camelCase',       shortcut: '', run: () => applyTextTransform('camel') },
+        { id: 'tx-pascal',    icon: 'linear_scale',title: 'テキスト変換: PascalCase',      shortcut: '', run: () => applyTextTransform('pascal') },
+        { id: 'tx-kebab',     icon: 'linear_scale',title: 'テキスト変換: kebab-case',      shortcut: '', run: () => applyTextTransform('kebab') },
+        { id: 'tx-halfwidth', icon: 'compress',    title: 'テキスト変換: 全角→半角',       shortcut: '', run: () => applyTextTransform('halfwidth') },
+        { id: 'tx-fullwidth', icon: 'expand',      title: 'テキスト変換: 半角→全角',       shortcut: '', run: () => applyTextTransform('fullwidth') },
         { id: 'copy',      icon: 'content_copy',  title: 'CSVをコピー',            shortcut: '',               run: copyData },
         { id: 'download',  icon: 'download',      title: 'CSVをダウンロード',      shortcut: '',               run: downloadData },
         { id: 'export',    icon: 'tune',          title: 'エクスポートを開く',     shortcut: '',               run: openExportWizard },
@@ -9173,6 +9975,7 @@
       });
 
       qs('#transposeBtn').addEventListener('click', transposeData);
+      qs('#compareBtn').addEventListener('click', openCompareDialog);
 
       /* --- Toolbar Wiring --- */
       qs('#openFileBtn').addEventListener('click', openFile);
