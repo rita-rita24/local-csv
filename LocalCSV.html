@@ -3159,7 +3159,70 @@
       '言語: 日本語/English': 'Language: Japanese/English',
       'データを開く': 'Open file',
       '保存（上書き）': 'Save (overwrite)',
-      '貼り付けからインポート': 'Paste to import'
+      '貼り付けからインポート': 'Paste to import',
+      /* --- CSV Compare --- */
+      '比較': 'Compare',
+      '別の CSV/TSV と比較': 'Compare with another CSV/TSV',
+      '比較オプション': 'Compare options',
+      '比較対象ファイル': 'Comparison file',
+      '比較モード': 'Comparison mode',
+      '位置ベース（同じ行・列を直接比較）': 'Position-based (compare same row/column directly)',
+      'キー（先頭列）ベース': 'Key (first column) based',
+      'ヘッダー行を除外して比較': 'Exclude header row from comparison',
+      '現在のテーブルでヘッダー設定が ON のときのみ有効': 'Effective only when the current table has header rows enabled',
+      '比較する': 'Compare',
+      '比較結果': 'Compare results',
+      '差分 CSV をダウンロード': 'Download diff CSV',
+      '追加': 'Added',
+      '変更': 'Changed',
+      '一致': 'Matched',
+      'CSV を比較': 'Compare CSV',
+      '比較対象のデータがありません': 'No data to compare',
+      '比較対象ファイルを選択してください': 'Pick a comparison file first',
+      '比較ファイルの読み込みに失敗しました': 'Failed to load comparison file',
+      '差分 CSV をダウンロードしました': 'Diff CSV downloaded',
+      /* --- Text Transformations --- */
+      'テキスト変換': 'Text transform',
+      '選択セルのテキスト変換': 'Transform text in selected cells',
+      '大文字 (UPPER)': 'Uppercase (UPPER)',
+      '小文字 (lower)': 'Lowercase (lower)',
+      'タイトルケース (Title)': 'Title Case',
+      '前後の空白を除去 (trim)': 'Trim spaces (trim)',
+      '連続空白を 1 つに (collapse)': 'Collapse spaces',
+      '全角 → 半角': 'Full-width → Half-width',
+      '半角 → 全角': 'Half-width → Full-width',
+      'セルを選択してください': 'Select cells first',
+      '変更はありません': 'No changes',
+      'テキスト変換: 大文字': 'Text transform: UPPER',
+      'テキスト変換: 小文字': 'Text transform: lower',
+      'テキスト変換: タイトルケース': 'Text transform: Title Case',
+      'テキスト変換: 前後空白除去': 'Text transform: Trim',
+      'テキスト変換: 連続空白を 1 つに': 'Text transform: Collapse spaces',
+      'テキスト変換: snake_case': 'Text transform: snake_case',
+      'テキスト変換: camelCase': 'Text transform: camelCase',
+      'テキスト変換: PascalCase': 'Text transform: PascalCase',
+      'テキスト変換: kebab-case': 'Text transform: kebab-case',
+      'テキスト変換: 全角→半角': 'Text transform: Full-width → Half-width',
+      'テキスト変換: 半角→全角': 'Text transform: Half-width → Full-width',
+      /* --- Autofill --- */
+      'オートフィル': 'Autofill',
+      /* --- Misc gaps --- */
+      'LocalCSV アイコン': 'LocalCSV icon',
+      'コマンド一覧': 'Command list',
+      'ドラッグで列を入れ替え': 'Drag to reorder column',
+      'ドラッグで行を入れ替え': 'Drag to reorder row',
+      'フィルタ': 'Filter',
+      '区切り文字': 'Delimiter',
+      'ヘッダーを有効にしました': 'Header enabled',
+      'ヘッダーを無効にしました': 'Header disabled',
+      '自動保存に失敗しました。手動でエクスポートしてください。': 'Auto-save failed. Please export manually.',
+      '計算中...': 'Calculating...',
+      '入替中...': 'Transposing...',
+      'データがありません': 'No data',
+      'ファイルが空です': 'File is empty',
+      '10行': '10 rows',
+      '20行': '20 rows',
+      '50行': '50 rows'
     };
 
     const JA_EN_REGEX_RULES = [
@@ -3252,8 +3315,9 @@
       if (node.nodeValue !== next) node.nodeValue = next;
     };
 
+    const I18N_ATTRS = ['title', 'placeholder', 'aria-label'];
     const applyI18nToElementAttrs = (el) => {
-      ['title', 'placeholder'].forEach((attr) => {
+      I18N_ATTRS.forEach((attr) => {
         if (!el.hasAttribute(attr)) return;
         if (getAttrSource(el, attr) === undefined) setAttrSource(el, attr, el.getAttribute(attr));
         const original = getAttrSource(el, attr) ?? '';
@@ -3280,7 +3344,7 @@
           textNode = walker.nextNode();
         }
         if (root.querySelectorAll) {
-          root.querySelectorAll('[title],[placeholder]').forEach((el) => applyI18nToElementAttrs(el));
+          root.querySelectorAll('[title],[placeholder],[aria-label]').forEach((el) => applyI18nToElementAttrs(el));
         }
       } finally {
         _i18nApplying = false;
@@ -3324,7 +3388,7 @@
         childList: true,
         characterData: true,
         attributes: true,
-        attributeFilter: ['title', 'placeholder']
+        attributeFilter: ['title', 'placeholder', 'aria-label']
       });
     };
 
