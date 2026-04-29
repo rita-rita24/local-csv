@@ -4792,6 +4792,39 @@
         return 0;
       };
 
+      const STATS_WORKER_ROW_THRESHOLD = 20000;
+      const isWorkerCapableEncoding = (enc) => {
+        const n = normalizeEncoding(enc);
+        return n === 'utf-8' || n === 'utf-16le' || n === 'utf-16be';
+      };
+
+      const computeStatsBytesViaWorker = (rows, { delimiter, encoding, quoteStyle, newline, bomBytes }) => {
+        const workerCode = `
+          const buildLine = (row, dlm, qs) => row.map((cell) => {
+            const c = cell == null ? '' : String(cell);
+            const escaped = c.replace(/"/g, '""');
+            if (qs === 'all') return '"' + escaped + '"';
+            if (qs === 'none') return c;
+            return (c.indexOf(dlm) >= 0 || c.indexOf('"') >= 0 || c.indexOf('\\n') >= 0 || c.indexOf('\\r') >= 0)
+              ? '"' + escaped + '"' : c;
+          }).join(dlm);
+          const utf16Length = (text) => text.length * 2;
+          self.onmessage = (event) => {
+            const { rows, delimiter, encoding, quoteStyle, newline, bomBytes } = event.data;
+            let bytes = bomBytes;
+            const isUtf16 = encoding === 'utf-16le' || encoding === 'utf-16be';
+            const enc = isUtf16 ? null : new TextEncoder();
+            for (let i = 0; i < rows.length; i++) {
+              const suffix = i < rows.length - 1 ? newline : '';
+              const line = buildLine(rows[i] || [], delimiter, quoteStyle) + suffix;
+              bytes += isUtf16 ? utf16Length(line) : enc.encode(line).length;
+            }
+            self.postMessage(bytes);
+          };
+        `;
+        return runDataWorker(workerCode, { rows, delimiter, encoding, quoteStyle, newline, bomBytes });
+      };
+
       const updateStats = () => {
         const rc = state.hasHeader ? state.data.length - 1 : state.data.length;
         const cc = state.data[0]?.length ?? 0;
@@ -4809,7 +4842,7 @@
         const token = ++_statsTaskToken;
         const rows = state.data;
         const delimiter = state.delimiter;
-        const encoding = state.encoding;
+        const encoding = normalizeEncoding(state.encoding);
         const quoteStyle = state.quoteStyle;
         const newline = state.newline === 'crlf' ? '\r\n' : '\n';
         const bomBytes = calcBomBytes(encoding, supportsBom(encoding) && state.bom);
@@ -4830,6 +4863,33 @@
 
         if (rows.length <= STATS_ASYNC_ROW_THRESHOLD) {
           $dataSize.textContent = formatBytes(calcSync());
+          return;
+        }
+
+        const useWorker = rows.length >= STATS_WORKER_ROW_THRESHOLD
+          && isWorkerCapableEncoding(encoding)
+          && typeof Worker !== 'undefined';
+
+        if (useWorker) {
+          $dataSize.textContent = '計算中...';
+          const startWorker = () => {
+            if (token !== _statsTaskToken) return;
+            computeStatsBytesViaWorker(rows, { delimiter, encoding, quoteStyle, newline, bomBytes })
+              .then((bytes) => {
+                if (token !== _statsTaskToken) return;
+                $dataSize.textContent = formatBytes(bytes);
+              })
+              .catch((e) => {
+                console.warn('Stats worker failed, fallback to chunked main thread', e);
+                if (token !== _statsTaskToken) return;
+                runMainChunked();
+              });
+          };
+          if (rows.length >= LARGE_DATA_ROW_THRESHOLD) {
+            _statsDebounceTimer = setTimeout(() => { _statsDebounceTimer = null; startWorker(); }, STATS_DEBOUNCE_MS);
+          } else {
+            startWorker();
+          }
           return;
         }
 
@@ -4858,7 +4918,7 @@
           $dataSize.textContent = formatBytes(bytes);
         };
 
-        const startCalc = () => {
+        const runMainChunked = () => {
           if (token !== _statsTaskToken) return;
           runChunk();
         };
@@ -4866,12 +4926,12 @@
         if (rows.length >= LARGE_DATA_ROW_THRESHOLD) {
           _statsDebounceTimer = setTimeout(() => {
             _statsDebounceTimer = null;
-            startCalc();
+            runMainChunked();
           }, STATS_DEBOUNCE_MS);
           return;
         }
 
-        startCalc();
+        runMainChunked();
       };
 
       /* --- CSV Parse --- */
