@@ -8647,7 +8647,7 @@
         { id: 'select-all',icon: 'select_all',    title: 'すべて選択',             shortcut: 'Ctrl+A',         run: selectAllDataCells },
         { id: 'theme',     icon: 'dark_mode',     title: 'ダークモード切替',       shortcut: '',               run: toggleThemeMode },
         { id: 'language',  icon: 'translate',     title: '言語: 日本語/English',   shortcut: '',               run: toggleLanguage },
-        { id: 'help',      icon: 'help',          title: 'ヘルプを開く',           shortcut: '?',              run: openInfoModal }
+        { id: 'help',      icon: 'help',          title: 'ヘルプを開く',           shortcut: '?',              run: () => openInfoModal() }
       ];
 
       let _paletteFiltered = [];
