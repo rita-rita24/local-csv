@@ -4003,6 +4003,7 @@
       let _searchWorkerUrl = '';
       let _searchWorkerPending = new Map();
       let _searchWorkerDataRevision = -1;
+      let _searchWorkerDirtyRows = null;   // Set<rowIdx> for cell-level diff sync; null = full re-sync required
       let _searchInProgress = false;
       let _searchTotalCount = 0;
       let _searchMatchTruncated = false;
@@ -4016,6 +4017,9 @@
       let _filterWorkerUrl = '';
       let _filterWorkerPending = new Map();
       let _filterWorkerDataRevision = -1;
+      let _filterWorkerDirtyRows = null;
+      /* Persistent selection model — see selection helpers below. */
+      let _selectionModel = new Map();
       let _statsTaskToken = 0;
       let _statsDebounceTimer = null;
       let _skipRenderSearchRefresh = false;
@@ -4315,6 +4319,31 @@
       };
 
       const cloneDataMatrix = (rows) => rows.map(row => [...row]);
+      /*
+       * Copy-on-write bookkeeping for snapshot history.
+       * After saveToHistory(), each row in state.data is shared with the
+       * snapshot. _ownedRowsSinceSnapshot tracks which rows have already
+       * been replaced with an owned copy since the latest snapshot, so the
+       * first in-place mutation per row replaces the row reference and
+       * subsequent mutations are free.
+       *   null  → no live snapshot, all rows are exclusively owned
+       *   Set   → snapshot live; rows in the Set have already been cloned
+       */
+      let _ownedRowsSinceSnapshot = null;
+      const beginSnapshotEpoch = () => {
+        _ownedRowsSinceSnapshot = new Set();
+      };
+      const ensureRowOwned = (rowIdx) => {
+        if (_ownedRowsSinceSnapshot === null) return;
+        if (_ownedRowsSinceSnapshot.has(rowIdx)) return;
+        const row = state.data[rowIdx];
+        if (row !== undefined) state.data[rowIdx] = row.slice();
+        _ownedRowsSinceSnapshot.add(rowIdx);
+      };
+      const setCellValue = (rowIdx, colIdx, val) => {
+        ensureRowOwned(rowIdx);
+        state.data[rowIdx][colIdx] = val;
+      };
       const cloneColumnWidths = (widths) => ({ ...widths });
       const normalizeCellValue = (value) => (
         value === null || value === undefined ? '' : (typeof value === 'string' ? value : String(value))
@@ -4350,12 +4379,27 @@
         const colCount = Array.isArray(data) && Array.isArray(data[0]) ? data[0].length : 0;
         return { rowCount, colCount };
       };
-      const normalizePersistedState = (saved, localColumnWidths = {}) => {
-        const data = normalizeDataMatrix(saved?.data);
+      const normalizePersistedState = async (saved, localColumnWidths = {}) => {
+        const delimiter = typeof saved?.delimiter === 'string' && saved.delimiter.length > 0 ? saved.delimiter : ',';
+        let rawData;
+        if (saved?.version === 2 && typeof saved?.csv === 'string') {
+          if (saved.csv.length === 0) {
+            rawData = [];
+          } else {
+            try {
+              rawData = await parseCSVAsync(saved.csv, delimiter);
+            } catch {
+              rawData = [];
+            }
+          }
+        } else {
+          rawData = saved?.data;
+        }
+        const data = normalizeDataMatrix(rawData);
         const normalized = {
           data,
           hasHeader: !!saved?.hasHeader && data.length > 0,
-          delimiter: typeof saved?.delimiter === 'string' && saved.delimiter.length > 0 ? saved.delimiter : ',',
+          delimiter,
           columnWidths: normalizeColumnWidths(saved?.columnWidths),
           encoding: normalizeExportEncoding(typeof saved?.encoding === 'string' ? saved.encoding : 'utf-8'),
           bom: typeof saved?.bom === 'boolean' ? saved.bom : true,
@@ -4400,39 +4444,104 @@
       const resetSearchRowCache = () => {
         _rowSearchCache = [];
         _searchWorkerDataRevision = -1;
+        _searchWorkerDirtyRows = null;
         _filterWorkerDataRevision = -1;
+        _filterWorkerDirtyRows = null;
         _columnFilterRows = null;
         _columnFilterTaskToken++;
       };
 
-      const createStateSnapshot = () => ({
-        data: cloneDataMatrix(state.data),
-        hasHeader: state.hasHeader,
-        delimiter: state.delimiter,
-        columnWidths: cloneColumnWidths(state.columnWidths),
-        encoding: normalizeExportEncoding(state.encoding),
-        bom: state.bom,
-        newline: state.newline,
-        quoteStyle: state.quoteStyle
-      });
+      const invalidateRowSearchCache = (rowIdx) => {
+        if (rowIdx >= 0 && rowIdx < _rowSearchCache.length) {
+          _rowSearchCache[rowIdx] = undefined;
+        }
+      };
+
+      const noteDirtyRowForWorkers = (rowIdx) => {
+        if (_searchWorkerDirtyRows !== null) _searchWorkerDirtyRows.add(rowIdx);
+        if (_filterWorkerDirtyRows !== null) _filterWorkerDirtyRows.add(rowIdx);
+      };
+
+      const createStateSnapshot = () => {
+        /*
+         * Shallow row-reference copy: O(rows) instead of O(rows × cols).
+         * Subsequent mutations go through ensureRowOwned to keep the
+         * snapshot's row references intact (Copy-on-Write).
+         */
+        const snapshot = {
+          data: state.data.slice(),
+          hasHeader: state.hasHeader,
+          delimiter: state.delimiter,
+          columnWidths: cloneColumnWidths(state.columnWidths),
+          encoding: normalizeExportEncoding(state.encoding),
+          bom: state.bom,
+          newline: state.newline,
+          quoteStyle: state.quoteStyle
+        };
+        beginSnapshotEpoch();
+        return snapshot;
+      };
 
       const applyStateSnapshot = (snapshot) => {
+        /*
+         * The snapshot's row array is shared with this state — future
+         * in-place writes must clone rows on first use (CoW).
+         */
         state = {
           ...state,
           ...snapshot,
-          data: cloneDataMatrix(snapshot.data ?? []),
+          data: (snapshot.data ?? []).slice(),
           columnWidths: cloneColumnWidths(snapshot.columnWidths ?? {})
         };
         state.encoding = normalizeExportEncoding(state.encoding);
         if (!supportsBom(state.encoding)) state.bom = false;
+        beginSnapshotEpoch();
         resetSearchRowCache();
         _dataRevision++;
         _filterValueCache.clear();
         _saveRevision++;
       };
 
-      const createPersistedState = () => ({
-        data: state.data,
+      const buildPersistCsvLine = (row, dlm, qs_) => row.map((cell) => {
+        const c = cell == null ? '' : String(cell);
+        const escaped = c.replace(/"/g, '""');
+        if (qs_ === 'all') return `"${escaped}"`;
+        if (qs_ === 'none') return c;
+        return (c.includes(dlm) || c.includes('"') || c.includes('\n') || c.includes('\r'))
+          ? `"${escaped}"` : c;
+      }).join(dlm);
+
+      const serializeStateAsCsvSync = () => {
+        if (!state.data || state.data.length === 0) return '';
+        const dlm = state.delimiter || ',';
+        const qs_ = state.quoteStyle;
+        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
+        const lines = new Array(state.data.length);
+        for (let i = 0; i < state.data.length; i++) {
+          lines[i] = buildPersistCsvLine(state.data[i] ?? [], dlm, qs_);
+        }
+        return lines.join(nl);
+      };
+
+      const serializeStateAsCsv = async () => {
+        if (!state.data || state.data.length === 0) return '';
+        const dlm = state.delimiter || ',';
+        const qs_ = state.quoteStyle;
+        const nl = state.newline === 'crlf' ? '\r\n' : '\n';
+        const lines = new Array(state.data.length);
+        const chunkRows = 500;
+        for (let i = 0; i < state.data.length; i++) {
+          lines[i] = buildPersistCsvLine(state.data[i] ?? [], dlm, qs_);
+          if ((i + 1) % chunkRows === 0) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+          }
+        }
+        return lines.join(nl);
+      };
+
+      const buildPersistEnvelope = (csv) => ({
+        version: 2,
+        csv,
         hasHeader: state.hasHeader,
         delimiter: state.delimiter,
         columnWidths: state.columnWidths,
@@ -4444,10 +4553,35 @@
         ...getDataShapeMeta(state.data, state.hasHeader)
       });
 
-      const markDataChanged = () => {
+      const createPersistedStateAsync = async () => buildPersistEnvelope(await serializeStateAsCsv());
+      const createPersistedStateSync = () => buildPersistEnvelope(serializeStateAsCsvSync());
+
+      /*
+       * Updates revision and worker-sync bookkeeping.
+       * Pass `{ dirtyRows: Iterable<number> }` for cell-level edits so workers
+       * can be patched with a row-diff instead of a full re-sync. Anything
+       * structural (rows added/removed/reordered, full replace) should call
+       * with no args, which forces the next worker sync to send full data.
+       */
+      const markDataChanged = (opts) => {
         _dataRevision++;
         _filterValueCache.clear();
-        resetSearchRowCache();
+        const dirtyRows = opts?.dirtyRows;
+        if (dirtyRows !== undefined) {
+          for (const rowIdx of dirtyRows) {
+            invalidateRowSearchCache(rowIdx);
+            noteDirtyRowForWorkers(rowIdx);
+          }
+          _columnFilterRows = null;
+          _columnFilterTaskToken++;
+        } else {
+          resetSearchRowCache();
+          /*
+           * Structural change: row indices may no longer correspond to the
+           * cells the user originally selected, so drop the model.
+           */
+          clearSelectionModel();
+        }
         _saveRevision++;
         if (!_bootHydrationDone) _bootUserChanged = true;
       };
@@ -4493,22 +4627,25 @@
         updateSaveStatusBadge('unsaved');
         _saveTimer = setTimeout(() => {
           _saveTimer = null;
-          scheduleIdlePersist(() => {
+          scheduleIdlePersist(async () => {
             if (_savedRevision === _saveRevision) return;
             updateSaveStatusBadge('saving');
             const revision = _saveRevision;
-            IDBStore.set(PRO_STATE_STORAGE_KEY, createPersistedState())
-              .then(() => {
-                _savedRevision = revision;
-                if (_saveRevision === revision) {
-                  updateSaveStatusBadge(IDBStore.isFallback() ? 'fallback' : 'saved');
-                }
-              })
-              .catch(e => {
-                console.warn('IndexedDB save failed:', e);
-                updateSaveStatusBadge('error');
-                showToast('<span class="material-symbols-outlined">error</span> 自動保存に失敗しました。手動でエクスポートしてください。', 'error');
-              });
+            try {
+              const persisted = await createPersistedStateAsync();
+              if (revision !== _saveRevision) {
+                /* a newer change came in while we were serializing — let the next idle pass handle it */
+              }
+              await IDBStore.set(PRO_STATE_STORAGE_KEY, persisted);
+              _savedRevision = revision;
+              if (_saveRevision === revision) {
+                updateSaveStatusBadge(IDBStore.isFallback() ? 'fallback' : 'saved');
+              }
+            } catch (e) {
+              console.warn('IndexedDB save failed:', e);
+              updateSaveStatusBadge('error');
+              showToast('<span class="material-symbols-outlined">error</span> 自動保存に失敗しました。手動でエクスポートしてください。', 'error');
+            }
           });
         }, getAutosaveDebounceMs());
       };
@@ -4549,7 +4686,7 @@
           }
           hasSavedObject = !!saved && typeof saved === 'object';
           if (hasSavedObject) {
-            const normalizedState = normalizePersistedState(saved, localColumnWidths);
+            const normalizedState = await normalizePersistedState(saved, localColumnWidths);
             applyLoadedState(normalizedState);
           } else if (Object.keys(localColumnWidths).length > 0) {
             state.columnWidths = localColumnWidths;
@@ -4609,7 +4746,7 @@
           trimHistoryStack(undoStack);
         }
         redoStack = [];
-        markDataChanged();
+        markDataChanged({ dirtyRows: [row] });
         updateHistoryButtons();
       };
 
@@ -4619,7 +4756,9 @@
         undoStack.push(createCellBatchHistoryEntry(filtered));
         trimHistoryStack(undoStack);
         redoStack = [];
-        markDataChanged();
+        const dirtyRows = new Set();
+        for (const change of filtered) dirtyRows.add(change.row);
+        markDataChanged({ dirtyRows });
         updateHistoryButtons();
         return true;
       };
@@ -4631,19 +4770,19 @@
           return true;
         }
         if (entry.type === HISTORY_ENTRY_CELL) {
-          const row = state.data[entry.row];
-          if (!row) return false;
-          row[entry.col] = mode === 'undo' ? entry.before : entry.after;
-          markDataChanged();
+          if (!state.data[entry.row]) return false;
+          setCellValue(entry.row, entry.col, mode === 'undo' ? entry.before : entry.after);
+          markDataChanged({ dirtyRows: [entry.row] });
           return true;
         }
         if (entry.type === HISTORY_ENTRY_CELL_BATCH) {
+          const dirtyRows = new Set();
           for (const change of entry.changes) {
-            const row = state.data[change.row];
-            if (!row) continue;
-            row[change.col] = mode === 'undo' ? change.before : change.after;
+            if (!state.data[change.row]) continue;
+            setCellValue(change.row, change.col, mode === 'undo' ? change.before : change.after);
+            dirtyRows.add(change.row);
           }
-          markDataChanged();
+          markDataChanged({ dirtyRows });
           return true;
         }
         return false;
@@ -4733,6 +4872,39 @@
         return 0;
       };
 
+      const STATS_WORKER_ROW_THRESHOLD = 20000;
+      const isWorkerCapableEncoding = (enc) => {
+        const n = normalizeEncoding(enc);
+        return n === 'utf-8' || n === 'utf-16le' || n === 'utf-16be';
+      };
+
+      const computeStatsBytesViaWorker = (rows, { delimiter, encoding, quoteStyle, newline, bomBytes }) => {
+        const workerCode = `
+          const buildLine = (row, dlm, qs) => row.map((cell) => {
+            const c = cell == null ? '' : String(cell);
+            const escaped = c.replace(/"/g, '""');
+            if (qs === 'all') return '"' + escaped + '"';
+            if (qs === 'none') return c;
+            return (c.indexOf(dlm) >= 0 || c.indexOf('"') >= 0 || c.indexOf('\\n') >= 0 || c.indexOf('\\r') >= 0)
+              ? '"' + escaped + '"' : c;
+          }).join(dlm);
+          const utf16Length = (text) => text.length * 2;
+          self.onmessage = (event) => {
+            const { rows, delimiter, encoding, quoteStyle, newline, bomBytes } = event.data;
+            let bytes = bomBytes;
+            const isUtf16 = encoding === 'utf-16le' || encoding === 'utf-16be';
+            const enc = isUtf16 ? null : new TextEncoder();
+            for (let i = 0; i < rows.length; i++) {
+              const suffix = i < rows.length - 1 ? newline : '';
+              const line = buildLine(rows[i] || [], delimiter, quoteStyle) + suffix;
+              bytes += isUtf16 ? utf16Length(line) : enc.encode(line).length;
+            }
+            self.postMessage(bytes);
+          };
+        `;
+        return runDataWorker(workerCode, { rows, delimiter, encoding, quoteStyle, newline, bomBytes });
+      };
+
       const updateStats = () => {
         const rc = state.hasHeader ? state.data.length - 1 : state.data.length;
         const cc = state.data[0]?.length ?? 0;
@@ -4750,7 +4922,7 @@
         const token = ++_statsTaskToken;
         const rows = state.data;
         const delimiter = state.delimiter;
-        const encoding = state.encoding;
+        const encoding = normalizeEncoding(state.encoding);
         const quoteStyle = state.quoteStyle;
         const newline = state.newline === 'crlf' ? '\r\n' : '\n';
         const bomBytes = calcBomBytes(encoding, supportsBom(encoding) && state.bom);
@@ -4771,6 +4943,33 @@
 
         if (rows.length <= STATS_ASYNC_ROW_THRESHOLD) {
           $dataSize.textContent = formatBytes(calcSync());
+          return;
+        }
+
+        const useWorker = rows.length >= STATS_WORKER_ROW_THRESHOLD
+          && isWorkerCapableEncoding(encoding)
+          && typeof Worker !== 'undefined';
+
+        if (useWorker) {
+          $dataSize.textContent = '計算中...';
+          const startWorker = () => {
+            if (token !== _statsTaskToken) return;
+            computeStatsBytesViaWorker(rows, { delimiter, encoding, quoteStyle, newline, bomBytes })
+              .then((bytes) => {
+                if (token !== _statsTaskToken) return;
+                $dataSize.textContent = formatBytes(bytes);
+              })
+              .catch((e) => {
+                console.warn('Stats worker failed, fallback to chunked main thread', e);
+                if (token !== _statsTaskToken) return;
+                runMainChunked();
+              });
+          };
+          if (rows.length >= LARGE_DATA_ROW_THRESHOLD) {
+            _statsDebounceTimer = setTimeout(() => { _statsDebounceTimer = null; startWorker(); }, STATS_DEBOUNCE_MS);
+          } else {
+            startWorker();
+          }
           return;
         }
 
@@ -4799,7 +4998,7 @@
           $dataSize.textContent = formatBytes(bytes);
         };
 
-        const startCalc = () => {
+        const runMainChunked = () => {
           if (token !== _statsTaskToken) return;
           runChunk();
         };
@@ -4807,12 +5006,12 @@
         if (rows.length >= LARGE_DATA_ROW_THRESHOLD) {
           _statsDebounceTimer = setTimeout(() => {
             _statsDebounceTimer = null;
-            startCalc();
+            runMainChunked();
           }, STATS_DEBOUNCE_MS);
           return;
         }
 
-        startCalc();
+        runMainChunked();
       };
 
       /* --- CSV Parse --- */
@@ -5180,8 +5379,21 @@
             const { id, type, payload } = event.data || {};
             try {
               if (type === 'syncData') {
-                data = Array.isArray(payload?.data) ? payload.data : [];
-                rowCache = new Array(data.length);
+                if (Array.isArray(payload?.data)) {
+                  data = payload.data;
+                  rowCache = new Array(data.length);
+                } else if (Array.isArray(payload?.dirty)) {
+                  for (const entry of payload.dirty) {
+                    const idx = entry?.idx | 0;
+                    if (idx < 0) continue;
+                    if (idx >= data.length) {
+                      data.length = idx + 1;
+                      rowCache.length = idx + 1;
+                    }
+                    data[idx] = Array.isArray(entry.row) ? entry.row : [];
+                    rowCache[idx] = undefined;
+                  }
+                }
                 self.postMessage({ id, ok: true, result: { rows: data.length } });
                 return;
               }
@@ -5248,8 +5460,19 @@
         ensureSearchWorker();
         if (!_searchWorker) return false;
         if (_searchWorkerDataRevision === _dataRevision) return true;
-        await callSearchWorker('syncData', { data: state.data });
+        const dirty = _searchWorkerDirtyRows;
+        const canDiff = dirty !== null && _searchWorkerDataRevision >= 0 && dirty.size > 0 && dirty.size < state.data.length;
+        if (canDiff) {
+          const payload = { dirty: [] };
+          for (const idx of dirty) {
+            payload.dirty.push({ idx, row: state.data[idx] ?? [] });
+          }
+          await callSearchWorker('syncData', payload);
+        } else {
+          await callSearchWorker('syncData', { data: state.data });
+        }
         _searchWorkerDataRevision = _dataRevision;
+        _searchWorkerDirtyRows = new Set();
         return true;
       };
 
@@ -5312,7 +5535,16 @@
             const { id, type, payload } = event.data || {};
             try {
               if (type === 'syncData') {
-                data = Array.isArray(payload?.data) ? payload.data : [];
+                if (Array.isArray(payload?.data)) {
+                  data = payload.data;
+                } else if (Array.isArray(payload?.dirty)) {
+                  for (const entry of payload.dirty) {
+                    const idx = entry?.idx | 0;
+                    if (idx < 0) continue;
+                    if (idx >= data.length) data.length = idx + 1;
+                    data[idx] = Array.isArray(entry.row) ? entry.row : [];
+                  }
+                }
                 self.postMessage({ id, ok: true, result: { rows: data.length } });
                 return;
               }
@@ -5387,8 +5619,19 @@
         ensureFilterWorker();
         if (!_filterWorker) return false;
         if (_filterWorkerDataRevision === _dataRevision) return true;
-        await callFilterWorker('syncData', { data: state.data });
+        const dirty = _filterWorkerDirtyRows;
+        const canDiff = dirty !== null && _filterWorkerDataRevision >= 0 && dirty.size > 0 && dirty.size < state.data.length;
+        if (canDiff) {
+          const payload = { dirty: [] };
+          for (const idx of dirty) {
+            payload.dirty.push({ idx, row: state.data[idx] ?? [] });
+          }
+          await callFilterWorker('syncData', payload);
+        } else {
+          await callFilterWorker('syncData', { data: state.data });
+        }
         _filterWorkerDataRevision = _dataRevision;
+        _filterWorkerDirtyRows = new Set();
         return true;
       };
 
@@ -5579,6 +5822,7 @@
         const rowNum = state.hasHeader ? rowIndex : rowIndex + 1;
         const matchedCols = searchMatchMap.get(rowIndex);
         const currentMatch = currentMatchIndex >= 0 ? searchMatches[currentMatchIndex] : null;
+        const selectedCols = _selectionModel.get(rowIndex);
         return `<tr data-row="${rowIndex}">
           <td class="row-num" data-row-menu="${rowIndex}"><div class="row-num-wrapper">
             <span class="row-num-text">${rowNum}</span>
@@ -5593,6 +5837,7 @@
               const isCurrentMatch = currentMatch && currentMatch.row === rowIndex && currentMatch.col === j;
               if (isMatchedCell) classes.push('highlight');
               if (isCurrentMatch) classes.push('current-match');
+              if (selectedCols?.has(j)) classes.push('selected');
               const classAttr = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
               const cellHtml = renderCellTextWithSearchHit(c, { isMatchedCell, isCurrentMatch });
               return `<td${classAttr} contenteditable="true" data-row="${rowIndex}" data-col="${j}" style="width:${w}px;min-width:${w}px;max-width:${w}px;">${cellHtml}</td>`;
@@ -5799,10 +6044,65 @@
       let _isDragging = false;
       let _dragStart = null;         // { row, col }
 
+      /*
+       * Persistent selection model.
+       *
+       * Selections used to live entirely in the DOM (`td.selected`), which
+       * meant range selection ran a querySelector per cell — quadratic in
+       * (rows × cols) — and selections were silently lost when virtual
+       * scrolling replaced rows. The model (declared above as
+       * `_selectionModel`) stores selected coordinates as
+       * Map<rowIdx, Set<colIdx>> so that
+       *   - selectRange is O(R×C) data manipulation but no DOM queries,
+       *   - virtual scroll re-renders read from the model in
+       *     buildBodyRowHTML and restore the visual,
+       *   - status bar aggregation can include cells outside the viewport.
+       */
+      const clearSelectionModel = () => { _selectionModel = new Map(); };
+      const isCellSelected = (rowIdx, colIdx) => _selectionModel.get(rowIdx)?.has(colIdx) === true;
+      const addCellToSelectionModel = (rowIdx, colIdx) => {
+        let set = _selectionModel.get(rowIdx);
+        if (!set) { set = new Set(); _selectionModel.set(rowIdx, set); }
+        set.add(colIdx);
+      };
+      const removeCellFromSelectionModel = (rowIdx, colIdx) => {
+        const set = _selectionModel.get(rowIdx);
+        if (!set) return;
+        set.delete(colIdx);
+        if (set.size === 0) _selectionModel.delete(rowIdx);
+      };
+      const selectionCount = () => {
+        let total = 0;
+        for (const set of _selectionModel.values()) total += set.size;
+        return total;
+      };
+      const getSelectedCoords = () => {
+        const out = [];
+        for (const [r, cols] of _selectionModel) {
+          for (const c of cols) out.push({ row: r, col: c });
+        }
+        return out;
+      };
+
+      const refreshRenderedSelectionVisuals = () => {
+        /* Sync the `selected` class on currently-rendered TDs to the model. */
+        const rendered = qsa('td[data-row][data-col]', $dataTable);
+        for (const $td of rendered) {
+          const r = parseInt($td.dataset.row, 10);
+          const c = parseInt($td.dataset.col, 10);
+          const should = isCellSelected(r, c);
+          if (should !== $td.classList.contains('selected')) {
+            $td.classList.toggle('selected', should);
+          }
+        }
+      };
+
       const clearSelection = () => {
+        clearSelectionModel();
         qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
       };
 
+      /* Returns rendered DOM cells with `selected` class. */
       const getSelectedCells = () => qsa('td.selected', $dataTable);
 
       const getCellCoords = ($td) => ({
@@ -5811,17 +6111,27 @@
       });
       const hasValidCellCoords = ({ row, col }) => row >= 0 && col >= 0;
 
-      const selectCell = ($td) => $td.classList.add('selected');
+      const selectCell = ($td) => {
+        const coords = getCellCoords($td);
+        if (hasValidCellCoords(coords)) addCellToSelectionModel(coords.row, coords.col);
+        $td.classList.add('selected');
+      };
+
+      const selectCellByCoords = (rowIdx, colIdx) => {
+        addCellToSelectionModel(rowIdx, colIdx);
+        const $td = qs(`td[data-row="${rowIdx}"][data-col="${colIdx}"]`, $dataTable);
+        if ($td) $td.classList.add('selected');
+      };
 
       const selectRange = (r1, c1, r2, c2) => {
         const minR = Math.min(r1, r2), maxR = Math.max(r1, r2);
         const minC = Math.min(c1, c2), maxC = Math.max(c1, c2);
         for (let r = minR; r <= maxR; r++) {
           for (let c = minC; c <= maxC; c++) {
-            const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
-            if ($td) selectCell($td);
+            addCellToSelectionModel(r, c);
           }
         }
+        refreshRenderedSelectionVisuals();
       };
 
       // --- mousedown on cells ---
@@ -5866,39 +6176,29 @@
           _isDragging = false;
           $dataTable.classList.remove('selecting-cells');
           // If only 1 cell was selected by a plain click, clear selection and let focus handle it
-          const selected = getSelectedCells();
-          if (selected.length === 1) {
-            selected[0].classList.remove('selected');
-            selected[0].focus();
+          if (selectionCount() === 1) {
+            const [{ row, col }] = getSelectedCoords();
+            clearSelection();
+            const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
+            if ($td) $td.focus();
           }
         }
       });
 
       // --- Copy selected cells (Ctrl+C when cells are selected, not editing) ---
       const copySelectedCells = async () => {
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
+        if (selectionCount() === 0) return false;
 
-        // Build a map of row -> sorted cols
-        const rowMap = new Map();
-        cells.forEach($td => {
-          const coords = getCellCoords($td);
-          if (!hasValidCellCoords(coords)) return;
-          const { row, col } = coords;
-          if (!rowMap.has(row)) rowMap.set(row, []);
-          rowMap.get(row).push(col);
-        });
-        if (rowMap.size === 0) return false;
-
-        const sortedRows = [...rowMap.keys()].sort((a, b) => a - b);
+        const sortedRows = [..._selectionModel.keys()].sort((a, b) => a - b);
         const lines = sortedRows.map(r => {
-          const cols = rowMap.get(r).sort((a, b) => a - b);
+          const cols = [..._selectionModel.get(r)].sort((a, b) => a - b);
           return cols.map(c => state.data[r]?.[c] ?? '').join('\t');
         });
+        const totalCells = selectionCount();
 
         try {
           await navigator.clipboard.writeText(lines.join('\n'));
-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${cells.length}セルをコピーしました`, 'success');
+          showToast(`<span class="material-symbols-outlined">content_copy</span> ${totalCells}セルをコピーしました`, 'success');
           return true;
         } catch {
           showToast('コピーに失敗しました', 'error');
@@ -5908,11 +6208,7 @@
 
       // --- Delete selected cells (Delete / Backspace when cells are selected) ---
       const deleteSelectedCells = () => {
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
-        const validCoords = cells
-          .map($td => getCellCoords($td))
-          .filter((coords) => hasValidCellCoords(coords));
+        const validCoords = getSelectedCoords();
         if (validCoords.length === 0) return false;
         const changes = [];
         validCoords.forEach(({ row, col }) => {
@@ -5920,7 +6216,7 @@
             const before = state.data[row][col];
             if (before === '') return;
             changes.push({ row, col, before, after: '' });
-            state.data[row][col] = '';
+            setCellValue(row, col, '');
             const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
             if ($td) $td.textContent = '';
           }
@@ -5934,15 +6230,11 @@
 
       // --- Paste into selected range (Ctrl+V) ---
       const pasteIntoSelection = (clipText) => {
-        const cells = getSelectedCells();
-        if (cells.length === 0) return false;
+        const validCoords = getSelectedCoords();
+        if (validCoords.length === 0) return false;
 
         const clipRows = clipText.replace(/\r\n?/g, '\n').replace(/\n$/, '').split('\n');
         const clipData = clipRows.map(r => r.split('\t'));
-        const validCoords = cells
-          .map($td => getCellCoords($td))
-          .filter((coords) => hasValidCellCoords(coords));
-        if (validCoords.length === 0) return false;
 
         // Build bounding box of selection
         let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
@@ -5964,7 +6256,7 @@
                 const before = state.data[targetR][targetC];
                 const after = clipData[ri][ci];
                 if (before !== after) changes.push({ row: targetR, col: targetC, before, after });
-                state.data[targetR][targetC] = after;
+                setCellValue(targetR, targetC, after);
                 const $td = qs(`td[data-row="${targetR}"][data-col="${targetC}"]`, $dataTable);
                 if ($td) $td.textContent = after;
                 count++;
@@ -5982,7 +6274,7 @@
             if (state.data[row]) {
               const before = state.data[row][col];
               if (before !== val) changes.push({ row, col, before, after: val });
-              state.data[row][col] = val;
+              setCellValue(row, col, val);
               const $td = qs(`td[data-row="${row}"][data-col="${col}"]`, $dataTable);
               if ($td) $td.textContent = val;
               count++;
@@ -6001,8 +6293,8 @@
         const val = $cell.textContent;
         const prev = state.data[row]?.[col];
         if (prev !== val && prev !== undefined) {
+          setCellValue(row, col, val);
           saveCellEditToHistory(row, col, prev, val);
-          state.data[row][col] = val;
           updateStats();
           saveToStorage();
           if (columnFilters.size > 0) {
@@ -6606,7 +6898,8 @@
         const regex = buildReplaceRegex($searchInput.value, false);
         if (!regex) return;
         saveToHistory();
-        state.data[row][col] = state.data[row][col].replace(regex, $replaceInput.value);
+        const next = state.data[row][col].replace(regex, $replaceInput.value);
+        setCellValue(row, col, next);
         renderTable(); saveToStorage(); performSearchImmediate();
         showToast('1件置換しました', 'success');
       };
@@ -6675,7 +6968,7 @@
               row.forEach((cell, j) => {
                 if (targetCol >= 0 && j !== targetCol) return;
                 const next = cell.replace(regex, $replaceInput.value);
-                if (cell !== next) { state.data[i][j] = next; count++; }
+                if (cell !== next) { setCellValue(i, j, next); count++; }
               });
             });
           }
@@ -6685,7 +6978,7 @@
             row.forEach((cell, j) => {
               if (targetCol >= 0 && j !== targetCol) return;
               const next = cell.replace(regex, $replaceInput.value);
-              if (cell !== next) { state.data[i][j] = next; count++; }
+              if (cell !== next) { setCellValue(i, j, next); count++; }
             });
           });
         }
@@ -7731,7 +8024,7 @@
 
       const getExportTargetAvailability = () => ({
         filtered: columnFilters.size > 0 || ($filterMode.checked && filteredRows !== null),
-        selected: getSelectedCells().length > 0,
+        selected: selectionCount() > 0,
       });
 
       const normalizeExportTarget = () => {
@@ -7765,14 +8058,16 @@
         let rows;
         if (target === 'selected') {
           // Get unique rows from selection
-          const cells = getSelectedCells();
-          if (cells.length === 0) return { headers: [], rows: [] };
+          if (selectionCount() === 0) return { headers: [], rows: [] };
           let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
-          cells.forEach($td => {
-            const r = parseInt($td.dataset.row), c = parseInt($td.dataset.col);
-            minR = Math.min(minR, r); maxR = Math.max(maxR, r);
-            minC = Math.min(minC, c); maxC = Math.max(maxC, c);
-          });
+          for (const [r, cols] of _selectionModel) {
+            if (r < minR) minR = r;
+            if (r > maxR) maxR = r;
+            for (const c of cols) {
+              if (c < minC) minC = c;
+              if (c > maxC) maxC = c;
+            }
+          }
           const colRange = [];
           for (let c = minC; c <= maxC; c++) colRange.push(c);
           rows = [];
@@ -8153,7 +8448,7 @@
 	        if (key === 'escape') {
 	          if (closeActiveOverlay()) { e.preventDefault(); return; }
 	          if (isTextInputContext()) return;
-	          if (getSelectedCells().length > 0) { clearSelection(); scheduleStatusBarUpdate(); return; }
+	          if (selectionCount() > 0) { clearSelection(); scheduleStatusBarUpdate(); return; }
 	          clearSearch();
 	          return;
 	        }
@@ -8174,14 +8469,12 @@
 
 	        // Copy selected cells with Ctrl+C
 	        if ((e.ctrlKey || e.metaKey) && key === 'c') {
-	          const selected = getSelectedCells();
-	          if (selected.length > 0) { e.preventDefault(); copySelectedCells(); return; }
+	          if (selectionCount() > 0) { e.preventDefault(); copySelectedCells(); return; }
 	        }
 
 	        // Paste into selected cells with Ctrl+V
 	        if ((e.ctrlKey || e.metaKey) && key === 'v') {
-	          const selected = getSelectedCells();
-	          if (selected.length > 0) {
+	          if (selectionCount() > 0) {
 	            // Let the paste event handler below handle it
 	            return;
 	          }
@@ -8201,11 +8494,11 @@
         }
 
         // Delete / Backspace selected cells
-        if ((e.key === 'Delete' || e.key === 'Backspace') && getSelectedCells().length > 0) {
+        if ((e.key === 'Delete' || e.key === 'Backspace') && selectionCount() > 0) {
           const tag = document.activeElement.tagName;
           const editable = document.activeElement.isContentEditable;
           // Only intercept when not actively editing a cell's text
-          if (tag !== 'TD' || !editable || getSelectedCells().length > 1) {
+          if (tag !== 'TD' || !editable || selectionCount() > 1) {
             e.preventDefault(); deleteSelectedCells(); return;
           }
         }
@@ -8441,8 +8734,7 @@
 	        if (!text) return;
 
         // If cells are selected, paste into the selection
-        const selected = getSelectedCells();
-        if (selected.length > 0) {
+        if (selectionCount() > 0) {
           e.preventDefault();
           pasteIntoSelection(text);
           return;
@@ -8536,8 +8828,8 @@
 
       const updateStatusBar = () => {
         if (!$statusBar) return;
-        const cells = qsa('td.selected', $dataTable);
-        if (cells.length === 0) {
+        const totalSelected = selectionCount();
+        if (totalSelected === 0) {
           $statusValues.selection.textContent = isEnglish() ? 'None' : 'なし';
           $statusItemSelection.classList.add('muted');
           STATUS_AGG_KEYS.forEach(k => { $statusItems[k].hidden = true; });
@@ -8552,25 +8844,28 @@
         let max = -Infinity;
         let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
 
-        for (const $td of cells) {
-          const r = parseInt($td.dataset.row, 10);
-          const c = parseInt($td.dataset.col, 10);
-          if (!Number.isNaN(r)) { if (r < minR) minR = r; if (r > maxR) maxR = r; }
-          if (!Number.isNaN(c)) { if (c < minC) minC = c; if (c > maxC) maxC = c; }
-          const raw = state.data[r]?.[c];
-          if (raw != null && String(raw).length > 0) nonEmpty++;
-          const n = parseStatusNumber(raw);
-          if (Number.isFinite(n)) {
-            numericCount++;
-            sum += n;
-            if (n < min) min = n;
-            if (n > max) max = n;
+        for (const [r, cols] of _selectionModel) {
+          if (r < minR) minR = r;
+          if (r > maxR) maxR = r;
+          const row = state.data[r];
+          for (const c of cols) {
+            if (c < minC) minC = c;
+            if (c > maxC) maxC = c;
+            const raw = row?.[c];
+            if (raw != null && String(raw).length > 0) nonEmpty++;
+            const n = parseStatusNumber(raw);
+            if (Number.isFinite(n)) {
+              numericCount++;
+              sum += n;
+              if (n < min) min = n;
+              if (n > max) max = n;
+            }
           }
         }
 
         const selRows = Number.isFinite(minR) ? maxR - minR + 1 : 0;
         const selCols = Number.isFinite(minC) ? maxC - minC + 1 : 0;
-        const selCount = cells.length;
+        const selCount = totalSelected;
         const locale = getLocaleTag();
         $statusValues.selection.textContent = isEnglish()
           ? `${selCount.toLocaleString(locale)} cells (${selRows}×${selCols})`
@@ -8602,10 +8897,9 @@
       }, true);
 
       /* --- Transpose --- */
-      const _runTranspose = () => {
-        const rows = state.data;
-        const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
-        saveToHistory();
+      const TRANSPOSE_WORKER_CELL_THRESHOLD = 5000;
+
+      const transposeMatrixSync = (rows, colCount) => {
         const next = new Array(colCount);
         for (let c = 0; c < colCount; c++) {
           const newRow = new Array(rows.length);
@@ -8614,6 +8908,46 @@
           }
           next[c] = newRow;
         }
+        return next;
+      };
+
+      const transposeMatrixViaWorker = async (rows, colCount) => {
+        const workerCode = `
+          self.onmessage = (event) => {
+            const { rows, colCount } = event.data;
+            const next = new Array(colCount);
+            for (let c = 0; c < colCount; c++) {
+              const newRow = new Array(rows.length);
+              for (let r = 0; r < rows.length; r++) {
+                newRow[r] = rows[r] && rows[r][c] != null ? rows[r][c] : '';
+              }
+              next[c] = newRow;
+            }
+            self.postMessage(next);
+          };
+        `;
+        return runDataWorker(workerCode, { rows, colCount });
+      };
+
+      const _runTranspose = async () => {
+        const rows = state.data;
+        const colCount = rows.reduce((m, r) => Math.max(m, r?.length ?? 0), 0);
+        const cellCount = rows.length * colCount;
+
+        saveToHistory();
+
+        let next;
+        if (cellCount >= TRANSPOSE_WORKER_CELL_THRESHOLD && typeof Worker !== 'undefined') {
+          try {
+            next = await transposeMatrixViaWorker(rows, colCount);
+          } catch (e) {
+            console.warn('Transpose worker failed, fallback to main thread', e);
+            next = transposeMatrixSync(rows, colCount);
+          }
+        } else {
+          next = transposeMatrixSync(rows, colCount);
+        }
+
         state.data = next;
         state.hasHeader = false;
         state.columnWidths = {};
@@ -9147,7 +9481,7 @@
         cancelIdlePersist();
         if (_savedRevision === _saveRevision) return;
         const revision = _saveRevision;
-        IDBStore.set(PRO_STATE_STORAGE_KEY, createPersistedState())
+        IDBStore.set(PRO_STATE_STORAGE_KEY, createPersistedStateSync())
           .then(() => {
             _savedRevision = revision;
             updateSaveStatusBadge(IDBStore.isFallback() ? 'fallback' : 'saved');
