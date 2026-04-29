@@ -2150,6 +2150,7 @@
       <div class="toolbar-group">
         <button class="btn" id="transposeBtn" title="行と列を入れ替え"><span class="material-symbols-outlined">swap_horiz</span> 行列入替</button>
         <button class="btn" id="compareBtn" title="別の CSV/TSV と比較"><span class="material-symbols-outlined">compare_arrows</span> <span id="compareBtnLabel">比較</span></button>
+        <button class="btn" id="textTransformBtn" title="選択セルのテキスト変換" aria-haspopup="menu" aria-expanded="false"><span class="material-symbols-outlined">text_format</span> <span id="textTransformBtnLabel">テキスト変換</span></button>
       </div>
       <div class="toolbar-group">
         <button class="btn" id="copyBtn"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
@@ -2195,6 +2196,23 @@
   </div>
 
   <!-- 列メニュー -->
+  <div class="column-menu" id="textTransformMenu" role="menu">
+    <div class="menu-item" data-transform="upper" role="menuitem"><span class="material-symbols-outlined">format_size</span> 大文字 (UPPER)</div>
+    <div class="menu-item" data-transform="lower" role="menuitem"><span class="material-symbols-outlined">format_size</span> 小文字 (lower)</div>
+    <div class="menu-item" data-transform="title" role="menuitem"><span class="material-symbols-outlined">format_size</span> タイトルケース (Title)</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-transform="trim" role="menuitem"><span class="material-symbols-outlined">space_bar</span> 前後の空白を除去 (trim)</div>
+    <div class="menu-item" data-transform="collapse" role="menuitem"><span class="material-symbols-outlined">space_bar</span> 連続空白を 1 つに (collapse)</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-transform="snake" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> snake_case</div>
+    <div class="menu-item" data-transform="camel" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> camelCase</div>
+    <div class="menu-item" data-transform="pascal" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> PascalCase</div>
+    <div class="menu-item" data-transform="kebab" role="menuitem"><span class="material-symbols-outlined">linear_scale</span> kebab-case</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" data-transform="halfwidth" role="menuitem"><span class="material-symbols-outlined">compress</span> 全角 → 半角</div>
+    <div class="menu-item" data-transform="fullwidth" role="menuitem"><span class="material-symbols-outlined">expand</span> 半角 → 全角</div>
+  </div>
+
   <div class="column-menu" id="columnMenu">
     <div class="menu-item" data-action="sort-asc"><span class="material-symbols-outlined">arrow_upward</span> 昇順に並び替え</div>
     <div class="menu-item" data-action="sort-desc"><span class="material-symbols-outlined">arrow_downward</span> 降順に並び替え</div>
@@ -6291,6 +6309,136 @@
         }
       };
 
+      /* --- Text transformations on selected cells --- */
+      const splitWordTokens = (s) => {
+        if (s == null) return [];
+        return String(s)
+          .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+          .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+          .split(/[\s_\-./]+/)
+          .filter((t) => t.length > 0);
+      };
+      const upperFirst = (s) => s.length === 0 ? '' : s[0].toUpperCase() + s.slice(1).toLowerCase();
+      const lowerFirst = (s) => s.length === 0 ? '' : s[0].toLowerCase() + s.slice(1);
+      const transformUpper  = (s) => (s ?? '').toUpperCase();
+      const transformLower  = (s) => (s ?? '').toLowerCase();
+      const transformTitle  = (s) => splitWordTokens(s).map(upperFirst).join(' ');
+      const transformTrim   = (s) => (s ?? '').trim();
+      const transformCollapse = (s) => (s ?? '').replace(/\s+/g, ' ');
+      const transformSnake  = (s) => splitWordTokens(s).map((t) => t.toLowerCase()).join('_');
+      const transformKebab  = (s) => splitWordTokens(s).map((t) => t.toLowerCase()).join('-');
+      const transformPascal = (s) => splitWordTokens(s).map(upperFirst).join('');
+      const transformCamel  = (s) => {
+        const tokens = splitWordTokens(s).map(upperFirst);
+        if (tokens.length === 0) return '';
+        return lowerFirst(tokens[0]) + tokens.slice(1).join('');
+      };
+      const transformHalfWidth = (s) => {
+        if (!s) return '';
+        return String(s)
+          .replace(/[！-～]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+          .replace(/　/g, ' ');
+      };
+      const transformFullWidth = (s) => {
+        if (!s) return '';
+        return String(s)
+          .replace(/[!-~]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) + 0xfee0))
+          .replace(/ /g, '　');
+      };
+
+      const TEXT_TRANSFORMS = {
+        upper:     { fn: transformUpper,    labelJa: '大文字',           labelEn: 'UPPER' },
+        lower:     { fn: transformLower,    labelJa: '小文字',           labelEn: 'lower' },
+        title:     { fn: transformTitle,    labelJa: 'タイトルケース',    labelEn: 'Title Case' },
+        trim:      { fn: transformTrim,     labelJa: '前後空白除去',      labelEn: 'Trim' },
+        collapse:  { fn: transformCollapse, labelJa: '連続空白を 1 つに',  labelEn: 'Collapse spaces' },
+        snake:     { fn: transformSnake,    labelJa: 'snake_case',       labelEn: 'snake_case' },
+        camel:     { fn: transformCamel,    labelJa: 'camelCase',        labelEn: 'camelCase' },
+        pascal:    { fn: transformPascal,   labelJa: 'PascalCase',       labelEn: 'PascalCase' },
+        kebab:     { fn: transformKebab,    labelJa: 'kebab-case',       labelEn: 'kebab-case' },
+        halfwidth: { fn: transformHalfWidth, labelJa: '全角→半角',        labelEn: 'Full-width → Half-width' },
+        fullwidth: { fn: transformFullWidth, labelJa: '半角→全角',        labelEn: 'Half-width → Full-width' }
+      };
+
+      const applyTextTransform = (transformId) => {
+        const transform = TEXT_TRANSFORMS[transformId];
+        if (!transform) return;
+        let coords = getSelectedCoords();
+        if (coords.length === 0) {
+          /* Fall back: a plain click clears the selection model but leaves
+             _selectionAnchor pointing at the last-clicked cell, so we can
+             still operate on a single cell that has just been activated. */
+          const $focus = document.activeElement;
+          if ($focus && $focus.tagName === 'TD' && $focus.dataset.row != null) {
+            const r = parseInt($focus.dataset.row, 10);
+            const c = parseInt($focus.dataset.col, 10);
+            if (Number.isFinite(r) && Number.isFinite(c)) coords = [{ row: r, col: c }];
+          } else if (_selectionAnchor && Number.isFinite(_selectionAnchor.row) && Number.isFinite(_selectionAnchor.col)) {
+            coords = [{ row: _selectionAnchor.row, col: _selectionAnchor.col }];
+          }
+        }
+        if (coords.length === 0) {
+          showToast(isEnglish() ? 'Select cells first' : 'セルを選択してください', 'error');
+          return;
+        }
+        const changes = [];
+        for (const { row, col } of coords) {
+          const before = state.data[row]?.[col] ?? '';
+          const after = transform.fn(before);
+          if (before !== after) {
+            setCellValue(row, col, after);
+            changes.push({ row, col, before, after });
+          }
+        }
+        if (changes.length === 0) {
+          showToast(isEnglish() ? 'No changes' : '変更はありません', 'success');
+          return;
+        }
+        saveCellBatchToHistory(changes);
+        renderTable();
+        updateStats();
+        saveToStorage();
+        const label = isEnglish() ? transform.labelEn : transform.labelJa;
+        const msg = isEnglish()
+          ? `Transformed ${changes.length} cells (${label})`
+          : `${changes.length}セルを変換しました（${label}）`;
+        showToast(msg, 'success');
+      };
+
+      const $textTransformBtn = qs('#textTransformBtn');
+      const $textTransformMenu = qs('#textTransformMenu');
+      const closeTextTransformMenu = () => {
+        $textTransformMenu.classList.remove('show');
+        $textTransformBtn.setAttribute('aria-expanded', 'false');
+      };
+      const openTextTransformMenu = () => {
+        const rect = $textTransformBtn.getBoundingClientRect();
+        $textTransformMenu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+        $textTransformMenu.style.left = `${_clampHorizontal(rect.left, 240)}px`;
+        $textTransformMenu.classList.add('show');
+        $textTransformBtn.setAttribute('aria-expanded', 'true');
+      };
+      $textTransformBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if ($textTransformMenu.classList.contains('show')) {
+          closeTextTransformMenu();
+        } else {
+          openTextTransformMenu();
+        }
+      });
+      $textTransformMenu.addEventListener('click', (e) => {
+        const item = e.target.closest('.menu-item');
+        if (!item) return;
+        const id = item.dataset.transform;
+        closeTextTransformMenu();
+        applyTextTransform(id);
+      });
+      document.addEventListener('click', (e) => {
+        if (!$textTransformMenu.contains(e.target) && e.target !== $textTransformBtn && !$textTransformBtn.contains(e.target)) {
+          closeTextTransformMenu();
+        }
+      });
+
       // --- Delete selected cells (Delete / Backspace when cells are selected) ---
       const deleteSelectedCells = () => {
         const validCoords = getSelectedCoords();
@@ -9319,6 +9467,17 @@
         { id: 'add-col',   icon: 'add_box',       title: '列追加',                 shortcut: '',               run: addColumn },
         { id: 'transpose', icon: 'swap_horiz',    title: '行列入替',               shortcut: '',               run: transposeData },
         { id: 'compare',   icon: 'compare_arrows',title: 'CSV を比較',             shortcut: '',               run: openCompareDialog },
+        { id: 'tx-upper',     icon: 'text_format', title: 'テキスト変換: 大文字',          shortcut: '', run: () => applyTextTransform('upper') },
+        { id: 'tx-lower',     icon: 'text_format', title: 'テキスト変換: 小文字',          shortcut: '', run: () => applyTextTransform('lower') },
+        { id: 'tx-title',     icon: 'text_format', title: 'テキスト変換: タイトルケース',  shortcut: '', run: () => applyTextTransform('title') },
+        { id: 'tx-trim',      icon: 'space_bar',   title: 'テキスト変換: 前後空白除去',    shortcut: '', run: () => applyTextTransform('trim') },
+        { id: 'tx-collapse',  icon: 'space_bar',   title: 'テキスト変換: 連続空白を 1 つに',shortcut: '', run: () => applyTextTransform('collapse') },
+        { id: 'tx-snake',     icon: 'linear_scale',title: 'テキスト変換: snake_case',      shortcut: '', run: () => applyTextTransform('snake') },
+        { id: 'tx-camel',     icon: 'linear_scale',title: 'テキスト変換: camelCase',       shortcut: '', run: () => applyTextTransform('camel') },
+        { id: 'tx-pascal',    icon: 'linear_scale',title: 'テキスト変換: PascalCase',      shortcut: '', run: () => applyTextTransform('pascal') },
+        { id: 'tx-kebab',     icon: 'linear_scale',title: 'テキスト変換: kebab-case',      shortcut: '', run: () => applyTextTransform('kebab') },
+        { id: 'tx-halfwidth', icon: 'compress',    title: 'テキスト変換: 全角→半角',       shortcut: '', run: () => applyTextTransform('halfwidth') },
+        { id: 'tx-fullwidth', icon: 'expand',      title: 'テキスト変換: 半角→全角',       shortcut: '', run: () => applyTextTransform('fullwidth') },
         { id: 'copy',      icon: 'content_copy',  title: 'CSVをコピー',            shortcut: '',               run: copyData },
         { id: 'download',  icon: 'download',      title: 'CSVをダウンロード',      shortcut: '',               run: downloadData },
         { id: 'export',    icon: 'tune',          title: 'エクスポートを開く',     shortcut: '',               run: openExportWizard },
