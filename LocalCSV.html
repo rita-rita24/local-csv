@@ -670,10 +670,30 @@
         border-radius: 12px;
         border: 1px solid var(--border);
         overflow: hidden;
+        position: relative;
 
         &.show {
           display: block;
         }
+      }
+
+      .fill-handle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--accent, #2563eb);
+        border: 2px solid var(--surface, #fff);
+        box-sizing: border-box;
+        z-index: 6;
+        cursor: crosshair;
+        pointer-events: auto;
+        border-radius: 1px;
+        box-shadow: 0 1px 3px oklch(0 0 0 / 0.25);
+      }
+      .fill-handle[hidden] { display: none; }
+      td.fill-preview {
+        outline: 2px dashed var(--accent, #2563eb) !important;
+        outline-offset: -2px;
       }
 
       .table-scroll {
@@ -2180,6 +2200,7 @@
           <tbody id="tableBody"></tbody>
         </table>
       </div>
+      <div class="fill-handle" id="fillHandle" hidden role="button" aria-label="オートフィル"></div>
     </div>
 
     <!-- 集計ステータスバー -->
@@ -6095,6 +6116,7 @@
         if ($searchInput.value && !_skipRenderSearchRefresh) {
           performSearch();
         }
+        refreshFillHandlePosition();
       };
 
       /* --- Toggle Header --- */
@@ -6198,11 +6220,13 @@
             $td.classList.toggle('selected', should);
           }
         }
+        refreshFillHandlePosition();
       };
 
       const clearSelection = () => {
         clearSelectionModel();
         qsa('td.selected', $dataTable).forEach(el => el.classList.remove('selected'));
+        refreshFillHandlePosition();
       };
 
       /* Returns rendered DOM cells with `selected` class. */
@@ -6236,6 +6260,265 @@
         }
         refreshRenderedSelectionVisuals();
       };
+
+      /* --- Autofill (fill handle) --- */
+      const $fillHandle = qs('#fillHandle');
+      let _fillState = { active: false, bounds: null, direction: null, extent: null, previewCells: [] };
+
+      const getSelectionRectBounds = () => {
+        if (selectionCount() === 0) return null;
+        let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
+        for (const [r, cols] of _selectionModel) {
+          if (r < minR) minR = r;
+          if (r > maxR) maxR = r;
+          for (const c of cols) {
+            if (c < minC) minC = c;
+            if (c > maxC) maxC = c;
+          }
+        }
+        if (!Number.isFinite(minR)) return null;
+        return { minR, maxR, minC, maxC };
+      };
+
+      const refreshFillHandlePosition = () => {
+        if (_fillState.active) return; /* don't reposition while dragging */
+        const bounds = getSelectionRectBounds();
+        if (!bounds || !$tableContainer.classList.contains('show')) {
+          $fillHandle.hidden = true;
+          return;
+        }
+        const $td = qs(`td[data-row="${bounds.maxR}"][data-col="${bounds.maxC}"]`, $dataTable);
+        if (!$td) {
+          $fillHandle.hidden = true;
+          return;
+        }
+        const cellRect = $td.getBoundingClientRect();
+        const tcRect = $tableContainer.getBoundingClientRect();
+        if (cellRect.right < tcRect.left || cellRect.bottom < tcRect.top
+            || cellRect.left > tcRect.right || cellRect.top > tcRect.bottom) {
+          $fillHandle.hidden = true;
+          return;
+        }
+        $fillHandle.style.left = `${cellRect.right - tcRect.left - 5}px`;
+        $fillHandle.style.top  = `${cellRect.bottom - tcRect.top - 5}px`;
+        $fillHandle.hidden = false;
+      };
+
+      const clearFillPreview = () => {
+        for (const $td of qsa('td.fill-preview', $dataTable)) {
+          $td.classList.remove('fill-preview');
+        }
+        _fillState.previewCells = [];
+      };
+
+      const renderFillPreview = (direction, bounds, extent) => {
+        clearFillPreview();
+        if (direction === 'down') {
+          for (let r = bounds.maxR + 1; r <= extent; r++) {
+            for (let c = bounds.minC; c <= bounds.maxC; c++) {
+              const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
+              if ($td) $td.classList.add('fill-preview');
+            }
+          }
+        } else if (direction === 'right') {
+          for (let r = bounds.minR; r <= bounds.maxR; r++) {
+            for (let c = bounds.maxC + 1; c <= extent; c++) {
+              const $td = qs(`td[data-row="${r}"][data-col="${c}"]`, $dataTable);
+              if ($td) $td.classList.add('fill-preview');
+            }
+          }
+        }
+      };
+
+      const NUMERIC_RE = /^-?\d+(?:\.\d+)?$/;
+      const detectFillPattern = (values) => {
+        if (!values || values.length === 0) {
+          return { type: 'repeat', generator: () => '' };
+        }
+        const trimmed = values.map((v) => (v == null ? '' : String(v)));
+
+        /* 1) Arithmetic progression */
+        if (trimmed.every((v) => v.trim() !== '' && NUMERIC_RE.test(v.trim()))) {
+          const nums = trimmed.map((v) => Number(v.trim()));
+          if (nums.length === 1) {
+            const last = nums[0];
+            return { type: 'arithmetic', generator: (idx) => String(last + (idx + 1)) };
+          }
+          const step = nums[1] - nums[0];
+          let arithmetic = true;
+          for (let i = 2; i < nums.length; i++) {
+            if (Math.abs(nums[i] - nums[i - 1] - step) > 1e-9) { arithmetic = false; break; }
+          }
+          if (arithmetic) {
+            const last = nums[nums.length - 1];
+            return { type: 'arithmetic', generator: (idx) => {
+              const v = last + step * (idx + 1);
+              return Number.isInteger(v) ? String(v) : String(parseFloat(v.toFixed(10)));
+            }};
+          }
+        }
+
+        /* 2) Numeric suffix increment (e.g. A001, A002 → A003) */
+        const suffixMatches = trimmed.map((v) => /^(.*?)(\d+)$/.exec(v));
+        if (suffixMatches.every((m) => m !== null) && suffixMatches.length > 0) {
+          const prefixes = suffixMatches.map((m) => m[1]);
+          const samePrefix = prefixes.every((p) => p === prefixes[0]);
+          if (samePrefix) {
+            const numbers = suffixMatches.map((m) => parseInt(m[2], 10));
+            const padding = suffixMatches[suffixMatches.length - 1][2].length;
+            let step = 1;
+            if (numbers.length >= 2) {
+              const candidate = numbers[1] - numbers[0];
+              let consistent = true;
+              for (let i = 2; i < numbers.length; i++) {
+                if (numbers[i] - numbers[i - 1] !== candidate) { consistent = false; break; }
+              }
+              if (consistent) step = candidate;
+            }
+            const last = numbers[numbers.length - 1];
+            const prefix = prefixes[0];
+            return { type: 'suffix', generator: (idx) => {
+              const next = last + step * (idx + 1);
+              const numStr = next < 0
+                ? '-' + Math.abs(next).toString().padStart(padding, '0')
+                : next.toString().padStart(padding, '0');
+              return prefix + numStr;
+            }};
+          }
+        }
+
+        /* 3) Repeat the source values */
+        return { type: 'repeat', generator: (idx) => trimmed[idx % trimmed.length] };
+      };
+
+      const applyFill = () => {
+        const { direction, bounds, extent } = _fillState;
+        if (!direction || !bounds) return;
+        const changes = [];
+        if (direction === 'down') {
+          if (extent <= bounds.maxR) return;
+          for (let c = bounds.minC; c <= bounds.maxC; c++) {
+            const sourceVals = [];
+            for (let r = bounds.minR; r <= bounds.maxR; r++) {
+              sourceVals.push(state.data[r]?.[c] ?? '');
+            }
+            const pattern = detectFillPattern(sourceVals);
+            for (let r = bounds.maxR + 1; r <= extent; r++) {
+              if (!state.data[r]) continue;
+              const before = state.data[r]?.[c] ?? '';
+              const after = pattern.generator(r - bounds.maxR - 1);
+              if (before !== after) {
+                setCellValue(r, c, after);
+                changes.push({ row: r, col: c, before, after });
+              }
+            }
+          }
+        } else if (direction === 'right') {
+          if (extent <= bounds.maxC) return;
+          for (let r = bounds.minR; r <= bounds.maxR; r++) {
+            if (!state.data[r]) continue;
+            const sourceVals = [];
+            for (let c = bounds.minC; c <= bounds.maxC; c++) {
+              sourceVals.push(state.data[r]?.[c] ?? '');
+            }
+            const pattern = detectFillPattern(sourceVals);
+            for (let c = bounds.maxC + 1; c <= extent; c++) {
+              const before = state.data[r]?.[c];
+              if (before === undefined) continue;
+              const after = pattern.generator(c - bounds.maxC - 1);
+              if (before !== after) {
+                setCellValue(r, c, after);
+                changes.push({ row: r, col: c, before, after });
+              }
+            }
+          }
+        }
+        if (changes.length > 0) {
+          saveCellBatchToHistory(changes);
+          renderTable();
+          updateStats();
+          saveToStorage();
+          /* Extend selection to cover the filled range so subsequent fills work
+             on the new total range. */
+          clearSelectionModel();
+          if (direction === 'down') {
+            for (let r = bounds.minR; r <= extent; r++) {
+              for (let c = bounds.minC; c <= bounds.maxC; c++) {
+                addCellToSelectionModel(r, c);
+              }
+            }
+          } else {
+            for (let r = bounds.minR; r <= bounds.maxR; r++) {
+              for (let c = bounds.minC; c <= extent; c++) {
+                addCellToSelectionModel(r, c);
+              }
+            }
+          }
+          refreshRenderedSelectionVisuals();
+        }
+      };
+
+      const cancelFillDrag = () => {
+        clearFillPreview();
+        _fillState = { active: false, bounds: null, direction: null, extent: null, previewCells: [] };
+        refreshFillHandlePosition();
+      };
+
+      $fillHandle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const bounds = getSelectionRectBounds();
+        if (!bounds) return;
+        _fillState = {
+          active: true,
+          bounds,
+          direction: null,
+          extent: null,
+          previewCells: [],
+          startX: e.clientX,
+          startY: e.clientY
+        };
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!_fillState.active) return;
+        if (_fillState.direction === null) {
+          const dx = e.clientX - _fillState.startX;
+          const dy = e.clientY - _fillState.startY;
+          if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+          _fillState.direction = Math.abs(dy) >= Math.abs(dx) ? 'down' : 'right';
+        }
+        const $td = e.target.closest?.('td[data-row][data-col]');
+        if (!$td) return;
+        const r = parseInt($td.dataset.row, 10);
+        const c = parseInt($td.dataset.col, 10);
+        if (!Number.isFinite(r) || !Number.isFinite(c)) return;
+        const b = _fillState.bounds;
+        if (_fillState.direction === 'down') {
+          const target = Math.max(b.maxR, Math.min(state.data.length - 1, r));
+          if (target !== _fillState.extent) {
+            _fillState.extent = target;
+            renderFillPreview('down', b, target);
+          }
+        } else {
+          const colCount = state.data[0]?.length ?? 0;
+          const target = Math.max(b.maxC, Math.min(colCount - 1, c));
+          if (target !== _fillState.extent) {
+            _fillState.extent = target;
+            renderFillPreview('right', b, target);
+          }
+        }
+      }, true);
+
+      document.addEventListener('mouseup', () => {
+        if (!_fillState.active) return;
+        const hadDirection = _fillState.direction !== null;
+        if (hadDirection) applyFill();
+        cancelFillDrag();
+      }, true);
+
+      window.addEventListener('resize', refreshFillHandlePosition);
+      $tableScroll.addEventListener('scroll', refreshFillHandlePosition, { passive: true });
 
       // --- mousedown on cells ---
       $dataTable.addEventListener('mousedown', (e) => {
