@@ -5906,7 +5906,15 @@
           state.data[row][col] = val;
           updateStats();
           saveToStorage();
+          if (columnFilters.size > 0) {
+            void refreshColumnFilterRows().then(() => {
+              if (filterPanelColIndex < 0) renderTable();
+            });
+          }
           if ($searchInput.value) performSearchImmediate();
+          else if (columnFilters.size === 0 && $filterMode.checked && filteredRows !== null) {
+            renderTable();
+          }
         }
       };
 
