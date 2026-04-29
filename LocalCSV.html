@@ -1451,6 +1451,34 @@
         grid-column: 1 / -1;
       }
 
+      .compare-modal { max-width: 520px; }
+      .compare-result-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin: 16px 0;
+      }
+      .compare-stat {
+        padding: 14px;
+        border-radius: 10px;
+        text-align: center;
+        background: var(--bg-elevated, #f5f5f7);
+        border: 1px solid var(--border, #e5e5ea);
+      }
+      .compare-stat-label {
+        font-size: 0.85rem;
+        color: var(--text-muted, #888);
+        margin-bottom: 6px;
+      }
+      .compare-stat-value {
+        font-size: 1.6rem;
+        font-weight: 600;
+      }
+      .compare-stat-added .compare-stat-value { color: #16a34a; }
+      .compare-stat-removed .compare-stat-value { color: #dc2626; }
+      .compare-stat-changed .compare-stat-value { color: #d97706; }
+      .compare-stat-match .compare-stat-value { color: var(--text-muted, #888); }
+
       .settings-select {
         inline-size: 100%;
         padding: 8px 12px;
@@ -2121,6 +2149,7 @@
       </div>
       <div class="toolbar-group">
         <button class="btn" id="transposeBtn" title="行と列を入れ替え"><span class="material-symbols-outlined">swap_horiz</span> 行列入替</button>
+        <button class="btn" id="compareBtn" title="別の CSV/TSV と比較"><span class="material-symbols-outlined">compare_arrows</span> <span id="compareBtnLabel">比較</span></button>
       </div>
       <div class="toolbar-group">
         <button class="btn" id="copyBtn"><span class="material-symbols-outlined">content_copy</span> <span id="copyBtnLabel">CSVコピー</span></button>
@@ -2382,6 +2411,62 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-primary" id="settingsCloseBtn">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 比較 -->
+  <input type="file" id="compareFileInput" accept=".csv,.tsv,.txt" hidden>
+  <div class="modal-overlay" id="compareOptionsOverlay" aria-hidden="true">
+    <div class="modal compare-modal" role="dialog" aria-modal="true" aria-labelledby="compareOptionsTitle" tabindex="-1">
+      <h3 id="compareOptionsTitle"><span class="material-symbols-outlined">compare_arrows</span> 比較オプション</h3>
+      <div class="settings-grid">
+        <div class="settings-group">
+          <label>比較対象ファイル</label>
+          <div class="settings-hint" id="compareFileSummary">—</div>
+        </div>
+        <div class="settings-group">
+          <label>比較モード</label>
+          <label class="settings-checkbox"><input type="radio" name="compareMode" value="position" checked> 位置ベース（同じ行・列を直接比較）</label>
+          <label class="settings-checkbox"><input type="radio" name="compareMode" value="key"> キー（先頭列）ベース</label>
+        </div>
+        <div class="settings-group">
+          <label class="settings-checkbox"><input type="checkbox" id="compareIgnoreHeader" checked> ヘッダー行を除外して比較</label>
+          <div class="settings-hint">現在のテーブルでヘッダー設定が ON のときのみ有効</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="compareCancelBtn">キャンセル</button>
+        <button class="btn btn-primary" id="compareRunBtn"><span class="material-symbols-outlined">play_arrow</span> 比較する</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="compareResultOverlay" aria-hidden="true">
+    <div class="modal compare-modal" role="dialog" aria-modal="true" aria-labelledby="compareResultTitle" tabindex="-1">
+      <h3 id="compareResultTitle"><span class="material-symbols-outlined">difference</span> 比較結果</h3>
+      <div class="compare-result-grid">
+        <div class="compare-stat compare-stat-added">
+          <div class="compare-stat-label">追加</div>
+          <div class="compare-stat-value" id="compareStatAdded">0</div>
+        </div>
+        <div class="compare-stat compare-stat-removed">
+          <div class="compare-stat-label">削除</div>
+          <div class="compare-stat-value" id="compareStatRemoved">0</div>
+        </div>
+        <div class="compare-stat compare-stat-changed">
+          <div class="compare-stat-label">変更</div>
+          <div class="compare-stat-value" id="compareStatChanged">0</div>
+        </div>
+        <div class="compare-stat compare-stat-match">
+          <div class="compare-stat-label">一致</div>
+          <div class="compare-stat-value" id="compareStatMatch">0</div>
+        </div>
+      </div>
+      <div class="settings-hint" id="compareResultMeta">—</div>
+      <div class="modal-actions">
+        <button class="btn" id="compareResultCloseBtn">閉じる</button>
+        <button class="btn btn-primary" id="compareDownloadBtn"><span class="material-symbols-outlined">download</span> 差分 CSV をダウンロード</button>
       </div>
     </div>
   </div>
@@ -7861,6 +7946,216 @@
         input.click();
       };
 
+      /* --- Compare with another CSV/TSV --- */
+      let _compareTarget = null;       /* { fileName, encoding, delimiter, data: Array<Array<string>> } */
+      let _compareLastDiff = null;     /* { added, removed, changed, match, mode } */
+      const $compareOptionsOverlay = qs('#compareOptionsOverlay');
+      const $compareResultOverlay = qs('#compareResultOverlay');
+      const $compareFileInput = qs('#compareFileInput');
+
+      const openCompareDialog = () => {
+        if (!state.data || state.data.length === 0) {
+          showToast(isEnglish() ? 'No data to compare' : '比較対象のデータがありません', 'error');
+          return;
+        }
+        $compareFileInput.value = '';
+        $compareFileInput.click();
+      };
+
+      const loadCompareFile = async (file) => {
+        try {
+          const buf = await file.arrayBuffer();
+          const detectedEnc = detectEncodingLabel(buf);
+          const text = decodeFileBytes(buf, detectedEnc);
+          const detectedDlm = detectDelimiter(text);
+          const data = await parseCSVAsync(text, detectedDlm);
+          _compareTarget = {
+            fileName: file.name,
+            encoding: detectedEnc,
+            delimiter: detectedDlm,
+            data: Array.isArray(data) ? data : []
+          };
+          const summary = isEnglish()
+            ? `${file.name} — ${_compareTarget.data.length.toLocaleString()} rows × ${(_compareTarget.data[0]?.length ?? 0).toLocaleString()} cols (${detectedEnc})`
+            : `${file.name} — ${_compareTarget.data.length.toLocaleString()} 行 × ${(_compareTarget.data[0]?.length ?? 0).toLocaleString()} 列 (${detectedEnc})`;
+          qs('#compareFileSummary').textContent = summary;
+          openOverlay($compareOptionsOverlay, { focusSelector: '#compareRunBtn' });
+        } catch (e) {
+          console.warn('Compare load failed', e);
+          showToast(isEnglish() ? 'Failed to load comparison file' : '比較ファイルの読み込みに失敗しました', 'error');
+        }
+      };
+
+      const closeCompareOptions = () => closeOverlay($compareOptionsOverlay);
+      const closeCompareResult = () => closeOverlay($compareResultOverlay);
+
+      const computeDiffPositionBased = (currRows, otherRows) => {
+        const added = [];
+        const removed = [];
+        const changed = [];
+        let match = 0;
+        const maxRows = Math.max(currRows.length, otherRows.length);
+        for (let r = 0; r < maxRows; r++) {
+          const cRow = currRows[r];
+          const oRow = otherRows[r];
+          if (cRow === undefined && oRow !== undefined) {
+            added.push({ rowIdx: r, row: oRow });
+            continue;
+          }
+          if (cRow !== undefined && oRow === undefined) {
+            removed.push({ rowIdx: r, row: cRow });
+            continue;
+          }
+          if (cRow === undefined && oRow === undefined) continue;
+          const maxCols = Math.max(cRow.length, oRow.length);
+          let rowChanged = false;
+          for (let c = 0; c < maxCols; c++) {
+            const before = cRow[c] ?? '';
+            const after = oRow[c] ?? '';
+            if (before !== after) {
+              changed.push({ rowIdx: r, colIdx: c, before, after });
+              rowChanged = true;
+            }
+          }
+          if (!rowChanged) match++;
+        }
+        return { mode: 'position', added, removed, changed, match };
+      };
+
+      const computeDiffKeyBased = (currRows, otherRows) => {
+        const currMap = new Map();
+        for (let r = 0; r < currRows.length; r++) {
+          const key = currRows[r]?.[0] ?? '';
+          if (key === '') continue;
+          if (!currMap.has(key)) currMap.set(key, { rowIdx: r, row: currRows[r] });
+        }
+        const otherMap = new Map();
+        for (let r = 0; r < otherRows.length; r++) {
+          const key = otherRows[r]?.[0] ?? '';
+          if (key === '') continue;
+          if (!otherMap.has(key)) otherMap.set(key, { rowIdx: r, row: otherRows[r] });
+        }
+        const added = [];
+        const removed = [];
+        const changed = [];
+        let match = 0;
+        for (const [key, oEntry] of otherMap) {
+          if (!currMap.has(key)) {
+            added.push({ key, rowIdx: oEntry.rowIdx, row: oEntry.row });
+          } else {
+            const cEntry = currMap.get(key);
+            const cRow = cEntry.row;
+            const oRow = oEntry.row;
+            const maxCols = Math.max(cRow.length, oRow.length);
+            let rowChanged = false;
+            for (let c = 1; c < maxCols; c++) {
+              const before = cRow[c] ?? '';
+              const after = oRow[c] ?? '';
+              if (before !== after) {
+                changed.push({ key, rowIdx: cEntry.rowIdx, colIdx: c, before, after });
+                rowChanged = true;
+              }
+            }
+            if (!rowChanged) match++;
+          }
+        }
+        for (const [key, cEntry] of currMap) {
+          if (!otherMap.has(key)) {
+            removed.push({ key, rowIdx: cEntry.rowIdx, row: cEntry.row });
+          }
+        }
+        return { mode: 'key', added, removed, changed, match };
+      };
+
+      const formatDiffAsCsv = (diff) => {
+        const lines = ['op,row,column,before,after'];
+        const escapeCell = (s) => {
+          const v = s == null ? '' : String(s);
+          return (v.includes(',') || v.includes('"') || v.includes('\n') || v.includes('\r'))
+            ? `"${v.replace(/"/g, '""')}"` : v;
+        };
+        const renderRow = (row) => row.map(escapeCell).join('|');
+        const renderRowKey = (rec) => rec.key !== undefined ? String(rec.key) : String(rec.rowIdx ?? '');
+        for (const a of diff.added) {
+          lines.push(['added', renderRowKey(a), '', '', renderRow(a.row ?? [])].map(escapeCell).join(','));
+        }
+        for (const r of diff.removed) {
+          lines.push(['removed', renderRowKey(r), '', renderRow(r.row ?? []), ''].map(escapeCell).join(','));
+        }
+        for (const c of diff.changed) {
+          lines.push(['changed', renderRowKey(c), String(c.colIdx ?? ''), c.before, c.after].map(escapeCell).join(','));
+        }
+        return lines.join('\n');
+      };
+
+      const renderCompareResult = (diff) => {
+        qs('#compareStatAdded').textContent   = diff.added.length.toLocaleString(getLocaleTag());
+        qs('#compareStatRemoved').textContent = diff.removed.length.toLocaleString(getLocaleTag());
+        qs('#compareStatChanged').textContent = diff.changed.length.toLocaleString(getLocaleTag());
+        qs('#compareStatMatch').textContent   = diff.match.toLocaleString(getLocaleTag());
+        const modeLabel = diff.mode === 'key'
+          ? (isEnglish() ? 'key column' : 'キー（先頭列）')
+          : (isEnglish() ? 'position' : '位置');
+        const meta = isEnglish()
+          ? `Mode: ${modeLabel} · Source: ${_compareTarget?.fileName ?? ''}`
+          : `モード: ${modeLabel} ／ 比較先: ${_compareTarget?.fileName ?? ''}`;
+        qs('#compareResultMeta').textContent = meta;
+      };
+
+      const runCompare = async () => {
+        if (!_compareTarget) {
+          showToast(isEnglish() ? 'Pick a comparison file first' : '比較対象ファイルを選択してください', 'error');
+          return;
+        }
+        const mode = qs('input[name="compareMode"]:checked')?.value || 'position';
+        const ignoreHeader = qs('#compareIgnoreHeader').checked;
+        /*
+         * When `ignoreHeader` is checked, skip the first row of BOTH files
+         * symmetrically. Aligning by `state.hasHeader` alone would mismatch
+         * the rows when one side has a semantic header and the other doesn't.
+         */
+        const currRows = ignoreHeader ? state.data.slice(1) : state.data;
+        const otherRows = ignoreHeader ? _compareTarget.data.slice(1) : _compareTarget.data;
+        let diff;
+        if (mode === 'key') {
+          diff = computeDiffKeyBased(currRows, otherRows);
+        } else {
+          diff = computeDiffPositionBased(currRows, otherRows);
+        }
+        _compareLastDiff = diff;
+        closeCompareOptions();
+        renderCompareResult(diff);
+        openOverlay($compareResultOverlay, { focusSelector: '#compareResultCloseBtn' });
+      };
+
+      const downloadCompareDiff = () => {
+        if (!_compareLastDiff) return;
+        const csv = formatDiffAsCsv(_compareLastDiff);
+        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+        const objectUrl = URL.createObjectURL(blob);
+        const $a = document.createElement('a');
+        const stamp = new Date().toISOString().slice(0, 10);
+        $a.href = objectUrl;
+        $a.download = `diff_${stamp}.csv`;
+        document.body.appendChild($a);
+        $a.click();
+        $a.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+        showToast(isEnglish() ? 'Diff CSV downloaded' : '差分 CSV をダウンロードしました', 'success');
+      };
+
+      $compareFileInput.addEventListener('change', () => {
+        const file = $compareFileInput.files?.[0];
+        if (!file) return;
+        loadCompareFile(file);
+      });
+      qs('#compareCancelBtn').addEventListener('click', closeCompareOptions);
+      qs('#compareRunBtn').addEventListener('click', runCompare);
+      qs('#compareResultCloseBtn').addEventListener('click', closeCompareResult);
+      qs('#compareDownloadBtn').addEventListener('click', downloadCompareDiff);
+      $compareOptionsOverlay.addEventListener('click', (e) => { if (e.target === $compareOptionsOverlay) closeCompareOptions(); });
+      $compareResultOverlay.addEventListener('click', (e) => { if (e.target === $compareResultOverlay) closeCompareResult(); });
+
       /* --- Save (overwrite) --- */
       const buildBlob = (text) => {
         return buildEncodedBlob(text, state.encoding, state.bom, 'text/plain');
@@ -9023,6 +9318,7 @@
         { id: 'add-row',   icon: 'add_box',       title: '行追加',                 shortcut: '',               run: addRow },
         { id: 'add-col',   icon: 'add_box',       title: '列追加',                 shortcut: '',               run: addColumn },
         { id: 'transpose', icon: 'swap_horiz',    title: '行列入替',               shortcut: '',               run: transposeData },
+        { id: 'compare',   icon: 'compare_arrows',title: 'CSV を比較',             shortcut: '',               run: openCompareDialog },
         { id: 'copy',      icon: 'content_copy',  title: 'CSVをコピー',            shortcut: '',               run: copyData },
         { id: 'download',  icon: 'download',      title: 'CSVをダウンロード',      shortcut: '',               run: downloadData },
         { id: 'export',    icon: 'tune',          title: 'エクスポートを開く',     shortcut: '',               run: openExportWizard },
@@ -9173,6 +9469,7 @@
       });
 
       qs('#transposeBtn').addEventListener('click', transposeData);
+      qs('#compareBtn').addEventListener('click', openCompareDialog);
 
       /* --- Toolbar Wiring --- */
       qs('#openFileBtn').addEventListener('click', openFile);
