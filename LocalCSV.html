@@ -4672,13 +4672,32 @@
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
       };
 
-      const calcRowBytes = (row, delimiter, encoding) => {
-        const line = row.join(delimiter);
+      const buildCsvLine = (row, delimiter, quoteStyle) => (
+        row.map((cell) => {
+          const c = cell ?? '';
+          const escaped = String(c).replace(/"/g, '""');
+          if (quoteStyle === 'all') return `"${escaped}"`;
+          if (quoteStyle === 'none') return String(c);
+          return (String(c).includes(delimiter) || String(c).includes('"') || String(c).includes('\n') || String(c).includes('\r'))
+            ? `"${escaped}"` : String(c);
+        }).join(delimiter)
+      );
+
+      const calcRowBytes = (row, delimiter, encoding, quoteStyle, suffix) => {
+        const line = buildCsvLine(row, delimiter, quoteStyle) + suffix;
         try {
           return encodeToBytes(line, encoding, false).length;
         } catch {
           return line.length;
         }
+      };
+
+      const calcBomBytes = (encoding, withBom) => {
+        if (!withBom) return 0;
+        const normalized = normalizeEncoding(encoding);
+        if (normalized === 'utf-8') return 3;
+        if (normalized === 'utf-16le' || normalized === 'utf-16be') return 2;
+        return 0;
       };
 
       const updateStats = () => {
@@ -4699,6 +4718,9 @@
         const rows = state.data;
         const delimiter = state.delimiter;
         const encoding = state.encoding;
+        const quoteStyle = state.quoteStyle;
+        const newline = state.newline === 'crlf' ? '\r\n' : '\n';
+        const bomBytes = calcBomBytes(encoding, supportsBom(encoding) && state.bom);
 
         if (rows.length === 0) {
           $dataSize.textContent = '0 B';
@@ -4706,10 +4728,10 @@
         }
 
         const calcSync = () => {
-          let bytes = 0;
+          let bytes = bomBytes;
           for (let i = 0; i < rows.length; i++) {
-            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding);
-            if (i < rows.length - 1) bytes += 1; // '\n'
+            const suffix = i < rows.length - 1 ? newline : '';
+            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding, quoteStyle, suffix);
           }
           return bytes;
         };
@@ -4721,7 +4743,7 @@
 
         $dataSize.textContent = '計算中...';
         let i = 0;
-        let bytes = 0;
+        let bytes = bomBytes;
 
         const runChunk = () => {
           if (token !== _statsTaskToken) return;
@@ -4731,8 +4753,8 @@
             i < rows.length &&
             (processed < STATS_MIN_BATCH_ROWS || (performance.now() - startedAt) < STATS_TIME_BUDGET_MS)
           ) {
-            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding);
-            if (i < rows.length - 1) bytes += 1;
+            const suffix = i < rows.length - 1 ? newline : '';
+            bytes += calcRowBytes(rows[i] ?? [], delimiter, encoding, quoteStyle, suffix);
             i++;
             processed++;
           }
@@ -8943,6 +8965,7 @@
       $settingBOM.addEventListener('change', (e) => {
         state.bom = e.target.checked;
         syncSettingBomState();
+        updateStats();
         markSettingsChanged();
         saveToStorage();
       });
@@ -8957,12 +8980,14 @@
 
       qs('#settingNewline').addEventListener('change', (e) => {
         state.newline = e.target.value;
+        updateStats();
         markSettingsChanged();
         saveToStorage();
       });
 
       qs('#settingQuote').addEventListener('change', (e) => {
         state.quoteStyle = e.target.value;
+        updateStats();
         markSettingsChanged();
         saveToStorage();
       });
