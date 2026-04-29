@@ -364,9 +364,9 @@
       .toolbar {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 4px;
         margin-block-end: 8px;
-        padding: 8px 12px;
+        padding: 6px 8px;
         background: var(--surface);
         border-radius: 12px;
         border: 1px solid var(--border);
@@ -376,16 +376,27 @@
       .toolbar-group {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 2px;
         position: relative;
 
         &:not(:last-child)::after {
           content: '';
           display: block;
           inline-size: 1px;
-          block-size: 20px;
+          block-size: 18px;
           background: var(--border);
           margin-inline-start: 2px;
+        }
+      }
+
+      .toolbar .btn {
+        padding: 4px 8px;
+        font-size: 0.78rem;
+        gap: 4px;
+        min-block-size: 30px;
+
+        & .material-symbols-outlined {
+          font-size: 1rem;
         }
       }
 
