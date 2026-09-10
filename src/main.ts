@@ -7,18 +7,27 @@ const qs = (sel: string, root: ParentNode = document): Element | null => root.qu
 const qsa = (sel: string, root: ParentNode = document): Element[] => [...root.querySelectorAll(sel)];
 
 /* ---- Download / Copy LocalCSV.html ---- */
-const EDITOR_FILE_PATH = "LocalCSV.html";
 const DOWNLOAD_FILE_NAME = "localcsv.html";
 const COPY_TOAST_MS = 1800;
 const COPY_TOAST_REMOVE_DELAY_MS = 280;
 const LP_TOAST_VIEWPORT_ID = "lpToastViewport";
 const EMBEDDED_EDITOR_BASE64_ID = "editor-html-base64";
-const IS_FILE_PROTOCOL = window.location.protocol === "file:";
+const EDITOR_ACTION_DISABLED_CLASS = "editor-action-disabled";
+const EDITOR_VERIFY_FAILED_MESSAGE = "エディタHTMLの検証に失敗したため、保存/コピーを停止しました";
+const LEGAL_MODAL_ID = "legalModal";
+const LEGAL_MODAL_TITLE_ID = "legalModalTitle";
+const LEGAL_MODAL_BODY_ID = "legalModalBody";
+const LEGAL_MODAL_ITEMS: Partial<Record<string, { title: string; templateId: string }>> = {
+  runtime: { title: "動作環境", templateId: "legalTemplateRuntime" },
+  terms: { title: "利用規約", templateId: "legalTemplateTerms" },
+  privacy: { title: "プライバシーポリシー", templateId: "legalTemplatePrivacy" },
+};
 
 let _editorBlobUrl: string | null = null;
 let _editorBlobLoadPromise: Promise<string | null> | null = null;
 let _editorHtmlText: string | null = null;
-let _editorHtmlLoadPromise: Promise<string | null> | null = null;
+let _editorIntegrityMessage = "";
+let _lastLegalModalTrigger: HTMLElement | null = null;
 
 const _triggerDownload = (href: string, fileName: string): void => {
   const $anchor = document.createElement("a");
@@ -49,38 +58,48 @@ const _loadEmbeddedEditorHtmlText = (): string | null => {
   return _decodeBase64Utf8(base64);
 };
 
+const _setEditorActionsDisabled = (disabled: boolean, message = ""): void => {
+  qsa("[data-download-editor], [data-copy-editor]").forEach(($action) => {
+    if (!($action instanceof HTMLElement)) return;
+    $action.classList.toggle(EDITOR_ACTION_DISABLED_CLASS, disabled);
+    $action.setAttribute("aria-disabled", disabled ? "true" : "false");
+    if (disabled) {
+      if (!$action.dataset.originalTitle) $action.dataset.originalTitle = $action.getAttribute("title") ?? "";
+      $action.setAttribute("title", message);
+      return;
+    }
+    const originalTitle = $action.dataset.originalTitle;
+    if (originalTitle === undefined) return;
+    if (originalTitle) $action.setAttribute("title", originalTitle);
+    else $action.removeAttribute("title");
+    delete $action.dataset.originalTitle;
+  });
+};
+
+const _failEditorIntegrity = (message: string): null => {
+  _editorIntegrityMessage = message;
+  _editorHtmlText = null;
+  if (_editorBlobUrl) {
+    URL.revokeObjectURL(_editorBlobUrl);
+    _editorBlobUrl = null;
+  }
+  _setEditorActionsDisabled(true, message);
+  return null;
+};
+
 const _loadEditorHtmlText = (): Promise<string | null> => {
   if (_editorHtmlText !== null) return Promise.resolve(_editorHtmlText);
-  if (IS_FILE_PROTOCOL) {
-    const embeddedHtml = _loadEmbeddedEditorHtmlText();
-    if (embeddedHtml !== null) {
-      _editorHtmlText = embeddedHtml;
-      return Promise.resolve(embeddedHtml);
-    }
-    return Promise.resolve(null);
+  if (_editorIntegrityMessage) return Promise.resolve(null);
+
+  const embeddedHtml = _loadEmbeddedEditorHtmlText();
+  if (embeddedHtml !== null) {
+    _editorIntegrityMessage = "";
+    _editorHtmlText = embeddedHtml;
+    _setEditorActionsDisabled(false);
+    return Promise.resolve(embeddedHtml);
   }
 
-  if (_editorHtmlLoadPromise) return _editorHtmlLoadPromise;
-
-  _editorHtmlLoadPromise = fetch(EDITOR_FILE_PATH)
-    .then((res) => (res.ok ? res.text() : Promise.reject(new Error(`${res.status}`))))
-    .then((html) => {
-      _editorHtmlText = html;
-      return html;
-    })
-    .catch(() => {
-      const embeddedHtml = _loadEmbeddedEditorHtmlText();
-      if (embeddedHtml !== null) {
-        _editorHtmlText = embeddedHtml;
-        return embeddedHtml;
-      }
-      return null;
-    })
-    .finally(() => {
-      _editorHtmlLoadPromise = null;
-    });
-
-  return _editorHtmlLoadPromise;
+  return Promise.resolve(_failEditorIntegrity(EDITOR_VERIFY_FAILED_MESSAGE));
 };
 
 const _loadEditorBlobUrl = (): Promise<string | null> => {
@@ -170,17 +189,71 @@ const _showCopyToast = (message: string, tone: "success" | "error"): void => {
   }, COPY_TOAST_MS + COPY_TOAST_REMOVE_DELAY_MS);
 };
 
-/* prefetch removed — fetch only on user action */
+const _openLegalModal = (key: string, $trigger: HTMLElement | null = null): void => {
+  const item = LEGAL_MODAL_ITEMS[key];
+  if (!item) return;
+
+  const $modal = qs(`#${LEGAL_MODAL_ID}`);
+  if (!($modal instanceof HTMLElement)) return;
+
+  const $title = qs(`#${LEGAL_MODAL_TITLE_ID}`, $modal);
+  const $body = qs(`#${LEGAL_MODAL_BODY_ID}`, $modal);
+  const $template = qs(`#${item.templateId}`);
+  if (!($title instanceof HTMLElement) || !($body instanceof HTMLElement) || !($template instanceof HTMLTemplateElement)) return;
+
+  $title.textContent = item.title;
+  $body.replaceChildren($template.content.cloneNode(true));
+  _lastLegalModalTrigger = $trigger instanceof HTMLElement ? $trigger : null;
+
+  $modal.hidden = false;
+  $modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("legal-modal-open");
+
+  const $close = qs("[data-legal-close-button]", $modal);
+  if ($close instanceof HTMLElement) $close.focus();
+};
+
+const _closeLegalModal = (): void => {
+  const $modal = qs(`#${LEGAL_MODAL_ID}`);
+  if (!($modal instanceof HTMLElement) || $modal.hidden) return;
+
+  $modal.hidden = true;
+  $modal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("legal-modal-open");
+
+  if (_lastLegalModalTrigger instanceof HTMLElement) _lastLegalModalTrigger.focus();
+  _lastLegalModalTrigger = null;
+};
+
+/* Runtime fetch is intentionally avoided so the LP can enforce connect-src 'none'. */
 
 document.addEventListener("click", async (event) => {
   const $target = event.target instanceof Element ? event.target : null;
   if (!$target) return;
 
+  const $legalTrigger = $target.closest("[data-legal-modal]");
+  if ($legalTrigger instanceof HTMLElement) {
+    event.preventDefault();
+    _openLegalModal($legalTrigger.dataset.legalModal ?? "", $legalTrigger);
+    return;
+  }
+
+  const $legalClose = $target.closest("[data-legal-close]");
+  if ($legalClose instanceof HTMLElement) {
+    event.preventDefault();
+    _closeLegalModal();
+    return;
+  }
+
   const $downloadTrigger = $target.closest("[data-download-editor]");
   if ($downloadTrigger instanceof HTMLElement) {
     event.preventDefault();
     const blobUrl = await _loadEditorBlobUrl();
-    _triggerDownload(blobUrl ?? EDITOR_FILE_PATH, DOWNLOAD_FILE_NAME);
+    if (!blobUrl) {
+      _showCopyToast(_editorIntegrityMessage || EDITOR_VERIFY_FAILED_MESSAGE, "error");
+      return;
+    }
+    _triggerDownload(blobUrl, DOWNLOAD_FILE_NAME);
     return;
   }
 
@@ -190,12 +263,16 @@ document.addEventListener("click", async (event) => {
   event.preventDefault();
   const html = await _loadEditorHtmlText();
   if (html === null) {
-    _showCopyToast("コードの取得に失敗しました", "error");
+    _showCopyToast(_editorIntegrityMessage || "エディタHTMLの取得に失敗しました", "error");
     return;
   }
 
   const copied = await _copyText(html);
-  _showCopyToast(copied ? "コードをコピーしました" : "コピーに失敗しました", copied ? "success" : "error");
+  _showCopyToast(copied ? "本体HTMLソースをコピーしました" : "コピーに失敗しました", copied ? "success" : "error");
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") _closeLegalModal();
 });
 
 /* ---- Mobile Nav Toggle ---- */

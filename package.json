@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
+    "test": "node tests/localcsv-regression.test.mjs",
     "watch": "tsc --watch"
   },
   "repository": {
