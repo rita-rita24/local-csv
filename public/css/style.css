@@ -1,12 +1,11 @@
 /* ========================================
-   LocalCSV LP Redesign — Liquid Glass CSS
-   CSS Layers: reset → base → component → utility
+   LocalCSV紹介ページのガラス調スタイル
+   CSSレイヤー：reset → base → component → utility
    ======================================== */
 @layer reset, base, component, utility;
 
-/* ---- RESET ---- */
+/* ---- リセット ---- */
 @layer reset {
-
   *,
   *::before,
   *::after {
@@ -43,16 +42,16 @@
     border-collapse: collapse;
   }
 
-  details>summary {
+  details > summary {
     list-style: none;
-  }
 
-  details>summary::-webkit-details-marker {
-    display: none;
+    &::-webkit-details-marker {
+      display: none;
+    }
   }
 }
 
-/* ---- BASE ---- */
+/* ---- 基本設定 ---- */
 @layer base {
   @font-face {
     font-family: "Material Symbols Outlined";
@@ -65,21 +64,23 @@
   :root {
     --color-primary: oklch(0.58 0.22 264);
     --color-primary-hover: oklch(0.53 0.24 264);
-    --color-accent-light: oklch(0.73 0.14 248);
-    --color-accent: oklch(0.65 0.19 255);
     --color-surface: oklch(1 0 0);
     --color-surface-muted: oklch(0.97 0.005 264);
     --color-surface-dim: oklch(0.95 0.005 264);
     --color-on-surface: oklch(0.18 0.02 270);
     --color-on-surface-dim: oklch(0.35 0.02 260);
-    --color-on-surface-muted: oklch(0.50 0.015 260);
+    --color-on-surface-muted: oklch(0.5 0.015 260);
     --color-outline: oklch(0.85 0.01 260);
     --color-glass-bg: oklch(1 0 0 / 0.55);
     --color-glass-border: oklch(1 0 0 / 0.35);
     --color-glass-highlight: oklch(1 0 0 / 0.65);
     --color-nav-bg: oklch(1 0 0 / 0.16);
-    --font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
-    --font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+    --font-body:
+      system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", Meiryo,
+      sans-serif;
+    --font-heading:
+      system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", Meiryo,
+      sans-serif;
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
@@ -89,7 +90,6 @@
     --shadow-card: 0 4px 20px oklch(0.15 0.02 260 / 0.06);
     --shadow-cta: 0 4px 16px oklch(0.58 0.22 264 / 0.35);
     --transition: 0.25s ease;
-    --transition-slow: 0.4s ease;
     --max-w: 1200px;
     --max-w-narrow: 800px;
   }
@@ -109,24 +109,29 @@
 
   .material-symbols-outlined {
     font-family: "Material Symbols Outlined";
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 24;
   }
 }
 
-/* ---- COMPONENT ---- */
+/* ---- コンポーネント ---- */
 @layer component {
-
-  /* == Glass Card (shared) == */
+  /* == 共通のガラス調カード == */
   .glass-card {
     background: var(--color-glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--color-glass-border);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card), inset 0 1px 0 0 var(--color-glass-highlight);
+    box-shadow:
+      var(--shadow-card),
+      inset 0 1px 0 0 var(--color-glass-highlight);
   }
 
-  /* == Glass NavBar == */
+  /* == ガラス調ナビゲーションバー == */
   .glass-nav {
     position: fixed;
     top: 20px;
@@ -140,8 +145,14 @@
     -webkit-backdrop-filter: blur(64px);
     border-radius: var(--radius-xl);
     border: 1px solid oklch(1 0 0 / 0.38);
-    box-shadow: var(--shadow-soft), inset 0 1px 0 0 var(--color-glass-highlight);
+    box-shadow:
+      var(--shadow-soft),
+      inset 0 1px 0 0 var(--color-glass-highlight);
     background-image: linear-gradient(to bottom, oklch(1 0 0 / 0.22), oklch(1 0 0 / 0.04));
+
+    &.is-scrolled {
+      background: oklch(1 0 0 / 0.7);
+    }
   }
 
   .glass-nav-inner {
@@ -163,6 +174,12 @@
   .glass-nav-links {
     display: flex;
     gap: 1.25rem;
+  }
+
+  .glass-nav-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
   }
 
   .glass-nav-link {
@@ -188,7 +205,9 @@
     background: var(--color-primary);
     border-radius: var(--radius-lg);
     box-shadow: inset 0 4px 4px oklch(1 0 0 / 0.35);
-    transition: transform var(--transition), background var(--transition);
+    transition:
+      transform var(--transition),
+      background var(--transition);
     white-space: nowrap;
 
     & .material-symbols-outlined {
@@ -206,7 +225,7 @@
     color: var(--color-on-surface-dim);
   }
 
-  /* == Buttons == */
+  /* == ボタン == */
   .btn-primary-cta {
     display: inline-flex;
     align-items: center;
@@ -217,8 +236,12 @@
     color: var(--color-surface);
     background: var(--color-primary);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-cta), inset 0 4px 4px oklch(1 0 0 / 0.35);
-    transition: transform var(--transition), background var(--transition);
+    box-shadow:
+      var(--shadow-cta),
+      inset 0 4px 4px oklch(1 0 0 / 0.35);
+    transition:
+      transform var(--transition),
+      background var(--transition);
 
     & .material-symbols-outlined {
       font-size: 1.125rem;
@@ -265,17 +288,19 @@
     line-height: 1.5;
     opacity: 0;
     transform: translateY(-8px);
-    transition: opacity var(--transition), transform var(--transition);
-  }
+    transition:
+      opacity var(--transition),
+      transform var(--transition);
 
-  .lp-toast.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    &.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-  .lp-toast.is-leaving {
-    opacity: 0;
-    transform: translateY(-8px);
+    &.is-leaving {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
   }
 
   .lp-toast--success {
@@ -299,7 +324,9 @@
     background: var(--color-surface-dim);
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-outline);
-    transition: transform var(--transition), background var(--transition);
+    transition:
+      transform var(--transition),
+      background var(--transition);
 
     &:hover {
       background: oklch(0.93 0.005 264);
@@ -320,7 +347,10 @@
     font-weight: 600;
     color: var(--color-on-surface-dim);
     border-radius: var(--radius-sm);
-    transition: color var(--transition), transform var(--transition), background var(--transition);
+    transition:
+      color var(--transition),
+      transform var(--transition),
+      background var(--transition);
 
     & .material-symbols-outlined {
       font-size: 1rem;
@@ -348,12 +378,7 @@
     }
   }
 
-  .btn--sm {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
-  }
-
-  /* == HERO == */
+  /* == メインビジュアル == */
   .hero {
     position: relative;
     overflow: hidden;
@@ -432,10 +457,6 @@
     color: var(--color-on-surface);
   }
 
-  .hero-accent {
-    color: var(--color-primary);
-  }
-
   .hero-desc {
     font-size: 1.0625rem;
     line-height: 1.8;
@@ -477,26 +498,13 @@
     display: none;
   }
 
-  .hero-preview-link {
-    display: block;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-soft);
-    transition: transform var(--transition), box-shadow var(--transition);
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px oklch(0.15 0.02 260 / 0.14);
-    }
-  }
-
   .hero-preview-img {
     inline-size: 100%;
     block-size: auto;
     object-fit: contain;
   }
 
-  /* == Section (shared) == */
+  /* == 共通セクション == */
   .section {
     padding: 5rem 2rem;
   }
@@ -584,7 +592,7 @@
     text-align: center;
   }
 
-  /* == Pain Grid == */
+  /* == 課題一覧 == */
   .pain-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -620,7 +628,7 @@
     color: oklch(0.55 0.15 25);
   }
 
-  /* == Limit Table == */
+  /* == 既存手段の比較表 == */
   .limit-table-wrap {
     padding: 0;
     overflow: hidden;
@@ -656,7 +664,7 @@
     }
   }
 
-  /* == Value Grid == */
+  /* == 提供価値の一覧 == */
   .value-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -701,7 +709,7 @@
     margin-bottom: 0.5rem;
   }
 
-  /* == Function Grid == */
+  /* == 機能一覧 == */
   .func-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -743,7 +751,7 @@
     margin-bottom: 0.25rem;
   }
 
-  /* == Step List == */
+  /* == 利用手順 == */
   .step-list {
     display: flex;
     flex-direction: column;
@@ -794,7 +802,7 @@
     flex: 1;
   }
 
-  /* == Scene Grid == */
+  /* == 利用場面の一覧 == */
   .scene-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -847,63 +855,9 @@
     }
   }
 
-  /* == Plan Table == */
-  .plan-table-wrap {
-    padding: 0;
-    overflow: hidden;
-    max-width: 740px;
-    margin: 0 auto;
-  }
+  /* == プラン比較表 == */
 
-  .plan-table {
-    width: 100%;
-    text-align: center;
-
-    & th,
-    & td {
-      padding: 0.75rem 1rem;
-    }
-
-    & thead {
-      background: oklch(0.58 0.22 264 / 0.06);
-    }
-
-    & th {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--color-on-surface-dim);
-    }
-
-    & td {
-      font-size: 0.9375rem;
-      color: var(--color-on-surface);
-      border-top: 1px solid var(--color-outline);
-    }
-
-    & td:first-child {
-      text-align: left;
-      font-weight: 500;
-    }
-  }
-
-  .plan-highlight {
-    color: var(--color-primary) !important;
-    font-weight: 700 !important;
-  }
-
-  .plan-strong {
-    text-align: center;
-    font-size: 1.0625rem;
-    line-height: 1.8;
-    color: var(--color-on-surface-dim);
-    margin-top: 2rem;
-
-    & strong {
-      color: var(--color-on-surface);
-    }
-  }
-
-  /* == Trust Grid == */
+  /* == 安心材料の一覧 == */
   .trust-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -942,7 +896,7 @@
     margin-top: 1.5rem;
   }
 
-  /* == Price Grid == */
+  /* == 価格一覧 == */
   .price-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -969,7 +923,9 @@
 
   .price-card--featured {
     border-color: var(--color-primary);
-    box-shadow: 0 8px 30px oklch(0.58 0.22 264 / 0.15), inset 0 1px 0 0 var(--color-glass-highlight);
+    box-shadow:
+      0 8px 30px oklch(0.58 0.22 264 / 0.15),
+      inset 0 1px 0 0 var(--color-glass-highlight);
   }
 
   .price-badge {
@@ -1023,7 +979,7 @@
     margin-top: 2rem;
   }
 
-  /* == FAQ == */
+  /* == よくある質問 == */
   .faq-list {
     display: flex;
     flex-direction: column;
@@ -1075,10 +1031,16 @@
       font-size: 0.9375rem;
       line-height: 1.8;
       color: var(--color-on-surface-dim);
+
+      &.faq-note {
+        margin-block-start: 0.5rem;
+        font-size: 0.9em;
+        opacity: 0.85;
+      }
     }
   }
 
-  /* == Final CTA == */
+  /* == 最後の利用案内 == */
   .final-cta {
     padding: 6rem 2rem;
     text-align: center;
@@ -1116,7 +1078,7 @@
     margin-top: 0.5rem;
   }
 
-  /* == Footer == */
+  /* == フッター == */
   .site-footer {
     background: var(--color-surface-muted);
     border-top: 1px solid var(--color-outline);
@@ -1195,7 +1157,9 @@
   .footer-legal-link {
     font-size: 0.75rem;
     color: var(--color-on-surface-dim);
-    transition: color var(--transition), background var(--transition);
+    transition:
+      color var(--transition),
+      background var(--transition);
     border-radius: var(--radius-sm);
     padding: 0.125rem 0.25rem;
 
@@ -1205,36 +1169,30 @@
     }
   }
 
-  body.legal-modal-open {
+  body:has(.legal-modal[open]) {
     overflow: hidden;
   }
 
   .legal-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 240;
-    display: grid;
-    place-items: center;
-    padding: 1rem;
-  }
-
-  .legal-modal[hidden] {
-    display: none;
-  }
-
-  .legal-modal__backdrop {
-    position: absolute;
-    inset: 0;
-    background: oklch(0.22 0.02 260 / 0.55);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    width: min(720px, calc(100% - 2rem));
+    max-height: calc(100dvh - 2rem);
+    background: transparent;
+    color: inherit;
+    &::backdrop {
+      background: oklch(0.22 0.02 260 / 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
   }
 
   .legal-modal__dialog {
     position: relative;
     z-index: 1;
     width: min(720px, 100%);
-    max-height: calc(100vh - 2rem);
+    max-height: inherit;
     border: 1px solid var(--color-outline);
     border-radius: var(--radius-lg);
     background: var(--color-surface);
@@ -1269,7 +1227,9 @@
     align-items: center;
     justify-content: center;
     color: var(--color-on-surface-dim);
-    transition: color var(--transition), background var(--transition);
+    transition:
+      color var(--transition),
+      background var(--transition);
 
     &:hover {
       color: var(--color-primary);
@@ -1317,35 +1277,40 @@
     color: var(--color-on-surface-muted);
   }
 
-  /* == Responsive == */
-  @media (max-width: 768px) {
-
+  /* == 画面幅への対応 == */
+  @media (width <= 768px) {
     .glass-nav-links,
     .glass-nav-cta {
       display: none;
     }
 
-    .glass-nav-links.is-open {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--color-nav-bg);
-      backdrop-filter: blur(64px);
-      -webkit-backdrop-filter: blur(64px);
-      background-image: linear-gradient(to bottom, oklch(1 0 0 / 0.22), oklch(1 0 0 / 0.04));
-      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-      padding: 1rem;
-      border: 1px solid oklch(1 0 0 / 0.38);
-      border-top: none;
-      box-shadow: var(--shadow-soft);
-      gap: 0.75rem;
+    .glass-nav-links {
+      &.is-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: oklch(1 0 0 / 0.97);
+        backdrop-filter: blur(64px);
+        -webkit-backdrop-filter: blur(64px);
+        background-image: linear-gradient(to bottom, oklch(1 0 0 / 0.22), oklch(1 0 0 / 0.04));
+        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+        padding: 1rem;
+        border: 1px solid oklch(1 0 0 / 0.38);
+        border-top: none;
+        box-shadow: var(--shadow-soft);
+        gap: 0.75rem;
+      }
     }
 
     .glass-nav-toggle {
-      display: block;
+      display: grid;
+      place-items: center;
+      margin-inline-start: auto;
+      min-inline-size: 44px;
+      min-block-size: 44px;
     }
 
     .glass-nav {
@@ -1397,22 +1362,10 @@
       padding: 3.5rem 1.5rem;
     }
 
-    .pain-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .value-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .func-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .scene-grid {
-      grid-template-columns: 1fr;
-    }
-
+    .pain-grid,
+    .value-grid,
+    .func-grid,
+    .scene-grid,
     .price-grid {
       grid-template-columns: 1fr;
     }
@@ -1441,11 +1394,8 @@
     }
 
     .legal-modal {
-      padding: 0.75rem;
-    }
-
-    .legal-modal__dialog {
-      max-height: calc(100vh - 1.5rem);
+      width: calc(100% - 1.5rem);
+      max-height: calc(100dvh - 1.5rem);
     }
 
     .legal-modal__header,
@@ -1454,7 +1404,7 @@
     }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
+  @media (769px <= width <= 1024px) {
     .hero-inner {
       gap: 2rem;
     }
@@ -1465,16 +1415,33 @@
   }
 }
 
-/* ---- UTILITY ---- */
+/* ---- ユーティリティ ---- */
 @layer utility {
-  .fade-in {
-    opacity: 0;
-    translate: 0 20px;
-    transition: opacity 0.6s ease, translate 0.6s ease;
+  .clipboard-fallback {
+    position: fixed;
+    inset: -1000px;
   }
 
-  .fade-in.is-visible {
-    opacity: 1;
-    translate: 0 0;
+  html[data-animate] .fade-in {
+    opacity: 0;
+    translate: 0 20px;
+    transition:
+      opacity 0.6s ease,
+      translate 0.6s ease;
+    &.is-visible {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
