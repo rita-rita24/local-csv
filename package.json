@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "node tests/localcsv-regression.test.mjs",
+    "test:browser": "node tests/localcsv-browser.test.mjs && node tests/localcsv-quality-browser.test.mjs",
     "watch": "tsc --watch"
   },
   "repository": {

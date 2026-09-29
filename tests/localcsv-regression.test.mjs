@@ -150,7 +150,7 @@ const loadFileOutputCore = ({ picker } = {}) => {
     "beginSnapshotEpoch", "ensureRowOwned", "setCellValue", "generateOutputAsync",
     "normalizeLineEndingSetting", "cloneFileOutputMeta", "getCurrentOutputMeta",
     "isSameOutputMeta", "setOpenFileContext", "hasOverwriteFormatMismatch",
-    "getFormatLabel", "getFormatExt", "_getSuggestedOutputName", "buildBlob", "saveFile", "copyData", "downloadData",
+    "getFormatLabel", "getFormatExt", "_getSuggestedOutputName", "buildBlob", "_writeFileBlob", "saveFile", "copyData", "downloadData",
   ].map((name) => extractConstDeclaration(html, name)).join("\n");
   return new vm.Script(`
     const state = {
@@ -382,7 +382,41 @@ const assertOrderWithin = (source, firstMarker, secondMarker, label) => {
 const csv = loadCsvCore();
 
 {
-  // A small successful fallback write must not hide an unsaved row chunk.
+  // IndexedDBの書き込み中断では、errorなしでabortだけが発生する場合がある。
+  const localStorage = createLocalStorageMock();
+  const indexedDB = {
+    open() {
+      const request = {};
+      queueMicrotask(() => {
+        request.result = {
+          transaction() {
+            const transaction = { objectStore: () => ({ put() {} }), error: null };
+            queueMicrotask(() => transaction.onabort?.());
+            return transaction;
+          },
+        };
+        request.onsuccess();
+      });
+      return request;
+    },
+  };
+  const storage = loadStorageMigrationCore({ localStorage, indexedDB });
+  await storage.IDBStore.open();
+  let timeout;
+  try {
+    await Promise.race([
+      storage.IDBStore.set("aborted-save", { rows: [["latest value"]] }),
+      new Promise((_, reject) => { timeout = setTimeout(() => reject(new Error("aborted IDB write left autosave pending")), 100); }),
+    ]);
+  } finally {
+    clearTimeout(timeout);
+  }
+  assert.equal(storage.IDBStore.getFallbackKind(), "localStorage", "aborted writes should use the existing fallback");
+  assert.deepEqual(cloneJson(await storage.IDBStore.get("aborted-save")), { rows: [["latest value"]] });
+}
+
+{
+  // 小さな代替保存が成功しても、未保存の行チャンクを隠してはならない。
   const CHUNK_KEY = "csvEditor_state_pro::chunk::quota::0";
   const SECOND_CHUNK_KEY = "csvEditor_state_pro::chunk::quota::1";
   const MANIFEST_KEY = "csvEditor_state_pro";
@@ -441,10 +475,11 @@ const csv = loadCsvCore();
 }
 
 {
-  // Empty records must survive both CSV save/reopen and quoted TSV copy/paste.
+  // 空のレコードを、CSVの保存・再読込と引用付きTSVのコピー・貼り付けの両方で保持する。
   const workerSources = new Map();
   let workerRuns = 0;
   const runtime = {
+    setTimeout, clearTimeout,
     Blob: class { constructor(parts) { this.source = parts.join(""); } },
     URL: {
       createObjectURL(blob) { const key = `worker:${workerSources.size}`; workerSources.set(key, blob.source); return key; },
@@ -463,6 +498,7 @@ const csv = loadCsvCore();
   };
   const declarations = [
     "normalizeCellValue", "CSV_PARSE_ERROR_UNCLOSED_QUOTE", "parseCSV", "parseCSVAsync",
+    "DATA_WORKER_TIMEOUT_MS", "runDataWorker",
     "_quoteTsvCell", "_buildTsvRows", "buildCsvLine", "SPREADSHEET_FORMULA_PREFIX_RE",
     "sanitizeSpreadsheetFormulaCell", "generateExportOutput",
   ].map((name) => name === "_quoteTsvCell"
@@ -537,6 +573,46 @@ const csv = loadCsvCore();
 }
 
 {
+  // オブジェクト形式の出力では、任意の列名を独自のデータプロパティとして保持する。
+  const $expFormat = { value: "json" };
+  const $expNewline = { value: "lf" };
+  const generateExportOutput = new vm.Script(`
+    ${extractConstDeclaration(html, "generateExportOutput")}
+    generateExportOutput;
+  `).runInNewContext({
+    $expFormat,
+    $expNewline,
+    $expQuote: { value: "auto" },
+    $expSpreadsheetSafe: { checked: false },
+    getExportFormatConfig: (id) => ({ id, isDsv: false }),
+  });
+  const headers = ["__proto__", "constructor", "prototype", "toString", "hasOwnProperty", "", "__proto__", "__proto___2"];
+  const keys = ["__proto__", "constructor", "prototype", "toString", "hasOwnProperty", "col6", "__proto___2", "__proto___2_2"];
+  const rows = [
+    ["must keep", "Alice", "value", "text", "own", "unnamed", "duplicate", "suffix collision"],
+    ["", "Bob", "line\nbreak", "\"quoted\"", "", "", "second", "last"],
+  ];
+  for (const format of ["json", "ndjson"]) {
+    $expFormat.value = format;
+    for (const newline of ["lf", "crlf"]) {
+      $expNewline.value = newline;
+      const decode = (text) => format === "json"
+        ? JSON.parse(text)
+        : text.split(newline === "crlf" ? "\r\n" : "\n").map((line) => JSON.parse(line));
+      const result = decode(generateExportOutput({ headers, rows }));
+      assert.equal(result.length, rows.length, `${format}: row count must be preserved`);
+      result.forEach((row, index) => {
+        assert.deepEqual(Object.keys(row), keys, `${format}: special and duplicate keys must survive serialization`);
+        assert.deepEqual(keys.map((key) => row[key]), rows[index], `${format}: every column value must survive serialization`);
+        assert.ok(Object.hasOwn(row, "__proto__"), `${format}: __proto__ must be an own data property`);
+      });
+      assert.deepEqual(decode(generateExportOutput({ headers: [], rows })), rows,
+        `${format}: headerless exports must remain arrays`);
+    }
+  }
+}
+
+{
   const tail = "tail;must-not-be-read";
   const cases = [
     ["LF", "\n"],
@@ -583,6 +659,24 @@ const csv = loadCsvCore();
     ["name", "full name", "age"],
     ["Alice", "Alice Sato", "30"],
   ]);
+}
+
+{
+  const fixtures = [
+    ['a "x,y"\nb "z,w"', ' ', [['a', 'x,y'], ['b', 'z,w']]],
+    ['a "x;y"\nb "z;w"', ' ', [['a', 'x;y'], ['b', 'z;w']]],
+    ['a "x\ty"\nb "z\tw"', ' ', [['a', 'x\ty'], ['b', 'z\tw']]],
+    ['a "x\ny"\nb "z\nw"', ' ', [['a', 'x\ny'], ['b', 'z\nw']]],
+    ['  a  "x,""y"""  \r\n  b  "z w"  ', ' ', [['a', 'x,"y"'], ['b', 'z w']]],
+    ['"a b"\n"c d"', ',', [['a b'], ['c d']]],
+    ['"a b",1\n"c d",2', ',', [['a b', '1'], ['c d', '2']]],
+    ['"a b"\t1\n"c d"\t2', '\t', [['a b', '1'], ['c d', '2']]],
+    ['"a b";1\n"c d";2', ';', [['a b', '1'], ['c d', '2']]],
+  ];
+  for (const [text, delimiter, rows] of fixtures) {
+    assert.equal(csv.detectDelimiter(text), delimiter, `quoted delimiter detection: ${JSON.stringify(text)}`);
+    assert.deepEqual(cloneJson(csv.parseCSV(text, csv.detectDelimiter(text))), rows);
+  }
 }
 
 {
@@ -1056,7 +1150,7 @@ const csv = loadCsvCore();
   assertOrderWithin(
     clearStorageSource,
     "const results = await Promise.all(removals);",
-    "_savedRevision = _saveRevision;",
+    "_savedRevision = _clearRevision;",
     "storage clear revision",
   );
   assert.ok(
@@ -1089,8 +1183,8 @@ const csv = loadCsvCore();
 }
 
 {
-  // Delay real persistence functions at an IDB write boundary, then edit the live
-  // table. A completed save must remain internally consistent and retain later edits.
+  // 実際の永続化処理をIndexedDBの書き込み境界で待機させ、その間に表を編集する。
+  // 完了した保存の内部整合性を保ち、その後の編集も保持する。
   const makePersistenceRaceCore = () => {
     const chunkMap = new Map();
     const control = { pauseWrite: false, failWrite: false };
@@ -1434,20 +1528,24 @@ for (const action of ["saveFile", "downloadData"]) {
   const embeddedHtml = Buffer.from(match[1].replace(/\s+/g, ""), "base64").toString("utf8");
   const embeddedHash = crypto.createHash("sha256").update(embeddedHtml).digest("hex");
   const localHash = crypto.createHash("sha256").update(html).digest("hex");
-  assert.equal(embeddedHtml, html, `index.html embedded LocalCSV mismatch: embedded=${embeddedHash} local=${localHash}`);
+  assert.ok(embeddedHtml === html, `index.html embedded LocalCSV mismatch: embedded=${embeddedHash} local=${localHash}`);
 }
 
-// Visibility, pagehide, beforeunload, and debounce can all queue a recovery save.
+// 表示状態変更・pagehide・beforeunload・遅延実行は、いずれも復元用保存を待機させ得る。
 {
   const declarations = ["persistRevisionNow", "flushStorage"]
     .map((name) => extractConstDeclaration(html, name)).join("\n");
   const queue = new vm.Script(`
-    let _storageSavePromise = null, _saveTimer = null;
+    let _storageSavePromise = null, _storageClearPromise = null, _saveTimer = null;
+    let _persistStorageVersion = '';
+    const PRO_STATE_STORAGE_KEY = 'state';
+    const _getPersistenceVersion = (value) => JSON.stringify(value);
+    const _assertPersistenceVersion = async () => {};
     let _savedRevision = 0, _saveRevision = 1;
     let value = 'revision 1', persistedValue = null;
     let active = 0, maxActive = 0;
     const started = [], waiters = [], statuses = [];
-    const IDBStore = { isFallback: () => false };
+    const IDBStore = { isFallback: () => false, withStateLock: (task) => task(), get: async () => persistedValue };
     const updateSaveStatusBadge = (status) => { statuses.push(status); };
     const showToast = () => {};
     const commitActiveCellEdit = () => {};
@@ -1480,6 +1578,7 @@ for (const action of ["saveFile", "downloadData"]) {
   `).runInNewContext({ clearTimeout, console });
 
   const first = queue.flushStorage();
+  await queue.waitForStarted(1);
   queue.edit(2);
   const second = queue.flushStorage();
   queue.edit(3);
@@ -1503,18 +1602,19 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.deepEqual(cloneJson(queue.stats().revisions), [1, 3, 4], "waiters should reuse an already completed current save");
 }
 
-// Closing a tab must commit the focused cell and warn until recovery is durable.
+// タブを閉じる際はフォーカス中のセルを確定し、復元用保存が完了するまで警告する。
 {
   const declarations = [
     "SAVE_STATUS_LABELS", "SAVE_STORAGE_DETAILS", "SAVE_STATUS_TITLE_PREFIXES",
     "getSaveStatusLabel", "getSaveStatusTitle", "updateSaveStatusBadge",
-    "_hasActiveCellEdit", "_refreshRecoveryStatusAfterInput", "commitActiveCellEdit",
+    "qs", "_readCellEditValue", "_hasActiveCellEdit", "_refreshRecoveryStatusAfterInput", "commitActiveCellEdit",
     "flushStorage", "_hasUnpersistedChanges", "handleBeforeUnload",
   ].map((name) => extractConstDeclaration(html, name)).join("\n");
   const recovery = new vm.Script(`
     class Element {
       constructor(text) { this.textContent = text; this.dataset = { row: '0', col: '0' }; }
       matches(selector) { return selector === 'td[contenteditable]'; }
+      querySelector() { return null; }
     }
     const document = { activeElement: null };
     const $dataTable = { contains: ($cell) => $cell instanceof Element };
@@ -1605,7 +1705,7 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.match(recovery.status().title, /original CSV file is not updated/);
 }
 
-// Search controls cannot act on stale results, and zero-row filters have a safe reset.
+// 検索操作に古い結果を使わず、0行の絞り込みからも安全に解除できるようにする。
 {
   const marks = ['<CSV value>', '検索語'].map((textContent) => ({
     textContent, replacement: null, replaceWith(node) { this.replacement = node; },
@@ -1621,7 +1721,7 @@ for (const action of ["saveFile", "downloadData"]) {
   ], 'clearing search must remove inline highlights while keeping cell text literal');
 
   const declarations = [
-    "_canUseSearchResults", "_updateSearchSummary", "updateSearchInfo", "scheduleSearch",
+    "_canUseSearchResults", "_updateSearchControls", "updateSearchInfo", "scheduleSearch",
     "cancelSearchTasks", "resetSearchState", "clearSearch", "_clearAllSearchFilters",
     "replaceNext", "navigateMatch",
   ].map((name) => extractConstDeclaration(html, name)).join("\n");
@@ -1636,8 +1736,8 @@ for (const action of ["saveFile", "downloadData"]) {
     };
     const $searchInput = qs('#searchInput'), $replaceInput = qs('#replaceInput');
     const $searchInfo = qs('#searchInfo'), $searchClearBtn = qs('#searchClearBtn');
-    const $searchSummary = qs('#searchSummary'), $searchSummaryText = qs('#searchSummaryText');
-    const $replaceScope = qs('#replaceScope'), $searchCaseSensitive = qs('#searchCaseSensitive');
+    const $clearAllFiltersBtn = qs('#clearAllFiltersBtn');
+    const $searchCaseSensitive = qs('#searchCaseSensitive');
     const $searchExactMatch = qs('#searchExactMatch'), $searchRegex = qs('#searchRegex');
     const $searchTargetCol = qs('#searchTargetCol'), $filterMode = qs('#filterMode');
     const state = { data: [['apple'], ['banana']], hasHeader: false };
@@ -1645,7 +1745,7 @@ for (const action of ["saveFile", "downloadData"]) {
     let filteredRows = null, _columnFilterRows = null, _columnFilterTaskToken = 0;
     let searchMatches = [], searchMatchMap = new Map(), currentMatchIndex = -1;
     let _searchInProgress = false, _searchError = '', _searchDebounceTimer = null;
-    let _searchTaskToken = 0, _searchWorker = null, _searchTotalCount = 0, _searchMatchTruncated = false;
+    let _searchTaskToken = 0, _searchWorker = null, _searchTotalCount = 0, _searchMatchTruncated = false, _dataRevision = 0;
     let _visible = 2, _english = false, _writes = 0, _history = 0;
     const SEARCH_DEBOUNCE_MS = 120;
     const isEnglish = () => _english, getLocaleTag = () => _english ? 'en-US' : 'ja-JP';
@@ -1655,7 +1755,8 @@ for (const action of ["saveFile", "downloadData"]) {
     const _hasActiveRowFilter = () => columnFilters.size > 0 || ($filterMode.checked && filteredRows !== null);
     const clearCurrentMatchCell = () => {}, closeColFilterPanel = () => {};
     const renderForSearchResult = () => { if (!_hasActiveRowFilter()) _visible = state.data.length; };
-    const renderTable = renderForSearchResult, highlightCurrentMatch = () => {};
+    const renderTable = renderForSearchResult, highlightCurrentMatch = () => {}, updateStats = () => {};
+    const commitActiveCellEdit = () => {};
     const saveToHistory = () => _history++, saveToStorage = () => _writes++;
     const buildReplaceRegex = (query) => new RegExp(query);
     const setCellValue = (row, col, value) => { state.data[row][col] = value; };
@@ -1681,12 +1782,11 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.equal(search.element('#replaceAllBtn').disabled, true, 'replacement needs a completed matching query');
   search.ready();
   assert.equal(search.element('#replaceNextBtn').disabled, false);
-  assert.match(search.element('#replaceScope').textContent, /すべてのデータ行/);
   search.element('#searchInput').value = 'banana';
   search.scheduleSearch();
   assert.equal(search.element('#replaceNextBtn').disabled, true, 'debounce must immediately disable old results');
   assert.equal(search.element('#searchNextBtn').disabled, true);
-  search.replaceNext();
+  await search.replaceNext();
   search.navigateMatch(1);
   assert.equal(search.stats().history, 0, 'a pending query must not replace the previous result');
   assert.equal(search.state.data[0][0], 'apple');
@@ -1698,29 +1798,26 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.equal(search.element('#searchInfo').textContent, '', 'clearing must remove the invalid-pattern error');
 
   search.ready();
-  search.replaceNext();
+  await search.replaceNext();
   assert.equal(search.state.data[0][0], 'pear', 'completed results remain replaceable');
   const beforeReset = JSON.stringify(search.state.data);
   search.zeroRows();
-  assert.equal(search.element('#searchSummary').hidden, false);
-  assert.equal(search.element('#searchSummary').dataset.empty, 'true');
-  assert.match(search.element('#searchSummaryText').textContent, /2行中 0行/);
-  assert.match(search.element('#searchSummaryText').textContent, /全行を表示/);
+  assert.equal(search.element('#clearAllFiltersBtn').disabled, false, 'zero-row filters must remain clearable');
   search.english();
-  assert.match(search.element('#searchSummaryText').textContent, /No rows match/);
+  assert.equal(search.element('#clearAllFiltersBtn').disabled, false);
   search._clearAllSearchFilters();
   assert.equal(search.columnFilters.size, 0);
   assert.equal(search.element('#filterMode').checked, false);
   assert.equal(search.element('#searchCaseSensitive').checked, false);
   assert.equal(search.element('#searchInput').value, '');
-  assert.equal(search.element('#searchSummary').hidden, true);
+  assert.equal(search.element('#clearAllFiltersBtn').disabled, true);
   assert.equal(search.stats().visible, 2, 'reset must reveal every data row');
   assert.equal(JSON.stringify(search.state.data), beforeReset, 'clearing view conditions must preserve the data');
   assert.equal(search.stats().filterToken, 1, 'reset must invalidate pending column-filter evaluation');
 }
 
 {
-  // Exercise focus lifecycle and menu keys without depending on a browser renderer.
+  // ブラウザの描画に依存せず、フォーカスの移り変わりとメニューのキー操作を検証する。
   const declarations = [
     'MODAL_FOCUSABLE_SELECTOR', '_overlayFocusTargets', '_openOverlayStack',
     'getFocusableOverlayElements', '_restoreUiFocus', 'getTopOpenOverlay',
@@ -1773,9 +1870,12 @@ for (const action of ["saveFile", "downloadData"]) {
   const confirm = ui.create('confirm');
   const dialog = ui.create('dialog');
   const overlay = ui.create('overlay', { items: [hidden, disabled, cancel, confirm], modal: dialog });
+  const painted = [];
+  overlay.parentNode = {appendChild: element => painted.push(element)};
   ui.document.activeElement = trigger;
   ui.openOverlay(overlay, { focusSelector: '#confirm' });
   ui.flushFrames();
+  assert.equal(painted.at(-1), overlay, 'opening a dialog must bring it above its existing siblings');
   assert.equal(ui.document.activeElement, confirm, 'dialog must honor a usable preferred initial control');
   ui.document.activeElement = cancel;
   const reverseTab = ui.key('Tab', true);
@@ -1792,6 +1892,11 @@ for (const action of ["saveFile", "downloadData"]) {
   ui.openOverlay(overlay, { focusSelector: '#hidden' });
   ui.flushFrames();
   assert.equal(ui.document.activeElement, cancel, 'hidden preferred controls must fall back to the first usable control');
+  ui.closeOverlay(overlay);
+  ui.openOverlay(overlay, { focusSelector: '#cancel' });
+  ui.document.activeElement = confirm;
+  ui.flushFrames();
+  assert.equal(ui.document.activeElement, confirm, 'late initial focus must preserve a control already chosen by the user');
   ui.closeOverlay(overlay);
   ui.openOverlay(overlay);
   ui.closeOverlay(overlay);
@@ -1841,14 +1946,14 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.equal(ui.document.activeElement, trigger);
   assert.equal(menu.classList.contains('show'), false, 'Tab must dismiss the menu');
   assert.equal(tab.prevented, false, 'Tab must continue naturally from the trigger');
-  assert.match(extractConstDeclaration(html, 'openModal'), /confirmVariant\.includes\('btn-danger'\) \? '#modalCancelBtn'/,
+  assert.match(extractConstDeclaration(html, 'openModal'), /confirmVariant === 'gm-btn-danger' \? '#modalCancelBtn'/,
     'destructive dialogs must initially focus cancel');
 }
 
-// First-use actions and the explicit paste dialog must preserve cancellation and drafts.
+// 貼り付けダイアログのキャンセル、下書き、操作可能状態を維持する。
 {
   const declarations = ["processData", "_updatePasteImportControls", "_closePasteImport",
-    "triggerPaste", "_submitPasteImport", "_startDataset", "_updateActionAvailability"]
+    "triggerPaste", "_submitPasteImport", "_updateActionAvailability"]
     .map((name) => extractConstDeclaration(html, name)).join("\n");
   const csvCore = loadCsvCore();
   const startCore = new vm.Script(`
@@ -1863,6 +1968,7 @@ for (const action of ["saveFile", "downloadData"]) {
     const $pasteImportStatus = qs('#pasteImportStatus');
     const $pasteImportOverlay = { visible: false, setAttribute() {} };
     let _pasteImportBusy = false, _pasteImportRequestId = 0, _saveFileInProgress = false;
+    let _processDataRequestId = 0, _dataRevision = 0;
     let _commits = [], _focusCount = 0, _confirm = true, _english = false;
     let _parse = async (text, delimiter) => parseCSV(text, delimiter);
     const parseCSVAsync = (text, delimiter) => _parse(text, delimiter);
@@ -1871,7 +1977,7 @@ for (const action of ["saveFile", "downloadData"]) {
     const showParseErrorToast = () => {};
     const detectNewlineSettingFromText = () => 'lf';
     const _confirmDataReplacement = async () => _confirm;
-    const _commitImportedData = (snapshot) => { state.data = snapshot.data; _commits.push(snapshot); };
+    const _commitImportedData = (snapshot) => { state.data = snapshot.data; _commits.push(snapshot); _dataRevision++; };
     const _focusFirstDataCell = () => _focusCount++;
     const openOverlay = ($overlay) => { $overlay.visible = true; };
     const closeOverlay = ($overlay) => { $overlay.visible = false; };
@@ -1883,7 +1989,8 @@ for (const action of ["saveFile", "downloadData"]) {
       confirm: (confirmed) => { _confirm = confirmed; },
       parser: (parser) => { _parse = parser; },
       language: (english) => { _english = english; },
-      open: triggerPaste, close: _closePasteImport, submit: _submitPasteImport, start: _startDataset,
+      open: triggerPaste, close: _closePasteImport, submit: _submitPasteImport, processData,
+      externalEdit: data => {state.data = data; _dataRevision++;},
       busy: (busy) => { _saveFileInProgress = busy; },
       availability: _updateActionAvailability, control: qs,
       snapshot: () => ({ data: state.data, commits: _commits, focusCount: _focusCount,
@@ -1897,22 +2004,17 @@ for (const action of ["saveFile", "downloadData"]) {
   for (const id of ['saveBtn', 'copyBtn', 'dlBtn', 'clearBtn', 'exportWizardBtn']) {
     assert.equal(startCore.control('#' + id).disabled, true, `empty editor should disable ${id}`);
   }
-  startCore.start(true);
-  assert.equal(startCore.snapshot().data.length, 6);
-  assert.equal(startCore.snapshot().data[1][0], '00101', 'sample should demonstrate leading-zero retention');
-  assert.equal(startCore.snapshot().commits[0].hasHeader, true);
-  startCore.start(false);
-  assert.equal(startCore.snapshot().commits.length, 1, 'start actions must never replace an existing table');
+  for (const id of ['addRowBtn', 'addColBtn']) {
+    assert.equal(startCore.control('#' + id).disabled, false, `empty editor should allow creating a table with ${id}`);
+  }
+  startCore.text('code,name\n00101,ノート'); startCore.open();
+  await startCore.submit();
   startCore.availability();
   assert.equal(startCore.control('#saveBtn').disabled, false);
   startCore.busy(true); startCore.availability();
   assert.equal(startCore.control('#saveBtn').disabled, true);
   assert.equal(startCore.control('#dlBtn').disabled, false);
   startCore.busy(false);
-  startCore.reset(); startCore.start();
-  assert.deepEqual(normalize(startCore.snapshot().data), Array.from({ length: 5 }, () => Array(4).fill('')));
-  assert.equal(startCore.snapshot().commits[0].hasHeader, false);
-  assert.equal(startCore.snapshot().focusCount, 1, 'new tables should be ready for typing');
 
   startCore.reset(); startCore.text(''); startCore.open();
   assert.equal(startCore.snapshot().disabled, true, 'empty clipboard dialog should explain where to paste without permission calls');
@@ -1950,6 +2052,25 @@ for (const action of ["saveFile", "downloadData"]) {
   pendingParses[1]([['new', 'table']]);
   await newImport;
   assert.deepEqual(normalize(startCore.snapshot().data), [['new', 'table']]);
+
+  startCore.reset();
+  const earlierPaste = startCore.processData('earlier,paste');
+  await Promise.resolve();
+  const laterPaste = startCore.processData('later,paste');
+  await Promise.resolve();
+  pendingParses[3]([['later', 'paste']]);
+  assert.equal(await laterPaste, true);
+  pendingParses[2]([['earlier', 'paste']]);
+  assert.equal(await earlierPaste, false);
+  assert.deepEqual(normalize(startCore.snapshot().data), [['later', 'paste']], 'direct paste must ignore out-of-order completion');
+
+  startCore.reset();
+  const interruptedPaste = startCore.processData('pending,paste');
+  await Promise.resolve();
+  startCore.externalEdit([['newer', 'edit']]);
+  pendingParses[4]([['pending', 'paste']]);
+  assert.equal(await interruptedPaste, false);
+  assert.deepEqual(normalize(startCore.snapshot().data), [['newer', 'edit']], 'direct paste must preserve edits made during parsing');
 }
 
 {
@@ -1967,11 +2088,12 @@ for (const action of ["saveFile", "downloadData"]) {
     let $trigger = create('filter trigger', { filterCol: '2' });
     const $colFilterPanel = create('panel'), $colFilterSearch = create('search'),
       $colFilterValues = create('values'), $colFilterTitle = create('title'), $dataTable = {};
-    let _shown = false, filterPanelColIndex = -1, _filterValuePanelState = null, _$colFilterFocusTarget = null;
+    let _shown = false, filterPanelColIndex = -1, _filterValuePanelState = null, _$colFilterFocusTarget = null, _colFilterPanelRevision = 0;
     $colFilterPanel.classList = { contains: () => _shown, add: () => { _shown = true; }, remove: () => { _shown = false; } };
     $colFilterPanel.contains = ($el) => $el === $colFilterSearch;
     const qs = (selector) => selector === 'button[data-filter-col="2"]' ? $trigger : null;
     const closeColumnMenu = () => {}, populateFilterValues = () => {}, restoreFilterConditions = () => {};
+    const columnFilters = new Map(), FILTER_VALUE_RENDER_BATCH = 200;
     const getColumnDisplayName = () => 'Name', isEnglish = () => false, _clampHorizontal = (x) => x;
     const getTopOpenOverlay = () => null, window = { scrollY: 0 };
     ${declarations}
@@ -2009,7 +2131,7 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.equal(filterUi.document.activeElement, outside, 'outside dismissal must preserve the control the user chose');
 }
 
-// Import cancellation must invalidate asynchronous results, including their file context.
+// 読み込みのキャンセル時は、ファイル情報も含めて非同期の結果を無効化する。
 {
   const declarations = [
     "_setWizImportBusy", "wizGetCurrentDecode", "wizGetCurrentDelimiter", "openImportWizard",
@@ -2156,6 +2278,726 @@ for (const action of ["saveFile", "downloadData"]) {
   assert.equal(multiDrop.prevented, true);
   assert.equal(importer.snapshot().visible, false, 'multiple files must not silently import only the first file');
   assert.ok(importer.snapshot().toasts.at(-1).message.includes('1つずつ'));
+}
+
+
+{
+  const declarations = ['STRICT_NUMERIC_RE', '_parseExactNumeric', '_compareExactNumbers',
+    '_compareSortableKeys', 'sortRowsByColumn', 'evalCondition']
+    .map((name) => extractConstDeclaration(html, name)).join('\n');
+  const core = vm.runInNewContext(`${declarations}
+    const compareSortableValues = (left, right, dir, locale) => _compareSortableKeys(
+      { text: left, number: _parseExactNumeric(left) },
+      { text: right, number: _parseExactNumeric(right) }, locale
+    ) * (dir === 'asc' ? 1 : -1);
+    ({ compareSortableValues, sortRowsByColumn, evalCondition });`);
+  for (const [left, right, expected] of [
+    ['9007199254740993', '9007199254740992', 1],
+    ['-9007199254740993', '-9007199254740992', -1],
+    ['0.123456789012345678901', '0.123456789012345678900', 1],
+    ['1e99999999999999999999', '9e99999999999999999998', 1],
+    ['1e-99999999999999999999', '0', 1],
+    ['-1e-99999999999999999999', '0', -1],
+    ['+001.2300e2', '123', 0], ['-0', '0.000e9999', 0],
+    ['.1', '1e-1', 0], ['10.', '9.999999999999999999', 1],
+  ]) {
+    assert.equal(Math.sign(core.compareSortableValues(left, right, 'asc', 'ja-JP')), expected);
+    assert.equal(core.evalCondition(left, 'gte', right), expected >= 0);
+    assert.equal(core.evalCondition(left, 'lte', right), expected <= 0);
+  }
+  assert.equal(core.evalCondition('001', 'equals', '1'), false, 'text equality must preserve leading zeros');
+  const values = ['2', '10', '11a', '', 'あ', '-3', '0', '1e9999', '9007199254740993'];
+  for (const a of values) for (const b of values) for (const c of values) {
+    if (core.compareSortableValues(a,b,'asc','ja-JP') <= 0 && core.compareSortableValues(b,c,'asc','ja-JP') <= 0) {
+      assert.ok(core.compareSortableValues(a,c,'asc','ja-JP') <= 0, `transitivity: ${a}, ${b}, ${c}`);
+    }
+  }
+  const rows = [['9007199254740993','A'], ['2','B'], ['9007199254740992','C'], ['02','D']];
+  assert.deepEqual(cloneJson(core.sortRowsByColumn(rows,0,'asc','ja-JP')), [rows[1],rows[3],rows[2],rows[0]]);
+  assert.deepEqual(cloneJson(core.sortRowsByColumn(rows,0,'desc','ja-JP')), [rows[0],rows[2],rows[1],rows[3]]);
+  assert.equal(rows[0][1], 'A', 'sorting must not mutate the source matrix');
+}
+
+{
+  let visible = [1,3,5], focused = null, committed = 0, selected = null;
+  const callbacks = [];
+  const core = vm.runInNewContext(`
+    let _selectionAnchor = null;
+    ${extractConstDeclaration(html,'parseDatasetIndex')}
+    ${extractConstDeclaration(html,'handleCellNavigation')}
+    handleCellNavigation;
+  `, {
+    isImeCompositionKeyEvent: (e) => !!e.isComposing,
+    getColumnCount: () => 2,
+    getVisibleOffsetByRowIndex: (row) => { const n=visible.indexOf(row); return n<0 ? undefined : n; },
+    getVisibleRowCount: () => visible.length,
+    getVisibleRowIndexAt: (i) => visible[i],
+    _isRowVisible: (row) => visible.includes(row),
+    handleCellBlur: () => { committed++; },
+    _dataRevision: 0,
+    clearSelection: () => { selected = null; },
+    selectCell: (cell) => { selected = cell.selector; },
+    scheduleStatusBarUpdate() {},
+    ensureRowRendered: () => { assert.ok(committed > 0, 'commit must happen before virtual DOM replacement'); },
+    $dataTable: {}, qs: (selector) => ({ selector, focus: () => { focused = selector; } }),
+    setTimeout: (fn) => callbacks.push(fn),
+  });
+  for (const [key, row, col, options, target] of [
+    ['Enter',1,0,{},[3,0]], ['Tab',1,1,{},[3,0]], ['Tab',3,0,{shiftKey:true},[1,1]],
+    ['ArrowDown',1,1,{altKey:true},[3,1]], ['ArrowUp',5,0,{altKey:true},[3,0]],
+    ['Enter',5,0,{},null], ['Tab',1,0,{shiftKey:true},null], ['Tab',5,1,{},null], ['Enter',1,0,{isComposing:true},null],
+  ]) {
+    focused=null; committed=0; selected=null;
+    let prevented = false;
+    core({key,...options,preventDefault(){ prevented = true; }},{dataset:{row:String(row),col:String(col)}});
+    while(callbacks.length) callbacks.shift()();
+    assert.equal(focused, target ? `td[data-row="${target[0]}"][data-col="${target[1]}"]` : null, `${key} at ${row}:${col}`);
+    assert.equal(selected, focused, 'navigation must move the clipboard selection together with focus');
+    assert.equal(prevented, !options.isComposing && !(key === 'Tab' && !target), 'native Tab order must remain available at visible table boundaries');
+  }
+  focused=null;
+  core({key:'Enter',preventDefault(){}},{dataset:{row:'1',col:'0'}});
+  visible=[1,5];
+  while(callbacks.length) callbacks.shift()();
+  assert.equal(focused,null,'a target removed by a concurrent filter update must not receive focus');
+}
+
+
+{
+  const source = extractConstDeclaration(html, 'runDataWorker');
+  for (const mode of ['success', 'timeout', 'error', 'messageerror', 'post-failure', 'constructor-failure']) {
+    let terminated = 0, revoked = 0, created = 0;
+    class WorkerMock {
+      constructor() { if (mode === 'constructor-failure') throw new Error(mode); }
+      postMessage() {
+        if (mode === 'post-failure') throw new Error(mode);
+        if (mode === 'timeout') return;
+        queueMicrotask(() => mode === 'success' ? this.onmessage({data: 'result'}) : this[`on${mode}`](new Error(mode)));
+      }
+      terminate() { terminated++; }
+    }
+    const run = vm.runInNewContext(`${source}; runDataWorker`, {
+      DATA_WORKER_TIMEOUT_MS: 10, Worker: WorkerMock, Blob, setTimeout, clearTimeout,
+      URL: {createObjectURL() { created++; return 'blob:qa'; }, revokeObjectURL() {revoked++;}},
+    });
+    if (mode === 'success') assert.equal(await run('worker source', {}), 'result');
+    else await assert.rejects(run('worker source', {}));
+    assert.equal(created, 1);
+    assert.equal(revoked, 1, `${mode}: release the blob URL`);
+    assert.equal(terminated, mode === 'constructor-failure' ? 0 : 1, `${mode}: terminate the worker`);
+  }
+}
+
+{
+  let requests = 0;
+  const connections = [];
+  const indexedDB = {
+    open() {
+      requests++;
+      const request = {};
+      queueMicrotask(() => {
+        const connection = {closed: false, close() {this.closed = true;}};
+        connections.push(connection);
+        request.result = connection;
+        request.onsuccess();
+      });
+      return request;
+    },
+  };
+  const {IDBStore: store} = loadStorageMigrationCore({localStorage: createLocalStorageMock(), indexedDB});
+  const [first, same] = await Promise.all([store.open(), store.open()]);
+  assert.equal(first, same);
+  assert.equal(requests, 1, 'concurrent initialization must share a database connection');
+  first.onversionchange();
+  assert.equal(first.closed, true);
+  const second = await store.open();
+  first.onclose();
+  assert.equal(await store.open(), second, 'a late close from an old connection must not invalidate the new one');
+  assert.equal(requests, 2);
+}
+
+{
+  const localStorage = createLocalStorageMock([['read-abort', JSON.stringify({value: 'fallback'})]]);
+  const indexedDB = {open() {
+    const request = {};
+    queueMicrotask(() => {
+      request.result = {transaction() {
+        const tx = {objectStore: () => ({get: () => ({})})};
+        queueMicrotask(() => tx.onabort?.());
+        return tx;
+      }};
+      request.onsuccess();
+    });
+    return request;
+  }};
+  const {IDBStore: store} = loadStorageMigrationCore({localStorage, indexedDB});
+  let timer;
+  try {
+    const value = await Promise.race([store.get('read-abort'), new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error('aborted read did not settle')), 100);
+    })]);
+    assert.deepEqual(cloneJson(value), {value:'fallback'});
+  } finally { clearTimeout(timer); }
+}
+
+{
+  const ranges = new Map([['<script>\rabc', [[9,12]]]]);
+  const ctx = {hasQuery:true, exactMatch:false, regex:{exec() {throw new Error('regex ran on UI thread');}}};
+  const source = extractConstDeclaration(html,'renderCellTextWithSearchHit');
+  const render = vm.runInNewContext(`${source}; renderCellTextWithSearchHit`, {
+    _regexHighlightRanges: ranges, getSearchHighlightContext: () => ctx, $searchRegex:{checked:true},
+    escapeHTML: text => text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'),
+  });
+  assert.equal(render('<script>\rabc', {isMatchedCell:true}), '&lt;script&gt;&#13;<mark class="search-text-hit">abc</mark>');
+  ctx.exactMatch = true;
+  assert.equal(render('a\rb', {isMatchedCell:true}), '<mark class="search-text-hit">a&#13;b</mark>');
+  assert.equal(render('<img onerror=attack()>'), '&lt;img onerror=attack()&gt;');
+}
+
+// 改行や選択パターンを含むセル全体の一致判定を、検索と置換で揃える。
+{
+  const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', 'buildMatcher', 'buildReplaceRegex']
+    .map(name => extractConstDeclaration(name === 'buildMatcher' ? html.slice(html.lastIndexOf('const buildMatcher =')) : html, name)).join('\n');
+  const core = vm.runInNewContext(`
+    const $searchCaseSensitive = {checked: false}, $searchExactMatch = {checked: true}, $searchRegex = {checked: false};
+    ${declarations}
+    ({buildMatcher, buildReplaceRegex, regex: value => {$searchRegex.checked = value;},
+      options: (caseSensitive, exactMatch) => { $searchCaseSensitive.checked = caseSensitive; $searchExactMatch.checked = exactMatch; }});
+  `);
+  for (const regexMode of [false, true]) {
+    core.regex(regexMode);
+    const match = core.buildMatcher('foo');
+    const replace = core.buildReplaceRegex('foo', true);
+    for (const text of ['foo', 'FOO', 'foo\n', 'foo\r', 'foo\r\n', 'foo\u2028', 'foo\u2029', ' foo', 'foobar']) {
+      const expected = text === 'foo' || text === 'FOO';
+      assert.equal(Boolean(match(text)), expected, `search: ${JSON.stringify(text)}`);
+      assert.equal(text.replace(replace, 'done'), expected ? 'done' : text, `replace: ${JSON.stringify(text)}`);
+    }
+  }
+  core.regex(true);
+  for (const query of ['a|ab', 'a.*?', '(a|ab)']) {
+    assert.equal(core.buildMatcher(query)('ab'), true, `${query} must allow a complete alternative`);
+    assert.equal('ab'.replace(core.buildReplaceRegex(query, true), 'done'), 'done');
+  }
+  assert.equal(core.buildMatcher('['), null);
+  core.regex(false);
+  assert.equal(core.buildMatcher('a.b')('a.b'), true);
+  assert.equal('a.b\n'.replace(core.buildReplaceRegex('a.b', true), 'done'), 'a.b\n');
+  for (const [query, cell, insensitive] of [
+    ['σ', 'ς', true], ['σ', 'Σ', true], ['k', 'K', true], ['s', 'ſ', true],
+    ['𐐨', '𐐀', true], ['i', 'İ', false], ['i', 'ı', false],
+    ['ß', 'SS', false], ['日本', '日本', true], ['a.b', 'axb', false],
+    ['[x]', '[x]', true], ['\\', '\\', true], ['😀', '😀', true],
+  ]) {
+    for (const caseSensitive of [false, true]) {
+      for (const exactMatch of [false, true]) {
+        core.options(caseSensitive, exactMatch);
+        const expected = caseSensitive ? query === cell : insensitive;
+        assert.equal(core.buildMatcher(query)(cell), expected, `literal search ${query}/${cell}`);
+        assert.equal(cell.replace(core.buildReplaceRegex(query, true), 'done'), expected ? 'done' : cell,
+          `literal replacement must target exactly the search matches: ${query}/${cell}`);
+      }
+    }
+  }
+}
+
+// ブラウザに依存せず、実際の検索・フィルターWorkerと失敗時の後始末を検証する。
+{
+  const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', 'STRICT_NUMERIC_RE', '_parseExactNumeric', '_compareExactNumbers', 'evalCondition',
+    'terminateSearchWorker', 'ensureSearchWorker', 'callSearchWorker',
+    'terminateFilterWorker', 'ensureFilterWorker', 'callFilterWorker']
+    .map(name => extractConstDeclaration(html, name)).join('\n');
+  const sources = new Map(), workers = [];
+  let constructorFailure = false;
+  const runtime = {
+    setTimeout, clearTimeout, console: {warn() {}},
+    Blob: class {constructor(parts) {this.source = parts.join('');}},
+    URL: {createObjectURL(blob) {const id = `blob:${sources.size}`; sources.set(id, blob.source); return id;}, revokeObjectURL(id) {sources.delete(id);}},
+    Worker: class {
+      constructor(url) {
+        if (constructorFailure) throw new Error('worker unavailable');
+        workers.push(this);
+        this.scope = {postMessage: data => queueMicrotask(() => {if (!this.stopped) this.onmessage({data});})};
+        vm.runInNewContext(sources.get(url), {self: this.scope, performance, setTimeout});
+      }
+      postMessage(data) {if (!this.hold) this.scope.onmessage({data});}
+      terminate() {this.stopped = true;}
+    },
+  };
+  const core = vm.runInNewContext(`
+    const DATA_WORKER_TIMEOUT_MS = 1000, REGEX_WORKER_TIMEOUT_MS = 1000;
+    let _searchWorker = null, _searchWorkerUrl = '', _searchWorkerRequestSeq = 0, _searchWorkerDataRevision = -1, _searchWorkerDirtyRows = null;
+    let _filterWorker = null, _filterWorkerUrl = '', _filterWorkerRequestSeq = 0, _filterWorkerDataRevision = -1, _filterWorkerDirtyRows = null;
+    const _searchWorkerPending = new Map(), _filterWorkerPending = new Map();
+    ${declarations}
+    ({callSearchWorker, callFilterWorker, terminateSearchWorker, terminateFilterWorker});
+  `, runtime);
+  await core.callSearchWorker('syncData', {data: [['a'], ['ab'], ['ab\n']]});
+  const result = await core.callSearchWorker('search', {
+    query: 'a|ab', caseSensitive: true, exactMatch: true, useRegex: true,
+    taskToken: 1, start: 0, targetCol: -1, filterBySearch: true,
+    highlightAllMatches: true, storeLimit: 100, minBatchRows: 700, timeBudgetMs: 12,
+  });
+  assert.deepEqual(cloneJson(result.matchedRows), [0, 1]);
+  await core.callSearchWorker('syncData', {data: [['ς'], ['K'], ['𐐀'], ['İ'], ['other']]});
+  let token = 2;
+  for (const [query, expectedRows] of [['σ', [0]], ['k', [1]], ['𐐨', [2]], ['i', []]]) {
+    for (const exactMatch of [false, true]) {
+      const packet = await core.callSearchWorker('search', {
+        query, caseSensitive: false, exactMatch, useRegex: false,
+        taskToken: token++, start: 0, targetCol: -1, filterBySearch: true,
+        highlightAllMatches: true, storeLimit: 100, minBatchRows: 700, timeBudgetMs: 12,
+        canUseRowPrefilter: !exactMatch,
+      });
+      assert.deepEqual(cloneJson(packet.matchedRows), expectedRows, 'worker and row prefilter must share literal Unicode matching');
+    }
+  }
+  core.terminateSearchWorker();
+  const rows = Array.from({length: 10000}, (_, i) => [String(i)]);
+  const selected = rows.filter((_, i) => i % 2 === 0).map(row => row[0]);
+  await core.callFilterWorker('syncData', {data: rows});
+  const filtered = await core.callFilterWorker('evaluateFilters', {start: 0, filters: [{colIdx: 0, values: selected, conditions: []}]});
+  assert.deepEqual(cloneJson(filtered.passingRows), rows.map((_, i) => i).filter(i => i % 2 === 0));
+  const empty = await core.callFilterWorker('evaluateFilters', {start: 0, filters: [{colIdx: 0, values: [], conditions: []}]});
+  assert.deepEqual(cloneJson(empty.passingRows), []);
+  const counts = await core.callFilterWorker('valueCounts', {colIdx: 0, start: 0, filters: [{colIdx: 0, values: ['2', '4'], conditions: []}]});
+  assert.deepEqual(cloneJson(counts.sorted), [['2', 1], ['4', 1]]);
+  core.terminateFilterWorker();
+  for (const kind of ['Search', 'Filter']) {
+    await core[`call${kind}Worker`]('syncData', {data: [['retained']]});
+    const worker = workers.at(-1);
+    worker.hold = true;
+    const pending = core[`call${kind}Worker`]('syncData', {data: []});
+    assert.equal(typeof worker.onmessageerror, 'function');
+    worker.onmessageerror(new Error('invalid worker message'));
+    await assert.rejects(pending, /terminated/);
+    assert.equal(worker.stopped, true);
+    assert.equal(sources.size, 0, 'worker errors must release object URLs immediately');
+    constructorFailure = true;
+    await assert.rejects(core[`call${kind}Worker`]('syncData', {data: []}), /unavailable/);
+    assert.equal(sources.size, 0, 'constructor failure must release its object URL');
+    constructorFailure = false;
+  }
+}
+
+// 結果の行数が減った後、以前の大きなスクロール位置のせいで余白行だけを描画してはならない。
+{
+  const scroll = {clientHeight: 420, scrollTop: 4000000};
+  const body = {innerHTML: ''};
+  const virtualState = {enabled: true, start: -1, end: -1};
+  const render = vm.runInNewContext(`let _isReplacingTableBody = false;
+    ${extractConstDeclaration(html, '_replaceTableBody')}
+    ${extractConstDeclaration(html, 'renderVirtualBody')}; renderVirtualBody;`, {
+    virtualState, state: {data: [['cell']]}, $tableScroll: scroll, $tableBody: body,
+    VIRTUAL_ROW_HEIGHT: 42, VIRTUAL_OVERSCAN: 12,
+    getVisibleRowCount: () => 1500, getVisibleRowIndexAt: index => index,
+    buildBodyRowHTML: index => `<tr data-row="${index}"></tr>`, refreshRenderedSelectionVisuals() {},
+  });
+  render();
+  assert.ok(virtualState.start <= virtualState.end);
+  assert.ok(body.innerHTML.includes('data-row="1499"'));
+  assert.ok(scroll.scrollTop <= 1500 * 42);
+}
+
+// プリセットの保存失敗を、後の無関係な書き込みで暗黙に成功扱いしてはならない。
+{
+  const declarations = ['saveVirtualHeaderPresetFromDraft', 'deleteSelectedVirtualHeaderPreset']
+    .map(name => extractConstDeclaration(html, name)).join('\n');
+  const core = vm.runInNewContext(`
+    let virtualHeaderPresets = [{name: 'existing', labels: ['original']}], _fail = true, _saved = [], _status;
+    const MAX_VIRTUAL_HEADER_PRESETS = 20;
+    const $virtualHeaderPresetName = {value: 'new'}, $virtualHeaderPresetSelect = {value: 'existing'};
+    const getVirtualHeaderDraft = () => ['draft'], getColumnCount = () => 1;
+    const normalizeVirtualHeaderPreset = value => value;
+    const getSelectedVirtualHeaderPreset = () => virtualHeaderPresets.find(p => p.name === $virtualHeaderPresetSelect.value);
+    const setVirtualHeaderStatus = message => {_status = message;};
+    const sortVirtualHeaderPresets = () => virtualHeaderPresets.sort((a,b) => a.name.localeCompare(b.name));
+    const renderVirtualHeaderPresetSelect = () => {};
+    const saveVirtualHeaderPresets = () => {if (_fail) return false; _saved = structuredClone(virtualHeaderPresets); return true;};
+    ${declarations}
+    ({save: saveVirtualHeaderPresetFromDraft, remove: deleteSelectedVirtualHeaderPreset,
+      enable: () => {_fail = false;}, snapshot: () => ({presets: virtualHeaderPresets, saved: _saved, status: _status})});
+  `, {structuredClone});
+  core.remove();
+  assert.deepEqual(cloneJson(core.snapshot().presets), [{name:'existing',labels:['original']}]);
+  core.save();
+  assert.equal(core.snapshot().presets.length, 1);
+  core.enable();
+  core.save();
+  assert.deepEqual(cloneJson(core.snapshot().saved.map(p => p.name)), ['existing', 'new']);
+}
+
+// 標準の選択コントロールは、選択肢を再構築するまで一覧にない値を保持できない。
+{
+  let options = ['-1', '0', '1'], value = '1';
+  const select = {
+    dataset: {},
+    get value() { return value; },
+    set value(next) { value = options.includes(next) ? next : ''; },
+    set innerHTML(markup) { options = [...markup.matchAll(/value="([^"]+)"/g)].map(match => match[1]); },
+  };
+  const state = { data: [['left', 'target', 'inserted']] };
+  const core = vm.runInNewContext(`
+    ${extractConstDeclaration(html, 'remapSearchTargetColumn')}
+    ${extractConstDeclaration(html, 'updateSearchTargetCols')}
+    ({remapSearchTargetColumn, updateSearchTargetCols});
+  `, {state, $searchTargetCol: select, isEnglish: () => true, getColumnDisplayName: String, escapeHTML: String});
+  core.remapSearchTargetColumn(index => index + 1);
+  core.updateSearchTargetCols();
+  assert.equal(select.value, '2', 'inserting before the last search column must not broaden the search scope');
+  core.remapSearchTargetColumn(index => index === 2 ? -1 : index);
+  state.data = [['left', 'inserted']];
+  core.updateSearchTargetCols();
+  assert.equal(select.value, '-1', 'deleting the actual search column must reset the target');
+}
+
+// 無効な列や古い操作座標を編集可能なセルとして扱ってはならない。
+{
+  const core = vm.runInNewContext(`
+    let _selectionModel = new Map([[0, new Set([0, 2, -1])], [1, new Set([1])], [2, new Set([0])]]);
+    let _selectionAnchor = {row: 0, col: 2}, _dragStart = {row: 2, col: 0}, _isDragging = true;
+    const clearSelectionModel = () => { _selectionModel = new Map(); };
+    const $dataTable = {classList: {remove() {}}};
+    ${extractConstDeclaration(html, '_pruneSelectionToVisibleRows')}
+    ${extractConstDeclaration(html, '_resetCellSelection')}
+    ({ prune: _pruneSelectionToVisibleRows, reset: _resetCellSelection,
+      snapshot: () => ({selection: [..._selectionModel].map(([row, cols]) => [row, [...cols]]),
+        anchor: _selectionAnchor, drag: _dragStart, dragging: _isDragging}) });
+  `, {getColumnCount: () => 2, _isRowVisible: row => row === 0 || row === 1});
+  assert.equal(core.prune(), true);
+  assert.deepEqual(cloneJson(core.snapshot().selection), [[0, [0]], [1, [1]]]);
+  assert.equal(core.snapshot().anchor, null);
+  assert.equal(core.snapshot().drag, null);
+  core.reset();
+  assert.deepEqual(cloneJson(core.snapshot()), {selection: [], anchor: null, drag: null, dragging: false});
+}
+
+// 第1回：引用セル内の実際の改行で判定処理を打ち切らない。
+{
+  for (const separator of ['\n', '\r', '\r\n']) {
+    const note = Array.from({ length: 12 }, (_, i) => `line ${i}`).join(separator);
+    for (const delimiter of ['\t', ';', ' ']) {
+      const text = `"${note}"${delimiter}one${separator}"${note}"${delimiter}two`;
+      assert.equal(csv.detectDelimiter(text), delimiter, 'detect the delimiter after a multiline first cell');
+      assert.deepEqual(cloneJson(csv.parseCSV(text, csv.detectDelimiter(text))), [[note, 'one'], [note, 'two']]);
+    }
+  }
+}
+
+// 第3回：Markdown表のセル内でも出力データを文字どおりに保持する。
+{
+  const generate = vm.runInNewContext(`${extractConstDeclaration(html, 'generateExportOutput')}; generateExportOutput`, {
+    $expFormat: { value: 'markdown' }, $expNewline: { value: 'lf' },
+    $expQuote: { value: 'auto' }, $expSpreadsheetSafe: { checked: false },
+    getExportFormatConfig: () => ({ id: 'markdown', isDsv: false }),
+    escapeHTML: text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
+  });
+  const output = generate({ headers: ['**title**'], rows: [['[link](url)'], ['`code` _text_ ~~strike~~'], ['a|b\\c\r\nd']] });
+  assert.ok(output.includes('\\*\\*title\\*\\*'));
+  assert.ok(output.includes('\\[link\\](url)'));
+  assert.ok(output.includes('\\`code\\` \\_text\\_ \\~\\~strike\\~\\~'));
+  assert.ok(output.includes('a\\|b\\\\c<br>d'));
+}
+
+// 第4回：ファイル先頭のBOMだけを除き、デコーダーはセル内のU+FEFFを保持する。
+{
+  const declarations = ['prependBytes', 'encodeUtf16Bytes', 'decodeUtf16Bytes', 'detectBomEncoding',
+    'decodeWithTextDecoder', 'strictTextDecoderResult', 'collectDecodeWarnings', 'decodeByEncoding',
+    'encodeToBytes', 'decodeBytesWithMeta', 'decodeFileBytesWithMeta'].map(name => extractConstDeclaration(html, name)).join('\n');
+  const encoding = vm.runInNewContext(`${declarations}; ({encodeToBytes, decodeFileBytesWithMeta})`, {
+    TextDecoder, TextEncoder, Uint8Array, normalizeEncoding: value => value,
+    supportsBom: () => true, HAS_LEGACY_ENCODING_LIB: false,
+    ENCODING_TO_LIBRARY: {}, ENCODING_TO_DECODER_LABEL: {},
+    getEncodingDisplayName: value => value,
+  });
+  const value = '\uFEFF名前,😀\r\n𠮷野,値';
+  for (const label of ['utf-8', 'utf-16le', 'utf-16be']) {
+    const bytes = encoding.encodeToBytes(value, label, true);
+    const decoded = encoding.decodeFileBytesWithMeta(bytes.buffer, label);
+    assert.equal(decoded.text, value, `${label}: preserve U+FEFF after the transport BOM`);
+    assert.equal(decoded.bom, true);
+    assert.deepEqual(Array.from(encoding.encodeToBytes(decoded.text, label, decoded.bom)), Array.from(bytes));
+  }
+}
+
+// 第5回：ファイル書き込み失敗時は、代替保存・再試行の前にストリームを解放する。
+for (const overwrite of [false, true]) {
+  for (const phase of ['write', 'close']) {
+    const events = [];
+    const handle = { name: 'failed.csv', async createWritable() {
+      return {
+        async write() { events.push('write'); if (phase === 'write') throw new Error('write failed'); },
+        async close() { events.push('close'); if (phase === 'close') throw new Error('close failed'); },
+        async abort() { events.push('abort'); throw new Error('cleanup also failed'); },
+      };
+    } };
+    const output = loadFileOutputCore({ picker: overwrite ? undefined : async () => handle });
+    output.state.data = [['intact']];
+    if (overwrite) output.setOpenFileContext({ fileHandle: handle, outputMeta: output.getCurrentOutputMeta() });
+    await output.saveFile();
+    assert.deepEqual(events, phase === 'write' ? ['write', 'abort'] : ['write', 'close', 'abort']);
+    assert.equal(output.downloads.length, 1, 'cleanup failure must not prevent fallback');
+    assert.equal(output.downloads[0].blob.text, 'intact');
+    assert.equal(output.buttonStates.at(-1), false);
+  }
+}
+
+// 第9回：プレビューの読み取り・複製は指定サンプルに限定し、出力は全体を保持する。
+{
+  let reads = 0;
+  const rows = Array.from({ length: 10000 }, (_, row) => Array.from({ length: 30 }, (_, col) => `${row}:${col}`));
+  const data = rows.map(row => new Proxy(row, { get(target, key) {
+    if (typeof key === 'string' && /^\d+$/.test(key)) reads++;
+    return target[key];
+  } }));
+  const selection = new Map(rows.map((cells, row) => [row, new Set(cells.map((_, col) => col))]));
+  const getExportData = vm.runInNewContext(`${extractConstDeclaration(html, 'getExportData')}; getExportData`, {
+    state: { data, hasHeader: false }, $expTarget: { value: 'selected' },
+    $expHeader: { checked: false }, $expSkipEmptyRows: { checked: false }, $expSkipEmptyCols: { checked: false },
+    hasAnyVirtualHeader: () => false, _selectionModel: selection, _isRowVisible: () => true,
+    getSelectedCoords: () => assert.fail('export must not allocate an intermediate object per selected cell'),
+    _compareRowsByVisibleOrder: (a, b) => a - b, applyEmptyFilters: value => value,
+  });
+  assert.deepEqual(cloneJson(getExportData({ rowLimit: 200 }).rows), rows.slice(0, 200));
+  assert.equal(reads, 6000, 'preview must not read cells after its first 200 rows');
+  reads = 0;
+  assert.deepEqual(cloneJson(getExportData().rows), rows);
+  assert.equal(reads, 300000, 'actual export still includes every selected cell');
+}
+
+// 第10回：一時的なファイル入力要素を、選択・キャンセルまでDOMに保持する。
+{
+  let input, failRead = false;
+  const open = vm.runInNewContext(`${extractConstDeclaration(html, 'openFileWithInputFallback')}; openFileWithInputFallback`, {
+    document: { body: { appendChild(element) { element.connected = true; } }, createElement() {
+      input = { connected: false, handlers: {}, files: [],
+        addEventListener(type, handler) { this.handlers[type] = handler; },
+        remove() { this.connected = false; },
+        click() { assert.equal(this.connected, true, 'file control must be connected before opening the native picker'); },
+      };
+      return input;
+    } },
+    _readFileForImport: async () => { if (failRead) throw new Error('forced read failure'); },
+  });
+  open(1);
+  assert.equal(input.hidden, true, 'transient control must not add visible UI');
+  input.handlers.cancel();
+  assert.equal(input.connected, false);
+  open(2);
+  input.files = [{}];
+  await input.handlers.change();
+  assert.equal(input.connected, false);
+  open(3);
+  input.files = [{}]; failRead = true;
+  await assert.rejects(input.handlers.change, /forced read failure/);
+  assert.equal(input.connected, false, 'read failure must also remove the transient control');
+}
+
+// 小数の集計では、最後の表示用丸めまで桁を保持する。
+{
+  const names = ['NUMBER_LIKE_RE', '_parseStatusDecimal', '_addStatusDecimal', '_formatStatusDecimal'];
+  let locale = 'ja-JP';
+  const core = vm.runInNewContext(`${names.map(name => extractConstDeclaration(html, name)).join('\n')};
+    ({ parse: _parseStatusDecimal, add: _addStatusDecimal, format: _formatStatusDecimal })`, { getLocaleTag: () => locale });
+  const aggregate = (values) => {
+    const result = { sum: 0n, min: null, max: null, scale: 0, count: 0 };
+    for (const value of values) {
+      const number = core.parse(value);
+      if (number) core.add(result, number);
+    }
+    return result;
+  };
+  const fixtures = [
+    [['9007199254740993.1', '-9007199254740992.2', '0.1'], '1', '0.333333', '-9,007,199,254,740,992.2', '9,007,199,254,740,993.1'],
+    [['0.1', '0.2', '-0.3'], '0', '0', '-0.3', '0.2'],
+    [['-0.0000005', '-0.0000004'], '-0.000001', '0', '-0.000001', '0'],
+    [['999.9999995', '0.0000005'], '1,000', '500', '0.000001', '1,000'],
+    [[' 1,234.5000 ', '-001.250', '0.000'], '1,233.25', '411.083333', '-1.25', '1,234.5'],
+  ];
+  for (locale of ['ja-JP', 'en-US']) {
+    for (const [values, sum, avg, min, max] of fixtures) {
+      for (const sequence of [values, [...values].reverse()]) {
+        const result = aggregate(sequence);
+        assert.equal(core.format(result.sum, result.scale), sum);
+        assert.equal(core.format(result.sum, result.scale, BigInt(result.count)), avg);
+        assert.equal(core.format(result.min, result.scale), min);
+        assert.equal(core.format(result.max, result.scale), max);
+      }
+    }
+  }
+  for (const value of ['', ' ', null, '1,23', 'NaN', 'Infinity', '1e3', '+1', '--1']) assert.equal(core.parse(value), null);
+  const huge = aggregate(['9'.repeat(400), '-' + '9'.repeat(400), '0.25']);
+  assert.equal(huge.count, 3);
+  assert.equal(core.format(huge.sum, huge.scale), '0.25');
+}
+
+// プレビューも出力と同じ対象全体を絞り込んでから、表示行数を制限する。
+{
+  const body = Array.from({ length: 205 }, (_, i) => i < 200 ? ['', '', '', ''] : [String(i), '', i === 204 ? 'late' : '', 'outside']);
+  const state = { data: body, hasHeader: false };
+  const controls = {
+    $expTarget: { value: 'all' }, $expHeader: { checked: false },
+    $expSkipEmptyRows: { checked: true }, $expSkipEmptyCols: { checked: true },
+  };
+  let visible = body.map((_, i) => i);
+  const getExportData = vm.runInNewContext(`${extractConstDeclaration(html, 'getExportData')}; getExportData`, {
+    ...controls, state, getColumnCount: () => state.data[0]?.length ?? 0,
+    hasAnyVirtualHeader: () => true, getVirtualHeaderLabel: col => col === 1 ? 'Named empty column' : '',
+    _selectionModel: new Map(Array.from({length: 206}, (_, row) => [row, new Set([0, 2])])),
+    _isRowVisible: row => visible.includes(row),
+    _compareRowsByVisibleOrder: (a, b) => a - b, rebuildVisibleRows() {},
+    _getVisibleRowIndexes: limit => limit === null ? visible : visible.slice(0, limit),
+  });
+  for (const target of ['all', 'filtered', 'selected']) {
+    controls.$expTarget.value = target;
+    const expected = body.slice(200).map(row => target === 'selected' ? [row[0], row[2]] : [row[0], row[2], row[3]]);
+    assert.deepEqual(cloneJson(getExportData({ rowLimit: 200 }).rows), expected);
+    assert.deepEqual(cloneJson(getExportData().rows), expected);
+    controls.$expSkipEmptyRows.checked = false;
+    assert.deepEqual(cloneJson(getExportData({ rowLimit: 200 }).rows), body.slice(0, 200).map(() => expected[0].map(() => '')));
+    controls.$expSkipEmptyRows.checked = true;
+    assert.equal(getExportData({rowLimit:0}).rows.length, 0);
+  }
+  controls.$expTarget.value = 'filtered';
+  visible = [200];
+  assert.deepEqual(cloneJson(getExportData().rows), [['200', 'outside']], 'hidden rows cannot retain empty columns');
+  controls.$expTarget.value = 'selected';
+  assert.deepEqual(cloneJson(getExportData().rows), [['200']], 'only selected columns determine whether a row is empty');
+  controls.$expHeader.checked = true;
+  assert.deepEqual(cloneJson(getExportData()), {headers:['', 'Named empty column'], rows:[['200', '']]});
+  state.hasHeader = true;
+  state.data = [['ID', 'Named empty column', '', ''], ...body];
+  visible = [201];
+  assert.deepEqual(cloneJson(getExportData()), {headers:['ID', 'Named empty column'], rows:[['200', '']]});
+  visible = [];
+  assert.deepEqual(cloneJson(getExportData()), {headers:[], rows:[]});
+}
+
+// 選択した値の数だけでは、表示中のすべての値が選択済みかは判定できない。
+{
+  const core = vm.runInNewContext(`
+    const filterPanelColIndex = 0, $colFilterValues = {}, $colFilterConditions = {};
+    let _filterValuePanelState;
+    const qsa = () => [], qs = () => ({value: 'and'});
+    ${extractConstDeclaration(html, 'collectFilterConfig')}
+    (items, selected) => {
+      _filterValuePanelState = {colIdx: 0, values: items === null ? null : items.map(value => ({value})), selectedValues: selected === null ? null : new Set(selected)};
+      const result = collectFilterConfig();
+      return result.values === null ? null : [...result.values];
+    };
+  `);
+  assert.deepEqual(cloneJson(core(['B', 'C'], ['A', 'C'])), ['A', 'C']);
+  assert.deepEqual(cloneJson(core(null, ['A'])), ['A']);
+  assert.deepEqual(cloneJson(core([], [])), [], 'an explicit empty selection must not become all values');
+  assert.equal(core(['A', 'B'], ['A', 'B']), null);
+  assert.equal(core(null, null), null);
+}
+
+// 再度開いたフィルターパネルの下書きは、古いWorkerの結果が後から届いても維持する。
+{
+  const pending = [];
+  const core = vm.runInNewContext(`
+    const state = {data: new Array(8000), hasHeader: false};
+    const FILTER_WORKER_ROW_THRESHOLD = 8000, FILTER_VALUE_RENDER_BATCH = 200;
+    const _filterValueCache = new Map(), $colFilterSearch = {value: ''};
+    let _dataRevision = 1, filterPanelColIndex = 0, _filterValuePanelState = null, renders = 0;
+    const serializeOtherColumnFilters = () => [], buildFilterValueCacheKey = () => 'same-column';
+    const syncFilterWorkerDataIfNeeded = async () => true, getLocaleTag = () => 'ja-JP';
+    const normalizeCellValue = value => String(value), renderFilterValueList = () => renders++;
+    ${extractConstDeclaration(html, 'populateFilterValues')}
+    ({
+      open: () => {_filterValuePanelState = {colIdx: 0, values: null, selectedValues: new Set(['A'])}; return populateFilterValues(0);},
+      select: values => {_filterValuePanelState.selectedValues = new Set(values);},
+      snapshot: () => ({selected: [..._filterValuePanelState.selectedValues], renders}),
+    });
+  `, {callFilterWorker: () => new Promise(resolve => pending.push(resolve))});
+  const first = core.open(); await Promise.resolve();
+  const second = core.open(); await Promise.resolve();
+  core.select([]);
+  pending[1]({sorted: [['A', 2], ['B', 7998]]}); await second;
+  assert.deepEqual(cloneJson(core.snapshot()), {selected: [], renders: 1}, 'early deselection must survive completion');
+  core.select(['B']);
+  pending[0]({sorted: [['A', 2], ['B', 7998]]}); await first;
+  assert.deepEqual(cloneJson(core.snapshot()), {selected: ['B'], renders: 1}, 'stale panel completion must not reset the new selection');
+}
+
+// フォーカスを移さず実行したコマンドも、未確定のセル値を使う。
+{
+  const state = {data: [['before', 'tail']], hasHeader: false};
+  const copied = [], history = [];
+  let pending = '';
+  const declarations = ['applyTextTransform', 'copyColumn', 'copyRow'].map(name => extractConstDeclaration(html, name)).join('\n');
+  const core = vm.runInNewContext(`${declarations}; ({applyTextTransform, copyColumn, copyRow});`, {
+    state, activeColumnIndex: 0, activeRowIndex: 0,
+    commitActiveCellEdit() { if (pending) { state.data[0][0] = pending; pending = ''; } },
+    TEXT_TRANSFORMS: {upper: {fn: value => value.toUpperCase(), labelJa: '', labelEn: ''}},
+    getSelectedCoords: () => [{row: 0, col: 0}],
+    setCellValue: (row, col, value) => {state.data[row][col] = value;},
+    saveCellBatchToHistory: changes => history.push(changes), renderTable() {}, updateStats() {}, saveToStorage() {},
+    _refreshViewAfterCellBatchEdit() {}, isEnglish: () => false, showToast() {},
+    hasValidActiveColumn: () => true, _hasActiveRowFilter: () => false, _isRowVisible: () => true,
+    getColName: () => '', escapeHTML: value => value,
+    _buildTsvRows: rows => rows.map(row => row.join('\t')).join('\n'),
+    copyTextToClipboard: async value => {copied.push(value); return true;},
+  });
+  pending = 'new input'; core.applyTextTransform('upper');
+  assert.equal(state.data[0][0], 'NEW INPUT');
+  assert.equal(history[0][0].before, 'new input', 'transform Undo must retain the pending edit');
+  pending = 'column input'; await core.copyColumn();
+  assert.equal(copied.at(-1), 'column input');
+  pending = 'row input'; await core.copyRow();
+  assert.equal(copied.at(-1), 'row input\ttail');
+}
+
+// 再現可能な往復テストで、手書きの例から漏れる組み合わせも検証する。
+{
+  let seed = 0x4c435356;
+  const next = max => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed % max; };
+  const tokens = ['', ' ', '  ', ',', ';', '\t', '\n', '\r', '\r\n', '"', '""', '日本語', '😀', '\ufeff', '<>&', '0', '=1'];
+  for (let sample = 0; sample < 32; sample++) {
+    const width = 1 + next(5);
+    const rows = Array.from({length: 1 + next(8)}, () => Array.from({length: width}, () =>
+      Array.from({length: next(6)}, () => tokens[next(tokens.length)]).join('')));
+    for (const delimiter of [',', '\t', ';', ' ']) {
+      for (const quoteStyle of ['auto', 'all']) {
+        for (const newline of ['lf', 'crlf']) {
+          csv._setStateForTest({data: rows, quoteStyle, newline});
+          const output = await csv.generateOutputAsync(delimiter);
+          assert.deepEqual(cloneJson(csv.parseCSV(output, delimiter)), rows,
+            `round trip sample ${sample}: ${JSON.stringify({delimiter, quoteStyle, newline})}`);
+        }
+      }
+    }
+  }
+}
+
+// 選択の有無やコピーでは表示状態を考慮し、選択の確認・計数だけのために
+//選択セルごとの座標オブジェクトを展開しない。
+{
+  const state = { data: [['before', 'a', 'b'], ['hidden', 'c', 'd'], ['last', 'e', 'f']] };
+  const selection = new Map([[2, new Set([2, 0])], [1, new Set([0])], [0, new Set([0])]]);
+  const visible = new Set([0, 2]);
+  const copied = [];
+  const declarations = ['_hasVisibleSelection', '_getSelectedRowsInVisibleOrder', 'getExportTargetAvailability', 'copySelectedCells']
+    .map(name => extractConstDeclaration(html, name)).join('\n');
+  const core = vm.runInNewContext(`${declarations}; ({copySelectedCells, getExportTargetAvailability})`, {
+    state, _selectionModel: selection, _isRowVisible: row => visible.has(row),
+    _compareRowsByVisibleOrder: (a, b) => a - b,
+    columnFilters: new Map(), $filterMode: {checked: false}, filteredRows: null,
+    commitActiveCellEdit: () => { state.data[0][0] = 'draft'; },
+    getSelectedCoords: () => assert.fail('checking or counting selection must not expand cell coordinates'),
+    _buildTsvRows: rows => rows.map(row => row.join('\t')).join('\n'),
+    copyTextToClipboard: async text => { copied.push(text); return true; }, showToast() {},
+  });
+  assert.equal(core.getExportTargetAvailability().selected, true);
+  assert.equal(await core.copySelectedCells(), true);
+  assert.deepEqual(copied, ['draft\nlast\tf'], 'copy retains visible row/column order and pending edits');
+  visible.clear();
+  assert.equal(core.getExportTargetAvailability().selected, false);
+  assert.equal(await core.copySelectedCells(), false);
+  assert.equal(copied.length, 1, 'hidden selections must not replace the clipboard');
+  selection.clear(); selection.set(0, new Set()); visible.add(0);
+  assert.equal(core.getExportTargetAvailability().selected, false);
 }
 
 console.log("localcsv regression tests passed");

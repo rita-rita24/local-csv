@@ -1,12 +1,12 @@
 /**
- * LocalCSV LP Redesign — Main Script
+ * LocalCSV紹介ページのメインスクリプト
  */
 
-/* ---- DOM Helpers (AGENTS.md) ---- */
+/* ---- DOM取得ヘルパー（AGENTS.md準拠） ---- */
 const qs = (sel: string, root: ParentNode = document): Element | null => root.querySelector(sel);
 const qsa = (sel: string, root: ParentNode = document): Element[] => [...root.querySelectorAll(sel)];
 
-/* ---- Download / Copy LocalCSV.html ---- */
+/* ---- LocalCSV.htmlのダウンロード・コピー ---- */
 const DOWNLOAD_FILE_NAME = "localcsv.html";
 const COPY_TOAST_MS = 1800;
 const COPY_TOAST_REMOVE_DELAY_MS = 280;
@@ -24,10 +24,8 @@ const LEGAL_MODAL_ITEMS: Partial<Record<string, { title: string; templateId: str
 };
 
 let _editorBlobUrl: string | null = null;
-let _editorBlobLoadPromise: Promise<string | null> | null = null;
 let _editorHtmlText: string | null = null;
 let _editorIntegrityMessage = "";
-let _lastLegalModalTrigger: HTMLElement | null = null;
 
 const _triggerDownload = (href: string, fileName: string): void => {
   const $anchor = document.createElement("a");
@@ -87,37 +85,27 @@ const _failEditorIntegrity = (message: string): null => {
   return null;
 };
 
-const _loadEditorHtmlText = (): Promise<string | null> => {
-  if (_editorHtmlText !== null) return Promise.resolve(_editorHtmlText);
-  if (_editorIntegrityMessage) return Promise.resolve(null);
+const _loadEditorHtmlText = (): string | null => {
+  if (_editorHtmlText !== null) return _editorHtmlText;
+  if (_editorIntegrityMessage) return null;
 
   const embeddedHtml = _loadEmbeddedEditorHtmlText();
   if (embeddedHtml !== null) {
     _editorIntegrityMessage = "";
     _editorHtmlText = embeddedHtml;
     _setEditorActionsDisabled(false);
-    return Promise.resolve(embeddedHtml);
+    return embeddedHtml;
   }
 
-  return Promise.resolve(_failEditorIntegrity(EDITOR_VERIFY_FAILED_MESSAGE));
+  return _failEditorIntegrity(EDITOR_VERIFY_FAILED_MESSAGE);
 };
 
-const _loadEditorBlobUrl = (): Promise<string | null> => {
-  if (_editorBlobUrl) return Promise.resolve(_editorBlobUrl);
-  if (_editorBlobLoadPromise) return _editorBlobLoadPromise;
-
-  _editorBlobLoadPromise = _loadEditorHtmlText()
-    .then((html) => {
-      if (!html) return null;
-      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-      _editorBlobUrl = URL.createObjectURL(blob);
-      return _editorBlobUrl;
-    })
-    .finally(() => {
-      _editorBlobLoadPromise = null;
-    });
-
-  return _editorBlobLoadPromise;
+const _loadEditorBlobUrl = (): string | null => {
+  if (_editorBlobUrl) return _editorBlobUrl;
+  const html = _loadEditorHtmlText();
+  if (html === null) return null;
+  _editorBlobUrl = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
+  return _editorBlobUrl;
 };
 
 const _copyText = async (text: string): Promise<boolean> => {
@@ -126,24 +114,23 @@ const _copyText = async (text: string): Promise<boolean> => {
       await navigator.clipboard.writeText(text);
       return true;
     } catch {
-      // Fall back to legacy copy method
+      // 従来のコピー処理に切り替える
     }
   }
 
+  const $textarea = document.createElement("textarea");
   try {
-    const $textarea = document.createElement("textarea");
     $textarea.value = text;
     $textarea.setAttribute("readonly", "");
-    $textarea.style.position = "fixed";
-    $textarea.style.inset = "-1000px";
+    $textarea.className = "clipboard-fallback";
     document.body.appendChild($textarea);
     $textarea.focus();
     $textarea.select();
-    const copied = document.execCommand("copy");
-    $textarea.remove();
-    return copied;
+    return document.execCommand("copy");
   } catch {
     return false;
+  } finally {
+    $textarea.remove();
   }
 };
 
@@ -189,12 +176,12 @@ const _showCopyToast = (message: string, tone: "success" | "error"): void => {
   }, COPY_TOAST_MS + COPY_TOAST_REMOVE_DELAY_MS);
 };
 
-const _openLegalModal = (key: string, $trigger: HTMLElement | null = null): void => {
+const _openLegalModal = (key: string): void => {
   const item = LEGAL_MODAL_ITEMS[key];
   if (!item) return;
 
   const $modal = qs(`#${LEGAL_MODAL_ID}`);
-  if (!($modal instanceof HTMLElement)) return;
+  if (!($modal instanceof HTMLDialogElement)) return;
 
   const $title = qs(`#${LEGAL_MODAL_TITLE_ID}`, $modal);
   const $body = qs(`#${LEGAL_MODAL_BODY_ID}`, $modal);
@@ -203,29 +190,15 @@ const _openLegalModal = (key: string, $trigger: HTMLElement | null = null): void
 
   $title.textContent = item.title;
   $body.replaceChildren($template.content.cloneNode(true));
-  _lastLegalModalTrigger = $trigger instanceof HTMLElement ? $trigger : null;
-
-  $modal.hidden = false;
-  $modal.setAttribute("aria-hidden", "false");
-  document.body.classList.add("legal-modal-open");
-
-  const $close = qs("[data-legal-close-button]", $modal);
-  if ($close instanceof HTMLElement) $close.focus();
+  $modal.showModal();
 };
 
 const _closeLegalModal = (): void => {
   const $modal = qs(`#${LEGAL_MODAL_ID}`);
-  if (!($modal instanceof HTMLElement) || $modal.hidden) return;
-
-  $modal.hidden = true;
-  $modal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("legal-modal-open");
-
-  if (_lastLegalModalTrigger instanceof HTMLElement) _lastLegalModalTrigger.focus();
-  _lastLegalModalTrigger = null;
+  if ($modal instanceof HTMLDialogElement) $modal.close();
 };
 
-/* Runtime fetch is intentionally avoided so the LP can enforce connect-src 'none'. */
+/* 紹介ページでも connect-src 'none' を適用できるよう、実行時の通信を行わない。 */
 
 document.addEventListener("click", async (event) => {
   const $target = event.target instanceof Element ? event.target : null;
@@ -234,12 +207,14 @@ document.addEventListener("click", async (event) => {
   const $legalTrigger = $target.closest("[data-legal-modal]");
   if ($legalTrigger instanceof HTMLElement) {
     event.preventDefault();
-    _openLegalModal($legalTrigger.dataset.legalModal ?? "", $legalTrigger);
+    // Safariでも、閉じた後のフォーカス復帰先を呼び出し元に揃える。
+    $legalTrigger.focus({ preventScroll: true });
+    _openLegalModal($legalTrigger.dataset.legalModal ?? "");
     return;
   }
 
   const $legalClose = $target.closest("[data-legal-close]");
-  if ($legalClose instanceof HTMLElement) {
+  if ($legalClose instanceof HTMLElement || $target.id === LEGAL_MODAL_ID) {
     event.preventDefault();
     _closeLegalModal();
     return;
@@ -248,7 +223,7 @@ document.addEventListener("click", async (event) => {
   const $downloadTrigger = $target.closest("[data-download-editor]");
   if ($downloadTrigger instanceof HTMLElement) {
     event.preventDefault();
-    const blobUrl = await _loadEditorBlobUrl();
+    const blobUrl = _loadEditorBlobUrl();
     if (!blobUrl) {
       _showCopyToast(_editorIntegrityMessage || EDITOR_VERIFY_FAILED_MESSAGE, "error");
       return;
@@ -261,7 +236,7 @@ document.addEventListener("click", async (event) => {
   if (!($copyTrigger instanceof HTMLElement)) return;
 
   event.preventDefault();
-  const html = await _loadEditorHtmlText();
+  const html = _loadEditorHtmlText();
   if (html === null) {
     _showCopyToast(_editorIntegrityMessage || "エディタHTMLの取得に失敗しました", "error");
     return;
@@ -271,58 +246,60 @@ document.addEventListener("click", async (event) => {
   _showCopyToast(copied ? "本体HTMLソースをコピーしました" : "コピーに失敗しました", copied ? "success" : "error");
 });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") _closeLegalModal();
-});
-
-/* ---- Mobile Nav Toggle ---- */
+/* ---- モバイルメニューの開閉 ---- */
 const $navToggle = qs("#navToggle");
 const $navLinks = qs("#navLinks");
 
 if ($navToggle instanceof HTMLButtonElement && $navLinks instanceof HTMLElement) {
-  $navToggle.addEventListener("click", () => {
-    $navLinks.classList.toggle("is-open");
-    const $icon = qs(".material-symbols-outlined", $navToggle);
-    if ($icon instanceof HTMLElement) {
-      $icon.textContent = $navLinks.classList.contains("is-open") ? "close" : "menu";
-    }
-  });
+  const $icon = qs(".material-symbols-outlined", $navToggle);
+  const _setNavOpen = (_open: boolean): void => {
+    $navLinks.classList.toggle("is-open", _open);
+    $navToggle.setAttribute("aria-expanded", String(_open));
+    if ($icon instanceof HTMLElement) $icon.textContent = _open ? "close" : "menu";
+  };
 
-  /* Close mobile nav on link click */
-  qsa(".glass-nav-link").forEach(($link) => {
-    $link.addEventListener("click", () => {
-      $navLinks.classList.remove("is-open");
-      const $icon = qs(".material-symbols-outlined", $navToggle);
-      if ($icon instanceof HTMLElement) $icon.textContent = "menu";
-    });
+  $navToggle.addEventListener("click", () => _setNavOpen(!$navLinks.classList.contains("is-open")));
+
+  /* リンクをクリックしたらモバイルメニューを閉じる */
+  $navLinks.addEventListener("click", (event) => {
+    const $target = event.target;
+    if ($target instanceof Element && $target.closest(".glass-nav-link")) _setNavOpen(false);
+  });
+  $navLinks.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    _setNavOpen(false);
+    $navToggle.focus();
   });
 }
 
-/* ---- Scroll Fade-In Observer ---- */
+/* ---- スクロールに応じたフェードインの監視 ---- */
 const _observer = new IntersectionObserver(
   (entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-      }
+    for (const { target: $target, isIntersecting: _isIntersecting } of entries) {
+      if (!_isIntersecting) continue;
+      $target.classList.add("is-visible");
+      _observer.unobserve($target);
     }
   },
   { threshold: 0.1 }
 );
 
-qsa(".fade-in").forEach((el) => _observer.observe(el));
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.documentElement.dataset.animate = "";
+  for (const $element of qsa(".fade-in")) _observer.observe($element);
+}
 
-/* ---- Nav scroll effect (add bg on scroll) ---- */
+// 紹介ページの配色とフォーム部品のモードを一致させる。
+document.documentElement.style.colorScheme = "light";
+
+/* ---- スクロール時のナビゲーション背景の切り替え ---- */
 const $nav = qs("#glass-nav");
 const NAV_SCROLL_THRESHOLD = 60;
 
 const _handleNavScroll = (): void => {
   if (!($nav instanceof HTMLElement)) return;
-  if (window.scrollY > NAV_SCROLL_THRESHOLD) {
-    $nav.style.background = "oklch(1 0 0 / 0.7)";
-  } else {
-    $nav.style.background = "";
-  }
+  $nav.classList.toggle("is-scrolled", window.scrollY > NAV_SCROLL_THRESHOLD);
 };
 
 window.addEventListener("scroll", _handleNavScroll, { passive: true });
+_handleNavScroll();
