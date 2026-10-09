@@ -1,0 +1,38 @@
+[
+  {
+    "name": "regression",
+    "exit": 0
+  },
+  {
+    "name": "native-yield",
+    "exit": 0
+  },
+  {
+    "name": "integration",
+    "exit": 0
+  },
+  {
+    "name": "quality",
+    "exit": 0
+  },
+  {
+    "name": "usability-known-layout-excluded",
+    "exit": 0
+  },
+  {
+    "name": "batch-restore",
+    "exit": 0
+  },
+  {
+    "name": "full-file-quoted",
+    "exit": 0
+  },
+  {
+    "name": "full-file-unquoted",
+    "exit": 0
+  },
+  {
+    "name": "parser-equivalence",
+    "exit": 0
+  }
+]

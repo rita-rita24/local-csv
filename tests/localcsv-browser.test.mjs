@@ -78,7 +78,7 @@ for (const engine of ENGINES) {
   });
   try {
     const page = await context.newPage();
-    await page.goto(pathToFileURL(path.join(ROOT,'LocalCSV.html')).href);
+    await page.goto(pathToFileURL(path.join(ROOT,'local-csv.html')).href);
     await page.locator('#pasteZone').waitFor();
     await page.waitForTimeout(150);
     await importRows(page, [['9007199254740993','keep'],['9007199254740992','hide'],['2','keep'],['10','keep']]);
@@ -228,7 +228,7 @@ for (const engine of ENGINES) {
         },{failure});
         const faultPage=await faultContext.newPage();
         faultPage.on('pageerror',error=>errors.push(error.message));
-        await faultPage.goto(pathToFileURL(path.join(ROOT,'LocalCSV.html')).href);
+        await faultPage.goto(pathToFileURL(path.join(ROOT,'local-csv.html')).href);
         await faultPage.waitForTimeout(150);
         await faultPage.evaluate(()=>{window.__qaQuotaArmed=true;});
         const faultRows=Array.from({length:801},(_,i)=>[String(i),'restore me']);
@@ -251,7 +251,7 @@ for (const engine of ENGINES) {
       filePage.on('filechooser', () => {});
       filePage.on('pageerror',error=>errors.push(error.message));
       filePage.on('console',message=>{if(message.type()==='error') errors.push(message.text());});
-      await filePage.goto(pathToFileURL(path.join(ROOT,'LocalCSV.html')).href);
+      await filePage.goto(pathToFileURL(path.join(ROOT,'local-csv.html')).href);
       await filePage.waitForTimeout(150);
       await filePage.evaluate(()=>{window.showOpenFilePicker=undefined;});
       const fileRows=[['日本語','<img src=x onerror="globalThis.__qaInjected=true">'],['a\r\nb','x,"y"'],['a\rb','😀']];

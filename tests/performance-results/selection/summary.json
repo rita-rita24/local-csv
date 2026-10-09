@@ -1,0 +1,134 @@
+[
+  {
+    "operation": "all-first",
+    "metric": "resultMs",
+    "beforeMedianMs": 84.40000003576279,
+    "afterMedianMs": 58.10000002384186,
+    "shorteningMs": 26.30000001192093,
+    "shorteningPercent": 31.161137441678715,
+    "ranges": [
+      [
+        56,
+        104.10000002384186
+      ],
+      [
+        48,
+        79.5
+      ]
+    ],
+    "runsEach": 7,
+    "absoluteTargetMs": 45.91999998092652,
+    "absoluteTargetMet": false,
+    "verdict": "inconclusive: ranges overlap"
+  },
+  {
+    "operation": "all-first",
+    "metric": "frameOpportunityMs",
+    "beforeMedianMs": 91.80000001192093,
+    "afterMedianMs": 63.69999998807907,
+    "shorteningMs": 28.100000023841858,
+    "shorteningPercent": 30.610021808488952,
+    "ranges": [
+      [
+        60.30000001192093,
+        114.5
+      ],
+      [
+        52.30000001192093,
+        87.90000003576279
+      ]
+    ],
+    "runsEach": 7,
+    "absoluteTargetMs": 70.725,
+    "absoluteTargetMet": true,
+    "verdict": "inconclusive: ranges overlap"
+  },
+  {
+    "operation": "all-repeat",
+    "metric": "resultMs",
+    "beforeMedianMs": 81.39999997615814,
+    "afterMedianMs": 69.69999998807907,
+    "shorteningMs": 11.699999988079071,
+    "shorteningPercent": 14.37346436302945,
+    "ranges": [
+      [
+        55.09999996423721,
+        100.19999998807907
+      ],
+      [
+        49.40000003576279,
+        86.5
+      ]
+    ],
+    "runsEach": 7,
+    "absoluteTargetMs": 46.63999996185303,
+    "absoluteTargetMet": false,
+    "verdict": "inconclusive: ranges overlap"
+  },
+  {
+    "operation": "all-repeat",
+    "metric": "frameOpportunityMs",
+    "beforeMedianMs": 84,
+    "afterMedianMs": 72.59999996423721,
+    "shorteningMs": 11.400000035762787,
+    "shorteningPercent": 13.571428614003317,
+    "ranges": [
+      [
+        57,
+        104
+      ],
+      [
+        51.30000001192093,
+        90.30000001192093
+      ]
+    ],
+    "runsEach": 7,
+    "absoluteTargetMs": 69.11499995887279,
+    "absoluteTargetMet": false,
+    "verdict": "inconclusive: ranges overlap"
+  },
+  {
+    "operation": "column",
+    "metric": "resultMs",
+    "beforeMedianMs": 9.600000023841858,
+    "afterMedianMs": 9.699999988079071,
+    "shorteningMs": -0.09999996423721313,
+    "shorteningPercent": -1.0416662915506307,
+    "ranges": [
+      [
+        6,
+        13.099999964237213
+      ],
+      [
+        5.799999952316284,
+        13.899999976158142
+      ]
+    ],
+    "runsEach": 7,
+    "absoluteTargetMs": 7.130000054836272,
+    "absoluteTargetMet": false,
+    "verdict": "inconclusive: ranges overlap"
+  },
+  {
+    "operation": "column",
+    "metric": "frameOpportunityMs",
+    "beforeMedianMs": 30.900000035762787,
+    "afterMedianMs": 29.899999976158142,
+    "shorteningMs": 1.0000000596046448,
+    "shorteningPercent": 3.236246143842307,
+    "ranges": [
+      [
+        27.400000035762787,
+        31.399999976158142
+      ],
+      [
+        24.69999998807907,
+        31.099999964237213
+      ]
+    ],
+    "runsEach": 7,
+    "absoluteTargetMs": 34.15499998629093,
+    "absoluteTargetMet": true,
+    "verdict": "inconclusive: ranges overlap"
+  }
+]

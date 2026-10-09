@@ -1,0 +1,133 @@
+--- incoming/local-csv.html
++++ final/local-csv.html
+@@ -5856,10 +5856,22 @@
+         }
+ 
+         const rows = [];
++        const PERSIST_READ_BATCH_SIZE = 4;
++        const PERSIST_BATCH_MIN_CHUNKS = 32;
++        let _chunkBatch = null;
+         for (let i = 0; i < chunkCount; i++) {
++          // Bound concurrent reads; await every read before an integrity error releases the lock.
++          if (chunkCount >= PERSIST_BATCH_MIN_CHUNKS && i % PERSIST_READ_BATCH_SIZE === 0) {
++            const _batchSize = Math.min(PERSIST_READ_BATCH_SIZE, chunkCount - i);
++            _chunkBatch = await Promise.allSettled(Array.from({ length: _batchSize }, async (_, _offset) => (
++              IDBStore.get(chunkRefs?.[i + _offset]?.key ?? getPersistChunkKey(i + _offset))
++            )));
++          }
+           const expectedLength = getExpectedPersistChunkLength(i, chunkCount, chunkSize, totalRows);
+           const ref = chunkRefs?.[i];
+-          const chunk = await IDBStore.get(ref?.key ?? getPersistChunkKey(i));
++          const _result = _chunkBatch?.[i % PERSIST_READ_BATCH_SIZE];
++          if (_result?.status === 'rejected') throw _result.reason;
++          const chunk = _result ? _result.value : await IDBStore.get(ref?.key ?? getPersistChunkKey(i));
+           const chunkRows = ref
+             ? normalizePersistedChunkRecord(chunk, ref, i, expectedLength, chunkSize)
+             : chunk;
+@@ -6977,12 +6989,21 @@
+         let currentRow = [], currentCell = '', inQuotes = false;
+         let _cellWasQuoted = false;
+         const isSpaceDelimiter = delimiter === ' ';
++        const _delimiterPattern = typeof delimiter === 'string' && delimiter.length === 1
++          ? '\\u' + delimiter.charCodeAt(0).toString(16).padStart(4, '0') : '';
++        const _plainRun = new RegExp('[^"\\r\\n' + _delimiterPattern + ']+', 'y');
+ 
+         for (let i = 0; i < text.length; i++) {
+           const char = text[i], nextChar = text[i + 1];
+           if (inQuotes) {
+             if (char === '"') { nextChar === '"' ? (currentCell += '"', i++) : (inQuotes = false); }
+-            else currentCell += char;
++            else {
++              // Copy an ordinary quoted run at once; quotes retain the existing state machine.
++              const _quoteIndex = text.indexOf('"', i);
++              const _end = _quoteIndex < 0 ? text.length : _quoteIndex;
++              currentCell += text.slice(i, _end);
++              i = _end - 1;
++            }
+           } else if (char === '"' && currentCell.length === 0) {
+             inQuotes = true;
+             _cellWasQuoted = true;
+@@ -7016,7 +7037,9 @@
+             _cellWasQuoted = false;
+             if (char === '\r' && nextChar === '\n') i++;
+           } else {
+-            currentCell += char;
++            _plainRun.lastIndex = i;
++            currentCell += _plainRun.exec(text)[0];
++            i = _plainRun.lastIndex - 1;
+           }
+         }
+         if (inQuotes) {
+@@ -7124,65 +7147,16 @@
+           return parseCSV(text, delimiter);
+         }
+ 
++        // Use the same parser in both execution paths to preserve quote/empty-cell semantics.
+         const workerCode = `
++          const CSV_PARSE_ERROR_UNCLOSED_QUOTE = ${JSON.stringify(CSV_PARSE_ERROR_UNCLOSED_QUOTE)};
++          const parseCSV = ${parseCSV.toString()};
+           self.onmessage = (event) => {
+-            const { text, delimiter } = event.data;
+-            const rows = [];
+-            let currentRow = [], currentCell = '', inQuotes = false;
+-            let _cellWasQuoted = false;
+-            const isSpaceDelimiter = delimiter === ' ';
+-            for (let i = 0; i < text.length; i++) {
+-              const char = text[i], nextChar = text[i + 1];
+-              if (inQuotes) {
+-                if (char === '"') { nextChar === '"' ? (currentCell += '"', i++) : (inQuotes = false); }
+-                else currentCell += char;
+-              } else if (char === '"' && currentCell.length === 0) {
+-                inQuotes = true;
+-                _cellWasQuoted = true;
+-              } else if (char === '"') {
+-                currentCell += char;
+-              } else if (char === delimiter) {
+-                if (isSpaceDelimiter) {
+-                  let runEnd = i + 1;
+-                  while (text[runEnd] === ' ') runEnd++;
+-                  const nextAfterRun = text[runEnd];
+-                  const isLeadingRun = currentRow.length === 0 && currentCell.length === 0 && !_cellWasQuoted;
+-                  const isTrailingRun = nextAfterRun === undefined || nextAfterRun === '\\n' || nextAfterRun === '\\r';
+-                  if (!isLeadingRun && !isTrailingRun) {
+-                    currentRow.push(currentCell);
+-                    currentCell = '';
+-                    _cellWasQuoted = false;
+-                  }
+-                  i = runEnd - 1;
+-                } else {
+-                  currentRow.push(currentCell); currentCell = '';
+-                  _cellWasQuoted = false;
+-                }
+-              } else if (char === '\\n' || (char === '\\r' && nextChar === '\\n') || char === '\\r') {
+-                currentRow.push(currentCell);
+-                rows.push(currentRow);
+-                currentRow = []; currentCell = '';
+-                _cellWasQuoted = false;
+-                if (char === '\\r' && nextChar === '\\n') i++;
+-              } else {
+-                currentCell += char;
+-              }
++            try {
++              self.postMessage(parseCSV(event.data.text, event.data.delimiter));
++            } catch (error) {
++              self.postMessage({ error: error.code || error.message });
+             }
+-            if (inQuotes) {
+-              self.postMessage({ error: '${CSV_PARSE_ERROR_UNCLOSED_QUOTE}' });
+-              return;
+-            }
+-            currentRow.push(currentCell);
+-            if (_cellWasQuoted || currentRow.length > 1 || currentRow.some(c => c !== '')) rows.push(currentRow);
+-            if (rows.length === 0) { self.postMessage([]); return; }
+-            let maxCols = 0;
+-            for (let i = 0; i < rows.length; i++) {
+-              if (rows[i].length > maxCols) maxCols = rows[i].length;
+-            }
+-            self.postMessage(rows.map(row => {
+-              while (row.length < maxCols) row.push('');
+-              return row;
+-            }));
+           };
+         `;
+ 

@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-09T16:30:50.810823+00:00",
+  "repository": "rita-rita24/local-csv",
+  "readme": {
+    "url": "https://raw.githubusercontent.com/rita-rita24/local-csv/main/README.md",
+    "distributionInstructions": "Download LocalCSV.html from the repository; local-file use and shared-drive distribution are documented."
+  },
+  "releases": {
+    "url": "https://api.github.com/repos/rita-rita24/local-csv/releases",
+    "count": 0
+  },
+  "workflowRuns": {
+    "url": "https://api.github.com/repos/rita-rita24/local-csv/actions/runs?per_page=5",
+    "total_count": 0
+  },
+  "remainingUnknown": [
+    "Whether updating main constitutes the normal production release",
+    "Hosted landing-page URL",
+    "Existing distribution-copy and rollback procedure"
+  ],
+  "mutations": []
+}

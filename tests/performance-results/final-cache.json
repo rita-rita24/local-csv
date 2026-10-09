@@ -1,0 +1,952 @@
+{
+  "measuredAt": "2026-10-08T17:23:05.926Z",
+  "root": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv",
+  "runs": 5,
+  "versions": {
+    "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+    "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "fresh context vs same-context reload; HTTP max-age=3600; resource timing cache-hit audit; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "fileSource": "synthetic File payload; physical disk latency excluded"
+  },
+  "cacheAudit": [
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:51821/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:51821/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "results": [
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 218.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 104.89999997615814,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 372.5,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 146,
+      "run": 0
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 47.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 228.89999997615814,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.59999996423721,
+      "run": 0
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 81,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 213.30000001192093,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 99.30000001192093,
+      "run": 0
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.30000001192093,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 317,
+      "run": 1
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 451.10000002384186,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 129.10000002384186,
+      "run": 1
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 46.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 212.9000000357628,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.40000003576279,
+      "run": 1
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.39999997615814,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 213.60000002384186,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.5,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.5,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 182.5999999642372,
+      "run": 2
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 96.79999995231628,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 316.30000001192093,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 131.5,
+      "run": 2
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 31.19999998807907,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 198.80000001192093,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 80,
+      "run": 2
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 196.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.20000004768372,
+      "run": 2
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 30.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.5,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 156.70000004768372,
+      "run": 3
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 81.19999998807907,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 276,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 129.89999997615814,
+      "run": 3
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 30.399999976158142,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 197.39999997615814,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 78.19999998807907,
+      "run": 3
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.5,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 197,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.80000001192093,
+      "run": 3
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.30000001192093,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.19999998807907,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 132.39999997615814,
+      "run": 4
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97.69999998807907,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 268,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 48.299999952316284,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 197.89999997615814,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.40000003576279,
+      "run": 4
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.69999998807907,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 213.69999998807907,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 30.200000047683716,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 163,
+      "run": 4
+    }
+  ]
+}

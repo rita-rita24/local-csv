@@ -1,0 +1,70 @@
+{
+  "nodeVersion": "v24.21.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "timestamp": "2026-10-09T17:21:52.257Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "03c6a45d389e5038ea613427adf470e2e979cd3a613974ce214291acd5f2a7dd",
+  "engine": "chromium",
+  "special": true,
+  "browser": "154.0.8037.99",
+  "rows": 500,
+  "columns": 20,
+  "runs": 1,
+  "completion": "Actual Ctrl+C keydown to full text passed to stub writeText; separate second-rAF opportunity. OS clipboard, GPU presentation and INP are not measured.",
+  "results": [
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 1.100000023841858,
+      "frameOpportunityMs": 29.600000023841858,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 0.8999999761581421,
+      "frameOpportunityMs": 18.80000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 0.09999996423721313,
+      "frameOpportunityMs": 27.399999976158142,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 1.100000023841858,
+      "frameOpportunityMs": 29.600000023841858,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 0.6000000238418579,
+      "frameOpportunityMs": 28.80000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 0,
+      "frameOpportunityMs": 20.80000001192093,
+      "longTasks": []
+    }
+  ],
+  "errors": [],
+  "before": {
+    "source": "/private/tmp/localcsv-copy-before/local-csv.html",
+    "sha256": "4feb9830c757eafeb2ce5d0b883801c05380d72f4622372260a37c565d9d0727"
+  }
+}

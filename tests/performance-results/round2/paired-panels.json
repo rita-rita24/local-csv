@@ -1,0 +1,6101 @@
+{
+  "comparisonVersions": {
+    "before": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "after": {
+      "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+      "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    }
+  },
+  "measuredAt": "2026-10-09T00:05:28.278Z",
+  "root": "/private/tmp/localcsv-round2-final",
+  "runs": 6,
+  "versions": {
+    "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+    "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "HTTP cache disabled via CDP; fresh context vs same-context repeated access; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "fileSource": "synthetic File payload; physical disk latency excluded"
+  },
+  "cacheAudit": [],
+  "errors": [],
+  "results": [
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 80,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 147,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.89999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.10000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.899999976158142,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.59999996423721,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.100000023841858,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.80000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.89999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.799999952316284,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 63.40000003576279,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 97.20000004768372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.70000004768372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1126.2999999523163,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1339.5999999642372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 70.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 143.5999999642372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 70.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 104.20000004768372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.799999952316284,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.29999995231628,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 63.39999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 96.89999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 363.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 397.0999999642372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 28.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 61.60000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 379.60000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 395.2999999523163,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 396.39999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 113,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 189.5999999642372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 167.70000004768372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 254.80000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 63.59999996423721,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 96.09999996423721,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 63.89999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 96.59999996423721,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.39999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.100000023841858,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.40000003576279,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 130.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.4000000357628,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.10000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 63.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 163.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 81.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 47.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 79.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 65.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.399999976158142,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 46.60000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 113.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 114.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.20000004768372,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 745.8000000119209,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 902.9000000357628,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 62.5,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 95.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.599999964237213,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.09999996423721,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 96.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 264.9000000357628,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 298.5,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 29.899999976158142,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 297.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 262.4000000357628,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 263.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 148,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 157.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 239.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 63.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 63.90000003576279,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.59999996423721,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 165.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 65,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.900000035762787,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 48.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 161.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 162.5,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 80.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 48.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 115.39999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 46.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 79.80000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.20000004768372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.099999964237213,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.39999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.79999995231628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.799999952316284,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 42.09999996423721,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 111.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 113.09999996423721,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.40000003576279,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 146.80000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1310.5999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1508.8999999761581,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 60.799999952316284,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 94.29999995231628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 28.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 62.299999952316284,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 29.600000023841858,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 62.60000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.29999995231628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 346.10000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 379.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 29.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 346.2000000476837,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 361.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 362.30000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 97.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 175.5999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 158.10000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 238.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 47.30000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 80.60000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 29.30000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 62.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.399999976158142,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.30000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 163,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 196.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.09999996423721,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 63.89999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 146.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 147.5999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 80.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 163.79999995231628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.40000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.80000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.59999996423721,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.19999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.09999996423721,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.099999964237213,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.900000035762787,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.89999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.09999996423721,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.60000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.40000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 64.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 112.70000004768372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 113.90000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.40000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.20000004768372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 792.9000000357628,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 948.6000000238419,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 63.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 130.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.19999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.60000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.399999976158142,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.90000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 263.9000000357628,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 297.19999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.80000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 281.0999999642372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 378.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 379.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 96.90000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 163.60000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.79999995231628,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 205.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.89999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.09999996423721,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.9000000357628,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.80000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.10000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 29.400000035762787,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 62.700000047683716,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 64.70000004768372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 146.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 147.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 81.09999996423721,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.39999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 147.10000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 94.60000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 127.60000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.099999964237213,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.59999996423721,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 26.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 59.89999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.39999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.59999996423721,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.900000035762787,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.100000023841858,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.40000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 63.90000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 111.39999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 112.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.29999995231628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.29999995231628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 608.6000000238419,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 716.1000000238419,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 109.90000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 142.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 29.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 62.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.400000035762787,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.60000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.29999995231628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 248.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 281.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.099999964237213,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.29999995231628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 231.80000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 247.60000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 248,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.40000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 156.4000000357628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 128.79999995231628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 191.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.60000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 115,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 148.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.90000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 82.40000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.40000003576279,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 64.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 130.89999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 131.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 65.09999996423721,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 131.89999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 33.200000047683716,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 99.5,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 46.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 80,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.89999997615814,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.79999995231628,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.09999996423721,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.799999952316284,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.59999996423721,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 64.79999995231628,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 94.30000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 95.60000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.89999997615814,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 503.0999999642372,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 593.0999999642372,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.60000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.40000003576279,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.90000003576279,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.799999952316284,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.90000003576279,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 230.5,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 264.60000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.30000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 230.9000000357628,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 230,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 230.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.59999996423721,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 169,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 127.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 191.60000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.900000035762787,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 65,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.599999964237213,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.599999964237213,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.5999999642372,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 163.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 47.89999997615814,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.099999964237213,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.29999995231628,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 65.30000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 163.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.4000000357628,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 65.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 131.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 32.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 99.09999996423721,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 32,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 65.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.200000047683716,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.80000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.30000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 65,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.20000004768372,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.399999976158142,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.89999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.700000047683716,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 63.89999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.19999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 80.30000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 48.299999952316284,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 115.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 491,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 658.2999999523163,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 63.80000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.69999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.89999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.30000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 231.60000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 265.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.89999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 247.80000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 229.4000000357628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 229.80000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.60000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 155.9000000357628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 130.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 209.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.79999995231628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 65.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.30000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 65,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 24.099999964237213,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 57.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.69999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.9000000357628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.40000003576279,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 65.19999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 130.9000000357628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 131.30000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 82,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 148.89999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 48.299999952316284,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 115.79999995231628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 47.39999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 80.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.39999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 62.40000003576279,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.60000002384186,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.89999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.19999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 62.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 64.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 96.40000003576279,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.90000003576279,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.70000004768372,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.80000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 602.6999999880791,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 768.3000000119209,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 60.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 94.60000002384186,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.899999976158142,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.39999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.39999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 32.59999996423721,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 66,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 231.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 264.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.19999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 248,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 230.20000004768372,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 230.9000000357628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 158.4000000357628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 127.19999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 191.0999999642372,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.80000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 65.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.90000003576279,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.899999976158142,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.80000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.599999964237213,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.89999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.0999999642372,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.19999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.89999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.60000002384186,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 65.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 147.10000002384186,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 147.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 81.70000004768372,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.599999964237213,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 99.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.60000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.900000035762787,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.40000003576279,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.39999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.799999952316284,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 65.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 64.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 95.60000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 504.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 616.0999999642372,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 95.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 125.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.09999996423721,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.799999952316284,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.09999996423721,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 65,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 214.89999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 248.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.60000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 231.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 230.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 230.60000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 154.89999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 126.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 192.70000004768372,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.90000003576279,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.799999952316284,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.29999995231628,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.399999976158142,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 65.09999996423721,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.10000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 47.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.39999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 64.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 147.29999995231628,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 148,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 80.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 148.39999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 32.59999996423721,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 99.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.900000035762787,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.19999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.299999952316284,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.799999952316284,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.90000003576279,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.20000004768372,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 47.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 80.90000003576279,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 28,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 60.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 65.69999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 96.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.19999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 680.4000000357628,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 827.3000000119209,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.40000003576279,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.70000004768372,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.899999976158142,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.09999996423721,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.899999976158142,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.60000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.89999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 230.9000000357628,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 265,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.60000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 265.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 229.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 229.60000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 157.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 112.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 175.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.90000003576279,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.19999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.69999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 114.59999996423721,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 147.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 82.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.29999995231628,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 65.39999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 130.9000000357628,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 133.4000000357628,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.59999996423721,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 131.39999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 32.10000002384186,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.5,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.80000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.69999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.900000035762787,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.20000004768372,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.39999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.100000023841858,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 64.40000003576279,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 96.90000003576279,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.90000003576279,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 48.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 115.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 473.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 639.9000000357628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.79999995231628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.40000003576279,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.10000002384186,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.20000004768372,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 214.9000000357628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 248.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.90000003576279,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 231.69999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 231.10000002384186,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 231.39999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.70000004768372,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 156.4000000357628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 127,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 207.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 60.09999996423721,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 93.19999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 50.299999952316284,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 83.69999998807907,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.100000023841858,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.399999976158142,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.60000002384186,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.39999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.80000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 65,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 131,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 131.5999999642372,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 79.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 146.79999995231628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 32.40000003576279,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 99,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 48.39999997615814,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 81.19999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 63.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 28.600000023841858,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 62.60000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.099999964237213,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 98.19999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.399999976158142,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.09999996423721,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.40000003576279,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 64.80000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 96.89999997615814,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.89999997615814,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 47.60000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 115.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 477.60000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 589.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 96.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 124.60000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 32.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.79999995231628,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.79999995231628,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.60000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.79999995231628,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.09999996423721,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "content",
+      "ms": 215,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 248.19999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "content",
+      "ms": 30.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.20000004768372,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 231.79999995231628,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 229.4000000357628,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 230,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 80.09999996423721,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 157.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 110.09999996423721,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 174.79999995231628,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "help",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.69999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 97.69999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.899999976158142,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.59999996423721,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31.80000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 65.10000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 114.89999997615814,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "export-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 148.30000001192093,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.69999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "column-filter",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 82.10000002384186,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 31,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "command-palette",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 64.19999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 65.59999996423721,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 164,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.39999997615814,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 81.5,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 164.9000000357628,
+      "run": 5,
+      "version": "before"
+    }
+  ]
+}

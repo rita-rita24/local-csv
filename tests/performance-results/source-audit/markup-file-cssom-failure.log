@@ -1,0 +1,12 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.evaluate: SecurityError: Failed to read the 'cssRules' property from 'CSSStyleSheet': Cannot access rules
+    at UtilityScript.evaluate (<anonymous>:372:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/tests/localcsv-markup-browser.test.mjs:20:36 {
+  log: []
+}
+
+Node.js v24.21.0

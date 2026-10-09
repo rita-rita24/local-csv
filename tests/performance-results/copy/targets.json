@@ -1,0 +1,49 @@
+{
+  "recordedAt": "2026-10-09T17:03:02.849779+00:00",
+  "sourceSha256": "4feb9830c757eafeb2ce5d0b883801c05380d72f4622372260a37c565d9d0727",
+  "runs": 7,
+  "targets": [
+    {
+      "operation": "all-first",
+      "metric": "resultMs",
+      "beforeMedianMs": 205.69999998807907,
+      "maximumMedianMs": 164.55999999046327,
+      "requirement": "20% shorter"
+    },
+    {
+      "operation": "all-first",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 223.29999995231628,
+      "maximumMedianMs": 256.7949999451637,
+      "requirement": "no more than 15% median regression"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "resultMs",
+      "beforeMedianMs": 223.0999999642372,
+      "maximumMedianMs": 178.4799999713898,
+      "requirement": "20% shorter"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 231.89999997615814,
+      "maximumMedianMs": 266.68499997258186,
+      "requirement": "no more than 15% median regression"
+    },
+    {
+      "operation": "column",
+      "metric": "resultMs",
+      "beforeMedianMs": 39.5,
+      "maximumMedianMs": 45.425,
+      "requirement": "no more than 15% median regression"
+    },
+    {
+      "operation": "column",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 42.10000002384186,
+      "maximumMedianMs": 48.41500002741813,
+      "requirement": "no more than 15% median regression"
+    }
+  ]
+}

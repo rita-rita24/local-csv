@@ -1,0 +1,1382 @@
+[
+  {
+    "screen": "LP download",
+    "condition": "first",
+    "metric": "実click→ファイル確認（転送確認の代理指標）",
+    "before": {
+      "median": 76.40000003576279,
+      "min": 68.59999996423721,
+      "max": 112.89999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 40.5,
+      "min": 35.19999998807907,
+      "max": 56.89999997615814,
+      "count": 7
+    },
+    "difference": 35.90000003576279,
+    "reductionPercent": 46.98952882062568,
+    "verdict": "今回の標本では短縮を確認"
+  },
+  {
+    "screen": "LP download",
+    "condition": "repeat",
+    "metric": "実click→ファイル確認（転送確認の代理指標）",
+    "before": {
+      "median": 6.100000023841858,
+      "min": 3.899999976158142,
+      "max": 10.899999976158142,
+      "count": 7
+    },
+    "after": {
+      "median": 6.100000023841858,
+      "min": 3.799999952316284,
+      "max": 10.800000011920929,
+      "count": 7
+    },
+    "difference": 0,
+    "reductionPercent": 0,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "LP decoder",
+    "condition": "1.2MB; internal diagnostic",
+    "metric": "復号関数のみ（操作時間と別）",
+    "before": {
+      "median": 42.80000001192093,
+      "min": 38.5,
+      "max": 58.60000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 1.300000011920929,
+      "min": 1.199999988079071,
+      "max": 1.5,
+      "count": 7
+    },
+    "difference": 41.5,
+    "reductionPercent": 96.96261679542326,
+    "verdict": "今回の標本では短縮を確認"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 65,
+      "min": 47.40000003576279,
+      "max": 81.5,
+      "count": 7
+    },
+    "after": {
+      "median": 77.89999997615814,
+      "min": 56,
+      "max": 113.39999997615814,
+      "count": 7
+    },
+    "difference": -12.899999976158142,
+    "reductionPercent": -19.846153809474064,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 147.60000002384186,
+      "min": 115.10000002384186,
+      "max": 265.30000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 160.30000001192093,
+      "min": 123.60000002384186,
+      "max": 196.30000001192093,
+      "count": 7
+    },
+    "difference": -12.699999988079071,
+    "reductionPercent": -8.604336033894064,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "help",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 47.200000047683716,
+      "min": 44.80000001192093,
+      "max": 92.40000003576279,
+      "count": 7
+    },
+    "after": {
+      "median": 76.69999998807907,
+      "min": 44.80000001192093,
+      "max": 172.69999998807907,
+      "count": 7
+    },
+    "difference": -29.499999940395355,
+    "reductionPercent": -62.49999981057846,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "help",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 80.30000001192093,
+      "min": 79,
+      "max": 125.69999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 110.19999998807907,
+      "min": 78.09999996423721,
+      "max": 205.79999995231628,
+      "count": 7
+    },
+    "difference": -29.899999976158142,
+    "reductionPercent": -37.23536733713492,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "settings",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 30.30000001192093,
+      "min": 28.899999976158142,
+      "max": 45.40000003576279,
+      "count": 7
+    },
+    "after": {
+      "median": 29,
+      "min": 27.80000001192093,
+      "max": 71.19999998807907,
+      "count": 7
+    },
+    "difference": 1.300000011920929,
+    "reductionPercent": 4.290429080559307,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "settings",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 64.29999995231628,
+      "min": 63.19999998807907,
+      "max": 79.90000003576279,
+      "count": 7
+    },
+    "after": {
+      "median": 63.5,
+      "min": 61.5,
+      "max": 104.59999996423721,
+      "count": 7
+    },
+    "difference": 0.7999999523162842,
+    "reductionPercent": 1.2441678894394241,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "virtual-header",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 30.599999964237213,
+      "min": 27.5,
+      "max": 68.80000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 31.799999952316284,
+      "min": 28,
+      "max": 43.09999996423721,
+      "count": 7
+    },
+    "difference": -1.199999988079071,
+    "reductionPercent": -3.921568593076906,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "virtual-header",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 64.19999998807907,
+      "min": 60.5,
+      "max": 102.5,
+      "count": 7
+    },
+    "after": {
+      "median": 64.59999996423721,
+      "min": 61.5,
+      "max": 76.59999996423721,
+      "count": 7
+    },
+    "difference": -0.3999999761581421,
+    "reductionPercent": -0.6230529224803983,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "cell-edit",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 30.80000001192093,
+      "min": 25.5,
+      "max": 67.69999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 29.69999998807907,
+      "min": 28,
+      "max": 44.10000002384186,
+      "count": 7
+    },
+    "difference": 1.100000023841858,
+    "reductionPercent": 3.5714286474549035,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "cell-edit",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 65.69999998807907,
+      "min": 59.40000003576279,
+      "max": 100.89999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 63.19999998807907,
+      "min": 61.40000003576279,
+      "max": 77.5,
+      "count": 7
+    },
+    "difference": 2.5,
+    "reductionPercent": 3.80517503874218,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "export-preview",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 64.80000001192093,
+      "min": 61.30000001192093,
+      "max": 104.39999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 63.09999996423721,
+      "min": 43.69999998807907,
+      "max": 93.89999997615814,
+      "count": 7
+    },
+    "difference": 1.7000000476837158,
+    "reductionPercent": 2.623456863226814,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "export-preview",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 97.90000003576279,
+      "min": 95.60000002384186,
+      "max": 135.89999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 96.60000002384186,
+      "min": 77,
+      "max": 126.89999997615814,
+      "count": 7
+    },
+    "difference": 1.300000011920929,
+    "reductionPercent": 1.327885609240082,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "column-filter",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 45.39999997615814,
+      "min": 28.80000001192093,
+      "max": 54.80000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 47.5,
+      "min": 43.19999998807907,
+      "max": 123.5,
+      "count": 7
+    },
+    "difference": -2.100000023841858,
+    "reductionPercent": -4.62555071573717,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "column-filter",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 78,
+      "min": 62.69999998807907,
+      "max": 87.10000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 80.60000002384186,
+      "min": 76.89999997615814,
+      "max": 156.69999998807907,
+      "count": 7
+    },
+    "difference": -2.600000023841858,
+    "reductionPercent": -3.333333363899818,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "command-palette",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 31.599999964237213,
+      "min": 29.19999998807907,
+      "max": 81.80000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 39.30000001192093,
+      "min": 26.399999976158142,
+      "max": 97.60000002384186,
+      "count": 7
+    },
+    "difference": -7.700000047683716,
+    "reductionPercent": -24.36708878606983,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "command-palette",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 64.5,
+      "min": 61.5,
+      "max": 113.30000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 73.39999997615814,
+      "min": 59.69999998807907,
+      "max": 131,
+      "count": 7
+    },
+    "difference": -8.899999976158142,
+    "reductionPercent": -13.798449575438982,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "search-filter",
+    "condition": "small",
+    "metric": "result",
+    "before": {
+      "median": 62.89999997615814,
+      "min": 55.5,
+      "max": 64.79999995231628,
+      "count": 7
+    },
+    "after": {
+      "median": 61.5,
+      "min": 39,
+      "max": 63.69999998807907,
+      "count": 7
+    },
+    "difference": 1.399999976158142,
+    "reductionPercent": 2.2257551298709117,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore-offer",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 95.30000001192093,
+      "min": 78.80000001192093,
+      "max": 248.89999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 124.60000002384186,
+      "min": 110.89999997615814,
+      "max": 245.10000002384186,
+      "count": 7
+    },
+    "difference": -29.30000001192093,
+    "reductionPercent": -30.74501574843215,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore-offer",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 108.60000002384186,
+      "min": 80.40000003576279,
+      "max": 254.60000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 126,
+      "min": 112.39999997615814,
+      "max": 247.10000002384186,
+      "count": 7
+    },
+    "difference": -17.399999976158142,
+    "reductionPercent": -16.02209942204252,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore",
+    "condition": "small",
+    "metric": "content",
+    "before": {
+      "median": 64.39999997615814,
+      "min": 63.19999998807907,
+      "max": 93.09999996423721,
+      "count": 7
+    },
+    "after": {
+      "median": 78.19999998807907,
+      "min": 45.19999998807907,
+      "max": 104.90000003576279,
+      "count": 7
+    },
+    "difference": -13.800000011920929,
+    "reductionPercent": -21.428571455015373,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore",
+    "condition": "small",
+    "metric": "interactive",
+    "before": {
+      "median": 131.5,
+      "min": 130.5,
+      "max": 212.19999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 161,
+      "min": 112.29999995231628,
+      "max": 218,
+      "count": 7
+    },
+    "difference": -29.5,
+    "reductionPercent": -22.433460076045627,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 902.6000000238419,
+      "min": 638,
+      "max": 1041.2000000476837,
+      "count": 7
+    },
+    "after": {
+      "median": 1074.300000011921,
+      "min": 660.7999999523163,
+      "max": 1586.0999999642372,
+      "count": 7
+    },
+    "difference": -171.69999998807907,
+    "reductionPercent": -19.02282295408195,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 1086.8999999761581,
+      "min": 799.6999999880791,
+      "max": 1230.2000000476837,
+      "count": 7
+    },
+    "after": {
+      "median": 1252.4000000357628,
+      "min": 825.5,
+      "max": 1785.5999999642372,
+      "count": 7
+    },
+    "difference": -165.50000005960464,
+    "reductionPercent": -15.226791798991169,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "help",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 63.10000002384186,
+      "min": 46.30000001192093,
+      "max": 94.90000003576279,
+      "count": 7
+    },
+    "after": {
+      "median": 63.5,
+      "min": 56.60000002384186,
+      "max": 178.19999998807907,
+      "count": 7
+    },
+    "difference": -0.3999999761581421,
+    "reductionPercent": -0.6339143835293266,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "help",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 96.19999998807907,
+      "min": 79,
+      "max": 126.5,
+      "count": 7
+    },
+    "after": {
+      "median": 97.30000001192093,
+      "min": 90.19999998807907,
+      "max": 212.5,
+      "count": 7
+    },
+    "difference": -1.100000023841858,
+    "reductionPercent": -1.1434511683764739,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "settings",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 30.80000001192093,
+      "min": 29.30000001192093,
+      "max": 71.19999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 31.100000023841858,
+      "min": 27.69999998807907,
+      "max": 124,
+      "count": 7
+    },
+    "difference": -0.30000001192092896,
+    "reductionPercent": -0.9740260123532987,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "settings",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 64,
+      "min": 62.30000001192093,
+      "max": 104,
+      "count": 7
+    },
+    "after": {
+      "median": 66.20000004768372,
+      "min": 62.10000002384186,
+      "max": 157.29999995231628,
+      "count": 7
+    },
+    "difference": -2.200000047683716,
+    "reductionPercent": -3.437500074505806,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "virtual-header",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 31.600000023841858,
+      "min": 26.5,
+      "max": 71.59999996423721,
+      "count": 7
+    },
+    "after": {
+      "median": 30.80000001192093,
+      "min": 27.5,
+      "max": 77.69999998807907,
+      "count": 7
+    },
+    "difference": 0.800000011920929,
+    "reductionPercent": 2.531645605434613,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "virtual-header",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 63.5,
+      "min": 61.30000001192093,
+      "max": 105.59999996423721,
+      "count": 7
+    },
+    "after": {
+      "median": 63.60000002384186,
+      "min": 59.59999996423721,
+      "max": 111.09999996423721,
+      "count": 7
+    },
+    "difference": -0.10000002384185791,
+    "reductionPercent": -0.15748035250686285,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "cell-edit",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 31.899999976158142,
+      "min": 28.899999976158142,
+      "max": 80.5,
+      "count": 7
+    },
+    "after": {
+      "median": 30.200000047683716,
+      "min": 28.5,
+      "max": 70,
+      "count": 7
+    },
+    "difference": 1.6999999284744263,
+    "reductionPercent": 5.32915338478055,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "cell-edit",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 65.40000003576279,
+      "min": 63,
+      "max": 114.09999996423721,
+      "count": 7
+    },
+    "after": {
+      "median": 63.19999998807907,
+      "min": 60.69999998807907,
+      "max": 102.19999998807907,
+      "count": 7
+    },
+    "difference": 2.200000047683716,
+    "reductionPercent": 3.363914444160071,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "export-preview",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 65.30000001192093,
+      "min": 62.89999997615814,
+      "max": 97.60000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 60.10000002384186,
+      "min": 38.10000002384186,
+      "max": 64.89999997615814,
+      "count": 7
+    },
+    "difference": 5.199999988079071,
+    "reductionPercent": 7.963246534655097,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "export-preview",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 98.20000004768372,
+      "min": 96.30000001192093,
+      "max": 132.80000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 94.30000001192093,
+      "min": 72.60000002384186,
+      "max": 98.30000001192093,
+      "count": 7
+    },
+    "difference": 3.900000035762787,
+    "reductionPercent": 3.9714867962006464,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "column-filter",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 397.9000000357628,
+      "min": 281.69999998807907,
+      "max": 510.30000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 456.2999999523163,
+      "min": 280,
+      "max": 494.9000000357628,
+      "count": 7
+    },
+    "difference": -58.3999999165535,
+    "reductionPercent": -14.677054514024773,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "column-filter",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 431.19999998807907,
+      "min": 315,
+      "max": 542,
+      "count": 7
+    },
+    "after": {
+      "median": 490.7999999523163,
+      "min": 313.30000001192093,
+      "max": 528.1999999880791,
+      "count": 7
+    },
+    "difference": -59.59999996423721,
+    "reductionPercent": -13.821892385409301,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "command-palette",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 40.69999998807907,
+      "min": 29.5,
+      "max": 59.19999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 30.5,
+      "min": 27,
+      "max": 72.40000003576279,
+      "count": 7
+    },
+    "difference": 10.199999988079071,
+    "reductionPercent": 25.061425039475736,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "command-palette",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 75.5,
+      "min": 61.30000001192093,
+      "max": 92.09999996423721,
+      "count": 7
+    },
+    "after": {
+      "median": 63.80000001192093,
+      "min": 61.89999997615814,
+      "max": 105.5,
+      "count": 7
+    },
+    "difference": 11.699999988079071,
+    "reductionPercent": 15.496688725932545,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "search-filter",
+    "condition": "large",
+    "metric": "result",
+    "before": {
+      "median": 414.7999999523163,
+      "min": 314.69999998807907,
+      "max": 697.8000000119209,
+      "count": 7
+    },
+    "after": {
+      "median": 461.4000000357628,
+      "min": 348.30000001192093,
+      "max": 571.1000000238419,
+      "count": 7
+    },
+    "difference": -46.6000000834465,
+    "reductionPercent": -11.234329818901506,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore-offer",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 447.19999998807907,
+      "min": 346.30000001192093,
+      "max": 1192.3999999761581,
+      "count": 7
+    },
+    "after": {
+      "median": 906.3000000119209,
+      "min": 358.80000001192093,
+      "max": 1019,
+      "count": 7
+    },
+    "difference": -459.10000002384186,
+    "reductionPercent": -102.66100179697675,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore-offer",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 448.80000001192093,
+      "min": 347.19999998807907,
+      "max": 1217.0999999642372,
+      "count": 7
+    },
+    "after": {
+      "median": 910.1000000238419,
+      "min": 361.30000001192093,
+      "max": 1025.199999988079,
+      "count": 7
+    },
+    "difference": -461.30000001192093,
+    "reductionPercent": -102.78520499101336,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore",
+    "condition": "large",
+    "metric": "content",
+    "before": {
+      "median": 112.5,
+      "min": 80.29999995231628,
+      "max": 129.80000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 112.89999997615814,
+      "min": 94.30000001192093,
+      "max": 145.60000002384186,
+      "count": 7
+    },
+    "difference": -0.3999999761581421,
+    "reductionPercent": -0.35555553436279297,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore",
+    "condition": "large",
+    "metric": "interactive",
+    "before": {
+      "median": 223.5,
+      "min": 175.69999998807907,
+      "max": 362.60000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 217.19999998807907,
+      "min": 164.69999998807907,
+      "max": 376,
+      "count": 7
+    },
+    "difference": 6.300000011920929,
+    "reductionPercent": 2.8187919516424738,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 228.70000004768372,
+      "min": 139.5,
+      "max": 296.60000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 173.30000001192093,
+      "min": 162.5999999642372,
+      "max": 267,
+      "count": 7
+    },
+    "difference": 55.40000003576279,
+    "reductionPercent": 24.223874081421926,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 363.80000001192093,
+      "min": 207,
+      "max": 419.30000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 303.10000002384186,
+      "min": 284.0999999642372,
+      "max": 500.7000000476837,
+      "count": 7
+    },
+    "difference": 60.69999998807907,
+    "reductionPercent": 16.684991749887317,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "help",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 63.69999998807907,
+      "min": 60.799999952316284,
+      "max": 133.5,
+      "count": 7
+    },
+    "after": {
+      "median": 65.10000002384186,
+      "min": 61.5,
+      "max": 159,
+      "count": 7
+    },
+    "difference": -1.4000000357627869,
+    "reductionPercent": -2.197802254356021,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "help",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 97.80000001192093,
+      "min": 93.59999996423721,
+      "max": 199.60000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 101.39999997615814,
+      "min": 94.79999995231628,
+      "max": 191.19999998807907,
+      "count": 7
+    },
+    "difference": -3.599999964237213,
+    "reductionPercent": -3.6809815580760796,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "settings",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 60.299999952316284,
+      "min": 42.80000001192093,
+      "max": 72.89999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 49.39999997615814,
+      "min": 28.19999998807907,
+      "max": 63.700000047683716,
+      "count": 7
+    },
+    "difference": 10.899999976158142,
+    "reductionPercent": 18.07628521521988,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "settings",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 92.09999996423721,
+      "min": 76.19999998807907,
+      "max": 105.69999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 83,
+      "min": 60.89999997615814,
+      "max": 96.20000004768372,
+      "count": 7
+    },
+    "difference": 9.099999964237213,
+    "reductionPercent": 9.880564568697913,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "virtual-header",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 43.700000047683716,
+      "min": 28.600000023841858,
+      "max": 72.80000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 45.10000002384186,
+      "min": 24,
+      "max": 112.69999998807907,
+      "count": 7
+    },
+    "difference": -1.399999976158142,
+    "reductionPercent": -3.203661269177385,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "virtual-header",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 76.70000004768372,
+      "min": 60.80000001192093,
+      "max": 105.5,
+      "count": 7
+    },
+    "after": {
+      "median": 78.5,
+      "min": 58.80000001192093,
+      "max": 181,
+      "count": 7
+    },
+    "difference": -1.7999999523162842,
+    "reductionPercent": -2.3468056730081357,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "cell-edit",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 31.600000023841858,
+      "min": 26.799999952316284,
+      "max": 61.59999996423721,
+      "count": 7
+    },
+    "after": {
+      "median": 30.19999998807907,
+      "min": 27.5,
+      "max": 51.80000001192093,
+      "count": 7
+    },
+    "difference": 1.4000000357627869,
+    "reductionPercent": 4.430379856666145,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "cell-edit",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 64.40000003576279,
+      "min": 60.09999996423721,
+      "max": 96.19999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 63.39999997615814,
+      "min": 60.80000001192093,
+      "max": 83.40000003576279,
+      "count": 7
+    },
+    "difference": 1.0000000596046448,
+    "reductionPercent": 1.5527951227473944,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "export-preview",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 177.30000001192093,
+      "min": 129.30000001192093,
+      "max": 221,
+      "count": 7
+    },
+    "after": {
+      "median": 166,
+      "min": 142.30000001192093,
+      "max": 360.5,
+      "count": 7
+    },
+    "difference": 11.300000011920929,
+    "reductionPercent": 6.373378460891802,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "export-preview",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 210.19999998807907,
+      "min": 162.80000001192093,
+      "max": 254,
+      "count": 7
+    },
+    "after": {
+      "median": 197.69999998807907,
+      "min": 175.4000000357628,
+      "max": 427.30000001192093,
+      "count": 7
+    },
+    "difference": 12.5,
+    "reductionPercent": 5.946717412325834,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "column-filter",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 76.59999996423721,
+      "min": 63.19999998807907,
+      "max": 107.69999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 64.60000002384186,
+      "min": 62.40000003576279,
+      "max": 123.89999997615814,
+      "count": 7
+    },
+    "difference": 11.999999940395355,
+    "reductionPercent": 15.665796274148668,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "column-filter",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 110.5,
+      "min": 97.19999998807907,
+      "max": 175.19999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 96.5,
+      "min": 96.30000001192093,
+      "max": 189.69999998807907,
+      "count": 7
+    },
+    "difference": 14,
+    "reductionPercent": 12.669683257918551,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "command-palette",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 30.399999976158142,
+      "min": 27.700000047683716,
+      "max": 160.39999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 40.69999998807907,
+      "min": 27.600000023841858,
+      "max": 172,
+      "count": 7
+    },
+    "difference": -10.300000011920929,
+    "reductionPercent": -33.881579013154365,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "command-palette",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 63.19999998807907,
+      "min": 60.5,
+      "max": 340.9000000357628,
+      "count": 7
+    },
+    "after": {
+      "median": 74.09999996423721,
+      "min": 61,
+      "max": 206.19999998807907,
+      "count": 7
+    },
+    "difference": -10.899999976158142,
+    "reductionPercent": -17.246835408566653,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "search-filter",
+    "condition": "long-cell",
+    "metric": "result",
+    "before": {
+      "median": 63.19999998807907,
+      "min": 60.69999998807907,
+      "max": 65.69999998807907,
+      "count": 7
+    },
+    "after": {
+      "median": 64,
+      "min": 60.299999952316284,
+      "max": 168.5999999642372,
+      "count": 7
+    },
+    "difference": -0.800000011920929,
+    "reductionPercent": -1.2658228039111183,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore-offer",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 225.5,
+      "min": 146.19999998807907,
+      "max": 306.30000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 210.69999998807907,
+      "min": 176.5,
+      "max": 491.19999998807907,
+      "count": 7
+    },
+    "difference": 14.800000011920929,
+    "reductionPercent": 6.563192909942763,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore-offer",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 243.60000002384186,
+      "min": 147.89999997615814,
+      "max": 309.10000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 211.80000001192093,
+      "min": 177.89999997615814,
+      "max": 493.19999998807907,
+      "count": 7
+    },
+    "difference": 31.80000001192093,
+    "reductionPercent": 13.054187195734224,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore",
+    "condition": "long-cell",
+    "metric": "content",
+    "before": {
+      "median": 94.89999997615814,
+      "min": 80.70000004768372,
+      "max": 112.39999997615814,
+      "count": 7
+    },
+    "after": {
+      "median": 96.90000003576279,
+      "min": 80.10000002384186,
+      "max": 241.69999998807907,
+      "count": 7
+    },
+    "difference": -2.0000000596046448,
+    "reductionPercent": -2.1074816228736646,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "restore",
+    "condition": "long-cell",
+    "metric": "interactive",
+    "before": {
+      "median": 190.79999995231628,
+      "min": 147.80000001192093,
+      "max": 263.10000002384186,
+      "count": 7
+    },
+    "after": {
+      "median": 180.39999997615814,
+      "min": 147.5,
+      "max": 424.89999997615814,
+      "count": 7
+    },
+    "difference": 10.399999976158142,
+    "reductionPercent": 5.4507337414870305,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "large; 保存完了後の独立再確認",
+    "metric": "content",
+    "before": {
+      "median": 744.0999999642372,
+      "min": 541.6000000238419,
+      "max": 1045.0999999642372,
+      "count": 7
+    },
+    "after": {
+      "median": 842.0999999642372,
+      "min": 485.10000002384186,
+      "max": 1017,
+      "count": 7
+    },
+    "difference": -98,
+    "reductionPercent": -13.170272813426967,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "paste-import",
+    "condition": "large; 保存完了後の独立再確認",
+    "metric": "interactive",
+    "before": {
+      "median": 925.5,
+      "min": 686.4000000357628,
+      "max": 1236.199999988079,
+      "count": 7
+    },
+    "after": {
+      "median": 978.2999999523163,
+      "min": 589.1999999880791,
+      "max": 1171.8999999761581,
+      "count": 7
+    },
+    "difference": -52.799999952316284,
+    "reductionPercent": -5.705024306030933,
+    "verdict": "分布が重なるため差は未確定"
+  },
+  {
+    "screen": "search-filter",
+    "condition": "large; 保存完了後の独立再確認",
+    "metric": "result",
+    "before": {
+      "median": 329,
+      "min": 263.9000000357628,
+      "max": 479.30000001192093,
+      "count": 7
+    },
+    "after": {
+      "median": 313.30000001192093,
+      "min": 264.5,
+      "max": 544.3999999761581,
+      "count": 7
+    },
+    "difference": 15.699999988079071,
+    "reductionPercent": 4.772036470540751,
+    "verdict": "分布が重なるため差は未確定"
+  }
+]

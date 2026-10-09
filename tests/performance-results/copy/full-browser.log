@@ -1,0 +1,233 @@
+
+> local-csv@1.2.6 test:browser
+> node tests/localcsv-browser.test.mjs && node tests/localcsv-quality-browser.test.mjs && node tests/localcsv-usability-browser.test.mjs && npm run test:modern
+
+chromium: exact sort, navigation, download and recovery passed
+chromium: multiline editing and regex timeout/recovery passed
+chromium: concurrent tabs retain the latest recovery copy
+chromium: chunk/manifest quota failures restore completely
+chromium: importing 日本語-utf8.csv
+chromium: importing 日本語-utf16.csv
+chromium: importing 日本語-sjis.csv
+chromium: file import/export preserves UTF-8, UTF-16, Shift-JIS, line breaks and inert markup
+chromium: virtual scrolling, delayed search and IME preserve pending edits
+chromium: exact replacement, pending edits, clipboard failure and empty preview passed
+chromium: search-column remapping, structural undo, keyboard clipboard and pending toolbar edits passed
+{"engine":"chromium","version":"154.0.8037.99","rows":12000,"importMs":777,"sortMs":137,"totalMs":32496}
+firefox: exact sort, navigation, download and recovery passed
+firefox: multiline editing and regex timeout/recovery passed
+firefox: concurrent tabs retain the latest recovery copy
+firefox: chunk/manifest quota failures restore completely
+firefox: importing 日本語-utf8.csv
+firefox: importing 日本語-utf16.csv
+firefox: importing 日本語-sjis.csv
+firefox: file import/export preserves UTF-8, UTF-16, Shift-JIS, line breaks and inert markup
+firefox: virtual scrolling, delayed search and IME preserve pending edits
+firefox: exact replacement, pending edits, clipboard failure and empty preview passed
+firefox: search-column remapping, structural undo, keyboard clipboard and pending toolbar edits passed
+{"engine":"firefox","version":"155.0","rows":12000,"importMs":707,"sortMs":338,"totalMs":26178}
+webkit: exact sort, navigation, download and recovery passed
+webkit: multiline editing and regex timeout/recovery passed
+webkit: concurrent tabs retain the latest recovery copy
+webkit: chunk/manifest quota failures restore completely
+webkit: importing 日本語-utf8.csv
+webkit: importing 日本語-utf16.csv
+webkit: importing 日本語-sjis.csv
+webkit: file import/export preserves UTF-8, UTF-16, Shift-JIS, line breaks and inert markup
+webkit: virtual scrolling, delayed search and IME preserve pending edits
+webkit: exact replacement, pending edits, clipboard failure and empty preview passed
+webkit: search-column remapping, structural undo, keyboard clipboard and pending toolbar edits passed
+{"engine":"webkit","version":"27.2","rows":12000,"importMs":647,"sortMs":101,"totalMs":25845}
+localcsv browser tests passed
+chromium: column condition logic belongs to its own filter passed
+chromium: late column filtering preserves the next panel draft passed
+chromium: window blur ends resize and cancels unfinished pointer selection passed
+chromium: HTML export preserves carriage returns in headers and cells passed
+chromium: line breaks at search highlight boundaries survive copying and history passed
+chromium: keyboard history preserves the restored data and redo stack passed
+chromium: selection aggregates include the uncommitted cell draft passed
+chromium: null characters survive rendering, search and editing passed
+chromium: HTML export escapes text without allocating a DOM node per cell passed
+chromium: combined column filters retain unchecked values on reapply passed
+chromium: reopening a column filter resets its value search passed
+chromium: filter value loading preserves existing and early selections passed
+chromium: literal Unicode search and replacement use the same matches passed
+chromium: Worker search preserves Unicode case matching passed
+chromium: large range edits only look up rendered cells passed
+chromium: clearing a filter with Escape preserves pending cell input passed
+chromium: tab leaves the table at its boundaries without losing input passed
+chromium: range deletion preserves pending input in undo passed
+chromium: exact selection aggregates and filtered dimensions passed
+chromium: empty export filters keep preview consistent with output passed
+chromium: distribution download matches standalone editor passed
+chromium: landing dialogs contain keyboard focus and restore the trigger passed
+chromium: landing content stays visible with reduced motion or disabled scripts passed
+chromium: compact status bar and command palette remain usable on narrow screens passed
+chromium: bounded selection preview and complete export passed
+chromium: dialog focus preserves early input passed
+chromium: language and theme preserve user labels passed
+chromium: plain text cell editing passed
+chromium: HTML-only and whitespace paste passed
+chromium: failed save cleanup and retry passed
+chromium: UTF-8 content BOM byte preservation passed
+chromium: literal Markdown export passed
+chromium: filtered sort and history passed
+chromium: multiline delimiter detection passed
+chromium: conditional panels retain their values and expose only applicable controls passed
+chromium: resized columns stay aligned when virtual rows are replaced passed
+chromium: theme restoration keeps labels and avoids redundant writes passed
+chromium 154.0.8037.99: 37 cases, 0 errors
+firefox: column condition logic belongs to its own filter passed
+firefox: late column filtering preserves the next panel draft passed
+firefox: window blur ends resize and cancels unfinished pointer selection passed
+firefox: HTML export preserves carriage returns in headers and cells passed
+firefox: line breaks at search highlight boundaries survive copying and history passed
+firefox: keyboard history preserves the restored data and redo stack passed
+firefox: selection aggregates include the uncommitted cell draft passed
+firefox: null characters survive rendering, search and editing passed
+firefox: HTML export escapes text without allocating a DOM node per cell passed
+firefox: combined column filters retain unchecked values on reapply passed
+firefox: reopening a column filter resets its value search passed
+firefox: filter value loading preserves existing and early selections passed
+firefox: literal Unicode search and replacement use the same matches passed
+firefox: Worker search preserves Unicode case matching passed
+firefox: large range edits only look up rendered cells passed
+firefox: clearing a filter with Escape preserves pending cell input passed
+firefox: tab leaves the table at its boundaries without losing input passed
+firefox: range deletion preserves pending input in undo passed
+firefox: exact selection aggregates and filtered dimensions passed
+firefox: empty export filters keep preview consistent with output passed
+firefox: distribution download matches standalone editor passed
+firefox: landing dialogs contain keyboard focus and restore the trigger passed
+firefox: landing content stays visible with reduced motion or disabled scripts passed
+firefox: compact status bar and command palette remain usable on narrow screens passed
+firefox: bounded selection preview and complete export passed
+firefox: dialog focus preserves early input passed
+firefox: language and theme preserve user labels passed
+firefox: plain text cell editing passed
+firefox: HTML-only and whitespace paste passed
+firefox: failed save cleanup and retry passed
+firefox: UTF-8 content BOM byte preservation passed
+firefox: literal Markdown export passed
+firefox: filtered sort and history passed
+firefox: multiline delimiter detection passed
+firefox: conditional panels retain their values and expose only applicable controls passed
+firefox: resized columns stay aligned when virtual rows are replaced passed
+firefox: theme restoration keeps labels and avoids redundant writes passed
+firefox 155.0: 37 cases, 0 errors
+webkit: column condition logic belongs to its own filter passed
+webkit: late column filtering preserves the next panel draft passed
+webkit: window blur ends resize and cancels unfinished pointer selection passed
+webkit: HTML export preserves carriage returns in headers and cells passed
+webkit: line breaks at search highlight boundaries survive copying and history passed
+webkit: keyboard history preserves the restored data and redo stack passed
+webkit: selection aggregates include the uncommitted cell draft passed
+webkit: null characters survive rendering, search and editing passed
+webkit: HTML export escapes text without allocating a DOM node per cell passed
+webkit: combined column filters retain unchecked values on reapply passed
+webkit: reopening a column filter resets its value search passed
+webkit: filter value loading preserves existing and early selections passed
+webkit: literal Unicode search and replacement use the same matches passed
+webkit: Worker search preserves Unicode case matching passed
+webkit: large range edits only look up rendered cells passed
+webkit: clearing a filter with Escape preserves pending cell input passed
+webkit: tab leaves the table at its boundaries without losing input passed
+webkit: range deletion preserves pending input in undo passed
+webkit: exact selection aggregates and filtered dimensions passed
+webkit: empty export filters keep preview consistent with output passed
+webkit: distribution download matches standalone editor passed
+webkit: landing dialogs contain keyboard focus and restore the trigger passed
+webkit: landing content stays visible with reduced motion or disabled scripts passed
+webkit: compact status bar and command palette remain usable on narrow screens passed
+webkit: bounded selection preview and complete export passed
+webkit: dialog focus preserves early input passed
+webkit: language and theme preserve user labels passed
+webkit: plain text cell editing passed
+webkit: HTML-only and whitespace paste passed
+webkit: failed save cleanup and retry passed
+webkit: UTF-8 content BOM byte preservation passed
+webkit: literal Markdown export passed
+webkit: filtered sort and history passed
+webkit: multiline delimiter detection passed
+webkit: conditional panels retain their values and expose only applicable controls passed
+webkit: resized columns stay aligned when virtual rows are replaced passed
+webkit: theme restoration keeps labels and avoids redundant writes passed
+webkit 27.2: 37 cases, 0 errors
+chromium: file import steps preserve keyboard focus, settings and preview passed
+chromium: compact layout keeps controls usable and restores focus on width change passed
+chromium: compact empty-table creation and explicit deletion preserve cancel and undo passed
+chromium: landing source-copy and navigation survive a shorter primary flow passed
+chromium: notifications do not discard column-filter drafts or intercept apply passed
+chromium: search navigation and scrolling account for multiline row heights passed
+chromium: formula escaping explains changes and can preserve original values passed
+chromium: recovery retains source filename without restoring overwrite authority passed
+chromium: keyboard range selection and full cell editor preserve values and history passed
+chromium: unchanged full-cell editing preserves CR and CRLF passed
+chromium: compact controls preserve values and expose the table earlier passed
+chromium: 11 usability scenarios, no console errors or external requests
+firefox: file import steps preserve keyboard focus, settings and preview passed
+firefox: compact layout keeps controls usable and restores focus on width change passed
+firefox: compact empty-table creation and explicit deletion preserve cancel and undo passed
+firefox: landing source-copy and navigation survive a shorter primary flow passed
+firefox: notifications do not discard column-filter drafts or intercept apply passed
+firefox: search navigation and scrolling account for multiline row heights passed
+firefox: formula escaping explains changes and can preserve original values passed
+firefox: recovery retains source filename without restoring overwrite authority passed
+firefox: keyboard range selection and full cell editor preserve values and history passed
+firefox: unchanged full-cell editing preserves CR and CRLF passed
+firefox: compact controls preserve values and expose the table earlier passed
+firefox: 11 usability scenarios, no console errors or external requests
+webkit: file import steps preserve keyboard focus, settings and preview passed
+webkit: compact layout keeps controls usable and restores focus on width change passed
+webkit: compact empty-table creation and explicit deletion preserve cancel and undo passed
+webkit: landing source-copy and navigation survive a shorter primary flow passed
+webkit: notifications do not discard column-filter drafts or intercept apply passed
+webkit: search navigation and scrolling account for multiline row heights passed
+webkit: formula escaping explains changes and can preserve original values passed
+webkit: recovery retains source filename without restoring overwrite authority passed
+webkit: keyboard range selection and full cell editor preserve values and history passed
+webkit: unchanged full-cell editing preserves CR and CRLF passed
+webkit: compact controls preserve values and expose the table earlier passed
+webkit: 11 usability scenarios, no console errors or external requests
+
+> local-csv@1.2.6 test:modern
+> node tests/localcsv-modern-browser.test.mjs
+
+[
+  {
+    "engine": "chromium",
+    "version": "154.0.8037.99",
+    "fallback": false,
+    "status": "passed"
+  },
+  {
+    "engine": "chromium",
+    "version": "154.0.8037.99",
+    "fallback": true,
+    "status": "passed"
+  },
+  {
+    "engine": "firefox",
+    "version": "155.0",
+    "fallback": false,
+    "status": "passed"
+  },
+  {
+    "engine": "firefox",
+    "version": "155.0",
+    "fallback": true,
+    "status": "passed"
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "fallback": false,
+    "status": "passed"
+  },
+  {
+    "engine": "webkit",
+    "version": "27.2",
+    "fallback": true,
+    "status": "passed"
+  }
+]

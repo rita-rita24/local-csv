@@ -1,0 +1,5 @@
+
+> local-csv@1.2.6 test:static
+> node tests/localcsv-static.test.mjs
+
+Static checks passed; inventoried 50 files; 4 documented compatibility occurrences.

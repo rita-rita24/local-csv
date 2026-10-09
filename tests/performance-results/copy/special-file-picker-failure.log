@@ -1,0 +1,14 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+page.waitForEvent: Timeout 30000ms exceeded while waiting for event "filechooser"
+=========================== logs ===========================
+waiting for event "filechooser"
+============================================================
+    at /Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/tests/localcsv-copy-browser.test.mjs:37:51 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v22.22.2

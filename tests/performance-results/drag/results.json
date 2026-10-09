@@ -1,0 +1,580 @@
+{
+  "measuredAt": "2026-10-09T15:06:22.303Z",
+  "versions": {
+    "before": "bb192f2a75ce578b812479b43ca19a372b448c7323f3cc33e4cc6715f6998aad",
+    "after": "3019fe202d6e7e86bef7be572e5b3b7a736c7ae66b3e1f8a622ae43cc6243525"
+  },
+  "conditions": {
+    "rows": 2000,
+    "columns": 50,
+    "events": 120,
+    "viewport": "1440x900",
+    "browser": "154.0.8037.99",
+    "locale": "ja-JP",
+    "file": "fresh context; direct file; no network; IndexedDB isolated",
+    "input": "120 synchronous synthetic pointer events per burst; diagnostic high-frequency condition"
+  },
+  "errors": [],
+  "results": [
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 25,
+      "workMs": 25,
+      "readyMs": 31.80000001192093
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2,
+      "workMs": 2,
+      "readyMs": 34.09999996423721
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.600000023841858,
+      "workMs": 11.600000023841858,
+      "readyMs": 32.10000002384186
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 19,
+      "workMs": 19,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 18,
+      "workMs": 18,
+      "readyMs": 33
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.5999999642372131,
+      "workMs": 1.5999999642372131,
+      "readyMs": 30.69999998807907
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "workMs": 0.699999988079071,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.800000011920929,
+      "workMs": 0.9000000357627869,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 19.599999964237213,
+      "workMs": 19.599999964237213,
+      "readyMs": 32.89999997615814
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 18.100000023841858,
+      "workMs": 18.100000023841858,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.7999999523162842,
+      "workMs": 1.7999999523162842,
+      "readyMs": 32
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "workMs": 0.699999988079071,
+      "readyMs": 32.19999998807907
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.699999988079071,
+      "workMs": 0.8999999761581421,
+      "readyMs": 30.30000001192093
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 19.5,
+      "workMs": 19.5,
+      "readyMs": 32.39999997615814
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 17.100000023841858,
+      "workMs": 17.100000023841858,
+      "readyMs": 32.80000001192093
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 25.599999964237213,
+      "workMs": 25.599999964237213,
+      "readyMs": 31.599999964237213
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.100000023841858,
+      "workMs": 2.100000023841858,
+      "readyMs": 30.900000035762787
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 12.100000023841858,
+      "workMs": 12.100000023841858,
+      "readyMs": 31.30000001192093
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 19.100000023841858,
+      "workMs": 19.100000023841858,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19.899999976158142,
+      "workMs": 19.899999976158142,
+      "readyMs": 32.19999998807907
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 25.5,
+      "workMs": 25.5,
+      "readyMs": 32.10000002384186
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.100000023841858,
+      "workMs": 2.100000023841858,
+      "readyMs": 32.60000002384186
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 16.5,
+      "workMs": 16.5,
+      "readyMs": 29.900000035762787
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 21.399999976158142,
+      "workMs": 21.399999976158142,
+      "readyMs": 32.80000001192093
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19.899999976158142,
+      "workMs": 19.899999976158142,
+      "readyMs": 32.80000001192093
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.600000023841858,
+      "workMs": 1.600000023841858,
+      "readyMs": 31.900000035762787
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.7000000476837158,
+      "workMs": 0.7000000476837158,
+      "readyMs": 31.700000047683716
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.9000000357627869,
+      "workMs": 1.100000023841858,
+      "readyMs": 32
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 22.899999976158142,
+      "workMs": 22.899999976158142,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 18.5,
+      "workMs": 18.5,
+      "readyMs": 33.40000003576279
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.800000011920929,
+      "workMs": 1.800000011920929,
+      "readyMs": 32.89999997615814
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.6000000238418579,
+      "workMs": 0.6000000238418579,
+      "readyMs": 31.100000023841858
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.6000000238418579,
+      "workMs": 0.699999988079071,
+      "readyMs": 32.19999998807907
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 20.19999998807907,
+      "workMs": 20.19999998807907,
+      "readyMs": 33.10000002384186
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 21.5,
+      "workMs": 21.5,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 28.30000001192093,
+      "workMs": 28.30000001192093,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.100000023841858,
+      "workMs": 2.100000023841858,
+      "readyMs": 29.900000035762787
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.700000047683716,
+      "workMs": 11.700000047683716,
+      "readyMs": 31
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 21.80000001192093,
+      "workMs": 21.80000001192093,
+      "readyMs": 31
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 21.099999964237213,
+      "workMs": 21.099999964237213,
+      "readyMs": 32.89999997615814
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 29.200000047683716,
+      "workMs": 29.200000047683716,
+      "readyMs": 33.60000002384186
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2,
+      "workMs": 2,
+      "readyMs": 31.899999976158142
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 14.299999952316284,
+      "workMs": 14.299999952316284,
+      "readyMs": 32.39999997615814
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 20.30000001192093,
+      "workMs": 20.30000001192093,
+      "readyMs": 32.700000047683716
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 21.19999998807907,
+      "workMs": 21.19999998807907,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.800000011920929,
+      "workMs": 1.800000011920929,
+      "readyMs": 31.69999998807907
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "workMs": 0.699999988079071,
+      "readyMs": 31.19999998807907
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.7999999523162842,
+      "workMs": 1.0999999642372131,
+      "readyMs": 31.899999976158142
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 20,
+      "workMs": 20,
+      "readyMs": 32.60000002384186
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 21.5,
+      "workMs": 21.5,
+      "readyMs": 31.899999976158142
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.800000011920929,
+      "workMs": 1.800000011920929,
+      "readyMs": 31.900000035762787
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "workMs": 0.699999988079071,
+      "readyMs": 31.399999976158142
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 1,
+      "workMs": 1.199999988079071,
+      "readyMs": 31.599999964237213
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 18.900000035762787,
+      "workMs": 18.900000035762787,
+      "readyMs": 32.80000001192093
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 20,
+      "workMs": 20,
+      "readyMs": 32.39999997615814
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 25.30000001192093,
+      "workMs": 25.30000001192093,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2,
+      "workMs": 2,
+      "readyMs": 32.200000047683716
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.400000035762787,
+      "workMs": 11.400000035762787,
+      "readyMs": 32.5
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 19.30000001192093,
+      "workMs": 19.30000001192093,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 17.599999964237213,
+      "workMs": 17.599999964237213,
+      "readyMs": 32.299999952316284
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 26.099999964237213,
+      "workMs": 26.099999964237213,
+      "readyMs": 31.399999976158142
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 1.899999976158142,
+      "workMs": 1.899999976158142,
+      "readyMs": 31.19999998807907
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.5,
+      "workMs": 11.5,
+      "readyMs": 30.69999998807907
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 19.600000023841858,
+      "workMs": 19.600000023841858,
+      "readyMs": 33.30000001192093
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 18.80000001192093,
+      "workMs": 18.80000001192093,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.5999999642372131,
+      "workMs": 1.5999999642372131,
+      "readyMs": 31.19999998807907
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "workMs": 0.699999988079071,
+      "readyMs": 31.80000001192093
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.800000011920929,
+      "workMs": 1,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 18.19999998807907,
+      "workMs": 18.19999998807907,
+      "readyMs": 33.5
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 18.5,
+      "workMs": 18.5,
+      "readyMs": 31.099999964237213
+    }
+  ]
+}

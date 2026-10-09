@@ -1,0 +1,29 @@
+{
+  "browser": "154.0.8037.99",
+  "viewport": [
+    390,
+    844
+  ],
+  "records": [
+    {
+      "variant": "before",
+      "geometry": {
+        "tableTop": 687.671875,
+        "searchHeight": 320.875,
+        "bodyWidth": 390,
+        "viewportWidth": 390
+      },
+      "output": "項目,数量\n商品A,10"
+    },
+    {
+      "variant": "after",
+      "geometry": {
+        "tableTop": 584.796875,
+        "searchHeight": 218,
+        "bodyWidth": 390,
+        "viewportWidth": 390
+      },
+      "output": "項目,数量\n商品A,10"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+chromium: file import steps preserve keyboard focus, settings and preview passed
+chromium: compact layout keeps controls usable and restores focus on width change passed
+chromium: compact empty-table creation and explicit deletion preserve cancel and undo passed
+chromium: landing source-copy and navigation survive a shorter primary flow passed
+chromium: notifications do not discard column-filter drafts or intercept apply passed
+chromium: search navigation and scrolling account for multiline row heights passed
+chromium: formula escaping explains changes and can preserve original values passed
+chromium: recovery retains source filename without restoring overwrite authority passed
+chromium: keyboard range selection and full cell editor preserve values and history passed
+chromium: unchanged full-cell editing preserves CR and CRLF passed
+chromium: compact controls preserve values and expose the table earlier passed
+chromium: 11 usability scenarios, no console errors or external requests
+firefox: file import steps preserve keyboard focus, settings and preview passed
+firefox: compact layout keeps controls usable and restores focus on width change passed
+firefox: compact empty-table creation and explicit deletion preserve cancel and undo passed
+firefox: landing source-copy and navigation survive a shorter primary flow passed
+firefox: notifications do not discard column-filter drafts or intercept apply passed
+firefox: search navigation and scrolling account for multiline row heights passed
+firefox: formula escaping explains changes and can preserve original values passed
+firefox: recovery retains source filename without restoring overwrite authority passed
+firefox: keyboard range selection and full cell editor preserve values and history passed
+firefox: unchanged full-cell editing preserves CR and CRLF passed
+firefox: compact controls preserve values and expose the table earlier passed
+firefox: 11 usability scenarios, no console errors or external requests
+webkit: file import steps preserve keyboard focus, settings and preview passed
+webkit: compact layout keeps controls usable and restores focus on width change passed
+webkit: compact empty-table creation and explicit deletion preserve cancel and undo passed
+webkit: landing source-copy and navigation survive a shorter primary flow passed
+webkit: notifications do not discard column-filter drafts or intercept apply passed
+webkit: search navigation and scrolling account for multiline row heights passed
+webkit: formula escaping explains changes and can preserve original values passed
+webkit: recovery retains source filename without restoring overwrite authority passed
+webkit: keyboard range selection and full cell editor preserve values and history passed
+webkit: unchanged full-cell editing preserves CR and CRLF passed
+webkit: compact controls preserve values and expose the table earlier passed
+webkit: 11 usability scenarios, no console errors or external requests

@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-09T16:32:11.267186+00:00",
+  "results": {
+    "build": "passed",
+    "static": "passed; 51 managed files, local href/src existence, compatibility exceptions, vendor hash, generated JS parity",
+    "nodeRegression": "passed",
+    "fullBrowserPipeline": "passed; Chrome/Firefox/WebKit integration, 111 quality cases, 33 usability scenarios, 6 native/fallback conditions",
+    "continuousSearch": "passed; 7 before and 7 after, three search phases, edited-cell worker synchronization, 12000-row exact durable restore",
+    "distributionZip": "passed; every archived product asset matches its SHA-256 manifest",
+    "gitDiffCheck": "passed"
+  },
+  "retainedFailureLog": "full-browser.log (pre-frame width sampled in WebKit test; expectation corrected to verify intended final pointer position)",
+  "remoteCI": "not run",
+  "productionDeployment": "not done",
+  "productionMeasurement": "not done"
+}

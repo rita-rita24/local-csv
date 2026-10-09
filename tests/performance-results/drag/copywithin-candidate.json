@@ -1,0 +1,510 @@
+{
+  "measuredAt": "2026-10-09T15:02:28.907Z",
+  "versions": {
+    "before": "bb192f2a75ce578b812479b43ca19a372b448c7323f3cc33e4cc6715f6998aad",
+    "after": "4f9881afd27510f13a9e1922e5cc9eac1ce33c639982d0d5027ee23604b5820b"
+  },
+  "conditions": {
+    "rows": 2000,
+    "columns": 50,
+    "events": 120,
+    "viewport": "1440x900",
+    "browser": "154.0.8037.99",
+    "locale": "ja-JP",
+    "file": "fresh context; direct file; no network; IndexedDB isolated",
+    "input": "120 synchronous synthetic pointer events per burst; diagnostic high-frequency condition"
+  },
+  "errors": [],
+  "results": [
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 26,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.100000023841858,
+      "readyMs": 31
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.800000011920929,
+      "readyMs": 30.5
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 20.400000035762787,
+      "readyMs": 33.40000003576279
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19,
+      "readyMs": 33.39999997615814
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.899999976158142,
+      "readyMs": 31.399999976158142
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.7000000476837158,
+      "readyMs": 31.100000023841858
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.699999988079071,
+      "readyMs": 30.399999976158142
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 19.80000001192093,
+      "readyMs": 33.69999998807907
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 23.69999998807907,
+      "readyMs": 31.899999976158142
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.699999988079071,
+      "readyMs": 31.899999976158142
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "readyMs": 32
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.7999999523162842,
+      "readyMs": 32.299999952316284
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 19.69999998807907,
+      "readyMs": 32.799999952316284
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 19.69999998807907,
+      "readyMs": 31.69999998807907
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 25.69999998807907,
+      "readyMs": 31.600000023841858
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.100000023841858,
+      "readyMs": 31.600000023841858
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 12,
+      "readyMs": 31.69999998807907
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 21.5,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19.100000023841858,
+      "readyMs": 33
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 26.099999964237213,
+      "readyMs": 31.30000001192093
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 1.9000000357627869,
+      "readyMs": 30.69999998807907
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.800000011920929,
+      "readyMs": 32.39999997615814
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 19.799999952316284,
+      "readyMs": 34.59999996423721
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19.299999952316284,
+      "readyMs": 33.19999998807907
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.7000000476837158,
+      "readyMs": 32.200000047683716
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "readyMs": 31.80000001192093
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.5999999642372131,
+      "readyMs": 30.799999952316284
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 20.200000047683716,
+      "readyMs": 32.60000002384186
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 18.69999998807907,
+      "readyMs": 32
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.7000000476837158,
+      "readyMs": 32
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.6000000238418579,
+      "readyMs": 32.10000002384186
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.7999999523162842,
+      "readyMs": 31.899999976158142
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 19.5,
+      "readyMs": 31.69999998807907
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 19.400000035762787,
+      "readyMs": 33.30000001192093
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 26.100000023841858,
+      "readyMs": 31.30000001192093
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2,
+      "readyMs": 31.599999964237213
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.799999952316284,
+      "readyMs": 29.19999998807907
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 20.30000001192093,
+      "readyMs": 32.39999997615814
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 18.30000001192093,
+      "readyMs": 31.099999964237213
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 26.100000023841858,
+      "readyMs": 30.600000023841858
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.100000023841858,
+      "readyMs": 31.600000023841858
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 11.699999988079071,
+      "readyMs": 30.900000035762787
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 20.30000001192093,
+      "readyMs": 32.80000001192093
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19,
+      "readyMs": 32.30000001192093
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.7000000476837158,
+      "readyMs": 32.40000003576279
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "readyMs": 31.400000035762787
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.800000011920929,
+      "readyMs": 31.600000023841858
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 21,
+      "readyMs": 32.700000047683716
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 20.69999998807907,
+      "readyMs": 32.39999997615814
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.699999988079071,
+      "readyMs": 31.100000023841858
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.699999988079071,
+      "readyMs": 31.599999964237213
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.7999999523162842,
+      "readyMs": 31.399999976158142
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 22.30000001192093,
+      "readyMs": 32
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 20.19999998807907,
+      "readyMs": 33
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 25.899999976158142,
+      "readyMs": 31.799999952316284
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2.099999964237213,
+      "readyMs": 31.399999976158142
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 13.800000011920929,
+      "readyMs": 31.5
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 19.899999976158142,
+      "readyMs": 35.60000002384186
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 19.200000047683716,
+      "readyMs": 33.200000047683716
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "selection",
+      "handlerMs": 29.80000001192093,
+      "readyMs": 33.89999997615814
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "resize",
+      "handlerMs": 2,
+      "readyMs": 31.5
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "column-preview",
+      "handlerMs": 14.399999976158142,
+      "readyMs": 30.30000001192093
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "column-drop",
+      "handlerMs": 23.099999964237213,
+      "readyMs": 32.19999998807907
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "row-drop",
+      "handlerMs": 22.80000001192093,
+      "readyMs": 32
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "selection",
+      "handlerMs": 1.7000000476837158,
+      "readyMs": 31.200000047683716
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "resize",
+      "handlerMs": 0.7999999523162842,
+      "readyMs": 32.59999996423721
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "column-preview",
+      "handlerMs": 0.800000011920929,
+      "readyMs": 31.599999964237213
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "column-drop",
+      "handlerMs": 34.19999998807907,
+      "readyMs": 50.30000001192093
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "row-drop",
+      "handlerMs": 23.19999998807907,
+      "readyMs": 31.900000035762787
+    }
+  ]
+}

@@ -1,0 +1,1951 @@
+{
+  "measuredAt": "2026-10-08T15:58:30.790Z",
+  "root": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv",
+  "runs": 7,
+  "versions": {
+    "local-csv.html": "f0b33795c2731d9b10720115ad95b6cece33c23717ff4725c03f16583974744e",
+    "index.html": "5b1821ead54e78f615cd4a6624651be1fdf1e67c3520d6f15f48af6c8ee03fab",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "HTTP cache disabled by Playwright favicon routing; fresh context vs same-context repeated access; server sends max-age=3600; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "browserHttpCacheDisabledByPlaywrightRouting": true
+  },
+  "errors": [],
+  "results": [
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 837.8999999761581,
+      "run": 0
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 616.6000000238419,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 1732.6000000238419,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 1030,
+      "run": 0
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 231.89999997615814,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 1355.199999988079,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 449.5,
+      "run": 0
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 183.30000001192093,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 707.5,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 649.1000000238419,
+      "run": 0
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 475.89999997615814,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 1186.699999988079,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 260.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 392.4000000357628,
+      "run": 0
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 123.40000003576279,
+      "run": 0
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 156.5,
+      "run": 0
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 433.9000000357628,
+      "run": 0
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 500.30000001192093,
+      "run": 0
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 73.10000002384186,
+      "run": 0
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 139.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 28.5,
+      "run": 0
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 61.5,
+      "run": 0
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 135.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 168.60000002384186,
+      "run": 0
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 236.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 303.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 102.89999997615814,
+      "run": 0
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 136.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 44.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 175.20000004768372,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 176.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 124.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 208.39999997615814,
+      "run": 0
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 68.40000003576279,
+      "run": 0
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 163.20000004768372,
+      "run": 0
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 528.3999999761581,
+      "run": 0
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 559.3000000119209,
+      "run": 0
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.40000003576279,
+      "run": 0
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 162.70000004768372,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 328,
+      "run": 1
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 206,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 613.5999999642372,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 258.0999999642372,
+      "run": 1
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 105.60000002384186,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 408,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 246.9000000357628,
+      "run": 1
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 139.0999999642372,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 443.19999998807907,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 226.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 219.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 508.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 76.5,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 176.60000002384186,
+      "run": 1
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 74.40000003576279,
+      "run": 1
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 124.70000004768372,
+      "run": 1
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 87.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 120.09999996423721,
+      "run": 1
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 33.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 67.59999996423721,
+      "run": 1
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 42.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 75.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 287.9000000357628,
+      "run": 1
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 437.4000000357628,
+      "run": 1
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 58.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 91.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 26.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 59.19999998807907,
+      "run": 1
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 45.5,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 290,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 292.10000002384186,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 96.5,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 329.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 66.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 123.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.10000002384186,
+      "run": 1
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 94.70000004768372,
+      "run": 1
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 95.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 260.5,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 271.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 268.19999998807907,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 609.1000000238419,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 254.10000002384186,
+      "run": 2
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 76.09999996423721,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 372.4000000357628,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 259.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 136.30000001192093,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 446,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 308.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 100.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 520.1000000238419,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 99.10000002384186,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 199.10000002384186,
+      "run": 2
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 76,
+      "run": 2
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 109.19999998807907,
+      "run": 2
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 54.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 87.80000001192093,
+      "run": 2
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 39.799999952316284,
+      "run": 2
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 73.09999996423721,
+      "run": 2
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 68,
+      "run": 2
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 101.29999995231628,
+      "run": 2
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.09999996423721,
+      "run": 2
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 95.5,
+      "run": 2
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 51.90000003576279,
+      "run": 2
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 85.20000004768372,
+      "run": 2
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 2
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.79999995231628,
+      "run": 2
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 98.90000003576279,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 170.0999999642372,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 171.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 151.39999997615814,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 251.5,
+      "run": 2
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 81.5,
+      "run": 2
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 148.89999997615814,
+      "run": 2
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.09999996423721,
+      "run": 2
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 112.39999997615814,
+      "run": 2
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 78,
+      "run": 2
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 161.30000001192093,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 308.0999999642372,
+      "run": 3
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 187.19999998807907,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 583.2999999523163,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 443.4000000357628,
+      "run": 3
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 83.30000001192093,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 644.6000000238419,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 291.5,
+      "run": 3
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 199,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 580.6000000238419,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 218.9000000357628,
+      "run": 3
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 79.59999996423721,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 371.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 142.5,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 241.30000001192093,
+      "run": 3
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 75.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 123.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 88.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 121.40000003576279,
+      "run": 3
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 43.5,
+      "run": 3
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 76.69999998807907,
+      "run": 3
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 70.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 104.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 85.90000003576279,
+      "run": 3
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 120.30000001192093,
+      "run": 3
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 45.19999998807907,
+      "run": 3
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 78.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 54.200000047683716,
+      "run": 3
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 87.80000001192093,
+      "run": 3
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 58.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 151,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 155.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 124.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 208,
+      "run": 3
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 82.89999997615814,
+      "run": 3
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 149.5999999642372,
+      "run": 3
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 110.69999998807907,
+      "run": 3
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 160.80000001192093,
+      "run": 3
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 154.30000001192093,
+      "run": 3
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 254.30000001192093,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 345.0999999642372,
+      "run": 4
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 208.0999999642372,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 621.0999999642372,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 946.8000000119209,
+      "run": 4
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 115.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 1115.800000011921,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 347.4000000357628,
+      "run": 4
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 181.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 601.3000000119209,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 321.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 80.5,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 439.9000000357628,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 95.5,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 245.5,
+      "run": 4
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 93.40000003576279,
+      "run": 4
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 127.40000003576279,
+      "run": 4
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 41.59999996423721,
+      "run": 4
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 74.89999997615814,
+      "run": 4
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 25.299999952316284,
+      "run": 4
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 58.59999996423721,
+      "run": 4
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 27.599999964237213,
+      "run": 4
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 60.89999997615814,
+      "run": 4
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 57.30000001192093,
+      "run": 4
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 90.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 44,
+      "run": 4
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 77.19999998807907,
+      "run": 4
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 51.89999997615814,
+      "run": 4
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 85.19999998807907,
+      "run": 4
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 44.799999952316284,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 128,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 129.30000001192093,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 147.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 52.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 113.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 133.30000001192093,
+      "run": 4
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 166.5999999642372,
+      "run": 4
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 97.39999997615814,
+      "run": 4
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 179.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 454.5,
+      "run": 5
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 174.80000001192093,
+      "run": 5
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 672.1999999880791,
+      "run": 5
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 376.89999997615814,
+      "run": 5
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 61.5,
+      "run": 5
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 478.5,
+      "run": 5
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 224.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 126.10000002384186,
+      "run": 5
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 404.0999999642372,
+      "run": 5
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 190.10000002384186,
+      "run": 5
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 103.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 427,
+      "run": 5
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 111.39999997615814,
+      "run": 5
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 228.80000001192093,
+      "run": 5
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 118.09999996423721,
+      "run": 5
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 151.0999999642372,
+      "run": 5
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 30.69999998807907,
+      "run": 5
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.5,
+      "run": 5
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 83.80000001192093,
+      "run": 5
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 116.30000001192093,
+      "run": 5
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 82.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 166.39999997615814,
+      "run": 5
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 170.10000002384186,
+      "run": 5
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 254.5,
+      "run": 5
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 55.60000002384186,
+      "run": 5
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 88.80000001192093,
+      "run": 5
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 67,
+      "run": 5
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 100.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 45.30000001192093,
+      "run": 5
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 284.5,
+      "run": 5
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 293.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 431.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 531.3000000119209,
+      "run": 5
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.60000002384186,
+      "run": 5
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 211.5,
+      "run": 5
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 191.10000002384186,
+      "run": 5
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 239.5,
+      "run": 5
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 75.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 142,
+      "run": 5
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 619.3999999761581,
+      "run": 6
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 302.80000001192093,
+      "run": 6
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 1009.8999999761581,
+      "run": 6
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 353.30000001192093,
+      "run": 6
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 93.5,
+      "run": 6
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 488.5,
+      "run": 6
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 321.9000000357628,
+      "run": 6
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 171.89999997615814,
+      "run": 6
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 741.8000000119209,
+      "run": 6
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 207.19999998807907,
+      "run": 6
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 74.19999998807907,
+      "run": 6
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 325.19999998807907,
+      "run": 6
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 78.89999997615814,
+      "run": 6
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 162.89999997615814,
+      "run": 6
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "content",
+      "ms": 125.30000001192093,
+      "run": 6
+    },
+    {
+      "screen": "help",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 173.69999998807907,
+      "run": 6
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 72.80000001192093,
+      "run": 6
+    },
+    {
+      "screen": "settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 124.40000003576279,
+      "run": 6
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "content",
+      "ms": 68.09999996423721,
+      "run": 6
+    },
+    {
+      "screen": "virtual-header",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 102.5,
+      "run": 6
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "content",
+      "ms": 27.899999976158142,
+      "run": 6
+    },
+    {
+      "screen": "cell-edit",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 61,
+      "run": 6
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 86.69999998807907,
+      "run": 6
+    },
+    {
+      "screen": "export-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 153.5999999642372,
+      "run": 6
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "content",
+      "ms": 54.5,
+      "run": 6
+    },
+    {
+      "screen": "column-filter",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 87.20000004768372,
+      "run": 6
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "content",
+      "ms": 29.900000035762787,
+      "run": 6
+    },
+    {
+      "screen": "command-palette",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 62.80000001192093,
+      "run": 6
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 44.89999997615814,
+      "run": 6
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 170.0999999642372,
+      "run": 6
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 172.19999998807907,
+      "run": 6
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 143.39999997615814,
+      "run": 6
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 275.89999997615814,
+      "run": 6
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 66.80000001192093,
+      "run": 6
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 207.20000004768372,
+      "run": 6
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 136.29999995231628,
+      "run": 6
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 168.69999998807907,
+      "run": 6
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 126,
+      "run": 6
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 192.5999999642372,
+      "run": 6
+    }
+  ]
+}

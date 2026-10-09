@@ -18,7 +18,7 @@ try {
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
   page.on('request', request => { if (/^https?:/.test(request.url())) errors.push(request.url()); });
-  await page.goto(pathToFileURL(path.join(ROOT, 'LocalCSV.html')).href);
+  await page.goto(pathToFileURL(path.join(ROOT, 'local-csv.html')).href);
   await page.locator('#pasteZone').waitFor();
   await page.evaluate(() => { window.showOpenFilePicker = undefined; });
   const chooser = page.waitForEvent('filechooser');

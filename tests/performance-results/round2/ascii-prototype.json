@@ -1,0 +1,90 @@
+{
+  "measuredAt": "2026-10-09T00:02:16.551Z",
+  "bytes": 44000000,
+  "samples": [
+    {
+      "run": 0,
+      "version": "before",
+      "ms": 229.07112499999997,
+      "result": "ASCII"
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "ms": 37.20079199999998,
+      "result": true
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "ms": 36.29495799999995,
+      "result": true
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "ms": 225.29116700000003,
+      "result": "ASCII"
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "ms": 227.40149999999994,
+      "result": "ASCII"
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "ms": 28.010708000000022,
+      "result": true
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "ms": 29.746666000000005,
+      "result": true
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "ms": 236.46054200000015,
+      "result": "ASCII"
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "ms": 247.87225000000012,
+      "result": "ASCII"
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "ms": 31.45962499999996,
+      "result": true
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "ms": 31.31970799999999,
+      "result": true
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "ms": 254.436958,
+      "result": "ASCII"
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "ms": 253.36762499999986,
+      "result": "ASCII"
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "ms": 33.61441700000023,
+      "result": true
+    }
+  ]
+}

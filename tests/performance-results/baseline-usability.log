@@ -1,0 +1,20 @@
+chromium: file import steps preserve keyboard focus, settings and preview passed
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert.ok((await page.locator('#tableScroll').boundingBox()).y < 600)
+
+    at page.setViewportSize.width (file:///private/tmp/localcsv-perf-before/tests/localcsv-usability-browser.test.mjs:108:12)
+    at async file:///private/tmp/localcsv-perf-before/tests/localcsv-usability-browser.test.mjs:322:7 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.22.2

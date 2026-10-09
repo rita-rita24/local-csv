@@ -1,0 +1,237 @@
+search 0 first
+search 0 warm
+search 0 burst-latest
+continuous search trial 1/7: results, edit synchronization, save/restore passed
+search 1 first
+search 1 warm
+search 1 burst-latest
+continuous search trial 2/7: results, edit synchronization, save/restore passed
+search 2 first
+search 2 warm
+search 2 burst-latest
+continuous search trial 3/7: results, edit synchronization, save/restore passed
+search 3 first
+search 3 warm
+search 3 burst-latest
+continuous search trial 4/7: results, edit synchronization, save/restore passed
+search 4 first
+search 4 warm
+search 4 burst-latest
+continuous search trial 5/7: results, edit synchronization, save/restore passed
+search 5 first
+search 5 warm
+search 5 burst-latest
+continuous search trial 6/7: results, edit synchronization, save/restore passed
+search 6 first
+search 6 warm
+search 6 burst-latest
+continuous search trial 7/7: results, edit synchronization, save/restore passed
+{
+  "timestamp": "2026-10-09T16:19:05.871Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "a572f8d842d9f19423231f8744e5cbed41f4066f5e6b77eeefd89d43f5daec42",
+  "environment": {
+    "browser": "154.0.8037.99",
+    "rows": 12000,
+    "columns": 4,
+    "runs": 7
+  },
+  "completion": "Verified result count followed by two animation frames; driver observation latency included. Not GPU presentation or INP.",
+  "results": [
+    {
+      "run": 0,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 427.89999997615814,
+      "lastInputToResultMs": 201.39999997615814,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 0,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 541.6999999880791,
+      "lastInputToResultMs": 188.19999998807907,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 0,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 245.10000002384186,
+      "lastInputToResultMs": 165.70000004768372,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 1,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 627.0999999642372,
+      "lastInputToResultMs": 365.0999999642372,
+      "longTasks": [
+        {
+          "start": 1726.5999999642372,
+          "duration": 66
+        }
+      ],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 1,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 723.3000000119209,
+      "lastInputToResultMs": 183.30000001192093,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 1,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 225.0999999642372,
+      "lastInputToResultMs": 172.5999999642372,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 2,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 543,
+      "lastInputToResultMs": 212.80000001192093,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 2,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 499.4000000357628,
+      "lastInputToResultMs": 167.4000000357628,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 2,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 230.69999998807907,
+      "lastInputToResultMs": 168.80000001192093,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 3,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 464.80000001192093,
+      "lastInputToResultMs": 198.9000000357628,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 3,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 550,
+      "lastInputToResultMs": 178.29999995231628,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 3,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 229.5999999642372,
+      "lastInputToResultMs": 175.0999999642372,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 4,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 434.30000001192093,
+      "lastInputToResultMs": 188.80000001192093,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 4,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 521.4000000357628,
+      "lastInputToResultMs": 173.80000001192093,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 4,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 269.69999998807907,
+      "lastInputToResultMs": 171,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 5,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 551.3999999761581,
+      "lastInputToResultMs": 247.5,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 5,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 623.3999999761581,
+      "lastInputToResultMs": 182.69999998807907,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 5,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 226.39999997615814,
+      "lastInputToResultMs": 173.79999995231628,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 6,
+      "operation": "first",
+      "inputCount": 6,
+      "firstInputToResultMs": 438.5,
+      "lastInputToResultMs": 197.10000002384186,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    },
+    {
+      "run": 6,
+      "operation": "warm",
+      "inputCount": 9,
+      "firstInputToResultMs": 564.5,
+      "lastInputToResultMs": 183.10000002384186,
+      "longTasks": [],
+      "result": "1 / 10,800件"
+    },
+    {
+      "run": 6,
+      "operation": "burst-latest",
+      "inputCount": 7,
+      "firstInputToResultMs": 307.5999999642372,
+      "lastInputToResultMs": 176.19999998807907,
+      "longTasks": [],
+      "result": "1 / 1,200件"
+    }
+  ],
+  "errors": []
+}

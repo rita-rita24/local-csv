@@ -762,14 +762,31 @@
 
       /* === 検索バー === */
       .search-bar {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
         padding: var(--gm-space-3);
         background: var(--gm-surface);
         border: 1px solid var(--gm-border);
         border-radius: var(--gm-radius);
         margin-block-end: var(--gm-space-2);
         gap: var(--gm-space-2);
+
+        & .search-main-row,
+        & #replaceControls {
+          grid-column: 1;
+          min-inline-size: 0;
+        }
+        & .search-advanced {
+          grid-column: 1 / -1;
+        }
+
+        @media (width <= 960px) {
+          grid-template-columns: minmax(0, 1fr);
+          & .filter-status {
+            grid-column: 1;
+            grid-row: auto;
+          }
+        }
       }
 
       .search-main-row {
@@ -808,13 +825,6 @@
         padding-block-start: 8px;
         border-block-start: 1px solid var(--gm-border);
 
-        & .search-reset {
-          margin-inline-start: auto;
-          /* 非表示でも領域を保持し、検索条件の切り替えで高さを変えない。 */
-          &:disabled {
-            visibility: hidden;
-          }
-        }
       }
 
       /* === 貼り付けエリア === */
@@ -861,6 +871,57 @@
         &.has-data {
           display: none;
         }
+      }
+
+      .secondary-controls {
+        & > summary { display: none; cursor: pointer; }
+        & .secondary-controls-content { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+      }
+      .toolbar-more { flex: 1 1 100%; }
+      #createTableBtn { display: none; }
+      #replaceControls input { inline-size: min(320px, 100%); }
+      .filter-status {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        gap: var(--gm-space-2);
+        min-inline-size: 0;
+        font-size: var(--gm-label-size);
+
+        & .filter-status-details {
+          inline-size: 100%;
+          block-size: 2lh;
+          overflow: auto;
+          overflow-wrap: anywhere;
+          text-align: end;
+          & > span {
+            display: block;
+          }
+        }
+        /* 条件の有無で表が移動しないよう、非表示中も領域を保持する。 */
+        &:has(.search-reset:disabled) {
+          visibility: hidden;
+        }
+      }
+      .empty-results, .table-edit-hint { padding: 8px 12px; font-size: var(--gm-label-size); color: var(--gm-muted); }
+      .cell-edit-modal { max-inline-size: 720px; & textarea { min-block-size: 200px; margin-block: 8px; } }
+      .row-metrics-probe { position: absolute; visibility: hidden; pointer-events: none; }
+      #dataTable.virtual-rows tr[data-row] { block-size: var(--row-height); }
+      td[contenteditable] { white-space: pre; }
+      body:has(.col-filter-panel.show) .toast-container { z-index: 1000; }
+      @media (width <= 560px) {
+        #createTableBtn:not([hidden]) { display: inline-flex; }
+        /* 狭幅では、条件のない空の通知領域が表を画面下へ押し出さないようにする。 */
+        .filter-status:has(.search-reset:disabled) { display: none; }
+        .secondary-controls {
+          inline-size: 100%;
+          & > summary { display: list-item; min-block-size: 44px; align-content: center; padding-inline: 12px; }
+          & .secondary-controls-content { padding-block: 8px; }
+        }
+        .header .stats { font-size: var(--gm-meta-size); }
       }
 
       /* === 表 === */
@@ -1277,7 +1338,7 @@
         box-shadow: 0 10px 40px oklch(0 0 0 / 0.18);
         z-index: 1001;
         inline-size: 340px;
-        max-block-size: min(620px, calc(100vh - 24px));
+        max-block-size: min(620px, calc(100vh - 24px), var(--filter-panel-height, 620px));
         overflow-y: auto;
         flex-direction: column;
 
@@ -1469,6 +1530,7 @@
         inset-inline-start: 50%;
         transform: translateX(-50%);
         z-index: 2000;
+        pointer-events: none;
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -1511,6 +1573,7 @@
       }
 
       .toast-close {
+        pointer-events: auto;
         display: inline-grid;
         place-items: center;
         inline-size: 24px;
@@ -1794,6 +1857,13 @@
           align-items: center;
           gap: 8px;
         }
+      }
+
+      .wizard-file-name {
+        margin-block-end: var(--gm-space-2);
+        font-size: var(--gm-label-size);
+        color: var(--gm-muted);
+        overflow-wrap: anywhere;
       }
 
       .wizard-steps {
@@ -2299,10 +2369,10 @@
         }
 
         .settings-grid,
-        .export-wizard-grid,
-        .wizard-detect-grid {
+        .export-wizard-grid {
           grid-template-columns: minmax(0, 1fr);
         }
+        .wizard-detect-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .virtual-header-controls {
           grid-template-columns: repeat(2, minmax(0, 1fr));
           & .virtual-header-control {
@@ -2474,15 +2544,25 @@
           & .container {
             padding: var(--gm-space-2);
           }
+          & .header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) repeat(3, auto);
+            gap: var(--gm-space-2);
+            align-items: center;
+          }
           & .header h1 {
             flex-wrap: wrap;
+            grid-column: 1;
+            grid-row: 1;
           }
+          & .filename-badge { max-inline-size: 100%; }
           & .stats {
             inline-size: 100%;
+            grid-column: 1 / -1;
+            grid-row: 2;
           }
-          & .header-right {
-            justify-content: flex-end;
-          }
+          & .header-right { display: contents; }
+          & .header-right > button { grid-row: 1; }
           & .search-main-row > .gm-input,
           & .search-input-wrapper {
             inline-size: 100%;
@@ -2500,13 +2580,7 @@
           & .palette-modal {
             padding: 0;
           }
-          & .wizard-steps {
-            flex-wrap: wrap;
-          }
-          & .wizard-step {
-            flex-basis: 100%;
-            justify-content: flex-start;
-          }
+          & .wizard-step { padding-inline: var(--gm-space-2); }
           & .app-tooltip {
             white-space: normal;
           }
@@ -2531,68 +2605,6 @@
       }
     }
   </style>
-<!--
-Material Symbols Outlined: Google, Apache-2.0.
-Source: https://github.com/google/material-design-icons
-The existing embedded icon font is retained; select arrows use the official SVG supplied with GYOMU-UI.
-
-Apache License
-
-Version 2.0, January 2004
-
-http://www.apache.org/licenses/
-
-TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
-
-1. Definitions.
-
-"License" shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.
-
-"Licensor" shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.
-
-"Legal Entity" shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity. For the purposes of this definition, "control" means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.
-
-"You" (or "Your") shall mean an individual or Legal Entity exercising permissions granted by this License.
-
-"Source" form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files.
-
-"Object" form shall mean any form resulting from mechanical transformation or translation of a Source form, including but not limited to compiled object code, generated documentation, and conversions to other media types.
-
-"Work" shall mean the work of authorship, whether in Source or Object form, made available under the License, as indicated by a copyright notice that is included in or attached to the work (an example is provided in the Appendix below).
-
-"Derivative Works" shall mean any work, whether in Source or Object form, that is based on (or derived from) the Work and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship. For the purposes of this License, Derivative Works shall not include works that remain separable from, or merely link (or bind by name) to the interfaces of, the Work and Derivative Works thereof.
-
-"Contribution" shall mean any work of authorship, including the original version of the Work and any modifications or additions to that Work or Derivative Works thereof, that is intentionally submitted to Licensor for inclusion in the Work by the copyright owner or by an individual or Legal Entity authorized to submit on behalf of the copyright owner. For the purposes of this definition, "submitted" means any form of electronic, verbal, or written communication sent to the Licensor or its representatives, including but not limited to communication on electronic mailing lists, source code control systems, and issue tracking systems that are managed by, or on behalf of, the Licensor for the purpose of discussing and improving the Work, but excluding communication that is conspicuously marked or otherwise designated in writing by the copyright owner as "Not a Contribution."
-
-"Contributor" shall mean Licensor and any individual or Legal Entity on behalf of whom a Contribution has been received by Licensor and subsequently incorporated within the Work.
-
-2. Grant of Copyright License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, sublicense, and distribute the Work and such Derivative Works in Source or Object form.
-
-3. Grant of Patent License. Subject to the terms and conditions of this License, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable (except as stated in this section) patent license to make, have made, use, offer to sell, sell, import, and otherwise transfer the Work, where such license applies only to those patent claims licensable by such Contributor that are necessarily infringed by their Contribution(s) alone or by combination of their Contribution(s) with the Work to which such Contribution(s) was submitted. If You institute patent litigation against any entity (including a cross-claim or counterclaim in a lawsuit) alleging that the Work or a Contribution incorporated within the Work constitutes direct or contributory patent infringement, then any patent licenses granted to You under this License for that Work shall terminate as of the date such litigation is filed.
-
-4. Redistribution. You may reproduce and distribute copies of the Work or Derivative Works thereof in any medium, with or without modifications, and in Source or Object form, provided that You meet the following conditions:
-
-You must give any other recipients of the Work or Derivative Works a copy of this License; and
-
-You must cause any modified files to carry prominent notices stating that You changed the files; and
-
-You must retain, in the Source form of any Derivative Works that You distribute, all copyright, patent, trademark, and attribution notices from the Source form of the Work, excluding those notices that do not pertain to any part of the Derivative Works; and
-
-If the Work includes a "NOTICE" text file as part of its distribution, then any Derivative Works that You distribute must include a readable copy of the attribution notices contained within such NOTICE file, excluding those notices that do not pertain to any part of the Derivative Works, in at least one of the following places: within a NOTICE text file distributed as part of the Derivative Works; within the Source form or documentation, if provided along with the Derivative Works; or, within a display generated by the Derivative Works, if and wherever such third-party notices normally appear. The contents of the NOTICE file are for informational purposes only and do not modify the License. You may add Your own attribution notices within Derivative Works that You distribute, alongside or as an addendum to the NOTICE text from the Work, provided that such additional attribution notices cannot be construed as modifying the License. You may add Your own copyright statement to Your modifications and may provide additional or different license terms and conditions for use, reproduction, or distribution of Your modifications, or for any such Derivative Works as a whole, provided Your use, reproduction, and distribution of the Work otherwise complies with the conditions stated in this License.
-
-5. Submission of Contributions. Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.
-
-6. Trademarks. This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor, except as required for reasonable and customary use in describing the origin of the Work and reproducing the content of the NOTICE file.
-
-7. Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Work and assume any risks associated with Your exercise of permissions under this License.
-
-8. Limitation of Liability. In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall any Contributor be liable to You for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising as a result of this License or out of the use or inability to use the Work (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if such Contributor has been advised of the possibility of such damages.
-
-9. Accepting Warranty or Additional Liability. While redistributing the Work or Derivative Works thereof, You may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, You may act only on Your own behalf and on Your sole responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor by reason of your accepting any such warranty or additional liability.
-
-END OF TERMS AND CONDITIONS
-
--->
 </head>
 
 <body>
@@ -2649,11 +2661,11 @@ END OF TERMS AND CONDITIONS
         <button class="theme-toggle gm-btn gm-icon-btn" id="themeModeToggle" title="テーマ切替" aria-label="テーマ切替" aria-pressed="false">
           <span class="material-symbols-outlined">dark_mode</span>
         </button>
-        <button class="theme-toggle gm-btn gm-icon-btn" id="infoBtn" title="情報＆ヘルプ">
-          <span class="material-symbols-outlined">help</span>
+        <button class="theme-toggle gm-btn gm-icon-btn" id="infoBtn" title="情報＆ヘルプ" aria-label="情報＆ヘルプ">
+          <span class="material-symbols-outlined" aria-hidden="true">help</span>
         </button>
-        <button class="theme-toggle gm-btn gm-icon-btn" id="settingsBtn" title="設定">
-          <span class="material-symbols-outlined">settings</span>
+        <button class="theme-toggle gm-btn gm-icon-btn" id="settingsBtn" title="設定" aria-label="設定">
+          <span class="material-symbols-outlined" aria-hidden="true">settings</span>
         </button>
       </div>
     </header>
@@ -2666,16 +2678,27 @@ END OF TERMS AND CONDITIONS
           <datalist id="searchHistoryList"></datalist>
         </div>
         <button class="gm-btn" id="searchClearBtn" disabled title="検索をクリア (Esc)">クリア</button>
-        <input type="text" id="replaceInput" placeholder="置換..." aria-label="置換後の文字列" class="gm-input">
-        <button class="gm-btn" id="replaceNextBtn" disabled>置換</button>
-        <button class="gm-btn" id="replaceAllBtn" disabled>すべて置換</button>
         <div class="search-nav">
           <button id="searchPrevBtn" disabled title="前の検索結果 (Shift+Enter)" aria-label="前の検索結果" class="gm-btn gm-icon-btn"><span class="material-symbols-outlined" aria-hidden="true">expand_less</span></button>
           <button id="searchNextBtn" disabled title="次の検索結果 (Enter)" aria-label="次の検索結果" class="gm-btn gm-icon-btn"><span class="material-symbols-outlined" aria-hidden="true">expand_more</span></button>
         </div>
-        <span class="search-info" id="searchInfo" role="status" aria-live="polite" aria-atomic="true" data-i18n-skip></span>
         <label class="search-option gm-choice"><input type="checkbox" id="filterMode"><span>該当行のみ表示</span></label>
-        <button class="search-advanced-toggle gm-btn" id="searchAdvancedToggle" aria-expanded="false" aria-controls="searchAdvanced">詳細</button>
+        <button class="search-advanced-toggle gm-btn" id="searchAdvancedToggle" aria-expanded="false" aria-controls="searchAdvanced">検索オプション</button>
+      </div>
+      <details class="secondary-controls" id="replaceControls" open>
+        <summary>置換</summary>
+        <div class="secondary-controls-content">
+          <input type="text" id="replaceInput" placeholder="置換..." aria-label="置換後の文字列" class="gm-input">
+          <button class="gm-btn" id="replaceNextBtn" disabled>置換</button>
+          <button class="gm-btn" id="replaceAllBtn" disabled>すべて置換</button>
+        </div>
+      </details>
+      <div class="filter-status" id="filterStatus">
+        <div class="filter-status-details">
+          <span id="filterSummary" role="status" aria-live="polite" data-i18n-skip></span>
+          <span class="search-info" id="searchInfo" role="status" aria-live="polite" aria-atomic="true" data-i18n-skip></span>
+        </div>
+        <button class="gm-btn search-reset" id="clearAllFiltersBtn" disabled>検索・フィルタをすべて解除</button>
       </div>
       <div class="search-advanced" id="searchAdvanced" hidden>
         <label class="search-option gm-choice"><input type="checkbox" id="searchCaseSensitive"><span>大文字小文字を区別</span></label>
@@ -2687,7 +2710,7 @@ END OF TERMS AND CONDITIONS
             <option value="-1">すべて</option>
           </select><svg xmlns="http://www.w3.org/2000/svg" class="gm-icon gm-select-arrow" data-icon="expand_more" viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z"/></svg></span>
         </div>
-        <button class="gm-btn search-reset" id="clearAllFiltersBtn" disabled>検索・フィルタをすべて解除</button>
+
       </div>
     </div>
 
@@ -2698,26 +2721,35 @@ END OF TERMS AND CONDITIONS
         <button class="gm-btn" id="saveBtn" title="ファイルに保存 (Ctrl / Cmd+S)" aria-busy="false"><span class="material-symbols-outlined">save</span> <span id="saveBtnLabel">保存</span></button>
       </div>
       <div class="toolbar-group">
-        <button class="gm-btn" id="undoBtn" disabled title="元に戻す"><span class="material-symbols-outlined">undo</span></button>
-        <button class="gm-btn" id="redoBtn" disabled title="やり直し"><span class="material-symbols-outlined">redo</span></button>
+        <button class="gm-btn" id="undoBtn" disabled title="元に戻す" aria-label="元に戻す"><span class="material-symbols-outlined" aria-hidden="true">undo</span></button>
+        <button class="gm-btn" id="redoBtn" disabled title="やり直し" aria-label="やり直し"><span class="material-symbols-outlined" aria-hidden="true">redo</span></button>
       </div>
       <div class="toolbar-group">
         <button class="gm-btn" id="pasteBtn" title="テキストから表全体を読み込む。選択セルへの貼り付けは Ctrl+V / Cmd+V"><span class="material-symbols-outlined" aria-hidden="true">content_paste</span> 貼り付けて読み込む</button>
+      </div>
+      <div class="toolbar-group"><button class="gm-btn" id="exportWizardBtn"><span class="material-symbols-outlined" aria-hidden="true">tune</span> エクスポート</button></div>
+      <button class="gm-btn" id="createTableBtn">空の表を作成</button>
+      <details class="secondary-controls toolbar-more" id="toolbarMore" open>
+        <summary>その他の操作</summary>
+        <div class="secondary-controls-content">
+      <div class="toolbar-group">
+        <button class="gm-btn" id="cellEditBtn" disabled>セル編集 (F2)</button>
         <button class="gm-btn" id="addRowBtn"><span class="material-symbols-outlined">add_box</span> 行追加</button>
         <button class="gm-btn" id="addColBtn"><span class="material-symbols-outlined">add_box</span> 列追加</button>
-        <button class="gm-btn" id="virtualHeaderBtn" title="仮想ヘッダーを開く"><span class="material-symbols-outlined">view_column</span> 仮想ヘッダー</button>
+        <button class="gm-btn" id="virtualHeaderBtn"><span class="material-symbols-outlined">view_column</span> 仮想ヘッダー</button>
       </div>
       <div class="toolbar-group">
         <button class="gm-btn" id="textTransformBtn" title="選択セルのテキスト変換" aria-haspopup="menu" aria-controls="textTransformMenu" aria-expanded="false"><span class="material-symbols-outlined" aria-hidden="true">text_format</span> <span id="textTransformBtnLabel">テキスト変換</span></button>
       </div>
       <div class="toolbar-group">
-        <button class="gm-btn" id="copyBtn" title="表全体をコピー。選択セルだけをコピーするには Ctrl+C / Cmd+C"><span class="material-symbols-outlined" aria-hidden="true">content_copy</span> <span id="copyBtnLabel">コピー</span></button>
-        <button class="gm-btn" id="dlBtn"><span class="material-symbols-outlined">download</span> <span id="dlBtnLabel">ダウンロード</span></button>
-        <button class="gm-btn" id="exportWizardBtn"><span class="material-symbols-outlined">tune</span> エクスポート</button>
+        <button class="gm-btn" id="copyBtn" title="表全体をコピー。選択セルだけをコピーするには Ctrl+C / Cmd+C"><span class="material-symbols-outlined" aria-hidden="true">content_copy</span> <span id="copyBtnLabel">全件コピー</span></button>
+        <button class="gm-btn" id="dlBtn"><span class="material-symbols-outlined">download</span> <span id="dlBtnLabel">全件ダウンロード</span></button>
       </div>
       <div class="toolbar-group ml-auto">
-        <button class="gm-btn gm-btn-danger" id="clearBtn"><span class="material-symbols-outlined">delete</span> クリア</button>
+        <button class="gm-btn gm-btn-danger" id="clearBtn"><span class="material-symbols-outlined" aria-hidden="true">delete</span> 全データを削除</button>
       </div>
+        </div>
+      </details>
     </div>
 
     <!-- 集計ステータスバー（ツールバー直下、設定で表示切替） -->
@@ -2736,9 +2768,8 @@ END OF TERMS AND CONDITIONS
     <div class="paste-area">
       <div class="paste-zone" id="pasteZone" tabindex="0" role="button" aria-labelledby="pasteZoneTitle" aria-describedby="pasteZoneHint">
         <span class="material-symbols-outlined" aria-hidden="true">content_paste</span>
-        <h2 id="pasteZoneTitle">クリックしてCSV/TSV/SSVデータを貼り付け</h2>
-        <p id="pasteZoneHint">Ctrl+V でもペーストできます</p>
-        <p class="paste-format-note">カンマ区切り(CSV)・タブ区切り(TSV)・セミコロン区切り(SSV) 自動判定</p>
+        <h2 id="pasteZoneTitle">CSVをドロップ、または貼り付け</h2>
+        <p id="pasteZoneHint">クリックで貼り付け · Ctrl+V / Cmd+V</p>
       </div>
     </div>
 
@@ -2749,6 +2780,23 @@ END OF TERMS AND CONDITIONS
           <thead id="tableHead"></thead>
           <tbody id="tableBody"></tbody>
         </table>
+      </div>
+      <div class="empty-results" id="emptyResults" hidden>
+        <p>該当する行がありません。検索・フィルタを解除すると全行を表示できます。</p>
+        <button class="gm-btn" id="emptyResultsClearBtn">検索・フィルタをすべて解除</button>
+      </div>
+      <p class="table-edit-hint" id="tableEditHint" data-i18n-skip></p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="cellEditOverlay" aria-hidden="true">
+    <div class="modal cell-edit-modal" role="dialog" aria-modal="true" aria-labelledby="cellEditTitle" tabindex="-1">
+      <h3 id="cellEditTitle">セル編集</h3>
+      <label for="cellEditInput">セルの全文（改行も編集できます）</label>
+      <textarea id="cellEditInput" class="gm-textarea" spellcheck="false"></textarea>
+      <div class="modal-actions">
+        <button class="gm-btn" id="cellEditCancelBtn">キャンセル</button>
+        <button class="gm-btn gm-btn-primary" id="cellEditApplyBtn">適用</button>
       </div>
     </div>
   </div>
@@ -2842,7 +2890,7 @@ END OF TERMS AND CONDITIONS
       <div class="col-filter-section-title">条件で絞り込み</div>
       <div class="col-filter-conditions" id="colFilterConditions">
         <div class="col-filter-condition" data-cond-idx="0">
-          <span class="gm-select-wrap"><select class="col-filter-op gm-select">
+          <span class="gm-select-wrap"><select class="col-filter-op gm-select" aria-label="条件の比較方法">
             <option value="">（なし）</option>
             <option value="contains">含む</option>
             <option value="not_contains">含まない</option>
@@ -2853,7 +2901,7 @@ END OF TERMS AND CONDITIONS
             <option value="empty">空</option>
             <option value="not_empty">非空</option>
           </select><svg xmlns="http://www.w3.org/2000/svg" class="gm-icon gm-select-arrow" data-icon="expand_more" viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z"/></svg></span>
-          <input type="text" class="col-filter-cond-val gm-input" placeholder="値...">
+          <input type="text" class="col-filter-cond-val gm-input" aria-label="条件の値" placeholder="値...">
         </div>
       </div>
       <div class="col-filter-cond-actions">
@@ -2904,9 +2952,9 @@ END OF TERMS AND CONDITIONS
   <div class="modal-overlay" id="pasteImportOverlay" aria-hidden="true">
     <div class="modal paste-import-modal" role="dialog" aria-modal="true" aria-labelledby="pasteImportTitle" aria-describedby="pasteImportDescription" tabindex="-1">
       <h3 id="pasteImportTitle">貼り付けて読み込む</h3>
-      <p id="pasteImportDescription">CSVや表計算ソフトからコピーした内容を貼り付けてください。現在の表は、読み込みを確定するまで変更されません。</p>
+      <p id="pasteImportDescription">CSVや表計算ソフトのデータを貼り付けてください。</p>
       <label class="paste-import-label" for="pasteImportInput">読み込むテキスト</label>
-      <textarea id="pasteImportInput" spellcheck="false" autocomplete="off" placeholder="ここに Ctrl+V / Cmd+V で貼り付け" aria-describedby="pasteImportStatus" class="gm-textarea"></textarea>
+      <textarea aria-label="読み込むCSVテキスト" id="pasteImportInput" spellcheck="false" autocomplete="off" placeholder="ここに Ctrl+V / Cmd+V で貼り付け" aria-describedby="pasteImportStatus" class="gm-textarea"></textarea>
       <label class="settings-checkbox gm-choice"><input type="checkbox" id="pasteImportHeader"> 1行目をヘッダー（列名）として扱う</label>
       <p id="pasteImportStatus" class="paste-import-status" role="status" aria-live="polite"></p>
       <div class="modal-actions">
@@ -2941,8 +2989,7 @@ END OF TERMS AND CONDITIONS
         <div class="info-offline-banner">
           <span class="material-symbols-outlined">shield</span>
           <div>
-            <p>CSVデータの外部送信はありません。入力・編集データはすべてブラウザ内で処理されます。トラッキングやアクセス解析も行いません。</p>
-            <p class="info-icon-note">※ アイコンフォント（Material Symbols）はアプリ内に同梱しています。オフラインでもCSV編集機能とアイコン表示を継続して利用できます。</p>
+            <p>CSVはブラウザ内で処理し、外部へ送信しません。オフラインでも使えます。</p>
           </div>
         </div>
       </div>
@@ -2950,7 +2997,7 @@ END OF TERMS AND CONDITIONS
       <div class="info-section">
         <h4>基本の操作</h4>
         <p class="info-legal">「開く」で文字コードと内容を確認して読み込みます。「貼り付けて読み込む」では、テキストを確認してから表にできます。</p>
-        <p class="info-legal">セルをクリックして編集し、Tab / Enter で次のセルへ移動します。変更は「元に戻す」で取り消せます。行・列の ⋮ ボタンから並べ替えや追加・削除を行えます。</p>
+        <p class="info-legal">セルをクリックして文字を編集し、Tab / Enter で次のセルへ移動します。F2 または「セル編集」で全文を開けます。変更は「元に戻す」で取り消せます。行・列の ⋮ ボタンから並べ替えや追加・削除を行えます。</p>
         <p class="info-legal">「保存」はファイルへの書き出し、「ダウンロード」はコピーの取得です。「ブラウザ内保存済み」は復元用の保存状態で、元ファイルの更新ではありません。</p>
         <p class="info-legal">ツールバーのコピーとダウンロードは表全体が対象です。選択範囲のコピーは Ctrl+C / Cmd+C、絞り込んだ行の出力は「エクスポート」で対象を選んでください。</p>
       </div>
@@ -2965,12 +3012,11 @@ END OF TERMS AND CONDITIONS
           <tr><td>検索</td><td><kbd>Ctrl</kbd> + <kbd>F</kbd></td></tr>
           <tr><td>次/前の検索結果</td><td><kbd>Enter</kbd> / <kbd>Shift</kbd> + <kbd>Enter</kbd>（検索欄内）</td></tr>
           <tr><td>セル移動</td><td><kbd>Tab</kbd> / <kbd>Enter</kbd> / <kbd>Alt</kbd> + <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd></td></tr>
-          <tr><td>複数選択</td><td>ドラッグ / <kbd>Shift</kbd> + クリック</td></tr>
-          <tr><td>範囲選択</td><td><kbd>Shift</kbd> + クリック</td></tr>
+          <tr><td>複数選択</td><td>ドラッグ / <kbd>Shift</kbd> + クリック / <kbd>Shift</kbd> + 矢印</td></tr>
+          <tr><td>セル全文の編集</td><td><kbd>F2</kbd> / 「セル編集」</td></tr>
           <tr><td>選択セルをコピー</td><td><kbd>Ctrl</kbd> + <kbd>C</kbd></td></tr>
           <tr><td>選択範囲に貼り付け</td><td><kbd>Ctrl</kbd> + <kbd>V</kbd></td></tr>
-          <tr><td>選択セルをクリア</td><td><kbd>Delete</kbd></td></tr>
-          <tr><td>複数セルへの一括反映</td><td>貼り付け（<kbd>Ctrl</kbd> + <kbd>V</kbd>）</td></tr>
+          <tr><td>複数セルの値を消去</td><td><kbd>Delete</kbd></td></tr>
           <tr><td>選択解除</td><td><kbd>Esc</kbd></td></tr>
           <tr><td>コマンドパレット</td><td><kbd>Ctrl</kbd> + <kbd>K</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td></tr>
           <tr><td>ヘルプを開く</td><td><kbd>?</kbd></td></tr>
@@ -3001,7 +3047,7 @@ END OF TERMS AND CONDITIONS
           <div class="settings-hint">文字コードはヘッダーのセレクトから変更できます</div>
         </div>
         <div class="settings-group">
-          <label>区切り文字（デリミタ）</label>
+          <label for="settingDelimiter">区切り文字（デリミタ）</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="settingDelimiter">
             <option value=",">カンマ (,)</option>
             <option value="&#9;">タブ (\t)</option>
@@ -3011,14 +3057,14 @@ END OF TERMS AND CONDITIONS
           <div class="settings-hint">ペースト時は自動判別されます</div>
         </div>
         <div class="settings-group">
-          <label>改行コード</label>
+          <label for="settingNewline">改行コード</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="settingNewline">
             <option value="crlf">CRLF (Windows)</option>
             <option value="lf">LF (Linux/Mac)</option>
           </select><svg xmlns="http://www.w3.org/2000/svg" class="gm-icon gm-select-arrow" data-icon="expand_more" viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z"/></svg></span>
         </div>
         <div class="settings-group">
-          <label>囲み文字（クオート）</label>
+          <label for="settingQuote">囲み文字（クオート）</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="settingQuote">
             <option value="auto">自動（必要な場合のみ）</option>
             <option value="all">すべてのフィールドをクオート</option>
@@ -3037,7 +3083,7 @@ END OF TERMS AND CONDITIONS
           <div class="settings-hint">選択範囲の件数・合計・平均・最小・最大をツールバー直下に表示します。</div>
         </div>
         <div class="settings-group" id="settingLanguageGroup">
-          <label>表示言語</label>
+          <label for="settingLanguage">表示言語</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="settingLanguage">
             <option value="ja">日本語</option>
             <option value="en">English</option>
@@ -3077,12 +3123,13 @@ END OF TERMS AND CONDITIONS
             <label class="settings-checkbox gm-choice">
               <input type="checkbox" id="expSpreadsheetSafe" checked> 表計算安全モード（推奨）
             </label>
+            <p class="settings-hint" id="expSafetyHint" data-i18n-skip></p>
           </div>
         </div>
 
         <!-- 文字コード -->
         <div class="settings-group" id="expEncodingGroup">
-          <label for="wizEncoding">文字コード</label>
+          <label for="expEncoding">文字コード</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="expEncoding">
             <option value="utf-8">UTF-8</option>
             <option value="shift-jis">Shift-JIS (CP932)</option>
@@ -3098,7 +3145,7 @@ END OF TERMS AND CONDITIONS
 
         <!-- 改行コード -->
         <div class="settings-group" id="expNewlineGroup">
-          <label>改行コード</label>
+          <label for="expNewline">改行コード</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="expNewline">
             <option value="crlf">CRLF (Windows)</option>
             <option value="lf">LF (Linux/Mac)</option>
@@ -3107,7 +3154,7 @@ END OF TERMS AND CONDITIONS
 
         <!-- 引用ルール -->
         <div class="settings-group" id="expQuoteGroup">
-          <label>囲み文字（クオート）</label>
+          <label for="expQuote">囲み文字（クオート）</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="expQuote">
             <option value="auto">自動（必要な場合のみ）</option>
             <option value="all">すべてのフィールドをクオート</option>
@@ -3117,7 +3164,7 @@ END OF TERMS AND CONDITIONS
 
         <!-- 出力対象 -->
         <div class="settings-group">
-          <label>出力対象</label>
+          <label for="expTarget">出力対象</label>
           <span class="gm-select-wrap"><select class="settings-select gm-select" id="expTarget">
             <option value="all">全件</option>
             <option value="filtered">フィルタ結果のみ</option>
@@ -3172,46 +3219,30 @@ END OF TERMS AND CONDITIONS
       <div class="import-wizard-header">
         <h3 id="importModalTitle">
           <span class="material-symbols-outlined">upload_file</span>
-          インポートウィザード
+          ファイルを読み込む
         </h3>
-        <button class="gm-btn" id="importWizardCloseBtn" title="閉じる">
-          <span class="material-symbols-outlined">close</span>
+        <button class="gm-btn" id="importWizardCloseBtn" title="閉じる" aria-label="閉じる">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
         </button>
       </div>
 
-      <!-- ステップインジケータ -->
-      <div class="wizard-steps">
-        <div class="wizard-step active" data-step="1"><span class="wizard-step-num">1</span>選択</div>
-        <div class="wizard-step" data-step="2"><span class="wizard-step-num">2</span>判定</div>
-        <div class="wizard-step" data-step="3"><span class="wizard-step-num">3</span>確認</div>
+      <p class="wizard-file-name" id="wizFileName" data-i18n-skip></p>
+      <!-- 実際に操作する2画面に合わせて進行状況を表示する。 -->
+      <div class="wizard-steps" role="list">
+        <div class="wizard-step active" data-step="1" role="listitem" aria-current="step"><span class="wizard-step-num" aria-hidden="true">1</span>読み込み設定</div>
+        <div class="wizard-step" data-step="2" role="listitem"><span class="wizard-step-num" aria-hidden="true">2</span>プレビュー</div>
       </div>
 
       <!-- ステップ1: 自動判定結果 -->
       <div class="wizard-page" id="wizardPage1">
         <div class="wizard-detect-grid">
           <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">text_fields</span>
-            <div>
-              <div class="wizard-detect-label">文字コード</div>
-              <div class="wizard-detect-value" id="wizDetectEncoding">-</div>
-            </div>
-          </div>
-          <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">view_column</span>
-            <div>
-              <div class="wizard-detect-label">区切り文字</div>
-              <div class="wizard-detect-value" id="wizDetectDelimiter">-</div>
-            </div>
-          </div>
-          <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">grid_on</span>
             <div>
               <div class="wizard-detect-label">行数 / 列数</div>
               <div class="wizard-detect-value" id="wizDetectSize">-</div>
             </div>
           </div>
           <div class="wizard-detect-item">
-            <span class="material-symbols-outlined">data_object</span>
             <div>
               <div class="wizard-detect-label">ファイルサイズ</div>
               <div class="wizard-detect-value" id="wizDetectFileSize">-</div>
@@ -3230,7 +3261,7 @@ END OF TERMS AND CONDITIONS
             </select><svg xmlns="http://www.w3.org/2000/svg" class="gm-icon gm-select-arrow" data-icon="expand_more" viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M480-333 240-573l51-51 189 189 189-189 51 51-240 240Z"/></svg></span>
           </div>
           <div class="wizard-setting-row">
-            <label>文字コード</label>
+            <label for="wizEncoding">文字コード</label>
             <span class="gm-select-wrap"><select class="settings-select gm-select" id="wizEncoding">
               <option value="utf-8">UTF-8</option>
               <option value="shift-jis">Shift-JIS</option>
@@ -3251,8 +3282,8 @@ END OF TERMS AND CONDITIONS
       <!-- ステップ2: プレビュー -->
       <div class="wizard-page" id="wizardPage2" hidden>
         <div class="wizard-preview-toolbar">
-          <span class="wizard-preview-info" id="wizPreviewInfo"></span>
-          <span class="gm-select-wrap" data-size="xs"><select class="settings-select gm-select" id="wizPreviewRows">
+          <span class="wizard-preview-info" id="wizPreviewInfo" data-i18n-skip></span>
+          <span class="gm-select-wrap" data-size="xs"><select class="settings-select gm-select" id="wizPreviewRows" aria-label="プレビュー行数">
             <option value="10">10行</option>
             <option value="20">20行</option>
             <option value="50">50行</option>
@@ -3269,14 +3300,14 @@ END OF TERMS AND CONDITIONS
       <!-- フッター -->
       <div class="modal-actions import-wizard-actions">
         <button class="gm-btn" id="wizBackBtn" hidden>
-          <span class="material-symbols-outlined">arrow_back</span> 戻る
+          <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span> 戻る
         </button>
         <button class="gm-btn" id="wizCancelBtn">キャンセル</button>
         <button class="gm-btn gm-btn-primary" id="wizNextBtn">
-          次へ <span class="material-symbols-outlined">arrow_forward</span>
+          プレビューへ <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
         </button>
         <button class="gm-btn gm-btn-primary" id="wizImportBtn" hidden aria-busy="false">
-          <span class="material-symbols-outlined">check</span> <span id="wizImportBtnLabel" data-i18n-skip>読み込む</span>
+          <span class="material-symbols-outlined" aria-hidden="true">check</span> <span id="wizImportBtnLabel" data-i18n-skip>読み込む</span>
         </button>
       </div>
     </div>
@@ -3296,7 +3327,7 @@ END OF TERMS AND CONDITIONS
     const HTML_TEXT_ESCAPES = Object.freeze({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\u00a0': '&nbsp;' });
     const escapeHTML = (str) => String(str ?? '').replace(/[&<>\u00a0]/g, (_char) => HTML_TEXT_ESCAPES[_char]);
 
-    const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapeRegExp = (s) => typeof RegExp.escape === 'function' ? RegExp.escape(s) : s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const isImeCompositionKeyEvent = (e) => !!(e?.isComposing || e?.keyCode === 229 || e?.which === 229);
     const STRICT_NUMERIC_RE = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/;
     const _parseExactNumeric = (_text) => {
@@ -3356,7 +3387,6 @@ END OF TERMS AND CONDITIONS
       '#searchNextBtn',
       '#undoBtn',
       '#redoBtn',
-      '#virtualHeaderBtn',
       '#importWizardCloseBtn',
       '.row-menu-btn',
       '.th-filter-btn',
@@ -3583,6 +3613,24 @@ END OF TERMS AND CONDITIONS
 
     const JA_EN_TEXT_MAP = {
       '行:': 'Rows:',
+      '空の表を作成': 'Create an empty table',
+      '検索オプション': 'Search options',
+      '全データを削除': 'Delete all data',
+      'CSVをドロップ、または貼り付け': 'Drop a CSV or paste a table',
+      'クリックで貼り付け · Ctrl+V / Cmd+V': 'Click to paste · Ctrl+V / Cmd+V',
+      'CSVはブラウザ内で処理し、外部へ送信しません。オフラインでも使えます。': 'CSV data stays in your browser. Works offline.',
+      '複数セルの値を消去': 'Clear values in multiple cells',
+      'その他の操作': 'More actions',
+      'セル編集 (F2)': 'Edit cell (F2)',
+      'セル編集': 'Edit cell',
+      'セルの全文（改行も編集できます）': 'Full cell text (including line breaks)',
+      '全件コピー': 'Copy all rows',
+      '全件ダウンロード': 'Download all rows',
+      '読み込むCSVテキスト': 'CSV text to import',
+      '条件の比較方法': 'Condition operator',
+      '条件の値': 'Condition value',
+      'プレビュー行数': 'Preview row count',
+      '該当する行がありません。検索・フィルタを解除すると全行を表示できます。': 'No rows match. Clear search and filters to show all rows.',
       '列:': 'Cols:',
       'サイズ:': 'Size:',
       '形式:': 'Format:',
@@ -3621,7 +3669,7 @@ END OF TERMS AND CONDITIONS
       'ツールバーのコピーとダウンロードは表全体が対象です。選択範囲のコピーは Ctrl+C / Cmd+C、絞り込んだ行の出力は「エクスポート」で対象を選んでください。': 'Toolbar Copy and Download include the whole table. Use Ctrl+C / Cmd+C for selected cells, or choose a target in Export for filtered rows.',
       '貼り付けて読み込む': 'Import pasted text',
       'テキストから表全体を読み込む。選択セルへの貼り付けは Ctrl+V / Cmd+V': 'Import a whole table from text. Use Ctrl+V / Cmd+V to paste into selected cells.',
-      'CSVや表計算ソフトからコピーした内容を貼り付けてください。現在の表は、読み込みを確定するまで変更されません。': 'Paste content copied from a CSV or spreadsheet. Your current table stays unchanged until you confirm the import.',
+      'CSVや表計算ソフトのデータを貼り付けてください。': 'Paste data copied from a CSV or spreadsheet.',
       '読み込むテキスト': 'Text to import',
       'ここに Ctrl+V / Cmd+V で貼り付け': 'Paste here with Ctrl+V / Cmd+V',
       'ここに貼り付けて「読み込む」を押してください。クリップボードへのアクセス許可は不要です。': 'Paste here, then choose Import. No clipboard permission is required.',
@@ -3730,6 +3778,9 @@ END OF TERMS AND CONDITIONS
       'コピー': 'Copy',
       'ダウンロード': 'Download',
       'インポートウィザード': 'Import Wizard',
+      'ファイルを読み込む': 'Import file',
+      '読み込み設定': 'Import settings',
+      'プレビューへ': 'Preview',
       '選択': 'Select',
       '判定': 'Detect',
       '確認': 'Confirm',
@@ -4968,6 +5019,7 @@ END OF TERMS AND CONDITIONS
       /* --- 状態 --- */
       let state = {
         data: [],
+        sourceFileName: '',
         hasHeader: false,
         virtualHeaders: [],
         delimiter: ',',
@@ -5214,29 +5266,29 @@ END OF TERMS AND CONDITIONS
         }
       };
 
-      const strictTextDecoderResult = (bytes, enc) => {
+      const strictTextDecoderResult = (bytes, enc, { includeText = false } = {}) => {
         const label = ENCODING_TO_DECODER_LABEL[normalizeEncoding(enc)] ?? 'utf-8';
         let decoder;
         try {
-          decoder = new TextDecoder(label, { fatal: true });
+          decoder = new TextDecoder(label, { fatal: true, ignoreBOM: true });
         } catch {
-          return null;
+          return includeText ? { strictOk: null } : null;
         }
         try {
-          decoder.decode(bytes);
-          return true;
+          const _text = decoder.decode(bytes);
+          return includeText ? { strictOk: true, text: _text } : true;
         } catch {
-          return false;
+          return includeText ? { strictOk: false } : false;
         }
       };
 
-      const collectDecodeWarnings = ({ bytes, encoding, text }) => {
+      const collectDecodeWarnings = ({ bytes, encoding, text, _strictOk = strictTextDecoderResult(bytes, encoding) }) => {
         const normalized = normalizeEncoding(encoding);
         const warnings = [];
         if ((normalized === 'utf-16le' || normalized === 'utf-16be') && bytes.length % 2 !== 0) {
           warnings.push('UTF-16の末尾に半端な1バイトがあり、読み込み時に切り捨てられます。');
         }
-        const strictOk = strictTextDecoderResult(bytes, normalized);
+        const strictOk = _strictOk;
         if (strictOk === false) {
           warnings.push(`${getEncodingDisplayName(normalized)}として厳密に読み込めないバイトが含まれています。`);
         }
@@ -5344,7 +5396,7 @@ END OF TERMS AND CONDITIONS
       let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0, resizeLastWidth = 0;
       let renderedTableWidth = 0;
       const VIRTUAL_ROW_THRESHOLD = 1000;
-      const VIRTUAL_ROW_HEIGHT = 42;
+      const VIRTUAL_ROW_HEIGHT = 42; // 初回描画前の高さの代替値
       const VIRTUAL_OVERSCAN = 12;
       const LARGE_DATA_ROW_THRESHOLD = 20000;
       const HUGE_DATA_ROW_THRESHOLD = 100000;
@@ -5463,6 +5515,7 @@ END OF TERMS AND CONDITIONS
       const setOpenFileContext = ({ fileHandle = null, fileName = '', outputMeta = null } = {}) => {
         _fileContextRevision++;
         _fileHandle = fileHandle;
+        state.sourceFileName = fileName;
         _openedFileMeta = cloneFileOutputMeta(outputMeta);
         updateFilenameBadge(fileName);
         updateButtonLabels();
@@ -5805,10 +5858,22 @@ END OF TERMS AND CONDITIONS
         }
 
         const rows = [];
+        const PERSIST_READ_BATCH_SIZE = 4;
+        const PERSIST_BATCH_MIN_CHUNKS = 32;
+        let _chunkBatch = null;
         for (let i = 0; i < chunkCount; i++) {
+          // Bound concurrent reads; await every read before an integrity error releases the lock.
+          if (chunkCount >= PERSIST_BATCH_MIN_CHUNKS && i % PERSIST_READ_BATCH_SIZE === 0) {
+            const _batchSize = Math.min(PERSIST_READ_BATCH_SIZE, chunkCount - i);
+            _chunkBatch = await Promise.allSettled(Array.from({ length: _batchSize }, async (_, _offset) => (
+              IDBStore.get(chunkRefs?.[i + _offset]?.key ?? getPersistChunkKey(i + _offset))
+            )));
+          }
           const expectedLength = getExpectedPersistChunkLength(i, chunkCount, chunkSize, totalRows);
           const ref = chunkRefs?.[i];
-          const chunk = await IDBStore.get(ref?.key ?? getPersistChunkKey(i));
+          const _result = _chunkBatch?.[i % PERSIST_READ_BATCH_SIZE];
+          if (_result?.status === 'rejected') throw _result.reason;
+          const chunk = _result ? _result.value : await IDBStore.get(ref?.key ?? getPersistChunkKey(i));
           const chunkRows = ref
             ? normalizePersistedChunkRecord(chunk, ref, i, expectedLength, chunkSize)
             : chunk;
@@ -5853,6 +5918,7 @@ END OF TERMS AND CONDITIONS
         const data = normalizeDataMatrix(rawData);
         const normalized = {
           data,
+          sourceFileName: typeof saved?.sourceFileName === 'string' ? saved.sourceFileName : '',
           hasHeader: !!saved?.hasHeader && data.length > 0,
           virtualHeaders: normalizeVirtualHeaders(saved?.virtualHeaders, data[0]?.length ?? 0),
           delimiter,
@@ -5879,6 +5945,7 @@ END OF TERMS AND CONDITIONS
           columnWidths: cloneColumnWidths(nextState?.columnWidths ?? {})
         };
         if (!supportsBom(state.encoding)) state.bom = false;
+        setOpenFileContext({ fileName: state.sourceFileName });
         _persistChunkMeta = normalizePersistMeta(_persistMeta, state.data.length);
         _persistDirtyRows.clear();
         _persistRequiresFullSave = !_persistChunkMeta;
@@ -6004,6 +6071,7 @@ END OF TERMS AND CONDITIONS
             length: ref.length
           }))
         } : {}),
+        sourceFileName: _snapshot.sourceFileName || '',
         hasHeader: _snapshot.hasHeader,
         virtualHeaders: normalizeVirtualHeaders(_snapshot.virtualHeaders, _snapshot.data[0]?.length ?? 0),
         delimiter: _snapshot.delimiter,
@@ -6422,7 +6490,11 @@ END OF TERMS AND CONDITIONS
         const rows = loadedState?.data?.length ?? 0;
         const cols = loadedState?.data?.[0]?.length ?? 0;
         const savedAt = typeof saved?.savedAt === 'string' ? saved.savedAt : '';
-        const savedAtLine = savedAt ? `\n保存日時: ${savedAt}` : '';
+        const _savedDate = new Date(savedAt);
+        const _savedDateLabel = Number.isFinite(_savedDate.getTime())
+          ? new Intl.DateTimeFormat(getLocaleTag(), { dateStyle: 'medium', timeStyle: 'short' }).format(_savedDate) : '';
+        const savedAtLine = _savedDateLabel ? `\n保存日時: ${_savedDateLabel}` : '';
+        const _fileLine = loadedState.sourceFileName ? `\n${isEnglish() ? 'File' : 'ファイル'}: ${loadedState.sourceFileName}` : '';
         return new Promise((resolve) => {
           let settled = false;
           const finish = (action) => {
@@ -6432,7 +6504,7 @@ END OF TERMS AND CONDITIONS
           };
           openModal(
             '前回のデータを復元',
-            `前回の自動保存データがあります。\n行数: ${rows.toLocaleString(getLocaleTag())} / 列数: ${cols.toLocaleString(getLocaleTag())}${savedAtLine}\n\n復元するまで表には表示しません。不要な場合は破棄して保存データを削除します。`,
+            `前回の自動保存データがあります。\n行数: ${rows.toLocaleString(getLocaleTag())} / 列数: ${cols.toLocaleString(getLocaleTag())}${savedAtLine}${_fileLine}\n\n復元するまで表には表示しません。不要な場合は破棄して保存データを削除します。`,
             () => finish('restore'),
             {
               confirmLabel: '復元',
@@ -6659,6 +6731,21 @@ END OF TERMS AND CONDITIONS
         showToast('<span class="material-symbols-outlined">redo</span> やり直しました');
       };
 
+      // タイマーの連続実行による最小待ち時間を避け、次のタスクへ制御を返す。
+      // Workerにも同じ関数を展開し、未対応環境では従来のタイマーに戻す。
+      const _yieldToTask = () => new Promise((_resolve) => {
+        if (typeof MessageChannel === 'undefined') { setTimeout(_resolve, 0); return; }
+        if (!_yieldToTask._channel) {
+          const _pending = [];
+          const _channel = new MessageChannel();
+          _channel.port1.onmessage = () => _pending.shift()?.();
+          _yieldToTask._pending = _pending;
+          _yieldToTask._channel = _channel;
+        }
+        _yieldToTask._pending.push(_resolve);
+        _yieldToTask._channel.port2.postMessage(null);
+      });
+
       /* --- 統計情報 --- */
       const formatBytes = (bytes) => {
         if (bytes < 1024) return `${bytes} B`;
@@ -6668,18 +6755,22 @@ END OF TERMS AND CONDITIONS
 
       const buildCsvLine = (row, delimiter, quoteStyle) => (
         row.map((cell) => {
-          const c = cell ?? '';
-          const escaped = String(c).replace(/"/g, '""');
-          if (quoteStyle === 'all') return `"${escaped}"`;
-          if (quoteStyle === 'none') return String(c);
-          return ((c === '' && (row.length === 1 || delimiter === ' ')) || String(c).includes(delimiter) || String(c).includes('"') || String(c).includes('\n') || String(c).includes('\r'))
-            ? `"${escaped}"` : String(c);
+          const _text = String(cell ?? '');
+          if (quoteStyle === 'none') return _text;
+          const _quoted = quoteStyle === 'all' ||
+            (_text === '' && (row.length === 1 || delimiter === ' ')) ||
+            _text.includes(delimiter) || (/["\r\n]/.test(_text));
+          return _quoted ? `"${_text.replace(/"/g, '""')}"` : _text;
         }).join(delimiter)
       );
 
       const calcRowBytes = (row, delimiter, encoding, quoteStyle, suffix) => {
         const line = buildCsvLine(row, delimiter, quoteStyle) + suffix;
         try {
+          // ASCIIのUTF-8とUTF-16は、バイト配列を作らずに同じ長さを求める。
+          const _encoding = normalizeEncoding(encoding);
+          if (_encoding === 'utf-16le' || _encoding === 'utf-16be') return line.length * 2;
+          if (_encoding === 'utf-8' && !(/[^\x00-\x7f]/.test(line))) return line.length;
           return encodeToBytes(line, encoding, false).length;
         } catch {
           return line.length;
@@ -6754,7 +6845,7 @@ END OF TERMS AND CONDITIONS
             processed++;
           }
           if (i < rows.length) {
-            setTimeout(runChunk, 0);
+            _yieldToTask().then(runChunk);
             return;
           }
           if (token !== _statsTaskToken) return;
@@ -6919,12 +7010,21 @@ END OF TERMS AND CONDITIONS
         let currentRow = [], currentCell = '', inQuotes = false;
         let _cellWasQuoted = false;
         const isSpaceDelimiter = delimiter === ' ';
+        const _delimiterPattern = typeof delimiter === 'string' && delimiter.length === 1
+          ? '\\u' + delimiter.charCodeAt(0).toString(16).padStart(4, '0') : '';
+        const _plainRun = new RegExp('[^"\\r\\n' + _delimiterPattern + ']+', 'y');
 
         for (let i = 0; i < text.length; i++) {
           const char = text[i], nextChar = text[i + 1];
           if (inQuotes) {
             if (char === '"') { nextChar === '"' ? (currentCell += '"', i++) : (inQuotes = false); }
-            else currentCell += char;
+            else {
+              // Copy an ordinary quoted run at once; quotes retain the existing state machine.
+              const _quoteIndex = text.indexOf('"', i);
+              const _end = _quoteIndex < 0 ? text.length : _quoteIndex;
+              currentCell += text.slice(i, _end);
+              i = _end - 1;
+            }
           } else if (char === '"' && currentCell.length === 0) {
             inQuotes = true;
             _cellWasQuoted = true;
@@ -6958,7 +7058,9 @@ END OF TERMS AND CONDITIONS
             _cellWasQuoted = false;
             if (char === '\r' && nextChar === '\n') i++;
           } else {
-            currentCell += char;
+            _plainRun.lastIndex = i;
+            currentCell += _plainRun.exec(text)[0];
+            i = _plainRun.lastIndex - 1;
           }
         }
         if (inQuotes) {
@@ -6981,8 +7083,9 @@ END OF TERMS AND CONDITIONS
 
       const _quoteTsvCell = (cell, _columnIndex, _row) => {
         const text = normalizeCellValue(cell);
-        const escaped = text.replace(/"/g, '""');
-        return ((text === '' && _row.length === 1) || /[\t\r\n"]/.test(text)) ? `"${escaped}"` : text;
+        if (text === '' && _row.length === 1) return '""';
+        if (!/[\t\r\n"]/.test(text)) return text;
+        return `"${text.replace(/"/g, '""')}"`;
       };
 
       const _buildTsvRows = (rows) => (
@@ -7066,65 +7169,16 @@ END OF TERMS AND CONDITIONS
           return parseCSV(text, delimiter);
         }
 
+        // Use the same parser in both execution paths to preserve quote/empty-cell semantics.
         const workerCode = `
+          const CSV_PARSE_ERROR_UNCLOSED_QUOTE = ${JSON.stringify(CSV_PARSE_ERROR_UNCLOSED_QUOTE)};
+          const parseCSV = ${parseCSV.toString()};
           self.onmessage = (event) => {
-            const { text, delimiter } = event.data;
-            const rows = [];
-            let currentRow = [], currentCell = '', inQuotes = false;
-            let _cellWasQuoted = false;
-            const isSpaceDelimiter = delimiter === ' ';
-            for (let i = 0; i < text.length; i++) {
-              const char = text[i], nextChar = text[i + 1];
-              if (inQuotes) {
-                if (char === '"') { nextChar === '"' ? (currentCell += '"', i++) : (inQuotes = false); }
-                else currentCell += char;
-              } else if (char === '"' && currentCell.length === 0) {
-                inQuotes = true;
-                _cellWasQuoted = true;
-              } else if (char === '"') {
-                currentCell += char;
-              } else if (char === delimiter) {
-                if (isSpaceDelimiter) {
-                  let runEnd = i + 1;
-                  while (text[runEnd] === ' ') runEnd++;
-                  const nextAfterRun = text[runEnd];
-                  const isLeadingRun = currentRow.length === 0 && currentCell.length === 0 && !_cellWasQuoted;
-                  const isTrailingRun = nextAfterRun === undefined || nextAfterRun === '\\n' || nextAfterRun === '\\r';
-                  if (!isLeadingRun && !isTrailingRun) {
-                    currentRow.push(currentCell);
-                    currentCell = '';
-                    _cellWasQuoted = false;
-                  }
-                  i = runEnd - 1;
-                } else {
-                  currentRow.push(currentCell); currentCell = '';
-                  _cellWasQuoted = false;
-                }
-              } else if (char === '\\n' || (char === '\\r' && nextChar === '\\n') || char === '\\r') {
-                currentRow.push(currentCell);
-                rows.push(currentRow);
-                currentRow = []; currentCell = '';
-                _cellWasQuoted = false;
-                if (char === '\\r' && nextChar === '\\n') i++;
-              } else {
-                currentCell += char;
-              }
+            try {
+              self.postMessage(parseCSV(event.data.text, event.data.delimiter));
+            } catch (error) {
+              self.postMessage({ error: error.code || error.message });
             }
-            if (inQuotes) {
-              self.postMessage({ error: '${CSV_PARSE_ERROR_UNCLOSED_QUOTE}' });
-              return;
-            }
-            currentRow.push(currentCell);
-            if (_cellWasQuoted || currentRow.length > 1 || currentRow.some(c => c !== '')) rows.push(currentRow);
-            if (rows.length === 0) { self.postMessage([]); return; }
-            let maxCols = 0;
-            for (let i = 0; i < rows.length; i++) {
-              if (rows[i].length > maxCols) maxCols = rows[i].length;
-            }
-            self.postMessage(rows.map(row => {
-              while (row.length < maxCols) row.push('');
-              return row;
-            }));
           };
         `;
 
@@ -7189,6 +7243,21 @@ END OF TERMS AND CONDITIONS
           `${_global ? 'g' : ''}${_caseSensitive ? '' : 'i'}u`);
       };
 
+      // DOMを参照しない同じ組み立て処理を、検索・置換・Workerで共有する。
+      const _buildSearchRegex = (_query, _caseSensitive, _exactMatch, _useRegex, _global = false) => {
+        if (!_useRegex) return _createLiteralSearchRegex(_query, _caseSensitive, _exactMatch, _global);
+        const _flags = `${_global ? 'g' : ''}${_caseSensitive ? '' : 'i'}`;
+        try {
+          const _regex = new RegExp(_query, _flags);
+          return _exactMatch ? new RegExp(_exactSearchPattern(_regex.source), _flags) : _regex;
+        } catch { return null; }
+      };
+
+      const _buildSearchMatcher = (_query, _caseSensitive, _exactMatch, _useRegex) => {
+        const _regex = _buildSearchRegex(_query, _caseSensitive, _exactMatch, _useRegex);
+        return _regex ? (_cell) => _regex.test(_cell) : null;
+      };
+
       const ensureSearchWorker = () => {
         if (typeof Worker === 'undefined') return null;
         if (_searchWorker) return _searchWorker;
@@ -7200,27 +7269,14 @@ END OF TERMS AND CONDITIONS
           let searchRunning = false;
           let pendingSearch = null;
           const SEP = '\\u001F';
-          const sleep = () => new Promise((resolve) => setTimeout(resolve, 0));
+          const _yieldToTask = ${_yieldToTask.toString()};
+          const sleep = _yieldToTask;
           const _exactSearchPattern = ${_exactSearchPattern.toString()};
           const escapeRegExp = ${escapeRegExp.toString()};
           const _createLiteralSearchRegex = ${_createLiteralSearchRegex.toString()};
 
-          const buildMatcher = (query, caseSensitive, exactMatch, useRegex) => {
-            if (useRegex) {
-              const flags = caseSensitive ? '' : 'i';
-              let re;
-              try {
-                re = new RegExp(query, flags);
-                if (exactMatch) re = new RegExp(_exactSearchPattern(re.source), flags);
-              } catch {
-                return null;
-              }
-              return (cell) => re.test(cell);
-            }
-
-            const _literal = _createLiteralSearchRegex(query, caseSensitive, exactMatch);
-            return (cell) => _literal.test(cell);
-          };
+          const _buildSearchRegex = ${_buildSearchRegex.toString()};
+          const buildMatcher = ${_buildSearchMatcher.toString()};
 
           const getRowSearchText = (rowIndex) => {
             let cached = rowCache[rowIndex];
@@ -7749,9 +7805,9 @@ END OF TERMS AND CONDITIONS
       const triggerPaste = () => {
         _pasteImportRequestId++;
         _pasteImportBusy = false;
-        $pasteImportStatus.textContent = isEnglish()
-          ? 'Paste here, then choose Import. No clipboard permission is required.'
-          : 'ここに貼り付けて「読み込む」を押してください。クリップボードへのアクセス許可は不要です。';
+        $pasteImportStatus.textContent = state.data.length
+          ? (isEnglish() ? 'Import replaces the current table after confirmation.' : '読み込むと現在の表を置き換えます（確認あり）。')
+          : (isEnglish() ? 'The delimiter is detected automatically.' : '区切り文字は自動判定します。');
         _updatePasteImportControls();
         openOverlay($pasteImportOverlay, { focusSelector: '#pasteImportInput' });
       };
@@ -7797,6 +7853,7 @@ END OF TERMS AND CONDITIONS
 
       const _updateActionAvailability = () => {
         const _hasData = state.data.length > 0;
+        qs('#createTableBtn').hidden = _hasData;
         for (const _id of ['saveBtn', 'dlBtn', 'copyBtn', 'exportWizardBtn', 'clearBtn', 'virtualHeaderBtn', 'textTransformBtn', 'encodingChipSelect']) {
           const $control = qs(`#${_id}`);
           if ($control) $control.disabled = !_hasData || (_id === 'saveBtn' && _saveFileInProgress);
@@ -8041,7 +8098,9 @@ END OF TERMS AND CONDITIONS
         return changed;
       };
 
+      let _visibleRowsRevision = 0;
       const rebuildVisibleRows = () => {
+        _visibleRowsRevision++;
         const start = getBodyDataStart();
         const hasSearchFilter = $filterMode.checked && filteredRows !== null;
         if (columnFilters.size === 0 && !hasSearchFilter) {
@@ -8072,6 +8131,56 @@ END OF TERMS AND CONDITIONS
         return getVisibleRowCount() >= VIRTUAL_ROW_THRESHOLD;
       };
 
+      let _virtualLayout = null;
+      let _virtualMetrics = null;
+      const _getVirtualRowLayout = () => {
+        const _signature = `${innerWidth}:${innerHeight}:${getComputedStyle(document.documentElement).fontSize}`;
+        if (!_virtualMetrics || _virtualMetrics.signature !== _signature) {
+          const $probe = document.createElement('table');
+          $probe.className = 'row-metrics-probe';
+          $probe.setAttribute('aria-hidden', 'true');
+          $probe.innerHTML = `<tbody>${buildBodyRowHTML(getVisibleRowIndexAt(0))}</tbody>`;
+          const $cells = qsa('td[contenteditable]', $probe);
+          $cells.forEach($cell => { $cell.textContent = 'M'; });
+          $tableScroll.appendChild($probe);
+          try {
+            const $cell = $cells[0];
+            const _single = qs('tr', $probe).getBoundingClientRect().height;
+            const _line = Number.parseFloat(getComputedStyle($cell).lineHeight) || VIRTUAL_ROW_HEIGHT;
+            $cell.textContent = 'M\nM';
+            const _double = qs('tr', $probe).getBoundingClientRect().height;
+            _virtualMetrics = { signature: _signature, single: _single, line: _line, inset: _double - 2 * _line };
+          } finally { $probe.remove(); }
+        }
+        if (_virtualLayout?.dataRevision === _dataRevision && _virtualLayout?.rowsRevision === _visibleRowsRevision
+          && _virtualLayout?.signature === _signature) return _virtualLayout;
+        const _count = getVisibleRowCount();
+        const _offsets = new Float64Array(_count + 1);
+        const _newline = /\r\n|\r|\n/g;
+        for (let _index = 0; _index < _count; _index++) {
+          let _lines = 1;
+          for (const _value of state.data[getVisibleRowIndexAt(_index)] ?? []) {
+            _newline.lastIndex = 0;
+            let _cellLines = 1;
+            while (_newline.exec(_value)) _cellLines++;
+            _lines = Math.max(_lines, _cellLines);
+          }
+          const _height = Math.ceil(Math.max(_virtualMetrics.single, _lines * _virtualMetrics.line + _virtualMetrics.inset) * 64) / 64;
+          _offsets[_index + 1] = _offsets[_index] + _height;
+        }
+        _virtualLayout = { offsets: _offsets, signature: _signature, dataRevision: _dataRevision, rowsRevision: _visibleRowsRevision };
+        return _virtualLayout;
+      };
+      const _getVirtualOffsetAt = (_position, _offsets) => {
+        let _low = 0, _high = _offsets.length - 2;
+        while (_low < _high) {
+          const _middle = Math.floor((_low + _high + 1) / 2);
+          if (_offsets[_middle] <= _position) _low = _middle;
+          else _high = _middle - 1;
+        }
+        return _low;
+      };
+
       let _isReplacingTableBody = false;
       const _replaceTableBody = (_html) => {
         // ブラウザによっては、フォーカス中のセルを取り除くとblurが発生する。
@@ -8097,7 +8206,10 @@ END OF TERMS AND CONDITIONS
         const matchedCols = searchMatchMap.get(rowIndex);
         const currentMatch = currentMatchIndex >= 0 ? searchMatches[currentMatchIndex] : null;
         const selectedCols = _selectionModel.get(rowIndex);
-        return `<tr data-row="${rowIndex}">
+        const _offset = getVisibleOffsetByRowIndex(rowIndex);
+        const _height = virtualState.enabled && _virtualLayout && _offset !== undefined
+          ? ` style="--row-height:${_virtualLayout.offsets[_offset + 1] - _virtualLayout.offsets[_offset]}px;"` : '';
+        return `<tr data-row="${rowIndex}"${_height}>
           <td class="row-num" data-row-menu="${rowIndex}"><div class="row-num-wrapper">
             <span class="row-num-text">${rowNum}</span>
             <button type="button" class="row-menu-btn" data-row-menu="${rowIndex}" data-row-drag="${rowIndex}" draggable="true" aria-haspopup="menu" aria-controls="rowMenu" aria-expanded="false" aria-label="${isEnglish() ? `Row ${rowNum} actions` : `${rowNum}行目の操作`}" title="${isEnglish() ? 'Row actions · Drag to reorder' : '行の操作・ドラッグで行を入れ替え'}">
@@ -8128,17 +8240,18 @@ END OF TERMS AND CONDITIONS
         if (totalRows === 0) { _replaceTableBody(''); return; }
 
         const viewport = Math.max($tableScroll.clientHeight, VIRTUAL_ROW_HEIGHT);
-        const scrollTop = Math.min(Math.max($tableScroll.scrollTop, 0), (totalRows - 1) * VIRTUAL_ROW_HEIGHT);
+        const { offsets: _offsets } = _getVirtualRowLayout();
+        const scrollTop = Math.min(Math.max($tableScroll.scrollTop, 0), _offsets[totalRows - 1]);
         if ($tableScroll.scrollTop !== scrollTop) $tableScroll.scrollTop = scrollTop;
-        const first = Math.max(0, Math.floor(scrollTop / VIRTUAL_ROW_HEIGHT) - VIRTUAL_OVERSCAN);
-        const last = Math.min(totalRows - 1, Math.ceil((scrollTop + viewport) / VIRTUAL_ROW_HEIGHT) + VIRTUAL_OVERSCAN);
+        const first = Math.max(0, _getVirtualOffsetAt(scrollTop, _offsets) - VIRTUAL_OVERSCAN);
+        const last = Math.min(totalRows - 1, _getVirtualOffsetAt(scrollTop + viewport, _offsets) + VIRTUAL_OVERSCAN);
 
         if (!force && first === virtualState.start && last === virtualState.end) return;
         virtualState.start = first;
         virtualState.end = last;
 
-        const topSpacer = first * VIRTUAL_ROW_HEIGHT;
-        const bottomSpacer = Math.max(0, (totalRows - last - 1) * VIRTUAL_ROW_HEIGHT);
+        const topSpacer = _offsets[first];
+        const bottomSpacer = Math.max(0, _offsets[totalRows] - _offsets[last + 1]);
         const parts = [];
         if (topSpacer > 0) {
           parts.push(`<tr class="virtual-spacer"><td colspan="${colCount + 1}" style="--spacer-height:${topSpacer}px;"></td></tr>`);
@@ -8177,8 +8290,8 @@ END OF TERMS AND CONDITIONS
         const offset = getVisibleOffsetByRowIndex(rowIndex);
         if (offset === undefined) return;
         if (offset >= virtualState.start && offset <= virtualState.end) return;
-        const viewportRows = Math.max(1, Math.floor(($tableScroll.clientHeight || 420) / VIRTUAL_ROW_HEIGHT));
-        const centered = Math.max(0, (offset - Math.floor(viewportRows / 2)) * VIRTUAL_ROW_HEIGHT);
+        const { offsets: _offsets } = _getVirtualRowLayout();
+        const centered = Math.max(0, _offsets[offset] - ($tableScroll.clientHeight || 420) / 2);
         $tableScroll.scrollTop = centered;
         renderVirtualBody(true);
       };
@@ -8284,6 +8397,7 @@ END OF TERMS AND CONDITIONS
         syncRenderedTableWidth();
         rebuildVisibleRows();
         virtualState.enabled = shouldUseVirtualRows();
+        $dataTable.classList.toggle('virtual-rows', virtualState.enabled);
         virtualState.start = -1;
         virtualState.end = -1;
         renderBodyOnly(true);
@@ -8540,6 +8654,23 @@ END OF TERMS AND CONDITIONS
       };
 
       /* --- サイズ変更 --- */
+      let _resizeFrame = 0, _pendingResizeX = null;
+      const _flushColumnResize = () => {
+        if (_resizeFrame) cancelAnimationFrame(_resizeFrame);
+        _resizeFrame = 0;
+        const _x = _pendingResizeX;
+        _pendingResizeX = null;
+        if (!isResizing || _x === null) return;
+        const w = Math.max(MIN_COLUMN_WIDTH, resizeStartWidth + (_x - resizeStartX));
+        if (w === resizeLastWidth) return;
+        const widthDelta = w - resizeLastWidth;
+        resizeLastWidth = w;
+        state.columnWidths[resizeColumnIndex] = w;
+        qsa(`[data-col="${resizeColumnIndex}"]`, $dataTable).forEach($el => {
+          $el.style.setProperty('--column-width', `${w}px`);
+        });
+        adjustRenderedTableWidth(widthDelta);
+      };
       const startResize = (e, colIndex) => {
         e.stopPropagation();
         isResizing = true; resizeColumnIndex = colIndex; resizeStartX = e.clientX;
@@ -8551,19 +8682,13 @@ END OF TERMS AND CONDITIONS
 
       document.addEventListener('mousemove', (e) => {
         if (!isResizing) return;
-        const w = Math.max(MIN_COLUMN_WIDTH, resizeStartWidth + (e.clientX - resizeStartX));
-        if (w === resizeLastWidth) return;
-        const widthDelta = w - resizeLastWidth;
-        resizeLastWidth = w;
-        state.columnWidths[resizeColumnIndex] = w;
-        qsa(`[data-col="${resizeColumnIndex}"]`, $dataTable).forEach($el => {
-          $el.style.setProperty('--column-width', `${w}px`);
-        });
-        adjustRenderedTableWidth(widthDelta);
+        _pendingResizeX = e.clientX;
+        if (!_resizeFrame) _resizeFrame = requestAnimationFrame(_flushColumnResize);
       });
 
       const _finishColumnResize = () => {
         if (!isResizing) return;
+        _flushColumnResize();
         const _changed = resizeLastWidth !== resizeStartWidth;
         isResizing = false;
         resizeColumnIndex = -1;
@@ -8580,6 +8705,13 @@ END OF TERMS AND CONDITIONS
       let _selectionAnchor = null;   // { row, col }：Shiftによる範囲選択の起点
       let _isDragging = false;
       let _dragStart = null;         // { row, col }
+      let _selectionFrame = 0, _pendingDragSelection = null, _lastDragSelection = null;
+      const _cancelDragSelection = () => {
+        if (_selectionFrame) cancelAnimationFrame(_selectionFrame);
+        _selectionFrame = 0;
+        _pendingDragSelection = null;
+        _lastDragSelection = null;
+      };
 
       /*
        * 再描画後も保持する選択モデル。
@@ -8597,6 +8729,7 @@ END OF TERMS AND CONDITIONS
        */
       const clearSelectionModel = () => { _selectionModel = new Map(); };
       const _resetCellSelection = () => {
+        _cancelDragSelection();
         clearSelectionModel();
         _selectionAnchor = null;
         _dragStart = null;
@@ -8640,6 +8773,11 @@ END OF TERMS AND CONDITIONS
       };
 
       const refreshRenderedSelectionVisuals = () => {
+        const _count = selectionCount();
+        qs('#cellEditBtn').disabled = _count !== 1;
+        qs('#tableEditHint').textContent = _count > 1
+          ? (isEnglish() ? `${_count} cells selected · Delete clears values` : `${_count}セル選択中 ・ Deleteで値を消去`)
+          : (isEnglish() ? 'Click to edit · F2 edits full text' : 'クリックで編集 ・ F2で全文編集');
         /* 表示中のセルの selected クラスをモデルに同期する。 */
         const rendered = qsa('td[data-row][data-col]', $dataTable);
         for (const $td of rendered) {
@@ -8691,6 +8829,18 @@ END OF TERMS AND CONDITIONS
       };
 
       // --- セル上でのマウス押下 ---
+      const _flushDragSelection = () => {
+        if (_selectionFrame) cancelAnimationFrame(_selectionFrame);
+        _selectionFrame = 0;
+        const _coords = _pendingDragSelection;
+        _pendingDragSelection = null;
+        if (!_isDragging || !_dragStart || !_coords) return;
+        if (_lastDragSelection?.row === _coords.row && _lastDragSelection?.col === _coords.col) return;
+        _lastDragSelection = _coords;
+        // モデルを置き換え、表示中のセルを一度だけ同期する。
+        clearSelectionModel();
+        selectRange(_dragStart.row, _dragStart.col, _coords.row, _coords.col);
+      };
       $dataTable.addEventListener('mousedown', (e) => {
         const $td = e.target.closest('td[contenteditable]');
         if (!$td) return;
@@ -8709,10 +8859,12 @@ END OF TERMS AND CONDITIONS
         }
 
         // 通常のクリック：ドラッグ選択を開始する
+        _cancelDragSelection();
         clearSelection();
         _selectionAnchor = coords;
         _isDragging = true;
         _dragStart = coords;
+        _lastDragSelection = coords;
         selectCell($td);
         $dataTable.classList.add('selecting-cells');
       });
@@ -8723,12 +8875,14 @@ END OF TERMS AND CONDITIONS
         if (!$td) return;
         const coords = getCellCoords($td);
         if (!_dragStart || !hasValidCellCoords(coords)) return;
-        clearSelection();
-        selectRange(_dragStart.row, _dragStart.col, coords.row, coords.col);
+        _pendingDragSelection = coords;
+        if (!_selectionFrame) _selectionFrame = requestAnimationFrame(_flushDragSelection);
       });
 
       document.addEventListener('mouseup', () => {
         if (_isDragging) {
+          _flushDragSelection();
+          _cancelDragSelection();
           _isDragging = false;
           $dataTable.classList.remove('selecting-cells');
           if (selectionCount() === 1) {
@@ -8748,23 +8902,24 @@ END OF TERMS AND CONDITIONS
 
       const copySelectedCells = async () => {
         commitActiveCellEdit();
-        let totalCells = 0;
-        const rows = _getSelectedRowsInVisibleOrder().map(r => {
-          const cols = [..._selectionModel.get(r)].sort((a, b) => a - b);
-          totalCells += cols.length;
-          return cols.map(c => state.data[r]?.[c] ?? '');
-        });
-        if (totalCells === 0) return false;
-
         try {
-          if (!(await copyTextToClipboard(_buildTsvRows(rows)))) throw new Error('copy failed');
-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${totalCells}セルをコピーしました`, 'success');
+          let _totalCells = 0;
+          const _lines = _getSelectedRowsInVisibleOrder().map((_row) => {
+            const _cols = [..._selectionModel.get(_row)].sort((_a, _b) => _a - _b);
+            _totalCells += _cols.length;
+            return _cols.map((_col, _index) => _quoteTsvCell(state.data[_row]?.[_col] ?? '', _index, _cols)).join('\t');
+          });
+          if (_totalCells === 0) return false;
+
+          if (!(await copyTextToClipboard(_lines.join('\n')))) throw new Error('copy failed');
+          showToast(`<span class="material-symbols-outlined">content_copy</span> ${_totalCells}セルをコピーしました`, 'success');
           return true;
         } catch {
           showToast('コピーに失敗しました', 'error');
           return false;
         }
       };
+
 
       /* --- 選択セルのテキスト変換 --- */
       const splitWordTokens = (s) => {
@@ -9090,9 +9245,64 @@ END OF TERMS AND CONDITIONS
         return handleCellBlur($cell);
       };
 
+      let _cellEditTarget = null;
+      const $cellEditOverlay = qs('#cellEditOverlay');
+      const $cellEditInput = qs('#cellEditInput');
+      const _openCellEditor = () => {
+        commitActiveCellEdit();
+        if (selectionCount() !== 1) return;
+        const [_target] = getSelectedCoords();
+        if (!_target || !_isRowVisible(_target.row)) return;
+        _cellEditTarget = { ..._target, revision: _dataRevision };
+        const _value = state.data[_target.row]?.[_target.col];
+        // textarea normalizes CR and CRLF. Keep the original if the user leaves it unchanged.
+        _cellEditTarget.original = _value;
+        $cellEditInput.value = _value;
+        _cellEditTarget.initial = $cellEditInput.value;
+        openOverlay($cellEditOverlay, { focusSelector: '#cellEditInput' });
+      };
+      qs('#cellEditBtn').addEventListener('click', _openCellEditor);
+      qs('#cellEditCancelBtn').addEventListener('click', () => closeOverlay($cellEditOverlay));
+      qs('#cellEditApplyBtn').addEventListener('click', () => {
+        const _target = _cellEditTarget;
+        if (!_target || _target.revision !== _dataRevision) {
+          closeOverlay($cellEditOverlay);
+          showToast(isEnglish() ? 'The table changed. Open the cell editor again.' : '表が変更されました。セル編集を開き直してください。', 'error');
+          return;
+        }
+        const _next = $cellEditInput.value === _target.initial ? _target.original : $cellEditInput.value;
+        if (_next !== _target.original) {
+          setCellValue(_target.row, _target.col, _next);
+          _syncRenderedCellValues();
+          saveCellEditToHistory(_target.row, _target.col, _target.original, _next);
+          updateStats(); saveToStorage();
+          void _refreshViewAfterCellBatchEdit();
+        }
+        closeOverlay($cellEditOverlay);
+      });
+
       /* --- セル間の移動 --- */
       const handleCellNavigation = (e, $cell) => {
         if (isImeCompositionKeyEvent(e)) return;
+        if (e.key === 'F2') { e.preventDefault(); _openCellEditor(); return; }
+        if (e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+          e.preventDefault();
+          commitActiveCellEdit();
+          const _row = parseDatasetIndex($cell.dataset.row), _col = parseDatasetIndex($cell.dataset.col);
+          const _offset = getVisibleOffsetByRowIndex(_row);
+          if (_offset === undefined) return;
+          const _nextOffset = Math.max(0, Math.min(getVisibleRowCount() - 1, _offset + (e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0)));
+          const _nextCol = Math.max(0, Math.min(getColumnCount() - 1, _col + (e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0)));
+          const _anchor = _selectionAnchor ?? { row: _row, col: _col };
+          const _nextRow = getVisibleRowIndexAt(_nextOffset);
+          ensureRowRendered(_nextRow);
+          clearSelection();
+          _selectionAnchor = _anchor;
+          selectRange(_anchor.row, _anchor.col, _nextRow, _nextCol);
+          qs(`td[data-row="${_nextRow}"][data-col="${_nextCol}"]`, $dataTable)?.focus();
+          scheduleStatusBarUpdate();
+          return;
+        }
         if (e.key === 'Enter' && e.shiftKey) {
           // 標準のプレーンテキスト編集では、ブラウザごとに異なる非表示の末尾行が追加される。
           // 改行1つと、値から除外できるカーソル表示用要素を明示的に挿入する。
@@ -9160,44 +9370,14 @@ END OF TERMS AND CONDITIONS
       /* --- 検索・置換 --- */
 
       // 現在の検索設定から一致判定関数を作成する
-      const buildMatcher = (query) => {
-        const caseSensitive = $searchCaseSensitive.checked;
-        const exactMatch = $searchExactMatch.checked;
-        const useRegex = $searchRegex.checked;
+      const buildMatcher = (query) => _buildSearchMatcher(
+        query, $searchCaseSensitive.checked, $searchExactMatch.checked, $searchRegex.checked
+      );
 
-        if (useRegex) {
-          try {
-            const flags = caseSensitive ? '' : 'i';
-            let re = new RegExp(query, flags);
-            if (exactMatch) re = new RegExp(_exactSearchPattern(re.source), flags);
-            return (cell) => re.test(cell);
-          } catch { return null; } // 無効な正規表現
-        }
-
-        const _literal = _createLiteralSearchRegex(query, caseSensitive, exactMatch);
-        return (cell) => _literal.test(cell);
-      };
-
-      // 置換処理用の正規表現を作成する
-      const buildReplaceRegex = (query, globalFlag) => {
-        const caseSensitive = $searchCaseSensitive.checked;
-        const useRegex = $searchRegex.checked;
-        const exactMatch = $searchExactMatch.checked;
-
-        let flags = globalFlag ? 'g' : '';
-        if (!caseSensitive) flags += 'i';
-
-        if (useRegex) {
-          try {
-            const _regex = new RegExp(query, flags);
-            return exactMatch
-              ? new RegExp(_exactSearchPattern(_regex.source), flags)
-              : _regex;
-          } catch { return null; }
-        }
-
-        return _createLiteralSearchRegex(query, caseSensitive, exactMatch, globalFlag);
-      };
+      // 置換でも一致判定と同じ flags・完全一致境界を使う。
+      const buildReplaceRegex = (query, globalFlag) => _buildSearchRegex(
+        query, $searchCaseSensitive.checked, $searchExactMatch.checked, $searchRegex.checked, globalFlag
+      );
 
       const getSearchTargetCol = () => {
         const targetCol = Number.parseInt($searchTargetCol.value, 10);
@@ -9574,7 +9754,7 @@ END OF TERMS AND CONDITIONS
           }
 
           if (rowPointer < searchRowCount) {
-            setTimeout(runChunk, 0);
+            _yieldToTask().then(runChunk);
             return;
           }
 
@@ -9643,10 +9823,13 @@ END OF TERMS AND CONDITIONS
 
         const cellRect = $c.getBoundingClientRect();
         const scrollRect = $tableScroll.getBoundingClientRect();
-        const inView = cellRect.top >= scrollRect.top && cellRect.bottom <= scrollRect.bottom;
+        const _visibleTop = Math.max(scrollRect.top, $tableHead.getBoundingClientRect().bottom);
+        const $scrollTarget = cellRect.height > scrollRect.bottom - _visibleTop ? qs('mark.search-text-hit', $c) ?? $c : $c;
+        const _targetRect = $scrollTarget.getBoundingClientRect();
+        const inView = _targetRect.top >= _visibleTop && _targetRect.bottom <= scrollRect.bottom;
         if (!inView) {
-          const behavior = state.data.length >= LARGE_DATA_ROW_THRESHOLD ? 'auto' : 'smooth';
-          $c.scrollIntoView({ behavior, block: 'center' });
+          const behavior = virtualState.enabled || state.data.length >= LARGE_DATA_ROW_THRESHOLD ? 'auto' : 'smooth';
+          $scrollTarget.scrollIntoView({ behavior, block: 'center' });
         }
       };
 
@@ -9658,9 +9841,22 @@ END OF TERMS AND CONDITIONS
         const _targetCol = getSearchTargetCol();
         const _hasFilter = _hasActiveRowFilter();
         $clearAllFiltersBtn.disabled = !(
-          $searchCaseSensitive.checked || $searchExactMatch.checked || $searchRegex.checked ||
+          $searchInput.value || $searchCaseSensitive.checked || $searchExactMatch.checked || $searchRegex.checked ||
           _targetCol >= 0 || $filterMode.checked || columnFilters.size > 0 || _hasFilter
         );
+        const _visible = getVisibleRowCount(), _total = Math.max(0, state.data.length - getBodyDataStart());
+        const _conditions = [];
+        if ($searchInput.value) _conditions.push(isEnglish() ? `Search: ${$searchInput.value}` : `検索: ${$searchInput.value}`);
+        if (columnFilters.size) _conditions.push(isEnglish() ? `${columnFilters.size} column filters` : `列フィルタ: ${columnFilters.size}列`);
+        if ($filterMode.checked) _conditions.push(isEnglish() ? 'Matching rows only' : '該当行のみ表示');
+        if ($searchCaseSensitive.checked) _conditions.push(isEnglish() ? 'Case-sensitive' : '大文字小文字を区別');
+        if ($searchExactMatch.checked) _conditions.push(isEnglish() ? 'Exact match' : '完全一致');
+        if ($searchRegex.checked) _conditions.push(isEnglish() ? 'Regex' : '正規表現');
+        if (_targetCol >= 0) _conditions.push(getColumnDisplayName(_targetCol, { includeIndex: true }));
+        qs('#filterSummary').textContent = (isEnglish() ? `${_visible.toLocaleString(getLocaleTag())} shown / ${_total.toLocaleString(getLocaleTag())} total rows` : `表示 ${_visible.toLocaleString(getLocaleTag())} / 全 ${_total.toLocaleString(getLocaleTag())}行`) + (_conditions.length ? ` ・ ${_conditions.join(' ・ ')}` : '');
+        qs('#emptyResults').hidden = !state.data.length || _visible > 0;
+        qs('#tableEditHint').hidden = _visible === 0;
+
       };
 
       const updateSearchInfo = () => {
@@ -9955,6 +10151,29 @@ END OF TERMS AND CONDITIONS
       let _filterValuePanelState = null;
       let _$colFilterFocusTarget = null;
       let _colFilterPanelRevision = 0;
+      let _colFilterAnchorRect = null;
+      const _positionColFilterPanel = () => {
+        if (!$colFilterPanel.classList.contains('show') || !_colFilterAnchorRect) return;
+        const _anchor = _$colFilterFocusTarget?.isConnected ? _$colFilterFocusTarget.getBoundingClientRect() : _colFilterAnchorRect;
+        const _below = innerHeight - _anchor.bottom - 16, _above = _anchor.top - 16;
+        const _useAbove = _below < 240 && _above > _below;
+        $colFilterPanel.style.setProperty('--filter-panel-height', `${Math.max(80, _useAbove ? _above : _below)}px`);
+        const _height = $colFilterPanel.getBoundingClientRect().height;
+        const _top = Math.max(12, _useAbove ? _anchor.top - _height - 4 : _anchor.bottom + 4);
+        $colFilterPanel.style.top = `${_top + scrollY}px`;
+        $colFilterPanel.style.left = `${_clampHorizontal(_colFilterAnchorRect.left, 360)}px`;
+      };
+      let _colFilterPositionFrame = null;
+      const _scheduleColFilterPosition = () => {
+        if (_colFilterPositionFrame !== null) return;
+        // 監視中のサイズ変更は次の描画へ送って、ResizeObserverの再通知ループを避ける。
+        _colFilterPositionFrame = requestAnimationFrame(() => {
+          _colFilterPositionFrame = null;
+          _positionColFilterPanel();
+        });
+      };
+      new ResizeObserver(_scheduleColFilterPosition).observe($colFilterPanel);
+      window.addEventListener('resize', _scheduleColFilterPosition);
 
       const _normalizeFilterConditionOp = (op) => (
         FILTER_CONDITION_OPERATOR_VALUES.has(op) ? op : ''
@@ -9990,10 +10209,12 @@ END OF TERMS AND CONDITIONS
         restoreFilterConditions(colIdx);
 
         // パネルの表示位置を決める
+        _colFilterAnchorRect = anchorRect;
         $colFilterPanel.style.top = `${anchorRect.bottom + window.scrollY + 4}px`;
         $colFilterPanel.style.left = `${_clampHorizontal(anchorRect.left, 360)}px`;
         $colFilterPanel.classList.add('show');
         $colFilterPanel.setAttribute('aria-hidden', 'false');
+        _positionColFilterPanel();
         $colFilterSearch.focus();
       };
 
@@ -10775,7 +10996,7 @@ END OF TERMS AND CONDITIONS
           }).join(dlm);
           lines.push(line);
           if ((i + 1) % chunkRows === 0) {
-            await new Promise(resolve => setTimeout(resolve, 0));
+            await _yieldToTask();
           }
         }
         return lines.join(nl);
@@ -10795,13 +11016,44 @@ END OF TERMS AND CONDITIONS
       const decodeBytesWithMeta = (bytes, encoding, { offset = 0, bom = false } = {}) => {
         const normalized = normalizeEncoding(encoding);
         const body = offset > 0 ? bytes.slice(offset) : bytes;
-        const text = decodeByEncoding(body, normalized);
+        // ネイティブデコーダーの正常な結果は、検査と本文で共有する。
+        // UTF-16の独自処理と外部文字コードライブラリの経路は従来どおり。
+        const _native = normalized !== 'utf-16le' && normalized !== 'utf-16be' &&
+          !(ENCODING_TO_LIBRARY[normalized] && HAS_LEGACY_ENCODING_LIB);
+        const _validated = _native ? strictTextDecoderResult(body, normalized, { includeText: true }) : null;
+        const text = _validated?.strictOk === true ? _validated.text : decodeByEncoding(body, normalized);
         return {
           text,
           encoding: normalized,
           bom: supportsBom(normalized) ? !!bom : false,
-          warnings: collectDecodeWarnings({ bytes: body, encoding: normalized, text })
+          warnings: collectDecodeWarnings({ bytes: body, encoding: normalized, text, _strictOk: _validated?.strictOk })
         };
+      };
+
+      // 印字可能ASCIIとCSVの改行・タブのみなら、従来の判定結果もUTF-8。
+      // NUL、ESC、その他の制御文字と非ASCIIは既存の全文判定へ戻す。
+      const _isPlainAsciiBuffer = (_bytes) => {
+        const _allowed = (_value) => (_value >= 32 && _value <= 126) || _value === 9 || _value === 10 || _value === 13;
+        let _index = 0;
+        while (_index < _bytes.length && ((_bytes.byteOffset + _index) & 3)) {
+          if (!_allowed(_bytes[_index++])) return false;
+        }
+        if (_index === _bytes.length) return true;
+        // コピーせず4バイトずつ検査。制御文字候補は個別に確認する。
+        const _words = new Uint32Array(_bytes.buffer, _bytes.byteOffset + _index, Math.floor((_bytes.length - _index) / 4));
+        for (let _i = 0; _i < _words.length; _i++) {
+          const _word = _words[_i];
+          if (_word & 0x80808080) return false;
+          const _del = _word ^ 0x7f7f7f7f;
+          if (((_word - 0x20202020) & ~_word & 0x80808080) || ((_del - 0x01010101) & ~_del & 0x80808080)) {
+            for (let _shift = 0; _shift < 32; _shift += 8) {
+              if (!_allowed((_word >>> _shift) & 255)) return false;
+            }
+          }
+        }
+        _index += _words.length * 4;
+        for (; _index < _bytes.length; _index++) if (!_allowed(_bytes[_index])) return false;
+        return true;
       };
 
       const decodeFileBytesWithMeta = (arrayBuffer, encodingHint = 'utf-8') => {
@@ -10816,6 +11068,8 @@ END OF TERMS AND CONDITIONS
         if (hint && encodingHint !== 'auto') {
           return decodeBytesWithMeta(bytes, hint);
         }
+
+        if (_isPlainAsciiBuffer(bytes)) return decodeBytesWithMeta(bytes, 'utf-8');
 
         if (HAS_LEGACY_ENCODING_LIB) {
           const detected = Encoding.detect(bytes);
@@ -10842,6 +11096,8 @@ END OF TERMS AND CONDITIONS
         const bytes = new Uint8Array(arrayBuffer);
         const bomInfo = detectBomEncoding(bytes);
         if (bomInfo) return bomInfo.encoding;
+
+        if (_isPlainAsciiBuffer(bytes)) return 'utf-8';
 
         if (HAS_LEGACY_ENCODING_LIB) {
           const detected = Encoding.detect(bytes);
@@ -10894,14 +11150,6 @@ END OF TERMS AND CONDITIONS
         if (_busy && document.activeElement === $wizImportBtn) $wizCancelBtn.focus();
       };
 
-      const delimiterDisplayName = (d) => {
-        if (d === ',') return 'カンマ (,)';
-        if (d === '\t') return 'タブ (\\t)';
-        if (d === ';') return 'セミコロン (;)';
-        if (d === ' ') return 'スペース';
-        return d;
-      };
-
       const formatFileSize = (bytes) => {
         if (bytes < 1024) return `${bytes} B`;
         if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -10914,12 +11162,14 @@ END OF TERMS AND CONDITIONS
           const _stepNumber = Number($step.dataset.step);
           $step.classList.toggle('active', _stepNumber === step);
           $step.classList.toggle('done', _stepNumber < step);
+          if (_stepNumber === step) $step.setAttribute('aria-current', 'step');
+          else $step.removeAttribute('aria-current');
         }
-        $wizPage1.hidden = step !== 2;
-        $wizPage2.hidden = step !== 3;
-        $wizBackBtn.hidden = step <= 2;
-        $wizNextBtn.hidden = step !== 2;
-        $wizImportBtn.hidden = step !== 3;
+        $wizPage1.hidden = step !== 1;
+        $wizPage2.hidden = step !== 2;
+        $wizBackBtn.hidden = step === 1;
+        $wizNextBtn.hidden = step !== 1;
+        $wizImportBtn.hidden = step !== 2;
       };
 
       const wizGetCurrentDecode = () => {
@@ -10962,7 +11212,8 @@ END OF TERMS AND CONDITIONS
           : Array.from({ length: colCount }, (_, i) => isEnglish() ? `Column ${i + 1}` : `列${i + 1}`);
         const previewRows = parsed.slice(dataStart, dataStart + maxRows);
 
-        qs('#wizPreviewInfo').textContent = `${Math.min(maxRows, previewRows.length).toLocaleString(getLocaleTag())} 行をプレビュー表示（最大 ${maxRows.toLocaleString(getLocaleTag())} 行）`;
+        const _previewCount = previewRows.length.toLocaleString(getLocaleTag());
+        qs('#wizPreviewInfo').textContent = isEnglish() ? `First ${_previewCount} ${previewRows.length === 1 ? 'row' : 'rows'}` : `先頭 ${_previewCount}行`;
 
         const thClass = hasHdr ? '' : ' class="auto-header"';
         qs('#wizPreviewHead').innerHTML = `<tr>${headers.map(h => `<th${thClass}>${escapeHTML(h)}</th>`).join('')}</tr>`;
@@ -10995,8 +11246,7 @@ END OF TERMS AND CONDITIONS
         const colCount = detectSampleRows[0]?.length ?? 0;
 
         // 判定結果を表示する
-        qs('#wizDetectEncoding').textContent = getEncodingDisplayName(decoded.encoding);
-        qs('#wizDetectDelimiter').textContent = delimiterDisplayName(detectedDlm);
+        qs('#wizFileName').textContent = fileName;
         qs('#wizDetectSize').textContent = `先頭 ${detectSampleRows.length.toLocaleString(getLocaleTag())} 行で判定 / ${colCount.toLocaleString(getLocaleTag())} 列`;
         qs('#wizDetectFileSize').textContent = formatFileSize(arrayBuffer.byteLength);
 
@@ -11005,7 +11255,7 @@ END OF TERMS AND CONDITIONS
         qs('#wizDelimiter').value = detectedDlm;
         qs('#wizHeader').checked = false;
 
-        wizSetStep(2);
+        wizSetStep(1);
         openOverlay($wizOverlay, { focusSelector: '#wizNextBtn' });
       };
 
@@ -11099,10 +11349,14 @@ END OF TERMS AND CONDITIONS
 
       // ウィザードのイベント処理
       $wizNextBtn.addEventListener('click', () => {
-        wizSetStep(3);
+        wizSetStep(2);
         wizRenderPreview();
+        qs('#wizPreviewRows').focus();
       });
-      $wizBackBtn.addEventListener('click', () => wizSetStep(_wizStep - 1));
+      $wizBackBtn.addEventListener('click', () => {
+        wizSetStep(1);
+        qs('#wizDelimiter').focus();
+      });
       $wizImportBtn.addEventListener('click', wizExecuteImport);
       $wizCancelBtn.addEventListener('click', closeImportWizard);
       $wizCloseBtn.addEventListener('click', closeImportWizard);
@@ -11110,7 +11364,7 @@ END OF TERMS AND CONDITIONS
 
       // 2ページ目で設定が変わったらプレビューを再描画する
       $wizOverlay.addEventListener('change', (_event) => {
-        if (_wizStep === 3 && _event.target.matches('#wizDelimiter, #wizEncoding, #wizHeader, #wizPreviewRows')) {
+        if (_wizStep === 2 && _event.target.matches('#wizDelimiter, #wizEncoding, #wizHeader, #wizPreviewRows')) {
           wizRenderPreview();
         }
       });
@@ -11232,14 +11486,20 @@ END OF TERMS AND CONDITIONS
       };
 
       const downloadPreparedBlob = (blob, filename) => {
-        const objectUrl = URL.createObjectURL(blob);
-        const $a = document.createElement('a');
-        $a.href = objectUrl;
-        $a.download = filename;
-        document.body.appendChild($a);
-        $a.click();
-        $a.remove();
-        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
+        const _objectUrl = URL.createObjectURL(blob);
+        let $anchor, _downloadStarted = false;
+        try {
+          $anchor = document.createElement('a');
+          $anchor.href = _objectUrl;
+          $anchor.download = filename;
+          document.body.appendChild($anchor);
+          $anchor.click();
+          _downloadStarted = true;
+        } finally {
+          $anchor?.remove();
+          if (_downloadStarted) setTimeout(() => URL.revokeObjectURL(_objectUrl), 3000);
+          else URL.revokeObjectURL(_objectUrl);
+        }
         showToast(isEnglish()
           ? `Download started: ${escapeHTML(filename)}`
           : `${escapeHTML(filename)} のダウンロードを開始しました`, 'success');
@@ -11476,7 +11736,8 @@ END OF TERMS AND CONDITIONS
         $expHeader.checked = state.hasHeader || (!state.hasHeader && hasAnyVirtualHeader());
         $expFormat.value = getDsvFormatIdByDelimiter(state.delimiter);
 
-        // 絞り込み行・選択範囲を利用できるか確認する
+        // 開くたびに現在の対象を明示する。自動で選ばれた1セルは出力範囲とみなさない。
+        $expTarget.value = selectionCount() > 1 ? 'selected' : _hasActiveRowFilter() ? 'filtered' : 'all';
         normalizeExportTarget();
         updateExpTargetHint();
         updateExpFormatUI();
@@ -11707,6 +11968,20 @@ END OF TERMS AND CONDITIONS
         const exportData = getExportData({ rowLimit: EXPORT_PREVIEW_ROW_LIMIT });
         const output = generateExportOutput(exportData);
         $expPreview.textContent = output;
+        const _cells = [...exportData.headers, ...exportData.rows.flat()];
+        let _changed = 0;
+        const _examples = [];
+        for (const _value of _cells) {
+          const _safe = sanitizeSpreadsheetFormulaCell(_value, $expSpreadsheetSafe.checked);
+          if (_safe === _value) continue;
+          _changed++;
+          if (_examples.length < 2) _examples.push(`${String(_value).slice(0,40)} → ${_safe.slice(0,41)}`);
+        }
+        qs('#expSafetyHint').textContent = !$expSpreadsheetSafe.checked
+          ? (isEnglish() ? 'Original values are exported without formula escaping.' : '元の値を変更せず出力します。')
+          : (isEnglish() ? 'Adds an apostrophe to values starting with =, +, -, or @, including negative numbers and phone numbers.' : '負数や電話番号を含め、=・+・-・@ で始まる値にアポストロフィを付けます。')
+            + (isEnglish() ? ` Preview: ${_changed} cells changed.` : ` プレビュー内: ${_changed}セルを変更。`)
+            + (_examples.length ? ` ${_examples.join(' / ')}` : '');
         $expPreviewInfo.textContent = `プレビュー ${exportData.rows.length.toLocaleString(getLocaleTag())}行（最大 ${EXPORT_PREVIEW_ROW_LIMIT.toLocaleString(getLocaleTag())} 行）`;
       };
 
@@ -11815,7 +12090,7 @@ END OF TERMS AND CONDITIONS
       /* --- 消去 --- */
       const confirmClearAll = () => {
         if (state.data.length === 0) return;
-        openModal('データをクリア', 'すべてのデータを削除しますか？この操作は元に戻せます。', async () => {
+        openModal('全データを削除', 'すべてのデータを削除しますか？この操作は元に戻せます。', async () => {
           await _clearAllDataSafely('<span class="material-symbols-outlined">delete</span> すべてのデータをクリアしました');
         });
       };
@@ -11954,7 +12229,8 @@ END OF TERMS AND CONDITIONS
 	      };
 
 	      const hasOpenOverlay = () => (
-	        $pasteImportOverlay.classList.contains('show') ||
+	        $cellEditOverlay.classList.contains('show') ||
+        $pasteImportOverlay.classList.contains('show') ||
 	        $modalOverlay.classList.contains('show') ||
 	        $exportOverlay.classList.contains('show') ||
 	        $wizOverlay.classList.contains('show') ||
@@ -11965,6 +12241,7 @@ END OF TERMS AND CONDITIONS
 	      );
 
 	      const closeActiveOverlay = () => {
+	        if ($cellEditOverlay.classList.contains('show')) { closeOverlay($cellEditOverlay); return true; }
 	        if ($paletteOverlay?.classList.contains('show')) { closeCommandPalette(); return true; }
 	        if ($modalOverlay.classList.contains('show')) { closeModal(); return true; }
 	        if ($pasteImportOverlay.classList.contains('show')) { _closePasteImport(); return true; }
@@ -12042,10 +12319,22 @@ END OF TERMS AND CONDITIONS
       let columnDropIndex = -1;
       let rowDropIndex = -1;
       let $activeDragHandle = null;
+      let $dragPreviewTarget = null;
+      let _dragPreviewClass = '', _reorderFrame = 0, _pendingReorderPoint = null;
 
       const clearDragOverTarget = () => {
-        qsa('th.drag-insert-before, th.drag-insert-after', $dataTable).forEach($el => $el.classList.remove('drag-insert-before', 'drag-insert-after'));
-        qsa('tr.drag-insert-before, tr.drag-insert-after', $dataTable).forEach($el => $el.classList.remove('drag-insert-before', 'drag-insert-after'));
+        if ($dragPreviewTarget) $dragPreviewTarget.classList.remove(_dragPreviewClass);
+        $dragPreviewTarget = null;
+        _dragPreviewClass = '';
+      };
+      const _setDragOverTarget = ($target, before) => {
+        const _class = before ? 'drag-insert-before' : 'drag-insert-after';
+        if ($target === $dragPreviewTarget && _class === _dragPreviewClass) return;
+        clearDragOverTarget();
+        if (!$target) return;
+        $dragPreviewTarget = $target;
+        _dragPreviewClass = _class;
+        $target.classList.add(_class);
       };
 
       const clearActiveDragHandle = () => {
@@ -12057,6 +12346,9 @@ END OF TERMS AND CONDITIONS
       const hasActiveDrag = () => draggedColumnIndex >= 0 || draggedRowIndex >= 0;
 
       const resetDragState = () => {
+        if (_reorderFrame) cancelAnimationFrame(_reorderFrame);
+        _reorderFrame = 0;
+        _pendingReorderPoint = null;
         draggedColumnIndex = -1;
         draggedRowIndex = -1;
         columnDropIndex = -1;
@@ -12132,10 +12424,10 @@ END OF TERMS AND CONDITIONS
 
         saveToHistory();
         state.data = state.data.map(row => {
-          const next = [...row];
-          const [moved] = next.splice(fromIndex, 1);
-          next.splice(insertIndex, 0, moved);
-          return next;
+          const _next = [...row];
+          const [_moved] = _next.splice(fromIndex, 1);
+          _next.splice(insertIndex, 0, _moved);
+          return _next;
         });
 
         const widths = Array.from({ length: colCount }, (_, i) => state.columnWidths[i]);
@@ -12175,21 +12467,24 @@ END OF TERMS AND CONDITIONS
         if (draggedColumnIndex >= 0) {
           const { index, $target, before } = getColumnDropIndexAt(clientX);
           columnDropIndex = index;
-          clearDragOverTarget();
-          if ($target) $target.classList.add(before ? 'drag-insert-before' : 'drag-insert-after');
+          _setDragOverTarget($target, before);
           return true;
         }
         if (draggedRowIndex >= 0) {
           const { index, $target, before } = getRowDropIndexAt(clientY);
           rowDropIndex = index;
-          clearDragOverTarget();
-          if ($target) $target.classList.add(before ? 'drag-insert-before' : 'drag-insert-after');
+          _setDragOverTarget($target, before);
           return true;
         }
         return false;
       };
 
       const applyDropFromPoint = (clientX, clientY) => {
+        // 最後のdragoverの描画を待たず、実際のドロップ位置を確定する。
+        if (_reorderFrame) cancelAnimationFrame(_reorderFrame);
+        _reorderFrame = 0;
+        _pendingReorderPoint = null;
+        updateDragPreviewFromPoint(clientX, clientY);
         if (draggedColumnIndex >= 0) {
           const resolvedDropIndex = columnDropIndex >= 0 ? columnDropIndex : getColumnDropIndexAt(clientX).index;
           clearDragOverTarget();
@@ -12235,7 +12530,14 @@ END OF TERMS AND CONDITIONS
 
       const handleDragReorderPreview = (e) => {
         if (!hasActiveDrag()) return;
-        if (updateDragPreviewFromPoint(e.clientX, e.clientY)) e.preventDefault();
+        e.preventDefault();
+        _pendingReorderPoint = { x: e.clientX, y: e.clientY };
+        if (!_reorderFrame) _reorderFrame = requestAnimationFrame(() => {
+          _reorderFrame = 0;
+          const _point = _pendingReorderPoint;
+          _pendingReorderPoint = null;
+          if (_point && hasActiveDrag()) updateDragPreviewFromPoint(_point.x, _point.y);
+        });
       };
 
       const handleDragReorderDrop = (e) => {
@@ -12257,6 +12559,7 @@ END OF TERMS AND CONDITIONS
       const _cancelPointerInteractions = () => {
         // mouseup・dragendは、このウィンドウではなく別のウィンドウへ届く場合がある。
         _finishColumnResize();
+        _cancelDragSelection();
         _isDragging = false;
         _dragStart = null;
         $dataTable.classList.remove('selecting-cells');
@@ -12467,33 +12770,32 @@ END OF TERMS AND CONDITIONS
         if (e.key === 'Escape' || e.key === 'Delete' || e.key === 'Backspace') scheduleStatusBarUpdate();
       }, true);
 
-      /* --- すべてのデータセルを選択する（コマンドパレット用） --- */
-      const selectAllDataCells = () => {
-        if (state.data.length === 0) return;
+      // 行ごとに独立したSetを構築し、セルごとのMap再取得を省く。
+      const _selectVisibleColumns = (_startCol, _colCount) => {
         clearSelection();
-        const colCount = state.data[0]?.length ?? 0;
-        if (colCount === 0) return;
-        _getVisibleRowIndexes().forEach((rowIdx) => {
-          for (let colIdx = 0; colIdx < colCount; colIdx++) {
-            addCellToSelectionModel(rowIdx, colIdx);
-          }
+        const _endCol = _startCol + _colCount;
+        _getVisibleRowIndexes().forEach((_row) => {
+          const _selectedColumns = new Set();
+          _selectionModel.set(_row, _selectedColumns);
+          for (let _col = _startCol; _col < _endCol; _col++) _selectedColumns.add(_col);
         });
         refreshRenderedSelectionVisuals();
         scheduleStatusBarUpdate();
       };
 
+      /* --- すべてのデータセルを選択する（コマンドパレット用） --- */
+      const selectAllDataCells = () => {
+        if (state.data.length === 0) return;
+        const _colCount = state.data[0]?.length ?? 0;
+        if (_colCount === 0) { clearSelection(); return; }
+        _selectVisibleColumns(0, _colCount);
+      };
+
       /* --- 1列・1行を選択する（データセルのみ） --- */
       const selectColumn = (colIdx) => {
-        if (!Number.isInteger(colIdx) || colIdx < 0) return;
-        if (state.data.length === 0) return;
-        const colCount = state.data[0]?.length ?? 0;
-        if (colIdx >= colCount) return;
-        clearSelection();
-        _getVisibleRowIndexes().forEach((rowIdx) => {
-          addCellToSelectionModel(rowIdx, colIdx);
-        });
-        refreshRenderedSelectionVisuals();
-        scheduleStatusBarUpdate();
+        if (!Number.isInteger(colIdx) || colIdx < 0 || state.data.length === 0) return;
+        if (colIdx >= (state.data[0]?.length ?? 0)) return;
+        _selectVisibleColumns(colIdx, 1);
       };
 
       const selectRow = (rowIdx) => {
@@ -12716,6 +13018,7 @@ END OF TERMS AND CONDITIONS
           void _submitPasteImport();
         }
       });
+      qs('#createTableBtn').addEventListener('click', () => { if (!state.data.length) addRow(); });
       qs('#addRowBtn').addEventListener('click', addRow);
       qs('#addColBtn').addEventListener('click', addColumn);
       qs('#copyBtn').addEventListener('click', copyData);
@@ -12774,6 +13077,19 @@ END OF TERMS AND CONDITIONS
         }
         performSearchImmediate();
       });
+      const _compactControls = matchMedia('(width <= 560px)');
+      const _syncCompactControls = () => {
+        for (const _id of ['replaceControls', 'toolbarMore']) {
+          const $details = qs(`#${_id}`);
+          // 幅変更で入力欄を隠す場合は、キーボード操作の復帰先を確保する。
+          const _restoreFocus = _compactControls.matches && qs('.secondary-controls-content', $details).contains(document.activeElement);
+          $details.open = !_compactControls.matches;
+          if (_restoreFocus) qs('summary', $details).focus();
+        }
+      };
+      _compactControls.addEventListener('change', _syncCompactControls);
+      _syncCompactControls();
+      qs('#emptyResultsClearBtn').addEventListener('click', _clearAllSearchFilters);
       $tableScroll.addEventListener('scroll', scheduleVirtualRender, { passive: true });
       window.addEventListener('resize', scheduleVirtualRender);
       // --- 列フィルターパネルのイベント処理 ---
@@ -12829,6 +13145,7 @@ END OF TERMS AND CONDITIONS
         // 一覧の再描画でクリック対象が外れても、元のイベント経路で判定する。
         if ($colFilterPanel.classList.contains('show') &&
             !e.composedPath().includes($colFilterPanel) &&
+            !e.composedPath().includes($toastContainer) &&
             !e.target.closest('.th-filter-btn') &&
             !e.target.closest('[data-action="open-filter"]')) {
           closeColFilterPanel();
@@ -12844,8 +13161,8 @@ END OF TERMS AND CONDITIONS
         const $saveButton = qs('#saveBtn');
         const $downloadButton = qs('#dlBtn');
         const _canOverwrite = !!_fileHandle && !hasOverwriteFormatMismatch();
-        if ($copyLabel) $copyLabel.textContent = isEnglish() ? 'Copy' : 'コピー';
-        if ($dlLabel) $dlLabel.textContent = isEnglish() ? 'Download' : 'ダウンロード';
+        if ($copyLabel) $copyLabel.textContent = isEnglish() ? 'Copy all rows' : '全件コピー';
+        if ($dlLabel) $dlLabel.textContent = isEnglish() ? 'Download all rows' : '全件ダウンロード';
         if ($saveLabel) $saveLabel.textContent = _saveFileInProgress
           ? (isEnglish() ? 'Saving…' : '保存中…')
           : _canOverwrite

@@ -1,0 +1,26 @@
+[
+  {
+    "version": "before",
+    "warm": false,
+    "entries": 30,
+    "hits": 0
+  },
+  {
+    "version": "before",
+    "warm": true,
+    "entries": 30,
+    "hits": 30
+  },
+  {
+    "version": "after",
+    "warm": false,
+    "entries": 30,
+    "hits": 0
+  },
+  {
+    "version": "after",
+    "warm": true,
+    "entries": 30,
+    "hits": 30
+  }
+]

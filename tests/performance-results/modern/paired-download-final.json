@@ -1,0 +1,331 @@
+{
+  "measuredAt": "2026-10-09T15:58:19.434Z",
+  "browser": "154.0.8037.99",
+  "viewport": [
+    1280,
+    720
+  ],
+  "htmlBytes": 1222822,
+  "cache": "no-store; fresh context per variant/trial",
+  "metric": "actual click event through confirmed download file read and browser timestamp response; includes transport/file overhead; excludes driver element-stability wait; local only",
+  "driverMetric": "driver click request through file read; element-stability animation waiting is included; diagnostic only",
+  "decodeMetric": "performance.now around decoder only; excludes serialization, input wait, rendering and disk; internal diagnostic",
+  "verification": [
+    {
+      "engine": "chromium",
+      "version": "154.0.8037.99",
+      "fallback": false,
+      "status": "passed"
+    },
+    {
+      "engine": "chromium",
+      "version": "154.0.8037.99",
+      "fallback": true,
+      "status": "passed"
+    }
+  ],
+  "samples": [
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 0,
+      "ms": 112.89999997615814,
+      "driverMs": 190.3794170000001
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 0,
+      "ms": 10.899999976158142,
+      "driverMs": 392.75804100000005
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 0,
+      "ms": 56.89999997615814,
+      "driverMs": 107.73075000000063
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 0,
+      "ms": 10.800000011920929,
+      "driverMs": 268.5169169999999
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 1,
+      "ms": 42.200000047683716,
+      "driverMs": 81.3173340000003
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 1,
+      "ms": 6.100000023841858,
+      "driverMs": 359.3682089999993
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 1,
+      "ms": 82.89999997615814,
+      "driverMs": 117.86304200000086
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 1,
+      "ms": 6.100000023841858,
+      "driverMs": 373.62695900000017
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 2,
+      "ms": 71.90000003576279,
+      "driverMs": 114.58650000000125
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 2,
+      "ms": 6.100000023841858,
+      "driverMs": 366.989458
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 2,
+      "ms": 40.5,
+      "driverMs": 80.13791700000002
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 2,
+      "ms": 3.799999952316284,
+      "driverMs": 360.95550000000003
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 3,
+      "ms": 37.69999998807907,
+      "driverMs": 79.75291700000162
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 3,
+      "ms": 6.5,
+      "driverMs": 366.7814589999998
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 3,
+      "ms": 72.90000003576279,
+      "driverMs": 111.4679159999996
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 3,
+      "ms": 7.199999988079071,
+      "driverMs": 367.6827090000006
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 4,
+      "ms": 77.40000003576279,
+      "driverMs": 116.57329200000095
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 4,
+      "ms": 4.600000023841858,
+      "driverMs": 358.3614579999994
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 4,
+      "ms": 35.19999998807907,
+      "driverMs": 48.3325420000001
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 4,
+      "ms": 9,
+      "driverMs": 370.1132089999992
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 5,
+      "ms": 36.700000047683716,
+      "driverMs": 63.1292910000011
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 5,
+      "ms": 5.600000023841858,
+      "driverMs": 367.26124999999956
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 5,
+      "ms": 68.59999996423721,
+      "driverMs": 112.86583400000018
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 5,
+      "ms": 3.899999976158142,
+      "driverMs": 366.2248749999999
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 6,
+      "ms": 76.40000003576279,
+      "driverMs": 127.25695799999994
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 6,
+      "ms": 5.099999964237213,
+      "driverMs": 360.3068750000002
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 6,
+      "ms": 45.19999998807907,
+      "driverMs": 84.56462500000089
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 6,
+      "ms": 5.399999976158142,
+      "driverMs": 256.4530419999992
+    }
+  ],
+  "summary": [
+    {
+      "execution": "first",
+      "before": {
+        "median": 76.40000003576279,
+        "min": 68.59999996423721,
+        "max": 112.89999997615814,
+        "count": 7
+      },
+      "after": {
+        "median": 40.5,
+        "min": 35.19999998807907,
+        "max": 56.89999997615814,
+        "count": 7
+      },
+      "reductionPercent": 46.98952882062568
+    },
+    {
+      "execution": "repeat",
+      "before": {
+        "median": 6.100000023841858,
+        "min": 3.899999976158142,
+        "max": 10.899999976158142,
+        "count": 7
+      },
+      "after": {
+        "median": 6.100000023841858,
+        "min": 3.799999952316284,
+        "max": 10.800000011920929,
+        "count": 7
+      },
+      "reductionPercent": 0
+    }
+  ],
+  "decodeSamples": [
+    {
+      "variant": "before",
+      "trial": 0,
+      "ms": 58.60000002384186
+    },
+    {
+      "variant": "after",
+      "trial": 0,
+      "ms": 1.300000011920929
+    },
+    {
+      "variant": "after",
+      "trial": 1,
+      "ms": 1.5
+    },
+    {
+      "variant": "before",
+      "trial": 1,
+      "ms": 42.80000001192093
+    },
+    {
+      "variant": "before",
+      "trial": 2,
+      "ms": 40.19999998807907
+    },
+    {
+      "variant": "after",
+      "trial": 2,
+      "ms": 1.199999988079071
+    },
+    {
+      "variant": "after",
+      "trial": 3,
+      "ms": 1.2999999523162842
+    },
+    {
+      "variant": "before",
+      "trial": 3,
+      "ms": 38.5
+    },
+    {
+      "variant": "before",
+      "trial": 4,
+      "ms": 46.10000002384186
+    },
+    {
+      "variant": "after",
+      "trial": 4,
+      "ms": 1.399999976158142
+    },
+    {
+      "variant": "after",
+      "trial": 5,
+      "ms": 1.2999999523162842
+    },
+    {
+      "variant": "before",
+      "trial": 5,
+      "ms": 46.40000003576279
+    },
+    {
+      "variant": "before",
+      "trial": 6,
+      "ms": 40.90000003576279
+    },
+    {
+      "variant": "after",
+      "trial": 6,
+      "ms": 1.4000000357627869
+    }
+  ]
+}

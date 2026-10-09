@@ -5,9 +5,11 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "node tests/localcsv-regression.test.mjs",
-    "test:browser": "node tests/localcsv-browser.test.mjs && node tests/localcsv-quality-browser.test.mjs",
-    "watch": "tsc --watch"
+    "test": "node tests/localcsv-regression.test.mjs && node tests/localcsv-download-cleanup.test.mjs && node tests/localcsv-parser-equivalence.mjs && node tests/localcsv-encoding-detection.test.mjs",
+    "test:browser": "node tests/localcsv-browser.test.mjs && node tests/localcsv-quality-browser.test.mjs && node tests/localcsv-usability-browser.test.mjs && npm run test:modern && node tests/localcsv-markup-browser.test.mjs",
+    "watch": "tsc --watch",
+    "test:static": "node tests/localcsv-static.test.mjs && node tests/localcsv-source-audit.test.mjs && node tests/localcsv-source-audit.mjs",
+    "test:modern": "node tests/localcsv-modern-browser.test.mjs"
   },
   "repository": {
     "type": "git",
@@ -15,6 +17,8 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "@babel/parser": "8.0.7",
+    "playwright": "1.64.0",
+    "typescript": "7.0.2"
   }
 }

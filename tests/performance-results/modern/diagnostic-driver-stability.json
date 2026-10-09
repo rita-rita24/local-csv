@@ -1,0 +1,302 @@
+{
+  "measuredAt": "2026-10-09T15:56:16.684Z",
+  "browser": "154.0.8037.99",
+  "viewport": [
+    1280,
+    720
+  ],
+  "htmlBytes": 1222822,
+  "cache": "no-store; fresh context per variant/trial",
+  "metric": "driver click start through download file read; includes automation overhead; local only",
+  "decodeMetric": "performance.now around decoder only; excludes serialization, input wait, rendering and disk; internal diagnostic",
+  "verification": [
+    {
+      "engine": "chromium",
+      "version": "154.0.8037.99",
+      "fallback": false,
+      "status": "passed"
+    },
+    {
+      "engine": "chromium",
+      "version": "154.0.8037.99",
+      "fallback": true,
+      "status": "passed"
+    }
+  ],
+  "samples": [
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 0,
+      "ms": 234.41191700000127
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 0,
+      "ms": 396.6955830000006
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 0,
+      "ms": 172.83879199999865
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 0,
+      "ms": 474.83437500000036
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 1,
+      "ms": 148.99295900000106
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 1,
+      "ms": 398.6251250000005
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 1,
+      "ms": 239.95104199999878
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 1,
+      "ms": 310.1584579999999
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 2,
+      "ms": 262.01558399999885
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 2,
+      "ms": 282.7629159999997
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 2,
+      "ms": 121.9720840000009
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 2,
+      "ms": 360.92112500000076
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 3,
+      "ms": 207.27149999999892
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 3,
+      "ms": 293.3171659999971
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 3,
+      "ms": 265.10012500000084
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 3,
+      "ms": 282.109375
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 4,
+      "ms": 181.53741699999955
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 4,
+      "ms": 256.93762499999866
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 4,
+      "ms": 130.83020800000304
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 4,
+      "ms": 293.59862500000236
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 5,
+      "ms": 294.44474999999875
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 5,
+      "ms": 276.4445830000004
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 5,
+      "ms": 164.28220900000088
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 5,
+      "ms": 260.02991699999984
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 6,
+      "ms": 896.8137079999979
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 6,
+      "ms": 392.45083299999897
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 6,
+      "ms": 123.42354200000045
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 6,
+      "ms": 414.45950000000084
+    }
+  ],
+  "summary": [
+    {
+      "execution": "first",
+      "before": {
+        "median": 239.95104199999878,
+        "min": 164.28220900000088,
+        "max": 896.8137079999979,
+        "count": 7
+      },
+      "after": {
+        "median": 148.99295900000106,
+        "min": 121.9720840000009,
+        "max": 294.44474999999875,
+        "count": 7
+      },
+      "reductionPercent": 37.90693394863365
+    },
+    {
+      "execution": "repeat",
+      "before": {
+        "median": 282.7629159999997,
+        "min": 256.93762499999866,
+        "max": 396.6955830000006,
+        "count": 7
+      },
+      "after": {
+        "median": 360.92112500000076,
+        "min": 276.4445830000004,
+        "max": 474.83437500000036,
+        "count": 7
+      },
+      "reductionPercent": -27.640897931608954
+    }
+  ],
+  "decodeSamples": [
+    {
+      "variant": "before",
+      "trial": 0,
+      "ms": 67.69999998807907
+    },
+    {
+      "variant": "after",
+      "trial": 0,
+      "ms": 1.800000011920929
+    },
+    {
+      "variant": "after",
+      "trial": 1,
+      "ms": 1.899999976158142
+    },
+    {
+      "variant": "before",
+      "trial": 1,
+      "ms": 68.30000001192093
+    },
+    {
+      "variant": "before",
+      "trial": 2,
+      "ms": 73.59999996423721
+    },
+    {
+      "variant": "after",
+      "trial": 2,
+      "ms": 1.9000000357627869
+    },
+    {
+      "variant": "after",
+      "trial": 3,
+      "ms": 2
+    },
+    {
+      "variant": "before",
+      "trial": 3,
+      "ms": 76
+    },
+    {
+      "variant": "before",
+      "trial": 4,
+      "ms": 67.5
+    },
+    {
+      "variant": "after",
+      "trial": 4,
+      "ms": 1.9000000357627869
+    },
+    {
+      "variant": "after",
+      "trial": 5,
+      "ms": 1.5
+    },
+    {
+      "variant": "before",
+      "trial": 5,
+      "ms": 79.19999998807907
+    },
+    {
+      "variant": "before",
+      "trial": 6,
+      "ms": 85.69999998807907
+    },
+    {
+      "variant": "after",
+      "trial": 6,
+      "ms": 3.900000035762787
+    }
+  ]
+}

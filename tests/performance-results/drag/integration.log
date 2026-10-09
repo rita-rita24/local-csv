@@ -1,0 +1,13 @@
+chromium: exact sort, navigation, download and recovery passed
+chromium: multiline editing and regex timeout/recovery passed
+chromium: concurrent tabs retain the latest recovery copy
+chromium: chunk/manifest quota failures restore completely
+chromium: importing 日本語-utf8.csv
+chromium: importing 日本語-utf16.csv
+chromium: importing 日本語-sjis.csv
+chromium: file import/export preserves UTF-8, UTF-16, Shift-JIS, line breaks and inert markup
+chromium: virtual scrolling, delayed search and IME preserve pending edits
+chromium: exact replacement, pending edits, clipboard failure and empty preview passed
+chromium: search-column remapping, structural undo, keyboard clipboard and pending toolbar edits passed
+{"engine":"chromium","version":"154.0.8037.99","rows":12000,"importMs":604,"sortMs":134,"totalMs":21237}
+localcsv browser tests passed

@@ -1,0 +1,177 @@
+{
+  "rows": [
+    {
+      "operation": "all-first",
+      "metric": "resultMs",
+      "beforeMedianMs": 182.89999997615814,
+      "afterMedianMs": 98,
+      "reductionMs": 84.89999997615814,
+      "reductionPercent": 46.41880808486892,
+      "beforeRangeMs": [
+        121.20000004768372,
+        259.80000001192093
+      ],
+      "afterRangeMs": [
+        76.10000002384186,
+        147.80000001192093
+      ],
+      "beforeRuns": 7,
+      "afterRuns": 7,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 164.55999999046327,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "all-first",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 188.89999997615814,
+      "afterMedianMs": 113,
+      "reductionMs": 75.89999997615814,
+      "reductionPercent": 40.17998940483737,
+      "beforeRangeMs": [
+        131.60000002384186,
+        264.30000001192093
+      ],
+      "afterRangeMs": [
+        77.60000002384186,
+        154.60000002384186
+      ],
+      "beforeRuns": 7,
+      "afterRuns": 7,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 256.7949999451637,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "resultMs",
+      "beforeMedianMs": 202.19999998807907,
+      "afterMedianMs": 110,
+      "reductionMs": 92.19999998807907,
+      "reductionPercent": 45.598417405299124,
+      "beforeRangeMs": [
+        126.59999996423721,
+        240.5
+      ],
+      "afterRangeMs": [
+        73.80000001192093,
+        145.10000002384186
+      ],
+      "beforeRuns": 7,
+      "afterRuns": 7,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 178.4799999713898,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 216.30000001192093,
+      "afterMedianMs": 112.89999997615814,
+      "reductionMs": 103.40000003576279,
+      "reductionPercent": 47.80397597321503,
+      "beforeRangeMs": [
+        128,
+        246.30000001192093
+      ],
+      "afterRangeMs": [
+        75.30000001192093,
+        147.4000000357628
+      ],
+      "beforeRuns": 7,
+      "afterRuns": 7,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 266.68499997258186,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "column",
+      "metric": "resultMs",
+      "beforeMedianMs": 30.099999964237213,
+      "afterMedianMs": 18.400000035762787,
+      "reductionMs": 11.699999928474426,
+      "reductionPercent": 38.87043170224444,
+      "beforeRangeMs": [
+        20.799999952316284,
+        35.89999997615814
+      ],
+      "afterRangeMs": [
+        15.199999988079071,
+        25
+      ],
+      "beforeRuns": 7,
+      "afterRuns": 7,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 45.425,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "column",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 33,
+      "afterMedianMs": 30.19999998807907,
+      "reductionMs": 2.800000011920929,
+      "reductionPercent": 8.48484852097251,
+      "beforeRangeMs": [
+        30.5,
+        37.89999997615814
+      ],
+      "afterRangeMs": [
+        27.5,
+        31.69999998807907
+      ],
+      "beforeRuns": 7,
+      "afterRuns": 7,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 48.41500002741813,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    }
+  ],
+  "longTasks": [
+    {
+      "operation": "all-first",
+      "before": {
+        "trials": 7,
+        "tasks": 7,
+        "maximumMs": 260
+      },
+      "after": {
+        "trials": 7,
+        "tasks": 7,
+        "maximumMs": 148
+      }
+    },
+    {
+      "operation": "all-repeat",
+      "before": {
+        "trials": 7,
+        "tasks": 7,
+        "maximumMs": 240
+      },
+      "after": {
+        "trials": 7,
+        "tasks": 7,
+        "maximumMs": 145
+      }
+    },
+    {
+      "operation": "column",
+      "before": {
+        "trials": 7,
+        "tasks": 0,
+        "maximumMs": null
+      },
+      "after": {
+        "trials": 7,
+        "tasks": 0,
+        "maximumMs": null
+      }
+    }
+  ]
+}

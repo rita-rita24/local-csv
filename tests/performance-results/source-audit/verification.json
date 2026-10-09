@@ -1,0 +1,57 @@
+{
+  "verifiedAt": "2026-10-09T17:58:42.384905+00:00",
+  "checks": {
+    "node22": {
+      "static": "passed",
+      "audit": "passed",
+      "regression": "passed",
+      "downloadCleanup": "passed",
+      "parserEquivalence": "passed",
+      "encodingDetection": "passed"
+    },
+    "node24": {
+      "build": "passed",
+      "static": "passed",
+      "audit": "passed",
+      "regression": "passed",
+      "downloadCleanup": "passed",
+      "parserEquivalence": "passed",
+      "encodingDetection": "passed"
+    },
+    "browser": {
+      "engines": [
+        "Chromium 154.0.8037.99",
+        "Firefox 155.0",
+        "WebKit 27.2"
+      ],
+      "integration": "passed",
+      "quality": {
+        "conditions": 111,
+        "status": "passed"
+      },
+      "usability": {
+        "conditions": 33,
+        "status": "passed"
+      },
+      "modernStandardFallback": {
+        "conditions": 6,
+        "status": "passed"
+      },
+      "markup": {
+        "documentsTimesEngines": 6,
+        "status": "passed"
+      },
+      "consolePageErrors": 0
+    },
+    "distributionZipBytes": "passed",
+    "remoteCI": "not_run",
+    "production": "not_deployed_not_measured",
+    "wholeRequest": "incomplete",
+    "round2ExtractionSmoke": {
+      "status": "passed",
+      "samples": 28,
+      "pairedLengthsAndByteCounts": "matched",
+      "performanceClaim": false
+    }
+  }
+}

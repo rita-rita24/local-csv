@@ -1,0 +1,17 @@
+chromium: file import steps preserve keyboard focus, settings and preview passed
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"table":{"x":13,"y":687.671875,"width":364,"height":146.875,"top":687.671875,"right":377,"bottom":834.546875,"left":13},"groups":[{"id":"replaceControls","open":false},{"id":"toolbarMore","open":false}],"toolbar":{"x":12,"y":512.671875,"width":366,"height":166,"top":512.671875,"right":378,"bottom":678.671875,"left":12},"search":{"x":12,"y":183.796875,"width":366,"height":320.875,"top":183.796875,"right":378,"bottom":504.671875,"left":12},"active":"","parts":[{"selector":".search-main-row","box":{"x":25,"y":192.796875,"width":340,"height":148,"top":192.796875,"right":365,"bottom":340.796875,"left":25},"font":"14px"},{"selector":".filter-status","box":{"x":25,"y":400.796875,"width":340,"height":94.875,"top":400.796875,"right":365,"bottom":495.671875,"left":25},"font":"13px"},{"selector":"#replaceControls","box":{"x":25,"y":348.796875,"width":340,"height":44,"top":348.796875,"right":365,"bottom":392.796875,"left":25},"font":"14px"},{"selector":"#toolbarMore","box":{"x":25,"y":625.671875,"width":340,"height":44,"top":625.671875,"right":365,"bottom":669.671875,"left":25},"font":"14px"},{"selector":".header","box":{"x":12,"y":12,"width":366,"height":163.796875,"top":12,"right":378,"bottom":175.796875,"left":12},"font":"14px"}],"scrollY":0}
+    at page.setViewportSize.width (file:///Users/arita-ritsuki/Documents/%E3%83%88%E3%82%99%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/local-csv/tests/localcsv-usability-browser.test.mjs:110:12)
+    at async file:///Users/arita-ritsuki/Documents/%E3%83%88%E3%82%99%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/local-csv/tests/localcsv-usability-browser.test.mjs:335:7 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.22.2

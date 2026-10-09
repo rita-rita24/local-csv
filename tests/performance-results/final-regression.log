@@ -1,0 +1,6 @@
+
+> local-csv@1.2.6 test
+> node tests/localcsv-regression.test.mjs
+
+localcsv regression tests passed
+10,000 seeded parser equivalence cases passed

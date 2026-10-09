@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-10-09T16:56:21.405785+00:00",
+  "node22": {
+    "regression": "passed",
+    "static": "passed"
+  },
+  "node24": {
+    "build": "passed",
+    "regression": "passed",
+    "static": "passed",
+    "selectionCIConditions": "passed; 12000 rows, one trial"
+  },
+  "browserPipeline": "passed; integration 3 engines, quality 111 cases, usability 33 scenarios, native/fallback 6 conditions",
+  "selectionPerformance": "all 7 before / 7 after; alternating order, full selected output, contraction and durable CSV equality",
+  "gitDiffCheck": "passed",
+  "performanceTargets": "result-time absolute targets unmet; observe summary.json",
+  "remoteCI": "not run",
+  "productionDeployment": "not done",
+  "productionMeasurements": "not done"
+}

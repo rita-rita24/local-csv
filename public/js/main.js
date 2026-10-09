@@ -5,7 +5,7 @@
 /* ---- DOM取得ヘルパー（AGENTS.md準拠） ---- */
 const qs = (sel, root = document) => root.querySelector(sel);
 const qsa = (sel, root = document) => [...root.querySelectorAll(sel)];
-/* ---- LocalCSV.htmlのダウンロード・コピー ---- */
+/* ---- local-csv.htmlのダウンロード・コピー ---- */
 const DOWNLOAD_FILE_NAME = "localcsv.html";
 const COPY_TOAST_MS = 1800;
 const COPY_TOAST_REMOVE_DELAY_MS = 280;
@@ -29,14 +29,19 @@ const _triggerDownload = (href, fileName) => {
     $anchor.href = href;
     $anchor.download = fileName;
     document.body.appendChild($anchor);
-    $anchor.click();
-    $anchor.remove();
+    try {
+        $anchor.click();
+    }
+    finally {
+        $anchor.remove();
+    }
 };
 const _decodeBase64Utf8 = (base64) => {
     try {
-        const binary = window.atob(base64);
-        const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-        return new TextDecoder("utf-8").decode(bytes);
+        const _bytes = typeof Uint8Array.fromBase64 === "function"
+            ? Uint8Array.fromBase64(base64)
+            : Uint8Array.from(window.atob(base64), (_char) => _char.charCodeAt(0));
+        return new TextDecoder("utf-8").decode(_bytes);
     }
     catch {
         return null;
@@ -116,6 +121,15 @@ const _copyText = async (text) => {
             // 従来のコピー処理に切り替える
         }
     }
+    const $previousFocus = document.activeElement;
+    const _selection = window.getSelection();
+    const _ranges = _selection
+        ? Array.from({ length: _selection.rangeCount }, (_, _index) => _selection.getRangeAt(_index).cloneRange())
+        : [];
+    const _inputSelection = ($previousFocus instanceof HTMLInputElement || $previousFocus instanceof HTMLTextAreaElement)
+        && typeof $previousFocus.selectionStart === "number"
+        ? { start: $previousFocus.selectionStart, end: $previousFocus.selectionEnd, direction: $previousFocus.selectionDirection }
+        : null;
     const $textarea = document.createElement("textarea");
     try {
         $textarea.value = text;
@@ -131,6 +145,19 @@ const _copyText = async (text) => {
     }
     finally {
         $textarea.remove();
+        if ($previousFocus instanceof HTMLElement && $previousFocus.isConnected) {
+            $previousFocus.focus({ preventScroll: true });
+            if (_inputSelection && ($previousFocus instanceof HTMLInputElement || $previousFocus instanceof HTMLTextAreaElement)) {
+                $previousFocus.setSelectionRange(_inputSelection.start, _inputSelection.end, _inputSelection.direction ?? undefined);
+            }
+        }
+        if (!_inputSelection && _selection) {
+            _selection.removeAllRanges();
+            for (const _range of _ranges) {
+                if (_range.commonAncestorContainer.isConnected)
+                    _selection.addRange(_range);
+            }
+        }
     }
 };
 const _getLpToastViewport = () => {

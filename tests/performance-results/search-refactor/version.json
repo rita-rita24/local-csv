@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-10-09T16:26:55.036486+00:00",
+  "status": "local_verified_not_deployed",
+  "gitHead": "1e2fc63",
+  "packageVersion": "1.2.6",
+  "files": {
+    "local-csv.html": {
+      "bytes": 1222206,
+      "sha256": "a572f8d842d9f19423231f8744e5cbed41f4066f5e6b77eeefd89d43f5daec42"
+    },
+    "index.html": {
+      "bytes": 1655979,
+      "sha256": "5bae0cb2bd0614f3061084180d635894ee31a0129d23567503245bce27106652"
+    },
+    "tests/localcsv-regression.test.mjs": {
+      "bytes": 153881,
+      "sha256": "89079946e1a7035292ca07bda0065f4d72d8b68e099b7dd8bd7cc88fdd840f20"
+    },
+    "tests/localcsv-continuous-search-browser.test.mjs": {
+      "bytes": 6100,
+      "sha256": "ba3a250e05c2b411ae1c5aafd7c2e039897fd32d3718cc6753ef118ab16c7f4b"
+    },
+    ".github/workflows/verify.yml": {
+      "bytes": 799,
+      "sha256": "84a717f3a5a38ddf5bf6b7085a051ad42f29b527ba7b38f95e0797908788a26b"
+    },
+    "README.md": {
+      "bytes": 52051,
+      "sha256": "6469039d417255fa3d6accf354a6714970860d8f5778b95aa8a52360104e998d"
+    },
+    "src/main.ts": {
+      "bytes": 11858,
+      "sha256": "b94ba5282a93ef0c9d7c8747483db433b79186316da0588fd0b86ce0e7c3860b"
+    },
+    "public/js/main.js": {
+      "bytes": 12368,
+      "sha256": "64f33d14df4f75cd9bb1040ff643451f3f902a08250b9d4291f5a37226c71ef0"
+    },
+    "tests/localcsv-quality-browser.test.mjs": {
+      "bytes": 59022,
+      "sha256": "b60f6240b780b283a85468735b8be36de781893eeced0cee44afdd76e113abcb"
+    },
+    "tests/localcsv-static.test.mjs": {
+      "bytes": 5260,
+      "sha256": "51596380fd518b1c558ad801d3444dfe4c263b8bde15de78aeaf1ca0bcc459c9"
+    }
+  },
+  "verifiedAt": "2026-10-09T16:32:11.267186+00:00"
+}

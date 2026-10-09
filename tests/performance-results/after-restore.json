@@ -1,0 +1,775 @@
+{
+  "measuredAt": "2026-10-08T16:03:43.727Z",
+  "root": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv",
+  "runs": 5,
+  "versions": {
+    "local-csv.html": "f0b33795c2731d9b10720115ad95b6cece33c23717ff4725c03f16583974744e",
+    "index.html": "5b1821ead54e78f615cd4a6624651be1fdf1e67c3520d6f15f48af6c8ee03fab",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "HTTP cache disabled by Playwright favicon routing; fresh context vs same-context repeated access; server sends max-age=3600; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "browserHttpCacheDisabledByPlaywrightRouting": true
+  },
+  "errors": [],
+  "results": [
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.5,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 146,
+      "run": 0
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 46,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 127.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 128.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 163.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 983.0999999642372,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1180.5999999642372,
+      "run": 0
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 574,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 877.8999999761581,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 879,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 95.40000003576279,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 297.7000000476837,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 246.5,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 366.89999997615814,
+      "run": 0
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 61.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 224.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 226.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 114.19999998807907,
+      "run": 0
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 262,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 178.9000000357628,
+      "run": 1
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 45.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 105.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 107.39999997615814,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.39999997615814,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.5,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 673.5,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 800.1000000238419,
+      "run": 1
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 451.5999999642372,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 378.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 379.80000001192093,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 96.39999997615814,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 165.10000002384186,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 174.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 283,
+      "run": 1
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 80.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 178.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 179.60000002384186,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 79.89999997615814,
+      "run": 1
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 146.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.10000002384186,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 63.90000003576279,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 110.70000004768372,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 111.90000003576279,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 78.89999997615814,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 146.89999997615814,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 784,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 873.3999999761581,
+      "run": 2
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 428.0999999642372,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 861.3000000119209,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 861.8000000119209,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 96.09999996423721,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 174.5,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 179.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 254,
+      "run": 2
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 63.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 161.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 162.60000002384186,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 81.10000002384186,
+      "run": 2
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 181.20000004768372,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.5,
+      "run": 3
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 63.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 95.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.80000001192093,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.39999997615814,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 695.3000000119209,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 794.9000000357628,
+      "run": 3
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 418.4000000357628,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 898.6999999880791,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 902.5,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 117.5,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 265,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 224.89999997615814,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 353.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 78.80000001192093,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 208.70000004768372,
+      "run": 3
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 210.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 96.69999998807907,
+      "run": 3
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 180,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 64.5,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 132.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "search-filter",
+      "condition": "small",
+      "metric": "result",
+      "ms": 46.5,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "content",
+      "ms": 111.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 113.30000001192093,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.69999998807907,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 146.79999995231628,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1060.3999999761581,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1141.699999988079,
+      "run": 4
+    },
+    {
+      "screen": "search-filter",
+      "condition": "large",
+      "metric": "result",
+      "ms": 595.8000000119209,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "content",
+      "ms": 877.5,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 883.5,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "content",
+      "ms": 112.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 189.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 221,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 334.4000000357628,
+      "run": 4
+    },
+    {
+      "screen": "search-filter",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 76.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 195.0999999642372,
+      "run": 4
+    },
+    {
+      "screen": "restore-offer",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 196.5999999642372,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 96.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "restore",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 213.20000004768372,
+      "run": 4
+    }
+  ]
+}

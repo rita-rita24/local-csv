@@ -5,7 +5,7 @@ import { createRequire } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const EDITOR_FILE = process.env.LOCALCSV_TEST_FILE || 'LocalCSV.html';
+const EDITOR_FILE = process.env.LOCALCSV_TEST_FILE || 'local-csv.html';
 const require = createRequire(import.meta.url);
 let playwright;
 try {
@@ -140,9 +140,13 @@ const CASES = [
     const box = await handle.boundingBox();
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.down();
+    const initialWidth = await page.locator('th[data-col="0"]').evaluate(element => parseFloat(getComputedStyle(element).width));
     await page.mouse.move(box.x + 80, box.y + box.height / 2);
-    const width = await page.locator('th[data-col="0"]').evaluate(element => getComputedStyle(element).width);
     await page.evaluate(() => window.dispatchEvent(new Event('blur')));
+    // blurは未実行のrAFに残った最終位置も確定する。移動直後の古い幅と比較しない。
+    const width = await page.locator('th[data-col="0"]').evaluate(element => getComputedStyle(element).width);
+    assert.ok(Math.abs(parseFloat(width) - initialWidth - (80 - box.width / 2)) <= 1,
+      'blur must commit the latest pointer position even before the scheduled animation frame');
     assert.notEqual(await page.locator('body').evaluate(element => getComputedStyle(element).cursor), 'col-resize', 'missing mouseup outside the window must not leave resize active');
     await page.mouse.move(box.x + 140, box.y + box.height / 2);
     assert.equal(await page.locator('th[data-col="0"]').evaluate(element => getComputedStyle(element).width), width);
@@ -540,7 +544,7 @@ const CASES = [
     const downloadEvent = page.waitForEvent('download');
     await page.locator('[data-download-editor]').first().click();
     const download = await downloadEvent;
-    assert.deepEqual(await fs.readFile(await download.path()), await fs.readFile(path.join(ROOT, 'LocalCSV.html')));
+    assert.deepEqual(await fs.readFile(await download.path()), await fs.readFile(path.join(ROOT, 'local-csv.html')));
     assert.equal(download.suggestedFilename().toLowerCase(), 'localcsv.html');
   }],
   ['landing dialogs contain keyboard focus and restore the trigger', async page => {

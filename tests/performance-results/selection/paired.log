@@ -1,0 +1,377 @@
+selection before trial 1/7: exact all/column output, contraction passed
+selection after trial 1/7: exact all/column output, contraction passed
+selection after trial 2/7: exact all/column output, contraction passed
+selection before trial 2/7: exact all/column output, contraction passed
+selection before trial 3/7: exact all/column output, contraction passed
+selection after trial 3/7: exact all/column output, contraction passed
+selection after trial 4/7: exact all/column output, contraction passed
+selection before trial 4/7: exact all/column output, contraction passed
+selection before trial 5/7: exact all/column output, contraction passed
+selection after trial 5/7: exact all/column output, contraction passed
+selection after trial 6/7: exact all/column output, contraction passed
+selection before trial 6/7: exact all/column output, contraction passed
+selection before trial 7/7: exact all/column output, contraction passed
+selection after trial 7/7: exact all/column output, contraction passed
+{
+  "timestamp": "2026-10-09T16:45:03.242Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "4feb9830c757eafeb2ce5d0b883801c05380d72f4622372260a37c565d9d0727",
+  "browser": "154.0.8037.99",
+  "rows": 100000,
+  "columns": 20,
+  "runs": 7,
+  "completion": "Actual click to correct selection hint mutation; separate second-rAF opportunity. No GPU presentation or INP claim.",
+  "results": [
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 56,
+      "frameOpportunityMs": 60.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 58.89999997615814,
+      "frameOpportunityMs": 60.69999998807907,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 7.800000011920929,
+      "frameOpportunityMs": 30.900000035762787,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 48,
+      "frameOpportunityMs": 52.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 52,
+      "frameOpportunityMs": 54,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 7,
+      "frameOpportunityMs": 30.899999976158142,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 55.40000003576279,
+      "frameOpportunityMs": 60.5,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 57.59999996423721,
+      "frameOpportunityMs": 60,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 7.899999976158142,
+      "frameOpportunityMs": 30.100000023841858,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 58.30000001192093,
+      "frameOpportunityMs": 62.60000002384186,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 57,
+      "frameOpportunityMs": 58.799999952316284,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 6,
+      "frameOpportunityMs": 30.900000035762787,
+      "longTasks": []
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 56,
+      "frameOpportunityMs": 60.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 55.09999996423721,
+      "frameOpportunityMs": 57,
+      "longTasks": []
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 6.199999988079071,
+      "frameOpportunityMs": 31.399999976158142,
+      "longTasks": []
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 50.5,
+      "frameOpportunityMs": 54.700000047683716,
+      "longTasks": []
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 49.40000003576279,
+      "frameOpportunityMs": 51.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 5.799999952316284,
+      "frameOpportunityMs": 31.099999964237213,
+      "longTasks": []
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 58.10000002384186,
+      "frameOpportunityMs": 63.69999998807907,
+      "longTasks": []
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 69.69999998807907,
+      "frameOpportunityMs": 72.59999996423721,
+      "longTasks": []
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 11.399999976158142,
+      "frameOpportunityMs": 29.69999998807907,
+      "longTasks": []
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 87,
+      "frameOpportunityMs": 94.10000002384186,
+      "longTasks": []
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 88.09999996423721,
+      "frameOpportunityMs": 91.19999998807907,
+      "longTasks": []
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 9.600000023841858,
+      "frameOpportunityMs": 27.400000035762787,
+      "longTasks": []
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 84.40000003576279,
+      "frameOpportunityMs": 91.80000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 89.39999997615814,
+      "frameOpportunityMs": 92.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 9.799999952316284,
+      "frameOpportunityMs": 31.299999952316284,
+      "longTasks": []
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 69.30000001192093,
+      "frameOpportunityMs": 76,
+      "longTasks": []
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 74.10000002384186,
+      "frameOpportunityMs": 77.10000002384186,
+      "longTasks": []
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 9.699999988079071,
+      "frameOpportunityMs": 29.899999976158142,
+      "longTasks": []
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 78.5,
+      "frameOpportunityMs": 86.19999998807907,
+      "longTasks": []
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 86.5,
+      "frameOpportunityMs": 90.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 5,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 12.899999976158142,
+      "frameOpportunityMs": 26.599999964237213,
+      "longTasks": []
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 104.10000002384186,
+      "frameOpportunityMs": 114.5,
+      "longTasks": [
+        {
+          "start": 6872.200000047684,
+          "duration": 88
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 100.19999998807907,
+      "frameOpportunityMs": 104,
+      "longTasks": [
+        {
+          "start": 7771.5,
+          "duration": 86
+        }
+      ]
+    },
+    {
+      "run": 5,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 13.099999964237213,
+      "frameOpportunityMs": 28.30000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 87.19999998807907,
+      "frameOpportunityMs": 94.59999996423721,
+      "longTasks": []
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 81.39999997615814,
+      "frameOpportunityMs": 84,
+      "longTasks": []
+    },
+    {
+      "run": 6,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 9.800000011920929,
+      "frameOpportunityMs": 29.80000001192093,
+      "longTasks": []
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 79.5,
+      "frameOpportunityMs": 87.90000003576279,
+      "longTasks": []
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 74.09999996423721,
+      "frameOpportunityMs": 77.09999996423721,
+      "longTasks": []
+    },
+    {
+      "run": 6,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 13.899999976158142,
+      "frameOpportunityMs": 24.69999998807907,
+      "longTasks": []
+    }
+  ],
+  "errors": [],
+  "before": {
+    "source": "/private/tmp/localcsv-selection-before/local-csv.html",
+    "sha256": "a572f8d842d9f19423231f8744e5cbed41f4066f5e6b77eeefd89d43f5daec42"
+  }
+}

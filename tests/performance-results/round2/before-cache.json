@@ -1,0 +1,952 @@
+{
+  "measuredAt": "2026-10-08T23:23:41.675Z",
+  "root": "/private/tmp/localcsv-round2-before",
+  "runs": 5,
+  "versions": {
+    "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+    "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "fresh context vs same-context reload; HTTP max-age=3600; resource timing cache-hit audit; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "fileSource": "synthetic File payload; physical disk latency excluded"
+  },
+  "cacheAudit": [
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "screen": "LP",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:55467/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:55467/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "results": [
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 207.0999999642372,
+      "run": 0
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 328.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 598.5,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 161,
+      "run": 0
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 46.09999996423721,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 244.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 93.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 230.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 111.40000003576279,
+      "run": 0
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 46.80000001192093,
+      "run": 0
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 195.70000004768372,
+      "run": 0
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 149.4000000357628,
+      "run": 1
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 113.60000002384186,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 302.5,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 144.5999999642372,
+      "run": 1
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 47.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 229.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 111.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 96.19999998807907,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 246.0999999642372,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 112.90000003576279,
+      "run": 1
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 30.5,
+      "run": 1
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 179.69999998807907,
+      "run": 1
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 154.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 112.19999998807907,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 306.39999997615814,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 129.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 44.90000003576279,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 214.30000001192093,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.5,
+      "run": 2
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 81,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 213.30000001192093,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 112.90000003576279,
+      "run": 2
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 44.89999997615814,
+      "run": 2
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 198.69999998807907,
+      "run": 2
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 227.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 145.60000002384186,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 416.80000001192093,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 205.39999997615814,
+      "run": 3
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 42.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 288.89999997615814,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 110.10000002384186,
+      "run": 3
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 96.40000003576279,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 246.5,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 143.89999997615814,
+      "run": 3
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 43.89999997615814,
+      "run": 3
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 230.39999997615814,
+      "run": 3
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 285.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 113.5,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 435.9000000357628,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 162.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 129.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 330.60000002384186,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 236,
+      "run": 4
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 111.39999997615814,
+      "run": 4
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 387.30000001192093,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 158.89999997615814,
+      "run": 4
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 79.5,
+      "run": 4
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 281.19999998807907,
+      "run": 4
+    }
+  ]
+}

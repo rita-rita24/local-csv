@@ -1,0 +1,8 @@
+
+> local-csv@1.2.6 test
+> node tests/localcsv-regression.test.mjs && node tests/localcsv-download-cleanup.test.mjs && node tests/localcsv-parser-equivalence.mjs && node tests/localcsv-encoding-detection.test.mjs
+
+localcsv regression tests passed
+Download success, repeated failure, anchor and Blob cleanup passed.
+10,000 seeded parser equivalence cases passed
+24,576 byte/alignment cases; 10,000 random + 10,000 safe ASCII files; all encodings/BOM/control boundaries: labels, text and warnings match the previous HTML

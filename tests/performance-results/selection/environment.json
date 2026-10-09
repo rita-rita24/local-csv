@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-09T16:52:32.556Z",
+  "node": "v24.21.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "osRelease": "25.2.0",
+  "cpu": "Apple M4",
+  "totalMemoryBytes": 34359738368,
+  "conditions": "Local host; power/thermal/GC/cache state not controlled"
+}

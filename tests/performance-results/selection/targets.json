@@ -1,0 +1,38 @@
+{
+  "recordedAt": "2026-10-09T16:37:14.988733+00:00",
+  "sourceBeforeSha256": "a572f8d842d9f19423231f8744e5cbed41f4066f5e6b77eeefd89d43f5daec42",
+  "runs": 7,
+  "rows": 100000,
+  "columns": 20,
+  "operations": {
+    "all-first": {
+      "beforeMedianMs": {
+        "resultMs": 57.39999997615814,
+        "frameOpportunityMs": 61.5
+      },
+      "resultTargetMs": 45.91999998092652,
+      "frameOpportunityTargetMs": 70.725,
+      "intent": "no more than 15% median regression for column / frame opportunity; at least 20% result-time reduction for all selection"
+    },
+    "all-repeat": {
+      "beforeMedianMs": {
+        "resultMs": 58.299999952316284,
+        "frameOpportunityMs": 60.09999996423721
+      },
+      "resultTargetMs": 46.63999996185303,
+      "frameOpportunityTargetMs": 69.11499995887279,
+      "intent": "no more than 15% median regression for column / frame opportunity; at least 20% result-time reduction for all selection"
+    },
+    "column": {
+      "beforeMedianMs": {
+        "resultMs": 6.200000047683716,
+        "frameOpportunityMs": 29.69999998807907
+      },
+      "resultTargetMs": 7.130000054836272,
+      "frameOpportunityTargetMs": 34.15499998629093,
+      "intent": "no more than 15% median regression for column / frame opportunity; at least 20% result-time reduction for all selection"
+    }
+  },
+  "correctness": "Exact selected TSV and durable unchanged CSV for every trial; filtered/empty/invalid/ragged/independent-set cases in regression",
+  "limitations": "Local browser observations. No production, GPU presentation, INP or minimum-browser measurement. Small milliseconds differences require ranges and repeated confirmation."
+}

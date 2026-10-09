@@ -1,0 +1,50 @@
+--- /private/tmp/localcsv-copy-before/local-csv.html	2026-10-10 02:00:05
++++ local-csv.html	2026-10-10 02:07:18
+@@ -7083,8 +7083,9 @@
+ 
+       const _quoteTsvCell = (cell, _columnIndex, _row) => {
+         const text = normalizeCellValue(cell);
+-        const escaped = text.replace(/"/g, '""');
+-        return ((text === '' && _row.length === 1) || /[\t\r\n"]/.test(text)) ? `"${escaped}"` : text;
++        if (text === '' && _row.length === 1) return '""';
++        if (!/[\t\r\n"]/.test(text)) return text;
++        return `"${text.replace(/"/g, '""')}"`;
+       };
+ 
+       const _buildTsvRows = (rows) => (
+@@ -8901,17 +8902,17 @@
+ 
+       const copySelectedCells = async () => {
+         commitActiveCellEdit();
+-        let totalCells = 0;
+-        const rows = _getSelectedRowsInVisibleOrder().map(r => {
+-          const cols = [..._selectionModel.get(r)].sort((a, b) => a - b);
+-          totalCells += cols.length;
+-          return cols.map(c => state.data[r]?.[c] ?? '');
+-        });
+-        if (totalCells === 0) return false;
+-
+         try {
+-          if (!(await copyTextToClipboard(_buildTsvRows(rows)))) throw new Error('copy failed');
+-          showToast(`<span class="material-symbols-outlined">content_copy</span> ${totalCells}セルをコピーしました`, 'success');
++          let _totalCells = 0;
++          const _lines = _getSelectedRowsInVisibleOrder().map((_row) => {
++            const _cols = [..._selectionModel.get(_row)].sort((_a, _b) => _a - _b);
++            _totalCells += _cols.length;
++            return _cols.map((_col, _index) => _quoteTsvCell(state.data[_row]?.[_col] ?? '', _index, _cols)).join('\t');
++          });
++          if (_totalCells === 0) return false;
++
++          if (!(await copyTextToClipboard(_lines.join('\n')))) throw new Error('copy failed');
++          showToast(`<span class="material-symbols-outlined">content_copy</span> ${_totalCells}セルをコピーしました`, 'success');
+           return true;
+         } catch {
+           showToast('コピーに失敗しました', 'error');
+@@ -8919,6 +8920,7 @@
+         }
+       };
+ 
++
+       /* --- 選択セルのテキスト変換 --- */
+       const splitWordTokens = (s) => {
+         if (s == null) return [];

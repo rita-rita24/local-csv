@@ -1,0 +1,3 @@
+large: 100000 x 20 cells / 46913099 bytes, complete values and order match baseline parser
+long-cell: 2000 x 3 cells / 24059379 bytes, complete values and order match baseline parser
+0 console errors / external requests

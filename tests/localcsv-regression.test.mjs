@@ -3,11 +3,12 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { extractConstDeclaration } from "./localcsv-source-audit.mjs";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, "..");
-const LOCALCSV_PATH = path.join(ROOT_DIR, "LocalCSV.html");
+const LOCALCSV_PATH = path.join(ROOT_DIR, "local-csv.html");
 const INDEX_PATH = path.join(ROOT_DIR, "index.html");
 
 const html = fs.readFileSync(LOCALCSV_PATH, "utf8");
@@ -27,95 +28,9 @@ const FUNCTION_NAMES = [
   "beginSnapshotEpoch",
   "ensureRowOwned",
   "setCellValue",
+  "_yieldToTask",
   "generateOutputAsync",
 ];
-
-const extractConstDeclaration = (source, name) => {
-  const marker = `const ${name} =`;
-  const start = source.indexOf(marker);
-  assert.notEqual(start, -1, `${name} declaration not found`);
-  const regexPrefixChars = new Set(["=", "(", "{", "[", ",", ":", "!", "?", ";"]);
-  const previousSignificantChar = (index) => {
-    for (let i = index - 1; i >= start; i--) {
-      if (!/\s/.test(source[i])) return source[i];
-    }
-    return "";
-  };
-
-  let depth = 0;
-  let quote = "";
-  let escaped = false;
-  let regexCharClass = false;
-  let lineComment = false;
-  let blockComment = false;
-
-  for (let i = start; i < source.length; i++) {
-    const ch = source[i];
-    const next = source[i + 1];
-
-    if (lineComment) {
-      if (ch === "\n" || ch === "\r") lineComment = false;
-      continue;
-    }
-    if (blockComment) {
-      if (ch === "*" && next === "/") {
-        blockComment = false;
-        i++;
-      }
-      continue;
-    }
-    if (quote) {
-      if (escaped) {
-        escaped = false;
-        continue;
-      }
-      if (ch === "\\") {
-        escaped = true;
-        continue;
-      }
-      if (quote === "/") {
-        if (ch === "[") regexCharClass = true;
-        else if (ch === "]") regexCharClass = false;
-        else if (ch === "/" && !regexCharClass) {
-          quote = "";
-        }
-        continue;
-      }
-      if (ch === quote) quote = "";
-      continue;
-    }
-    if (ch === "/" && next === "/") {
-      lineComment = true;
-      i++;
-      continue;
-    }
-    if (ch === "/" && next === "*") {
-      blockComment = true;
-      i++;
-      continue;
-    }
-    if (ch === "/" && regexPrefixChars.has(previousSignificantChar(i))) {
-      quote = "/";
-      regexCharClass = false;
-      continue;
-    }
-    if (ch === "'" || ch === "\"" || ch === "`") {
-      quote = ch;
-      continue;
-    }
-    if (ch === "(" || ch === "{" || ch === "[") {
-      depth++;
-      continue;
-    }
-    if (ch === ")" || ch === "}" || ch === "]") {
-      depth--;
-      continue;
-    }
-    if (ch === ";" && depth === 0) return source.slice(start, i + 1);
-  }
-
-  assert.fail(`${name} declaration was not terminated`);
-};
 
 const loadCsvCore = () => {
   const declarations = FUNCTION_NAMES
@@ -147,7 +62,7 @@ const loadCsvCore = () => {
 const loadFileOutputCore = ({ picker } = {}) => {
   const declarations = [
     "SPREADSHEET_FORMULA_PREFIX_RE", "sanitizeSpreadsheetFormulaCell",
-    "beginSnapshotEpoch", "ensureRowOwned", "setCellValue", "generateOutputAsync",
+    "beginSnapshotEpoch", "ensureRowOwned", "setCellValue", "_yieldToTask", "generateOutputAsync",
     "normalizeLineEndingSetting", "cloneFileOutputMeta", "getCurrentOutputMeta",
     "isSameOutputMeta", "setOpenFileContext", "hasOverwriteFormatMismatch",
     "getFormatLabel", "getFormatExt", "_getSuggestedOutputName", "buildBlob", "_writeFileBlob", "saveFile", "copyData", "downloadData",
@@ -309,7 +224,7 @@ const loadStorageMigrationCore = ({ localStorage, indexedDB }) => {
   return script.runInNewContext({ indexedDB, localStorage, queueMicrotask });
 };
 
-const loadPersistedRowsCore = (chunkEntries) => {
+const loadPersistedRowsCore = (chunkEntries, _readChunk = null) => {
   const declarations = [
     "const PRO_STATE_STORAGE_KEY = 'csvEditor_state_pro';",
     "const PERSIST_CHUNK_VERSION = 3;",
@@ -318,7 +233,7 @@ const loadPersistedRowsCore = (chunkEntries) => {
     "const PERSIST_CHUNK_INTEGRITY_ERROR = 'persist_chunk_integrity_error';",
     "const PRO_STATE_CHUNK_KEY_PREFIX = `${PRO_STATE_STORAGE_KEY}::chunk::`;",
     "const PERSIST_CHUNK_KEY_SEGMENT_RE = /^[0-9A-Za-z_-]+$/;",
-    "const IDBStore = { get: async (key) => chunkMap.get(key) };",
+    "const IDBStore = { get: async (key) => _readChunk ? _readChunk(key) : chunkMap.get(key) };",
     extractConstDeclaration(html, "getPersistChunkKey"),
     extractConstDeclaration(html, "getPersistDraftChunkKey"),
     extractConstDeclaration(html, "parsePersistChunkKey"),
@@ -335,7 +250,7 @@ const loadPersistedRowsCore = (chunkEntries) => {
     ${declarations}
     ({ getPersistDraftChunkKey, hashPersistRows, isPersistChunkIntegrityError, loadPersistedChunkRows });
   `);
-  return script.runInNewContext({ chunkMap: new Map(chunkEntries) });
+  return script.runInNewContext({ chunkMap: new Map(chunkEntries), _readChunk });
 };
 
 const buildRows = (separator, rows = 20) => (
@@ -501,9 +416,7 @@ const csv = loadCsvCore();
     "DATA_WORKER_TIMEOUT_MS", "runDataWorker",
     "_quoteTsvCell", "_buildTsvRows", "buildCsvLine", "SPREADSHEET_FORMULA_PREFIX_RE",
     "sanitizeSpreadsheetFormulaCell", "generateExportOutput",
-  ].map((name) => name === "_quoteTsvCell"
-    ? html.slice(html.indexOf("const _quoteTsvCell ="), html.indexOf("const _buildTsvRows ="))
-    : extractConstDeclaration(html, name)).join("\n");
+  ].map((name) => extractConstDeclaration(html, name)).join("\n");
   const roundTripCore = new vm.Script(`
     const $expFormat = { value: ',' };
     const $expNewline = { value: 'lf' };
@@ -518,6 +431,20 @@ const csv = loadCsvCore();
       }
     });
   `).runInNewContext(runtime);
+
+  await assert.rejects(roundTripCore.parseCSVAsync('"' + 'x'.repeat(200001), ','),
+    error => error.code === 'csv_unclosed_quote', 'worker parsing must retain the unclosed-quote error');
+
+  // Long ordinary runs must retain embedded newlines, escaped quotes and trailing empty cells.
+  for (const delimiter of [",", "\t", ";", " ", "|", "]", "\\"]) {
+    const longValue = "日本語😀".repeat(40000) + "\r\nend";
+    const quoted = '"' + longValue + '"';
+    assert.deepEqual(cloneJson(csv.parseCSV(quoted + delimiter + '"a""b"' + delimiter + '""', delimiter)),
+      [[longValue, 'a"b', '']]);
+    const ordinary = 'x'.repeat(200001);
+    assert.deepEqual(cloneJson(csv.parseCSV(ordinary + delimiter + 'tail', delimiter)), [[ordinary, 'tail']]);
+    assert.deepEqual(cloneJson(await roundTripCore.parseCSVAsync(quoted + delimiter + '""', delimiter)), [[longValue, '']]);
+  }
 
   for (const delimiter of [",", "\t", ";", " "]) {
     assert.deepEqual(cloneJson(csv.parseCSV('""', delimiter)), [[""]], "a quoted empty record must not disappear at EOF");
@@ -549,7 +476,7 @@ const csv = loadCsvCore();
       }
     }
   }
-  assert.equal(workerRuns, 8, "large-input assertions should exercise the worker parser");
+  assert.equal(workerRuns, 16, "large-input assertions should exercise the worker parser");
   assert.equal(csv.findNoQuoteRisks({ rows: [["value"], [""], [""]], delimiter: "," }).count, 2,
     "no-quote output must warn before blank one-column records can disappear");
   assert.equal(csv.findNoQuoteRisks({ rows: [["", "value", ""], ["", "", ""]], delimiter: " " }).count, 5,
@@ -923,6 +850,62 @@ const csv = loadCsvCore();
 
   assert.equal(await storage.IDBStore.get(proStateKey), undefined, "chunked envelope should not migrate until every chunk is in IndexedDB");
   assert.notEqual(localStorage.getItem(proStateKey), null, "incomplete chunked envelope should stay in localStorage for a later retry");
+}
+
+// Concurrent restoration must preserve manifest order and drain reads before rejecting.
+{
+  const helpers = loadPersistedRowsCore([]);
+  const generationId = 'batch-generation';
+  const entries = [], refs = [];
+  for (let index = 0; index < 33; index++) {
+    const rows = [[String(index), '日本語\r\nvalue']];
+    const key = helpers.getPersistDraftChunkKey(generationId, index);
+    const hash = helpers.hashPersistRows(rows);
+    refs.push({ key, generationId, hash, length: 1 });
+    entries.push([key, { version: 3, storage: 'chunked_rows', kind: 'rows_chunk',
+      rowChunkGenerationId: generationId, rowChunkIndex: index, rowChunkSize: 1,
+      length: 1, hash, rows }]);
+  }
+  const envelope = { version: 3, storage: 'chunked_rows', rowChunkSize: 1,
+    rowChunkCount: 33, totalRows: 33, rowChunkRefs: refs };
+  const values = new Map(entries), pending = new Map();
+  let active = 0, peak = 0;
+  const core = loadPersistedRowsCore(entries, async key => {
+    active++;
+    peak = Math.max(peak, active);
+    return new Promise(resolve => pending.set(key, () => {
+      pending.delete(key); active--; resolve(values.get(key));
+    }));
+  });
+  const restored = core.loadPersistedChunkRows(envelope);
+  for (let start = 0; start < 33; start += 4) {
+    const size = Math.min(4, 33 - start);
+    while (pending.size < size) await new Promise(setImmediate);
+    // Complete in reverse order to expose accidental completion-order concatenation.
+    for (let offset = size - 1; offset >= 0; offset--) pending.get(refs[start + offset].key)();
+  }
+  assert.deepEqual(cloneJson(await restored), entries.flatMap(([, record]) => record.rows));
+  assert.ok(peak > 1 && peak <= 4, 'restoration concurrency must be bounded');
+  assert.equal(active, 0);
+
+  const outstanding = [];
+  let rejected = false;
+  const failing = loadPersistedRowsCore(entries, async key => {
+    if (key === refs[0].key) throw new Error('forced batch read failure');
+    return new Promise(resolve => outstanding.push(() => resolve(values.get(key))));
+  });
+  const failure = failing.loadPersistedChunkRows(envelope);
+  failure.then(() => {}, () => { rejected = true; });
+  await new Promise(setImmediate);
+  assert.equal(outstanding.length, 3);
+  assert.equal(rejected, false, 'the state lock must not be released while sibling reads remain');
+  outstanding.forEach(resolve => resolve());
+  await assert.rejects(failure, /forced batch read failure/);
+
+  const corrupted = structuredClone(entries);
+  corrupted[17][1].rowChunkGenerationId = 'other-generation';
+  const invalid = loadPersistedRowsCore(corrupted);
+  await assert.rejects(() => invalid.loadPersistedChunkRows(envelope), error => invalid.isPersistChunkIntegrityError(error));
 }
 
 {
@@ -1509,7 +1492,7 @@ for (const action of ["saveFile", "downloadData"]) {
 }
 
 {
-  const appCsp = extractCspDirectives(html, "LocalCSV.html");
+  const appCsp = extractCspDirectives(html, "local-csv.html");
   const lpCsp = extractCspDirectives(indexHtml, "index.html");
   for (const [directive, expected] of [
     ["connect-src", "'none'"],
@@ -1517,7 +1500,7 @@ for (const action of ["saveFile", "downloadData"]) {
     ["base-uri", "'none'"],
     ["form-action", "'none'"],
   ]) {
-    assert.equal(appCsp.get(directive), expected, `LocalCSV.html CSP ${directive} should be ${expected}`);
+    assert.equal(appCsp.get(directive), expected, `local-csv.html CSP ${directive} should be ${expected}`);
     assert.equal(lpCsp.get(directive), expected, `index.html CSP ${directive} should be ${expected}`);
   }
 }
@@ -2092,7 +2075,7 @@ for (const action of ["saveFile", "downloadData"]) {
     $colFilterPanel.classList = { contains: () => _shown, add: () => { _shown = true; }, remove: () => { _shown = false; } };
     $colFilterPanel.contains = ($el) => $el === $colFilterSearch;
     const qs = (selector) => selector === 'button[data-filter-col="2"]' ? $trigger : null;
-    const closeColumnMenu = () => {}, populateFilterValues = () => {}, restoreFilterConditions = () => {};
+    const closeColumnMenu = () => {}, populateFilterValues = () => {}, restoreFilterConditions = () => {}, _positionColFilterPanel = () => {};
     const columnFilters = new Map(), FILTER_VALUE_RENDER_BATCH = 200;
     const getColumnDisplayName = () => 'Name', isEnglish = () => false, _clampHorizontal = (x) => x;
     const getTopOpenOverlay = () => null, window = { scrollY: 0 };
@@ -2456,8 +2439,8 @@ for (const action of ["saveFile", "downloadData"]) {
 
 // 改行や選択パターンを含むセル全体の一致判定を、検索と置換で揃える。
 {
-  const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', 'buildMatcher', 'buildReplaceRegex']
-    .map(name => extractConstDeclaration(name === 'buildMatcher' ? html.slice(html.lastIndexOf('const buildMatcher =')) : html, name)).join('\n');
+  const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', '_buildSearchRegex', '_buildSearchMatcher', 'buildMatcher', 'buildReplaceRegex']
+    .map(name => extractConstDeclaration(html, name)).join('\n');
   const core = vm.runInNewContext(`
     const $searchCaseSensitive = {checked: false}, $searchExactMatch = {checked: true}, $searchRegex = {checked: false};
     ${declarations}
@@ -2503,8 +2486,8 @@ for (const action of ["saveFile", "downloadData"]) {
 
 // ブラウザに依存せず、実際の検索・フィルターWorkerと失敗時の後始末を検証する。
 {
-  const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', 'STRICT_NUMERIC_RE', '_parseExactNumeric', '_compareExactNumbers', 'evalCondition',
-    'terminateSearchWorker', 'ensureSearchWorker', 'callSearchWorker',
+  const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', '_buildSearchRegex', '_buildSearchMatcher', 'STRICT_NUMERIC_RE', '_parseExactNumeric', '_compareExactNumbers', 'evalCondition',
+    '_yieldToTask', 'terminateSearchWorker', 'ensureSearchWorker', 'callSearchWorker',
     'terminateFilterWorker', 'ensureFilterWorker', 'callFilterWorker']
     .map(name => extractConstDeclaration(html, name)).join('\n');
   const sources = new Map(), workers = [];
@@ -2587,10 +2570,12 @@ for (const action of ["saveFile", "downloadData"]) {
   const virtualState = {enabled: true, start: -1, end: -1};
   const render = vm.runInNewContext(`let _isReplacingTableBody = false;
     ${extractConstDeclaration(html, '_replaceTableBody')}
+    ${extractConstDeclaration(html, '_getVirtualOffsetAt')}
     ${extractConstDeclaration(html, 'renderVirtualBody')}; renderVirtualBody;`, {
     virtualState, state: {data: [['cell']]}, $tableScroll: scroll, $tableBody: body,
     VIRTUAL_ROW_HEIGHT: 42, VIRTUAL_OVERSCAN: 12,
     getVisibleRowCount: () => 1500, getVisibleRowIndexAt: index => index,
+    _getVirtualRowLayout: () => ({offsets: Float64Array.from({length: 1501}, (_, index) => index * 42)}),
     buildBodyRowHTML: index => `<tr data-row="${index}"></tr>`, refreshRenderedSelectionVisuals() {},
   });
   render();
@@ -2659,6 +2644,8 @@ for (const action of ["saveFile", "downloadData"]) {
     const clearSelectionModel = () => { _selectionModel = new Map(); };
     const $dataTable = {classList: {remove() {}}};
     ${extractConstDeclaration(html, '_pruneSelectionToVisibleRows')}
+    let _selectionFrame = 0, _pendingDragSelection = null, _lastDragSelection = null;
+    ${extractConstDeclaration(html, '_cancelDragSelection')}
     ${extractConstDeclaration(html, '_resetCellSelection')}
     ({ prune: _pruneSelectionToVisibleRows, reset: _resetCellSelection,
       snapshot: () => ({selection: [..._selectionModel].map(([row, cols]) => [row, [...cols]]),
@@ -2703,7 +2690,7 @@ for (const action of ["saveFile", "downloadData"]) {
 {
   const declarations = ['prependBytes', 'encodeUtf16Bytes', 'decodeUtf16Bytes', 'detectBomEncoding',
     'decodeWithTextDecoder', 'strictTextDecoderResult', 'collectDecodeWarnings', 'decodeByEncoding',
-    'encodeToBytes', 'decodeBytesWithMeta', 'decodeFileBytesWithMeta'].map(name => extractConstDeclaration(html, name)).join('\n');
+    'encodeToBytes', 'decodeBytesWithMeta', '_isPlainAsciiBuffer', 'decodeFileBytesWithMeta'].map(name => extractConstDeclaration(html, name)).join('\n');
   const encoding = vm.runInNewContext(`${declarations}; ({encodeToBytes, decodeFileBytesWithMeta})`, {
     TextDecoder, TextEncoder, Uint8Array, normalizeEncoding: value => value,
     supportsBom: () => true, HAS_LEGACY_ENCODING_LIB: false,
@@ -2986,7 +2973,7 @@ for (const overwrite of [false, true]) {
     columnFilters: new Map(), $filterMode: {checked: false}, filteredRows: null,
     commitActiveCellEdit: () => { state.data[0][0] = 'draft'; },
     getSelectedCoords: () => assert.fail('checking or counting selection must not expand cell coordinates'),
-    _buildTsvRows: rows => rows.map(row => row.join('\t')).join('\n'),
+    _quoteTsvCell: cell => String(cell),
     copyTextToClipboard: async text => { copied.push(text); return true; }, showToast() {},
   });
   assert.equal(core.getExportTargetAvailability().selected, true);
@@ -2998,6 +2985,154 @@ for (const overwrite of [false, true]) {
   assert.equal(copied.length, 1, 'hidden selections must not replace the clipboard');
   selection.clear(); selection.set(0, new Set()); visible.add(0);
   assert.equal(core.getExportTargetAvailability().selected, false);
+}
+
+// タスクを渡しても予約順を保持し、呼び出し元へ同期で戻る。
+{
+  const yieldTask = vm.runInNewContext(extractConstDeclaration(html, '_yieldToTask') + '\n_yieldToTask;', { MessageChannel, setTimeout });
+  const results = [];
+  const tasks = Array.from({ length: 10 }, (_, index) => yieldTask().then(() => results.push(index)));
+  assert.deepEqual(results, [], 'task yielding must be asynchronous');
+  await Promise.all(tasks);
+  assert.deepEqual(results, Array.from({ length: 10 }, (_, index) => index));
+  yieldTask._channel.port1.close();
+  yieldTask._channel.port2.close();
+}
+
+// 読み込み高速化の第2回：正常・不正バイトの本文と警告を前回版と照合する。
+{
+  const names = ['prependBytes', 'encodeUtf16Bytes', 'decodeUtf16Bytes', 'detectBomEncoding',
+    'decodeWithTextDecoder', 'strictTextDecoderResult', 'collectDecodeWarnings', 'decodeByEncoding',
+    'encodeToBytes', 'decodeBytesWithMeta', '_isPlainAsciiBuffer', 'decodeFileBytesWithMeta', 'buildCsvLine', 'calcRowBytes'];
+  const before = fs.readFileSync(path.join(ROOT_DIR, 'tests/performance-results/round2/baseline-encoding-stats.js'), 'utf8');
+  const after = names.map(name => extractConstDeclaration(html, name)).join('\n');
+  const labels = { 'utf-8': 'utf-8', 'utf-16le': 'utf-16le', 'utf-16be': 'utf-16be', 'shift-jis': 'shift_jis', 'euc-jp': 'euc-jp', 'iso-2022-jp': 'iso-2022-jp', unsupported: 'unsupported' };
+  let decodeCount = 0;
+  class CountingDecoder extends TextDecoder {
+    decode(...args) { decodeCount++; return super.decode(...args); }
+  }
+  const load = source => vm.runInNewContext(source + '\n({decodeFileBytesWithMeta, buildCsvLine, calcRowBytes, encodeToBytes});', {
+    TextDecoder: CountingDecoder, TextEncoder, Uint8Array, normalizeEncoding: value => value,
+    supportsBom: value => ['utf-8', 'utf-16le', 'utf-16be'].includes(value), HAS_LEGACY_ENCODING_LIB: false,
+    ENCODING_TO_LIBRARY: { 'shift-jis': 'SJIS', 'euc-jp': 'EUCJP', 'iso-2022-jp': 'JIS' },
+    ENCODING_TO_DECODER_LABEL: labels, getEncodingDisplayName: value => value,
+  });
+  const old = load(before), current = load(after);
+  const samples = [[], [0xef, 0xbb, 0xbf], [0xef, 0xbb, 0xbf, 0xef, 0xbb, 0xbf, 0x61],
+    [0xc0, 0xaf], [0xff], [0x82, 0xa0], [0x1b, 0x24, 0x42, 0x24, 0x22], [0xff, 0xfe, 0, 0xd8, 0],
+    [...new TextEncoder().encode('名前,😀\r\n𠮷野,�\0\uFEFF')]];
+  let seed = 412;
+  const next = () => (seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0);
+  for (let i = 0; i < 1000; i++) samples.push(Array.from({ length: next() % 30 }, () => next() & 255));
+  for (const sample of samples) for (const label of Object.keys(labels)) {
+    const bytes = Uint8Array.from(sample);
+    assert.deepEqual(cloneJson(current.decodeFileBytesWithMeta(bytes.buffer, label)),
+      cloneJson(old.decodeFileBytesWithMeta(bytes.buffer, label)), `decode text/warnings: ${label}, ${sample}`);
+  }
+  decodeCount = 0;
+  current.decodeFileBytesWithMeta(new TextEncoder().encode('正常な本文😀').buffer, 'utf-8');
+  assert.equal(decodeCount, 1, 'valid UTF-8 must decode only once');
+  decodeCount = 0;
+  old.decodeFileBytesWithMeta(new TextEncoder().encode('正常な本文😀').buffer, 'utf-8');
+  assert.equal(decodeCount, 2, 'the baseline decoded valid UTF-8 twice');
+
+  const chars = ['a', '"', '\r', '\n', '\t', ' ', '\0', '日', '😀', '\ud800', '\udc00', '\uFEFF', '\u2028', '\u2029'];
+  for (let i = 0; i < 1000; i++) {
+    const row = Array.from({ length: next() % 6 + 1 }, () => Array.from({ length: next() % 40 }, () => chars[next() % chars.length]).join(''));
+    for (const delimiter of [',', '\t', ';', ' ', '|']) for (const quote of ['all', 'none', 'auto']) {
+      assert.equal(current.buildCsvLine(row, delimiter, quote), old.buildCsvLine(row, delimiter, quote));
+      for (const label of ['utf-8', 'utf-16le', 'utf-16be', 'shift-jis']) for (const suffix of ['', '\r\n', '\n']) {
+        assert.equal(current.calcRowBytes(row, delimiter, label, quote, suffix), old.calcRowBytes(row, delimiter, label, quote, suffix), 'byte counts must match the previous encoder, including lone surrogates');
+      }
+    }
+  }
+}
+
+// 全選択・列選択は表示中の行だけを対象とし、行間でSetを共有しない。
+{
+  const _declarations = ['clearSelectionModel', 'selectionCount', '_selectVisibleColumns', 'selectAllDataCells', 'selectColumn']
+    .map((_name) => extractConstDeclaration(html, _name)).join('\n');
+  const _core = vm.runInNewContext(`
+    let _selectionModel = new Map(), _visible = [4, 1], _refreshes = 0, _updates = 0;
+    const state = { data: [['a', 'b', 'c'], ['d'], [], ['x'], ['q', 'r', 's']] };
+    const _getVisibleRowIndexes = () => _visible;
+    const clearSelection = () => clearSelectionModel();
+    const refreshRenderedSelectionVisuals = () => _refreshes++;
+    const scheduleStatusBarUpdate = () => _updates++;
+    ${_declarations}
+    ({ state, all: selectAllDataCells, column: selectColumn, count: selectionCount,
+      rows: () => [..._selectionModel].map(([_row, _cols]) => [_row, [..._cols]]),
+      visible: _rows => { _visible = _rows; },
+      remove: (_row, _col) => _selectionModel.get(_row).delete(_col),
+      independent: () => _selectionModel.get(4) !== _selectionModel.get(1),
+      updates: () => [_refreshes, _updates] });
+  `);
+  _core.all();
+  assert.deepEqual(cloneJson(_core.rows()), [[4, [0, 1, 2]], [1, [0, 1, 2]]], 'filtered row order and first-row column count are preserved, including ragged rows');
+  assert.equal(_core.count(), 6);
+  assert.equal(_core.independent(), true);
+  _core.remove(4, 2);
+  assert.deepEqual(cloneJson(_core.rows()), [[4, [0, 1]], [1, [0, 1, 2]]], 'pruning a row must not change another row');
+  for (const _index of [-1, 0.5, 3, NaN]) _core.column(_index);
+  assert.equal(_core.count(), 5, 'invalid column requests preserve selection');
+  _core.column(1);
+  assert.deepEqual(cloneJson(_core.rows()), [[4, [1]], [1, [1]]]);
+  assert.equal(_core.count(), 2, 'column selection replaces rather than merges the previous selection');
+  assert.deepEqual(cloneJson(_core.updates()), [2, 2], 'refresh and aggregate update occur once per valid operation');
+  _core.visible([]);
+  _core.all();
+  assert.deepEqual(cloneJson(_core.rows()), [], 'zero filtered rows leave no stale selection');
+  _core.state.data = [[]];
+  _core.all();
+  assert.equal(_core.count(), 0);
+  _core.state.data = [];
+  _core.all();
+  _core.column(0);
+  assert.equal(_core.count(), 0);
+}
+
+// 選択コピーの引用・可視順・疎な選択・失敗時の契約を検証する。
+{
+  const _declarations = ['normalizeCellValue', '_quoteTsvCell', '_buildTsvRows', '_getSelectedRowsInVisibleOrder', 'copySelectedCells']
+    .map((_name) => extractConstDeclaration(html, _name)).join('\n');
+  const _core = vm.runInNewContext(`
+    const state = { data: [['', 'a\\tb', '"quoted"'], ['line\\r\\nnext', null, 0], ['hidden']] };
+    let _selectionModel = new Map([[0, new Set([2, 0])], [2, new Set([0])], [1, new Set([2, 0, 1])]]);
+    let _copied = null, _commits = 0, _mode = 'ok', _toasts = [];
+    const _isRowVisible = _row => _row !== 2;
+    const _compareRowsByVisibleOrder = (_a, _b) => _b - _a;
+    const commitActiveCellEdit = () => _commits++;
+    const copyTextToClipboard = async _text => { _copied = _text; if (_mode === 'throw') throw new Error('permission'); return _mode === 'ok'; };
+    const showToast = (_text, _kind) => _toasts.push(_kind);
+    ${_declarations}
+    ({ copy: copySelectedCells, tsv: _buildTsvRows, copied: () => _copied, commits: () => _commits,
+      selection: _entries => { _selectionModel = new Map(_entries.map(([_row, _cols]) => [_row, new Set(_cols)])); },
+      value: _value => { state.data[0][1] = _value; }, mode: _value => { _mode = _value; }, toasts: () => _toasts });
+  `);
+  const _referenceCell = (_cell, _count) => {
+    const _text = _cell == null ? '' : String(_cell);
+    return ((_text === '' && _count === 1) || /[\t\r\n"]/.test(_text)) ? '"' + _text.replaceAll('"', '""') + '"' : _text;
+  };
+  const _values = ['', null, undefined, 0, false, 'plain', 'a\tb', '\r', '\n', '"', 'a"b', '\0', '日本語😀', '\ud800', '\udfff'];
+  for (const _first of _values) for (const _second of _values) {
+    for (const _row of [[_first], [_first, _second]]) {
+      assert.equal(_core.tsv([_row]), _row.map(_cell => _referenceCell(_cell, _row.length)).join('\t'));
+    }
+  }
+  assert.equal(await _core.copy(), true);
+  assert.equal(_core.copied(), '"line\r\nnext"\t\t0\n\t"""quoted"""', 'visible order, ascending selected columns and sparse rows are preserved');
+  _core.selection([[0, [0]]]);
+  assert.equal(await _core.copy(), true);
+  assert.equal(_core.copied(), '""', 'one selected empty cell remains an explicit quoted field');
+  _core.selection([[2, [0]]]);
+  assert.equal(await _core.copy(), false, 'hidden selections do not copy');
+  _core.selection([[0, [1]]]);
+  for (const _mode of ['false', 'throw']) { _core.mode(_mode); assert.equal(await _core.copy(), false); }
+  _core.mode('ok');
+  _core.value({ toString() { throw new Error('conversion failed'); } });
+  assert.equal(await _core.copy(), false, 'text conversion failures retain the copy failure contract');
+  assert.equal(_core.commits(), 6, 'pending edit is committed before every copy, including failures');
+  assert.deepEqual(cloneJson(_core.toasts()), ['success', 'success', 'error', 'error', 'error']);
 }
 
 console.log("localcsv regression tests passed");

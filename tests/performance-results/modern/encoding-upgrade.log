@@ -1,0 +1,664 @@
+{
+  "checkedAt": "2026-10-09T15:35:57.563Z",
+  "embeddedVersion": "2.2.0",
+  "candidateVersion": "2.4.0",
+  "embeddedSha256": "4f9654c225c878afcbf55bc6418a49e1fd45caff78c6280f48f58b0d5bb3bf10",
+  "upstream": "https://github.com/polygonplanet/encoding.js/releases/tag/2.4.0",
+  "cases": [
+    {
+      "text": "ASCII",
+      "encoding": "SJIS",
+      "before": [
+        65,
+        83,
+        67,
+        73,
+        73
+      ],
+      "after": [
+        65,
+        83,
+        67,
+        73,
+        73
+      ],
+      "equal": true
+    },
+    {
+      "text": "ASCII",
+      "encoding": "EUCJP",
+      "before": [
+        65,
+        83,
+        67,
+        73,
+        73
+      ],
+      "after": [
+        65,
+        83,
+        67,
+        73,
+        73
+      ],
+      "equal": true
+    },
+    {
+      "text": "ASCII",
+      "encoding": "JIS",
+      "before": [
+        65,
+        83,
+        67,
+        73,
+        73
+      ],
+      "after": [
+        65,
+        83,
+        67,
+        73,
+        73
+      ],
+      "equal": true
+    },
+    {
+      "text": "日本語",
+      "encoding": "SJIS",
+      "before": [
+        147,
+        250,
+        150,
+        123,
+        140,
+        234
+      ],
+      "after": [
+        147,
+        250,
+        150,
+        123,
+        140,
+        234
+      ],
+      "equal": true
+    },
+    {
+      "text": "日本語",
+      "encoding": "EUCJP",
+      "before": [
+        198,
+        252,
+        203,
+        220,
+        184,
+        236
+      ],
+      "after": [
+        198,
+        252,
+        203,
+        220,
+        184,
+        236
+      ],
+      "equal": true
+    },
+    {
+      "text": "日本語",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        70,
+        124,
+        75,
+        92,
+        56,
+        108,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        70,
+        124,
+        75,
+        92,
+        56,
+        108,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "〜",
+      "encoding": "SJIS",
+      "before": [
+        63
+      ],
+      "after": [
+        129,
+        96
+      ],
+      "equal": false
+    },
+    {
+      "text": "〜",
+      "encoding": "EUCJP",
+      "before": [
+        143,
+        161,
+        193
+      ],
+      "after": [
+        161,
+        193
+      ],
+      "equal": false
+    },
+    {
+      "text": "〜",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        40,
+        68,
+        33,
+        65,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        33,
+        65,
+        27,
+        40,
+        66
+      ],
+      "equal": false
+    },
+    {
+      "text": "～",
+      "encoding": "SJIS",
+      "before": [
+        129,
+        96
+      ],
+      "after": [
+        129,
+        96
+      ],
+      "equal": true
+    },
+    {
+      "text": "～",
+      "encoding": "EUCJP",
+      "before": [
+        161,
+        193
+      ],
+      "after": [
+        161,
+        193
+      ],
+      "equal": true
+    },
+    {
+      "text": "～",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        33,
+        65,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        33,
+        65,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "①",
+      "encoding": "SJIS",
+      "before": [
+        135,
+        64
+      ],
+      "after": [
+        135,
+        64
+      ],
+      "equal": true
+    },
+    {
+      "text": "①",
+      "encoding": "EUCJP",
+      "before": [
+        173,
+        161
+      ],
+      "after": [
+        173,
+        161
+      ],
+      "equal": true
+    },
+    {
+      "text": "①",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        45,
+        33,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        45,
+        33,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "髙",
+      "encoding": "SJIS",
+      "before": [
+        238,
+        224
+      ],
+      "after": [
+        238,
+        224
+      ],
+      "equal": true
+    },
+    {
+      "text": "髙",
+      "encoding": "EUCJP",
+      "before": [
+        252,
+        226
+      ],
+      "after": [
+        252,
+        226
+      ],
+      "equal": true
+    },
+    {
+      "text": "髙",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        124,
+        98,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        124,
+        98,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "﨑",
+      "encoding": "SJIS",
+      "before": [
+        237,
+        149
+      ],
+      "after": [
+        237,
+        149
+      ],
+      "equal": true
+    },
+    {
+      "text": "﨑",
+      "encoding": "EUCJP",
+      "before": [
+        249,
+        245
+      ],
+      "after": [
+        249,
+        245
+      ],
+      "equal": true
+    },
+    {
+      "text": "﨑",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        121,
+        117,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        121,
+        117,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "−",
+      "encoding": "SJIS",
+      "before": [
+        129,
+        124
+      ],
+      "after": [
+        129,
+        124
+      ],
+      "equal": true
+    },
+    {
+      "text": "−",
+      "encoding": "EUCJP",
+      "before": [
+        161,
+        221
+      ],
+      "after": [
+        161,
+        221
+      ],
+      "equal": true
+    },
+    {
+      "text": "−",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        33,
+        93,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        33,
+        93,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "¢",
+      "encoding": "SJIS",
+      "before": [
+        63
+      ],
+      "after": [
+        129,
+        145
+      ],
+      "equal": false
+    },
+    {
+      "text": "¢",
+      "encoding": "EUCJP",
+      "before": [
+        63
+      ],
+      "after": [
+        161,
+        241
+      ],
+      "equal": false
+    },
+    {
+      "text": "¢",
+      "encoding": "JIS",
+      "before": [
+        63
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        33,
+        113,
+        27,
+        40,
+        66
+      ],
+      "equal": false
+    },
+    {
+      "text": "£",
+      "encoding": "SJIS",
+      "before": [
+        63
+      ],
+      "after": [
+        129,
+        146
+      ],
+      "equal": false
+    },
+    {
+      "text": "£",
+      "encoding": "EUCJP",
+      "before": [
+        63
+      ],
+      "after": [
+        161,
+        242
+      ],
+      "equal": false
+    },
+    {
+      "text": "£",
+      "encoding": "JIS",
+      "before": [
+        63
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        33,
+        114,
+        27,
+        40,
+        66
+      ],
+      "equal": false
+    },
+    {
+      "text": "¬",
+      "encoding": "SJIS",
+      "before": [
+        129,
+        202
+      ],
+      "after": [
+        129,
+        202
+      ],
+      "equal": true
+    },
+    {
+      "text": "¬",
+      "encoding": "EUCJP",
+      "before": [
+        162,
+        204
+      ],
+      "after": [
+        162,
+        204
+      ],
+      "equal": true
+    },
+    {
+      "text": "¬",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        34,
+        76,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        34,
+        76,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "text": "‖",
+      "encoding": "SJIS",
+      "before": [
+        129,
+        97
+      ],
+      "after": [
+        129,
+        97
+      ],
+      "equal": true
+    },
+    {
+      "text": "‖",
+      "encoding": "EUCJP",
+      "before": [
+        161,
+        194
+      ],
+      "after": [
+        161,
+        194
+      ],
+      "equal": true
+    },
+    {
+      "text": "‖",
+      "encoding": "JIS",
+      "before": [
+        27,
+        36,
+        66,
+        33,
+        66,
+        27,
+        40,
+        66
+      ],
+      "after": [
+        27,
+        36,
+        66,
+        33,
+        66,
+        27,
+        40,
+        66
+      ],
+      "equal": true
+    },
+    {
+      "bytes": [
+        129,
+        127
+      ],
+      "before": "SJIS",
+      "after": "UNICODE",
+      "equal": false
+    },
+    {
+      "bytes": [
+        250,
+        64
+      ],
+      "before": "SJIS",
+      "after": "SJIS",
+      "equal": true
+    },
+    {
+      "bytes": [
+        65,
+        1,
+        66
+      ],
+      "before": "BINARY",
+      "after": "BINARY",
+      "equal": true
+    }
+  ],
+  "changedCases": 10,
+  "conclusion": "The candidate changes encoded bytes/detection. Retain 2.2.0 under the explicit existing-input/output preservation requirement; revisit when a migration policy for CP932/JIS aliases and warnings is agreed."
+}

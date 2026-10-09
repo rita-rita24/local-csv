@@ -1,0 +1,110 @@
+[
+  {
+    "operation": "first",
+    "metric": "firstInputToResultMs",
+    "beforeMedianMs": 480.30000001192093,
+    "afterMedianMs": 464.80000001192093,
+    "shorteningMs": 15.5,
+    "shorteningPercent": 3.2271496980252534,
+    "beforeRange": [
+      462.30000001192093,
+      510.7999999523163
+    ],
+    "afterRange": [
+      427.89999997615814,
+      627.0999999642372
+    ],
+    "runsEach": 7,
+    "verdict": "inconclusive; observed ranges overlap"
+  },
+  {
+    "operation": "first",
+    "metric": "lastInputToResultMs",
+    "beforeMedianMs": 204.5,
+    "afterMedianMs": 201.39999997615814,
+    "shorteningMs": 3.100000023841858,
+    "shorteningPercent": 1.5158924321965075,
+    "beforeRange": [
+      197,
+      233.10000002384186
+    ],
+    "afterRange": [
+      188.80000001192093,
+      365.0999999642372
+    ],
+    "runsEach": 7,
+    "verdict": "inconclusive; observed ranges overlap"
+  },
+  {
+    "operation": "warm",
+    "metric": "firstInputToResultMs",
+    "beforeMedianMs": 570.6999999880791,
+    "afterMedianMs": 550,
+    "shorteningMs": 20.69999998807907,
+    "shorteningPercent": 3.6271245818313402,
+    "beforeRange": [
+      522.8999999761581,
+      670.3999999761581
+    ],
+    "afterRange": [
+      499.4000000357628,
+      723.3000000119209
+    ],
+    "runsEach": 7,
+    "verdict": "inconclusive; observed ranges overlap"
+  },
+  {
+    "operation": "warm",
+    "metric": "lastInputToResultMs",
+    "beforeMedianMs": 180.39999997615814,
+    "afterMedianMs": 182.69999998807907,
+    "shorteningMs": -2.300000011920929,
+    "shorteningPercent": -1.2749445744040462,
+    "beforeRange": [
+      170.80000001192093,
+      198.19999998807907
+    ],
+    "afterRange": [
+      167.4000000357628,
+      188.19999998807907
+    ],
+    "runsEach": 7,
+    "verdict": "inconclusive; observed ranges overlap"
+  },
+  {
+    "operation": "burst-latest",
+    "metric": "firstInputToResultMs",
+    "beforeMedianMs": 251.30000001192093,
+    "afterMedianMs": 230.69999998807907,
+    "shorteningMs": 20.600000023841858,
+    "shorteningPercent": 8.197373666082235,
+    "beforeRange": [
+      223.10000002384186,
+      370.2999999523163
+    ],
+    "afterRange": [
+      225.0999999642372,
+      307.5999999642372
+    ],
+    "runsEach": 7,
+    "verdict": "inconclusive; observed ranges overlap"
+  },
+  {
+    "operation": "burst-latest",
+    "metric": "lastInputToResultMs",
+    "beforeMedianMs": 173.89999997615814,
+    "afterMedianMs": 172.5999999642372,
+    "shorteningMs": 1.300000011920929,
+    "shorteningPercent": 0.7475560736625417,
+    "beforeRange": [
+      165.69999998807907,
+      176.39999997615814
+    ],
+    "afterRange": [
+      165.70000004768372,
+      176.19999998807907
+    ],
+    "runsEach": 7,
+    "verdict": "inconclusive; observed ranges overlap"
+  }
+]

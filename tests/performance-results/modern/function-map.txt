@@ -1,0 +1,861 @@
+3332:      const _value = String(_text ?? '').trim();
+3334:      const [_mantissa, _exponent = '0'] = _value.toLowerCase().split('e');
+3335:      const _fractionLength = _mantissa.includes('.') ? _mantissa.length - _mantissa.indexOf('.') - 1 : 0;
+3336:      const _digits = _mantissa.replace(/^[+-]/, '').replace('.', '').replace(/^0+/, '');
+3347:      const _length = Math.max(_a.digits.length, _b.digits.length);
+3348:      const _left = _a.digits.padEnd(_length, '0');
+3349:      const _right = _b.digits.padEnd(_length, '0');
+3373:      const idx = Number.parseInt(String(value ?? ''), 10);
+3409:      const $target = node.closest(TOOLTIP_TARGET_SELECTOR);
+3411:      const title = $target.getAttribute('title') ?? _tooltipTitleCache.get($target) ?? '';
+3429:      const $tooltip = document.createElement('div');
+3440:      const cachedTitle = _tooltipTitleCache.get($target);
+3447:      const targetRect = _$tooltipTarget.getBoundingClientRect();
+3448:      const tooltipRect = _$tooltip.getBoundingClientRect();
+3450:      let top = targetRect.top - tooltipRect.height - TOOLTIP_OFFSET_PX;
+3452:      const maxTop = Math.max(
+3458:      let left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
+3459:      const maxLeft = Math.max(
+3483:      const title = $target?.getAttribute('title') ?? _tooltipTitleCache.get($target) ?? '';
+3496:      const $tooltip = ensureTooltipElement();
+3592:      const handleViewportChange = () => {
+3982:      const $el = node?.nodeType === Node.ELEMENT_NODE ? node : node?.parentElement;
+3990:      const trimmed = input.trim();
+4001:      let out = input;
+4007:      let store = _i18nAttrSources.get(el);
+4016:      const store = _i18nAttrSources.get(el);
+4024:      const original = _i18nTextSources.get(node) ?? '';
+4025:      const next = isEnglish() ? translateText(original) : original;
+4127:      const saved = await IDBStore.get('csvEditor_language');
+4128:      const browserDefault = navigator.language?.toLowerCase().startsWith('ja') ? 'ja' : 'en';
+4129:      const lang = SUPPORTED_LANGUAGES.includes(saved) ? saved : browserDefault;
+4140:      const DB_NAME = 'csvEditorDB';
+4141:      const DB_VERSION = 1;
+4142:      const STORE_NAME = 'kvStore';
+4143:      const STORAGE_ENTRY_MARKER = '__csvEditorStoreEntryV1';
+4144:      const STORAGE_ENTRY_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+4145:      const LOCAL_STORAGE_TEST_KEY = '__csvEditorLocalStorageTest';
+4146:      let _db = null;
+4147:      let _openPromise = null;
+4148:      let _fallbackKind = 'none'; // 'none' | 'localStorage' | 'memory'
+4149:      const _memoryStore = new Map();
+4150:      const _memoryOnlyKeys = new Set();
+4152:      const isObjectRecord = (value) => value !== null && typeof value === 'object';
+4153:      const canUseLocalStorage = () => {
+4162:      const setFallbackKind = (kind = null) => {
+4167:      const wrapStoredValue = (value) => ({
+4172:      const getLegacyStoredAt = (value) => {
+4178:      const normalizeStoredAt = (value) => {
+4183:      const unwrapStoredValue = (rawValue) => {
+4194:      const parseFallbackStorageValue = (serializedValue, { parseJson = false } = {}) => {
+4206:      const normalizeMigrationValue = (serializedValue, options = {}) => {
+4210:      const resolveStoredValue = async (key, rawValue) => {
+4222:      const readFallback = (key) => {
+4233:      const writeFallback = (key, value) => {
+4248:      const removeFallback = (key) => {
+4259:      const open = () => {
+4285:      const putIndexedValue = async (key, value) => {
+4302:      const _readIndexedValue = (_db, _key) => (
+4316:      const get = async (key) => {
+4327:      const getIndexedEntry = async (key) => {
+4337:      const set = async (key, value) => {
+4348:      const remove = async (key) => {
+4375:      const isFallback = () => _fallbackKind !== 'none';
+4376:      const getFallbackKind = () => _fallbackKind;
+4378:      let _stateLockTail = Promise.resolve();
+4379:      const withStateLock = (_task) => {
+4393:      const db = await IDBStore.open().catch(() => null);
+4395:      const listLocalStorageKeys = () => {
+4407:      const chunkKeyPrefix = `${PRO_STATE_STORAGE_KEY}::chunk::`;
+4408:      const parsePersistChunkStorageKey = (key) => {
+4416:      const chunkMigrations = listLocalStorageKeys()
+4427:      const hasAllIndexedChunks = async (value, chunkCount) => {
+4446:      const shouldDeferChunkedStateEnvelope = async (to, value) => {
+4452:      const getMigrationTimestamp = (entry) => {
+4458:      const hasMigrationTimestamp = (entry) => getMigrationTimestamp(entry) !== null;
+4459:      const isLocalMigrationNewer = (localEntry, indexedEntry) => {
+4466:      const canDiscardLocalMigration = (localEntry, indexedEntry) => {
+4471:      const keyMigrations = [
+4531:      const { id: _id, swatch: _swatch } = ACCENT_THEMES.find(({ id }) => id === accentId) ?? ACCENT_THEMES[0];
+4533:      const $root = document.documentElement;
+4534:      const _isDarkMode = $root.dataset.mode === 'dark';
+4535:      const _mix = (_ratio, _base) => `color-mix(in oklab, ${_swatch} ${_ratio}%, ${_base})`;
+4536:      const _tokens = {
+4555:      const $container = qs('#themeSwatches');
+4567:      const $button = qs('#themeModeToggle');
+4569:      const normalized = theme === 'light' ? 'light' : 'dark';
+4570:      const isDark = normalized === 'dark';
+4571:      const _sourceLabel = 'テーマ切替';
+4572:      const _label = translateText(_sourceLabel);
+4576:      const $icon = qs('.material-symbols-outlined', $button);
+4588:      const normalized = theme === 'light' ? 'light' : 'dark';
+4597:      const [saved, savedAccent] = await Promise.all([
+4641:      const _row = Number.parseInt($target?.dataset.rowMenu, 10);
+4642:      const _col = Number.parseInt($target?.dataset.colMenu, 10);
+4643:      const _filterCol = Number.parseInt($target?.dataset.filterCol, 10);
+4644:      const $replacement = Number.isInteger(_row)
+4661:      const $overlay = getTopOpenOverlay();
+4663:      const focusables = getFocusableOverlayElements($overlay);
+4669:      const first = focusables[0];
+4670:      const last = focusables[focusables.length - 1];
+4671:      const $active = document.activeElement;
+4692:      const $active = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+4694:      const existingIndex = _openOverlayStack.indexOf($overlay);
+4723:      const stackIndex = _openOverlayStack.lastIndexOf($overlay);
+4725:      const $target = _overlayFocusTargets.get($overlay);
+4727:      const $remainingOverlay = getTopOpenOverlay();
+4745:      const $trigger = _actionMenuTriggers.get($menu);
+4759:      const _margin = 8;
+4760:      const _width = $menu.offsetWidth;
+4761:      const _height = $menu.offsetHeight;
+4762:      const _left = Math.max(_margin, Math.min(_rect.left, window.innerWidth - _width - _margin));
+4763:      const _below = _rect.bottom + 4;
+4764:      const _top = _below + _height <= window.innerHeight - _margin ? _below : _rect.top - _height - 4;
+4767:      const _items = qsa('[role="menuitem"]', $menu);
+4772:      const $menu = _$activeActionMenu;
+4785:      const _items = qsa('[role="menuitem"]', $menu);
+4787:      const _index = _items.indexOf(document.activeElement);
+4807:      const $template = document.createElement('template');
+4826:      const $close = _event.target.closest('.toast-close');
+4831:      const $toast = document.createElement('div');
+4833:      const isAlert = type === 'error';
+4837:      const $message = document.createElement('div');
+4840:      const $close = document.createElement('button');
+4847:      let closed = false;
+4848:      let hideTimer = null;
+4849:      const closeToast = () => {
+4866:      const {
+4898:      const callback = _modalCallback;
+4919:      const $pasteZone      = qs('#pasteZone');
+4920:      const $tableContainer = qs('#tableContainer');
+4921:      const $tableScroll    = qs('#tableScroll');
+4922:      const $tableHead      = qs('#tableHead');
+4923:      const $tableBody      = qs('#tableBody');
+4924:      const $dataTable      = qs('#dataTable');
+4925:      const $searchInput    = qs('#searchInput');
+4926:      const $replaceInput   = qs('#replaceInput');
+4927:      const $searchInfo     = qs('#searchInfo');
+4928:      const $searchClearBtn = qs('#searchClearBtn');
+4929:      const $clearAllFiltersBtn = qs('#clearAllFiltersBtn');
+4930:      const $searchAdvanced = qs('#searchAdvanced');
+4931:      const $searchAdvancedToggle = qs('#searchAdvancedToggle');
+4932:      const $searchCaseSensitive  = qs('#searchCaseSensitive');
+4933:      const $searchExactMatch     = qs('#searchExactMatch');
+4934:      const $searchRegex          = qs('#searchRegex');
+4935:      const $searchTargetCol      = qs('#searchTargetCol');
+4936:      const $filterMode           = qs('#filterMode');
+4937:      const $searchHistoryList    = qs('#searchHistoryList');
+4938:      const $undoBtn        = qs('#undoBtn');
+4939:      const $redoBtn        = qs('#redoBtn');
+4940:      const $columnMenu     = qs('#columnMenu');
+4941:      const $rowMenu        = qs('#rowMenu');
+4942:      const $rowCount       = qs('#rowCount');
+4943:      const $colCount       = qs('#colCount');
+4944:      const $dataSize       = qs('#dataSize');
+4945:      const $dataFormat     = qs('#dataFormat');
+4946:      const $encodingChipSelect = qs('#encodingChipSelect');
+4947:      const $saveStatus     = qs('#saveStatus');
+4948:      const $themeModeToggle = qs('#themeModeToggle');
+4949:      const $virtualHeaderOverlay = qs('#virtualHeaderOverlay');
+4950:      const $virtualHeaderList = qs('#virtualHeaderList');
+4951:      const $virtualHeaderStatus = qs('#virtualHeaderStatus');
+4952:      const $virtualHeaderPresetSelect = qs('#virtualHeaderPresetSelect');
+4953:      const $virtualHeaderPresetName = qs('#virtualHeaderPresetName');
+4956:      const SAVE_STATUS_LABELS = {
+4964:      const SAVE_STORAGE_DETAILS = {
+4968:      const SAVE_STATUS_TITLE_PREFIXES = {
+4976:      let _currentSaveState = 'idle';
+4978:      const getSaveStatusLabel = (status) => {
+4985:      const getSaveStatusTitle = (status) => {
+5009:      const updateSaveStatusBadge = (status) => {
+5018:      let state = {
+5030:      const DEFAULT_COLUMN_WIDTH = 150;
+5031:      const MIN_COLUMN_WIDTH = 60;
+5032:      const ROW_NUMBER_COLUMN_WIDTH = 70;
+5033:      const HEADER_FIT_TEXT_FONT_SIZE = '0.8rem';
+5034:      const HEADER_FIT_COLNUM_FONT_SIZE = '0.6rem';
+5035:      const HEADER_FIT_VIRTUAL_FALLBACK_FONT_SIZE = '0.66rem';
+5036:      const HEADER_FIT_FONT_WEIGHT = '600';
+5037:      const HEADER_FIT_HORIZONTAL_PADDING = 20;
+5038:      const HEADER_FIT_COLNUM_HORIZONTAL_PADDING = 8;
+5039:      const HEADER_FIT_GAP_WIDTH = 6;
+5040:      const HEADER_FIT_FILTER_ICON_WIDTH = 20;
+5041:      const HEADER_FIT_MENU_ICON_WIDTH = 26;
+5042:      const HEADER_FIT_SAFETY_PADDING = 10;
+5043:      const COLUMN_WIDTHS_STORAGE_KEY = 'csvEditor_columnWidths';
+5044:      const VIRTUAL_HEADER_PRESETS_STORAGE_KEY = 'csvEditor_virtualHeaderPresets';
+5045:      const MAX_VIRTUAL_HEADER_PRESETS = 50;
+5046:      const MAX_DELIMITER_SAMPLE_LINES = 8;
+5048:      const SUPPORTED_ENCODINGS = ['utf-8', 'shift-jis', 'euc-jp', 'iso-2022-jp', 'utf-16le', 'utf-16be'];
+5049:      const EXPORT_FALLBACK_ENCODING = 'utf-8';
+5050:      const ENCODING_TO_LIBRARY = {
+5055:      const ENCODING_TO_DECODER_LABEL = {
+5063:      const BOM_SUPPORTED_ENCODINGS = new Set(['utf-8', 'utf-16le', 'utf-16be']);
+5064:      const HAS_LEGACY_ENCODING_LIB = typeof Encoding !== 'undefined';
+5065:      const EXPORT_SUPPORTED_ENCODINGS = new Set(
+5070:      const EXPORT_FORMATS = {
+5144:      const DELIMITER_TO_DSV_FORMAT_ID = {
+5151:      const normalizeEncoding = (enc) => (
+5155:      const getExportFormatConfig = (formatId) => (
+5159:      const getDsvFormatIdByDelimiter = (delimiter) => (
+5163:      const isExportEncodingSupported = (enc) => EXPORT_SUPPORTED_ENCODINGS.has(normalizeEncoding(enc));
+5164:      const normalizeExportEncoding = (enc) => (
+5168:      const getEncodingSupportSuffix = () => (
+5172:      const syncEncodingSelectSupport = ($select, { forExport = false } = {}) => {
+5193:      const supportsBom = (enc) => BOM_SUPPORTED_ENCODINGS.has(normalizeEncoding(enc));
+5195:      const getEncodingDisplayName = (enc) => {
+5207:      const prependBytes = (head, body) => {
+5214:      const encodeUtf16Bytes = (text, littleEndian) => {
+5230:      const decodeUtf16Bytes = (bytes, littleEndian) => {
+5242:      const detectBomEncoding = (bytes) => {
+5255:      const decodeWithTextDecoder = (bytes, enc, options = {}) => {
+5267:      const strictTextDecoderResult = (bytes, enc, { includeText = false } = {}) => {
+5283:      const collectDecodeWarnings = ({ bytes, encoding, text, _strictOk = strictTextDecoderResult(bytes, encoding) }) => {
+5299:      const decodeByEncoding = (bytes, enc) => {
+5314:      const encodeToBytes = (text, enc, withBom = false) => {
+5340:      const isLegacyEncodingRoundTripSafe = (text, enc) => {
+5351:      const confirmLegacyEncodingRoundTrip = ({ text, encoding, actionLabel }) => {
+5372:      const buildEncodedBlob = (text, enc, withBom = false, mimeType = 'text/plain') => {
+5379:      let undoStack = [], redoStack = [];
+5380:      const MAX_HISTORY = 20;
+5381:      const HISTORY_ENTRY_SNAPSHOT = 'snapshot';
+5382:      const HISTORY_ENTRY_CELL = 'cell';
+5383:      const HISTORY_ENTRY_CELL_BATCH = 'cell-batch';
+5384:      let activeColumnIndex = -1, activeRowIndex = -1;
+5385:      let searchMatches = [], currentMatchIndex = -1;
+5386:      let searchMatchMap = new Map(); // Map<rowIndex, Set<colIndex>>
+5387:      let searchHistory = [];
+5388:      let virtualHeaderPresets = [];
+5389:      const MAX_SEARCH_HISTORY = 20;
+5390:      const SEARCH_HISTORY_KEY = 'csvEditor_searchHistory';
+5391:      let filteredRows = null; // フィルターモード有効時は Set<行番号>、無効時は null
+5392:      const columnFilters = new Map(); // Map<colIndex, {values?: Set, conditions?: [{op, val}], logic?: 'and'|'or'}>
+5393:      let filterPanelColIndex = -1;
+5394:      let isResizing = false, resizeColumnIndex = -1, resizeStartX = 0, resizeStartWidth = 0, resizeLastWidth = 0;
+5395:      let renderedTableWidth = 0;
+5396:      const VIRTUAL_ROW_THRESHOLD = 1000;
+5397:      const VIRTUAL_ROW_HEIGHT = 42; // 初回描画前の高さの代替値
+5398:      const VIRTUAL_OVERSCAN = 12;
+5399:      const LARGE_DATA_ROW_THRESHOLD = 20000;
+5400:      const HUGE_DATA_ROW_THRESHOLD = 100000;
+5401:      const SEARCH_MIN_BATCH_ROWS = 700;
+5402:      const SEARCH_TIME_BUDGET_MS = 12;
+5403:      const SEARCH_DEBOUNCE_MS = 120;
+5404:      const SEARCH_MATCH_STORE_LIMIT = 150000;
+5405:      const SEARCH_MATCH_STORE_LIMIT_LARGE = 100000;
+5406:      const SEARCH_MATCH_STORE_LIMIT_HUGE = 60000;
+5407:      const SEARCH_ROW_TEXT_SEPARATOR = '\u001F';
+5408:      const SEARCH_WORKER_ROW_THRESHOLD = 12000;
+5409:      const FILTER_WORKER_ROW_THRESHOLD = 8000;
+5410:      const WORKER_EXCLUSIVE_ROW_THRESHOLD = SEARCH_WORKER_ROW_THRESHOLD;
+5411:      const STATS_ASYNC_ROW_THRESHOLD = 5000;
+5412:      const STATS_MIN_BATCH_ROWS = 350;
+5413:      const STATS_TIME_BUDGET_MS = 12;
+5414:      const STATS_DEBOUNCE_MS = 100;
+5415:      const BOOT_HYDRATE_DELAY_MS = 0;
+5416:      let _virtualRenderRAF = 0;
+5417:      let _searchTaskToken = 0;
+5418:      let _searchDebounceTimer = null;
+5419:      let _searchWorkerRequestSeq = 0;
+5420:      let _searchWorker = null;
+5421:      let _searchWorkerUrl = '';
+5422:      const _searchWorkerPending = new Map();
+5423:      let _searchWorkerDataRevision = -1;
+5424:      let _searchWorkerDirtyRows = null;   // セル単位の差分同期用の Set<行番号>。null は全体の再同期が必要
+5425:      let _searchInProgress = false;
+5426:      let _searchError = '';
+5427:      let _searchTotalCount = 0;
+5428:      let _searchMatchTruncated = false;
+5429:      let _rowSearchCache = [];
+5430:      let _currentMatchCell = null;
+5431:      let _regexHighlightRanges = new Map();
+5432:      let _searchHighlightCache = { key: '', regex: null, exactMatch: false, hasQuery: false };
+5433:      let _columnFilterRows = null;
+5434:      let _columnFilterTaskToken = 0;
+5435:      let _filterWorkerRequestSeq = 0;
+5436:      let _filterWorker = null;
+5437:      let _filterWorkerUrl = '';
+5438:      const _filterWorkerPending = new Map();
+5439:      let _filterWorkerDataRevision = -1;
+5440:      let _filterWorkerDirtyRows = null;
+5442:      let _selectionModel = new Map();
+5443:      let _statsTaskToken = 0;
+5444:      let _statsDebounceTimer = null;
+5445:      let _skipRenderSearchRefresh = false;
+5446:      let _visibleRowsMode = 'mapped'; // 'mapped' | 'contiguous'
+5447:      let _visibleContiguousStart = 0;
+5448:      let _visibleContiguousCount = 0;
+5449:      let _visibleRowIndexes = [];
+5450:      let _visibleRowOffsetMap = new Map();
+5451:      let _dataRevision = 0;
+5452:      let _saveRevision = 0;
+5453:      let _savedRevision = 0;
+5454:      let _saveIdleHandle = null;
+5455:      let _bootHydrationDone = false;
+5456:      let _bootUserChanged = false;
+5457:      const _filterValueCache = new Map(); // Map<`${revision}:${headerFlag}:${colIdx}`, [value, count][]>
+5458:      let _exportPreviewTimer = null;
+5459:      const PERSIST_CHUNK_VERSION = 3;
+5460:      const PERSIST_STORAGE_KIND = 'chunked_rows';
+5461:      const PERSIST_CHUNK_RECORD_KIND = 'rows_chunk';
+5462:      const PERSIST_ROW_CHUNK_SIZE = 400;
+5463:      const PERSIST_CHUNK_INTEGRITY_ERROR = 'persist_chunk_integrity_error';
+5464:      const PRO_STATE_CHUNK_KEY_PREFIX = `${PRO_STATE_STORAGE_KEY}::chunk::`;
+5465:      const PERSIST_CHUNK_KEY_SEGMENT_RE = /^[0-9A-Za-z_-]+$/;
+5466:      let _persistChunkMeta = null;
+5467:      const _persistDirtyRows = new Set();
+5468:      let _persistRequiresFullSave = true;
+5469:      const EXPORT_PREVIEW_ROW_LIMIT = 200;
+5470:      const EXPORT_PREVIEW_DEBOUNCE_MS = 120;
+5471:      const virtualState = { enabled: false, start: -1, end: -1 };
+5473:      let _fileHandle = null;
+5474:      let _openedFileMeta = null;
+5475:      let _fileContextRevision = 0;
+5476:      const $filenameBadge = qs('#filenameBadge');
+5478:      const updateFilenameBadge = (name) => {
+5486:      const normalizeLineEndingSetting = (newline) => (newline === 'lf' ? 'lf' : 'crlf');
+5487:      const detectNewlineSettingFromText = (text) => (/\r\n/.test(text) ? 'crlf' : 'lf');
+5488:      const cloneFileOutputMeta = (meta) => {
+5498:      const getCurrentOutputMeta = () => cloneFileOutputMeta({
+5505:      const isSameOutputMeta = (a, b) => (
+5513:      const setOpenFileContext = ({ fileHandle = null, fileName = '', outputMeta = null } = {}) => {
+5521:      const clearOpenFileContext = () => {
+5524:      const hasOverwriteFormatMismatch = () => (
+5529:      const _cloneColumnFilterConfig = (config) => ({
+5534:      const _captureColumnFiltersSnapshot = () => (
+5540:      const _restoreColumnFiltersSnapshot = (entries) => {
+5559:      const _resetSearchFilterResults = () => {
+5571:      const resetViewStateForNewDataset = () => {
+5607:      const _captureSearchFilterSnapshot = () => ({
+5617:      const _applySearchFilterSnapshot = (snapshot) => {
+5635:      const _captureFileContextSnapshot = () => ({
+5640:      const _applyFileContextSnapshot = (snapshot) => {
+5649:      const cloneDataMatrix = (rows) => rows.map(row => [...row]);
+5660:      let _ownedRowsSinceSnapshot = null;
+5661:      const beginSnapshotEpoch = () => {
+5664:      const ensureRowOwned = (rowIdx) => {
+5671:      const setCellValue = (rowIdx, colIdx, val) => {
+5675:      const cloneColumnWidths = (widths) => ({ ...widths });
+5676:      const normalizeCellValue = (value) => (
+5679:      const normalizeDataMatrix = (data) => {
+5693:      const normalizeColumnWidths = (widths) => {
+5704:      const normalizeVirtualHeaders = (headers, colCount = Infinity) => {
+5715:      const getCurrentColumnCount = () => state.data[0]?.length ?? 0;
+5716:      const getVirtualHeaderLabel = (colIndex) => (
+5719:      const hasAnyVirtualHeader = () => (
+5722:      const getDataShapeMeta = (data, hasHeader) => {
+5728:      const getPersistChunkKey = (chunkIndex) => `${PRO_STATE_CHUNK_KEY_PREFIX}${chunkIndex}`;
+5729:      const getPersistDraftChunkKey = (generationId, chunkIndex) => (
+5732:      const createPersistChunkGenerationId = () => {
+5737:      const parsePersistChunkKey = (key) => {
+5749:      const hashPersistString = (text) => {
+5759:      const hashPersistRows = (rows) => hashPersistString(JSON.stringify(rows));
+5760:      const getExpectedPersistChunkLength = (chunkIndex, chunkCount, chunkSize, totalRows) => (
+5763:      const createPersistChunkIntegrityError = (message) => {
+5768:      const isPersistChunkIntegrityError = (error) => (
+5771:      const normalizePersistChunkRefs = (saved, chunkCount = Number(saved?.rowChunkCount), totalRows = Number(saved?.totalRows)) => {
+5795:      const normalizePersistMeta = (saved, rowCountHint = 0) => {
+5813:      const normalizePersistedChunkRecord = (chunk, ref, chunkIndex, expectedLength, chunkSize) => {
+5835:      const loadPersistedChunkRows = async (saved) => {
+5896:      const normalizePersistedState = async (saved, localColumnWidths = {}) => {
+5936:      const applyLoadedState = (loadedState) => {
+5951:      const loadColumnWidthsFromLocal = () => {
+5960:      const saveColumnWidthsToLocal = () => {
+5966:      const clearColumnWidthsFromLocal = () => {
+5971:      const resetSearchRowCache = () => {
+5979:      const invalidateRowSearchCache = (rowIdx) => {
+5985:      const noteDirtyRowForWorkers = (rowIdx) => {
+5990:      const createStateSnapshot = () => {
+6013:      const applyStateSnapshot = (snapshot) => {
+6045:      const getPersistChunkCount = (rowCount = state.data.length) => (
+6048:      const buildPersistChunkRows = (chunkIndex, _snapshot = state) => {
+6058:      const buildPersistEnvelope = (chunkCount = getPersistChunkCount(), rowChunkRefs = null, _snapshot = state) => ({
+6084:      const updatePersistChunkMeta = (envelope) => {
+6087:      const buildPersistChunkRecord = (chunkIndex, generationId, _snapshot = state) => {
+6108:      const getPersistChunkKeysForMeta = (meta) => {
+6119:      const removePersistChunkKeys = async (keys, label = 'Chunk remove') => {
+6127:      const removeUnreferencedPersistChunks = async (previousMeta, nextRefs) => {
+6132:      const persistChunkRows = async (chunkIndexes, _snapshot = state, generationId = createPersistChunkGenerationId()) => {
+6148:      const persistMetaOnly = async (chunkCount, rowChunkRefs, _snapshot) => {
+6158:      const persistAllStateChunks = async (_snapshot) => {
+6169:      const persistDirtyStateChunks = async (_snapshot, _dirtyRows) => {
+6207:      const persistStateAsync = async () => {
+6249:      const markDataChanged = (opts) => {
+6275:      const markSettingsChanged = () => {
+6280:      let _saveTimer = null;
+6281:      let _storageSavePromise = null;
+6282:      let _storageClearPromise = null;
+6283:      let _persistStorageVersion = '';
+6284:      const _getPersistenceVersion = (_saved) => _saved === undefined ? '' : JSON.stringify(_saved);
+6285:      const _assertPersistenceVersion = async () => {
+6290:      const cancelIdlePersist = () => {
+6297:      const scheduleIdlePersist = (fn, timeout = 1200) => {
+6315:      const getAutosaveDebounceMs = () => {
+6323:      const getAutosaveIdleTimeoutMs = () => {
+6331:      const persistRevisionNow = async (revision, { showErrorToast = true } = {}) => {
+6369:      const saveToStorage = () => {
+6390:      const clearSearchHistoryState = () => {
+6395:      const restoreStorageAfterFailedClear = async ({ includeSearchHistory = false, searchHistorySnapshot = [] } = {}) => {
+6430:      const clearStorage = async ({ includeSearchHistory = false, persistMeta = null } = {}) => {
+6487:      const confirmRestorePersistedState = (loadedState, saved) => {
+6518:      const loadFromStorage = async () => {
+6598:      const createSnapshotHistoryEntry = () => ({
+6603:      const createCellHistoryEntry = (row, col, before, after) => ({
+6611:      const createCellBatchHistoryEntry = (changes) => ({
+6616:      const trimHistoryStack = (stack) => {
+6620:      const saveToHistory = () => {
+6629:      const saveCellEditToHistory = (row, col, before, after) => {
+6643:      const saveCellBatchToHistory = (changes) => {
+6656:      const applyHistoryEntry = (entry, mode) => {
+6681:      const updateHistoryButtons = () => {
+6686:      const undo = () => {
+6709:      const redo = () => {
+6734:      const _yieldToTask = () => new Promise((_resolve) => {
+6748:      const formatBytes = (bytes) => {
+6754:      const buildCsvLine = (row, delimiter, quoteStyle) => (
+6765:      const calcRowBytes = (row, delimiter, encoding, quoteStyle, suffix) => {
+6778:      const calcBomBytes = (encoding, withBom) => {
+6786:      const updateStats = () => {
+6870:      const CSV_PARSE_ERROR_UNCLOSED_QUOTE = 'csv_unclosed_quote';
+6871:      const isUnclosedQuoteParseError = (error) => (
+6874:      const showParseErrorToast = (error) => {
+6882:      const detectSpaceSeparated = (sampleText) => {
+6933:      const _getDelimiterSampleText = (text, maxLines = MAX_DELIMITER_SAMPLE_LINES) => {
+6960:      const detectDelimiter = (text) => {
+7006:      const parseCSV = (text, delimiter, maxRows = Infinity) => {
+7082:      const _quoteTsvCell = (cell, _columnIndex, _row) => {
+7088:      const _buildTsvRows = (rows) => (
+7092:      const formatLocalDateStamp = (date = new Date()) => {
+7099:      const _getSuggestedOutputName = (extension, sourceName = $filenameBadge.textContent) => {
+7108:      const copyTextToClipboard = async (text) => {
+7155:      const _parseClipboardTsv = (text) => {
+7164:      const parseCSVAsync = async (text, delimiter) => {
+7197:      const DATA_WORKER_TIMEOUT_MS = 30000;
+7198:      const REGEX_WORKER_TIMEOUT_MS = 2000;
+7199:      const runDataWorker = async (workerCode, payload, { timeoutMs = DATA_WORKER_TIMEOUT_MS } = {}) => {
+7219:      const terminateSearchWorker = () => {
+7235:      const _exactSearchPattern = (_source) => `^(?:${_source})(?![\\s\\S])`;
+7237:      const _createLiteralSearchRegex = (_query, _caseSensitive, _exactMatch, _global = false) => {
+7243:      const ensureSearchWorker = () => {
+7481:      const callSearchWorker = (type, payload) => new Promise((resolve, reject) => {
+7495:      const syncSearchWorkerDataIfNeeded = async ({ force = false } = {}) => {
+7524:      const terminateFilterWorker = () => {
+7539:      const ensureFilterWorker = () => {
+7641:      const callFilterWorker = (type, payload) => new Promise((resolve, reject) => {
+7654:      const syncFilterWorkerDataIfNeeded = async () => {
+7684:      const _confirmDataReplacement = () => {
+7706:      const _commitImportedData = ({
+7746:      let _processDataRequestId = 0;
+7747:      const processData = async (text, { hasHeader = false, shouldCommit = () => true } = {}) => {
+7777:      const $pasteImportOverlay = qs('#pasteImportOverlay');
+7778:      const $pasteImportInput = qs('#pasteImportInput');
+7779:      const $pasteImportConfirm = qs('#pasteImportConfirmBtn');
+7780:      const $pasteImportStatus = qs('#pasteImportStatus');
+7781:      let _pasteImportRequestId = 0;
+7782:      let _pasteImportBusy = false;
+7784:      const _updatePasteImportControls = () => {
+7794:      const _closePasteImport = () => {
+7801:      const triggerPaste = () => {
+7811:      const _submitPasteImport = async () => {
+7846:      const _focusFirstDataCell = () => {
+7850:      const _updateActionAvailability = () => {
+7860:      const getBodyDataStart = () => state.hasHeader ? 1 : 0;
+7861:      const getDefaultColumnLabel = (colIndex) => (
+7864:      const getColumnDisplayName = (colIndex, { includeIndex = false } = {}) => {
+7871:      const getColumnWidth = (colIndex) => state.columnWidths[colIndex] ?? DEFAULT_COLUMN_WIDTH;
+7872:      let $headerMeasureElement = null;
+7873:      const getHeaderMeasureElement = () => {
+7881:      const measureHeaderTextWidth = (text, { fontSize, fontWeight } = {}) => {
+7889:      const getHeaderFitWidth = (colIndex) => {
+7917:      const fitHeaderColumnWidths = () => {
+7930:      const applyRenderedTableWidth = (width) => {
+7942:      const syncRenderedTableWidth = () => {
+7953:      const adjustRenderedTableWidth = (delta) => {
+7962:      const rowPassesColumnFilters = (rowIdx) => {
+7977:      const serializeColumnFilters = () => (
+7986:      const computeColumnFilterRowsMain = () => {
+7995:      const refreshColumnFilterRows = async () => {
+8035:      const rowPassesSearchFilter = (rowIdx) => {
+8040:      const getVisibleRowCount = () => (
+8044:      const getVisibleRowIndexAt = (offset) => (
+8048:      const getVisibleOffsetByRowIndex = (rowIndex) => {
+8056:      const _isRowVisible = (rowIndex) => getVisibleOffsetByRowIndex(rowIndex) !== undefined;
+8057:      const _hasActiveRowFilter = () => columnFilters.size > 0 || ($filterMode.checked && filteredRows !== null);
+8058:      const _getVisibleRowIndexes = (rowLimit = null) => {
+8067:      const _compareRowsByVisibleOrder = (rowA, rowB) => {
+8075:      const _pruneSelectionToVisibleRows = () => {
+8097:      let _visibleRowsRevision = 0;
+8098:      const rebuildVisibleRows = () => {
+8126:      const shouldUseVirtualRows = () => {
+8130:      let _virtualLayout = null;
+8131:      let _virtualMetrics = null;
+8132:      const _getVirtualRowLayout = () => {
+8170:      const _getVirtualOffsetAt = (_position, _offsets) => {
+8180:      let _isReplacingTableBody = false;
+8181:      const _replaceTableBody = (_html) => {
+8199:      const buildBodyRowHTML = (rowIndex) => {
+8231:      const renderVirtualBody = (force = false) => {
+8273:      const scheduleVirtualRender = () => {
+8284:      const ensureRowRendered = (rowIndex) => {
+8295:      const clearCurrentMatchCell = () => {
+8302:      const clearRenderedSearchDecorations = () => {
+8310:      const renderBodyOnly = (forceVirtual = true) => {
+8329:      const renderForSearchResult = ({ affectsVisibility = false, refreshBody = true, clearHighlights = false } = {}) => {
+8341:      const renderTable = () => {
+8411:      const toggleHeader = () => {
+8421:      const normalizeVirtualHeaderPreset = (preset) => {
+8436:      const sortVirtualHeaderPresets = () => {
+8440:      const loadVirtualHeaderPresets = () => {
+8453:      const saveVirtualHeaderPresets = () => {
+8462:      const setVirtualHeaderStatus = (message = '') => {
+8467:      const getSelectedVirtualHeaderPreset = () => (
+8471:      const renderVirtualHeaderPresetSelect = () => {
+8493:      const getVirtualHeaderDraft = () => {
+8503:      const writeVirtualHeaderDraft = (labels) => {
+8511:      const renderVirtualHeaderInputs = ({ focusCol = -1 } = {}) => {
+8547:      const openVirtualHeaderModal = ({ focusCol = -1 } = {}) => {
+8564:      const closeVirtualHeaderModal = () => {
+8568:      const applyVirtualHeaders = () => {
+8580:      const saveVirtualHeaderPresetFromDraft = () => {
+8613:      const applySelectedVirtualHeaderPreset = () => {
+8630:      const deleteSelectedVirtualHeaderPreset = () => {
+8647:      const clearVirtualHeaderDraft = () => {
+8653:      let _resizeFrame = 0, _pendingResizeX = null;
+8654:      const _flushColumnResize = () => {
+8670:      const startResize = (e, colIndex) => {
+8685:      const _finishColumnResize = () => {
+8701:      let _selectionAnchor = null;   // { row, col }：Shiftによる範囲選択の起点
+8702:      let _isDragging = false;
+8703:      let _dragStart = null;         // { row, col }
+8704:      let _selectionFrame = 0, _pendingDragSelection = null, _lastDragSelection = null;
+8705:      const _cancelDragSelection = () => {
+8726:      const clearSelectionModel = () => { _selectionModel = new Map(); };
+8727:      const _resetCellSelection = () => {
+8735:      const isCellSelected = (rowIdx, colIdx) => _selectionModel.get(rowIdx)?.has(colIdx) === true;
+8736:      const _getCellSelectionEdges = (_row, _col) => {
+8745:      const addCellToSelectionModel = (rowIdx, colIdx) => {
+8750:      const selectionCount = () => {
+8755:      const getSelectedCoords = ({ visibleOnly = true } = {}) => {
+8764:      const _hasVisibleSelection = () => {
+8771:      const refreshRenderedSelectionVisuals = () => {
+8791:      const clearSelection = () => {
+8799:      const getCellCoords = ($td) => ({
+8803:      const hasValidCellCoords = ({ row, col }) => row >= 0 && col >= 0;
+8805:      const selectCell = ($td) => {
+8811:      const selectRange = (r1, c1, r2, c2) => {
+8828:      const _flushDragSelection = () => {
+8893:      const _getSelectedRowsInVisibleOrder = () => (
+8899:      const copySelectedCells = async () => {
+8920:      const splitWordTokens = (s) => {
+8928:      const upperFirst = (s) => s.length === 0 ? '' : s[0].toUpperCase() + s.slice(1).toLowerCase();
+8929:      const lowerFirst = (s) => s.length === 0 ? '' : s[0].toLowerCase() + s.slice(1);
+8930:      const transformUpper  = (s) => (s ?? '').toUpperCase();
+8931:      const transformLower  = (s) => (s ?? '').toLowerCase();
+8932:      const transformTitle  = (s) => splitWordTokens(s).map(upperFirst).join(' ');
+8933:      const transformTrim   = (s) => (s ?? '').trim();
+8934:      const transformCollapse = (s) => (s ?? '').replace(/\s+/g, ' ');
+8935:      const transformSnake  = (s) => splitWordTokens(s).map((t) => t.toLowerCase()).join('_');
+8936:      const transformKebab  = (s) => splitWordTokens(s).map((t) => t.toLowerCase()).join('-');
+8937:      const transformPascal = (s) => splitWordTokens(s).map(upperFirst).join('');
+8938:      const transformCamel  = (s) => {
+8943:      const transformHalfWidth = (s) => {
+8949:      const transformFullWidth = (s) => {
+8956:      const TEXT_TRANSFORMS = {
+8970:      const applyTextTransform = (transformId) => {
+9017:      const $textTransformBtn = qs('#textTransformBtn');
+9018:      const $textTransformMenu = qs('#textTransformMenu');
+9019:      const closeTextTransformMenu = (_options) => _closeActionMenu($textTransformMenu, _options);
+9020:[Omitted long matching line]
+9042:      const _refreshViewAfterCellBatchEdit = async () => {
+9057:      const _syncRenderedCellValues = () => {
+9066:      const deleteSelectedCells = () => {
+9089:      const _isMultiCellClipboardData = (clipData) => clipData.length > 1 || (clipData[0]?.length ?? 0) > 1;
+9090:      const _getTopLeftVisibleCoord = (coords) => {
+9101:      const _setPastedCellValue = (row, col, after, changes) => {
+9111:      const _applyClipboardDataAt = (clipData, startRow, startCol, { selectedCoords = null } = {}) => {
+9143:      const pasteIntoSelection = (clipText) => {
+9159:      let _$composingCell = null;
+9160:      let _cellViewRefreshPending = false;
+9161:      const _deferCellViewRefresh = () => {
+9167:      const _finishCellComposition = () => {
+9175:      const _readCellEditValue = ($cell) => {
+9202:      const _hasActiveCellEdit = () => {
+9211:      const _refreshRecoveryStatusAfterInput = () => {
+9219:      const handleCellBlur = ($cell) => {
+9235:      const commitActiveCellEdit = () => {
+9243:      let _cellEditTarget = null;
+9244:      const $cellEditOverlay = qs('#cellEditOverlay');
+9245:      const $cellEditInput = qs('#cellEditInput');
+9246:      const _openCellEditor = () => {
+9280:      const handleCellNavigation = (e, $cell) => {
+9368:      const buildMatcher = (query) => {
+9387:      const buildReplaceRegex = (query, globalFlag) => {
+9407:      const getSearchTargetCol = () => {
+9411:      const getSearchStoreLimit = () => {
+9418:      const buildSearchRowIndexes = () => {
+9432:      const getRowSearchText = (rowIndex) => {
+9446:      const buildSearchMatchMapFromEntries = (entries) => {
+9458:      const buildSearchMatchesFromPairs = (pairs) => {
+9465:      const getSearchHighlightContext = () => {
+9494:      const renderCellTextWithSearchHit = (text, { isMatchedCell = false, isCurrentMatch = false } = {}) => {
+9544:      const commitSearchResult = ({ matches, matchMap, totalCount, matchedRows, filterBySearch, highlightAllMatches }) => {
+9564:      const resetSearchState = () => {
+9575:      const cancelSearchTasks = () => {
+9596:      const _failRegexSearch = () => {
+9605:      const runSearchTask = async () => {
+9801:      const scheduleSearch = (immediate = false) => {
+9825:      const performSearch = () => scheduleSearch(false);
+9826:      const performSearchImmediate = () => scheduleSearch(true);
+9828:      const navigateMatch = (dir) => {
+9836:      const highlightCurrentMatch = () => {
+9861:      const _canUseSearchResults = () => Boolean(
+9865:      const _updateSearchControls = () => {
+9887:      const updateSearchInfo = () => {
+9921:      const clearSearch = () => {
+9936:      const _clearAllSearchFilters = () => {
+9960:      const loadSearchHistory = async () => {
+9966:      const saveSearchToHistory = async (query) => {
+9975:      const updateSearchHistoryList = () => {
+9986:      const updateSearchTargetCols = () => {
+10001:      const replaceNext = async () => {
+10031:      const replaceAll = async () => {
+10157:      const $colFilterPanel = qs('#colFilterPanel');
+10158:      const $colFilterTitle = qs('#colFilterTitle');
+10159:      const $colFilterSearch = qs('#colFilterSearch');
+10160:      const $colFilterValues = qs('#colFilterValues');
+10161:      const $colFilterConditions = qs('#colFilterConditions');
+10162:      const FILTER_VALUE_RENDER_BATCH = 200;
+10163:      const FILTER_CONDITION_OPERATORS = Object.freeze([
+10174:      const FILTER_CONDITION_OPERATOR_VALUES = new Set(FILTER_CONDITION_OPERATORS.map(({ value }) => value));
+10175:      const FILTER_CONDITION_VALUELESS_OPS = new Set(['', 'empty', 'not_empty']);
+10176:      let _filterValuePanelState = null;
+10177:      let _$colFilterFocusTarget = null;
+10178:      let _colFilterPanelRevision = 0;
+10179:      let _colFilterAnchorRect = null;
+10180:      const _positionColFilterPanel = () => {
+10191:      let _colFilterPositionFrame = null;
+10192:      const _scheduleColFilterPosition = () => {
+10203:      const _normalizeFilterConditionOp = (op) => (
+10207:      const _conditionNeedsValue = (op) => !FILTER_CONDITION_VALUELESS_OPS.has(op);
+10209:      const openColFilterPanel = (colIdx, anchorRect, $trigger = null) => {
+10246:      const closeColFilterPanel = ({ restoreFocus = false } = {}) => {
+10260:      const _handleColFilterPanelKeydown = (e) => {
+10269:      const serializeOtherColumnFilters = (excludeColIdx) => (
+10280:      const rowPassesOtherColumnFilters = (rowIdx, excludeColIdx) => {
+10294:      const computeFilterValuesMain = (colIdx) => {
+10306:      const buildFilterValueCacheKey = (colIdx) => {
+10312:      const getFilterValueDisplay = (value) => (
+10316:      const getFilterValueMatches = () => {
+10325:      const isFilterValueSelected = (item) => {
+10330:      const ensureExplicitFilterValueSelection = () => {
+10335:      const setFilterValueSelection = (item, checked) => {
+10342:      const renderFilterValueList = ({ reset = false } = {}) => {
+10396:      const populateFilterValues = async (colIdx) => {
+10449:      const restoreFilterConditions = (colIdx) => {
+10464:      const addConditionRow = (op = '', val = '') => {
+10508:      const collectFilterConfig = () => {
+10548:      const applyColumnFilter = async () => {
+10574:      const clearColumnFilter = async (colIdx) => {
+10586:      const filterValueList = () => {
+10593:      const _clampHorizontal = (left, width, margin = 8) => {
+10599:      const closeColumnMenu = (_options) => _closeActionMenu($columnMenu, _options);
+10600:      const closeRowMenu = (_options) => _closeActionMenu($rowMenu, _options);
+10602:      const openColumnMenu = (e, idx, _options) => {
+10609:      const openRowMenu = (e, idx, _options) => {
+10617:      const getColumnCount = () => state.data[0]?.length ?? 0;
+10618:      const hasValidActiveColumn = () => (
+10623:      const getColName = () => {
+10627:      const cloneColumnFilterConfig = (config) => ({
+10632:      const remapColumnIndex = (index, mapper) => {
+10637:      const remapSearchTargetColumn = (mapper) => {
+10646:      const remapColumnScopedState = (mapper) => {
+10679:      const _compareSortableKeys = (_a, _b, _locale) => {
+10685:      const sortRowsByColumn = (rows, colIndex, dir, localeTag) => (
+10691:      const sortColumn = async (dir) => {
+10748:      const copyColumn = async () => {
+10765:      const duplicateColumn = () => {
+10785:      const _clearAllDataSafely = async (successMessage) => {
+10817:      const deleteColumn = async () => {
+10844:      const shiftColumnWidths = (insertIndex) => {
+10853:      const addColumnAt = (insertIndex) => {
+10874:      const addColumnLeft = () => {
+10879:      const addColumnRight = () => {
+10884:      const confirmDeleteColumn = () => {
+10890:      const copyRow = async () => {
+10903:      const duplicateRow = () => {
+10911:      const deleteRow = async (rowIndex) => {
+10924:      const addRowAt = (insertIndex) => {
+10933:      const addRowAbove = () => {
+10938:      const addRowBelow = () => {
+10943:      const confirmDeleteRow = () => {
+10950:      const addRow = () => {
+10954:      const addColumn = () => {
+10959:      const SPREADSHEET_FORMULA_PREFIX_RE = /^[\t\r\n \u00a0\ufeff]*[=+\-@]/u;
+10960:      const sanitizeSpreadsheetFormulaCell = (cell, enabled = true) => {
+10965:      const NO_QUOTE_RISK_SAMPLE_LIMIT = 3;
+10966:      const findNoQuoteRisks = ({ rows, delimiter, sampleLimit = NO_QUOTE_RISK_SAMPLE_LIMIT }) => {
+10983:      const confirmNoQuoteRisk = ({ quoteStyle, rows, delimiter, actionLabel }) => {
+11001:      const generateOutputAsync = async (dlm, {
+11030:      const getFormatLabel = (delimiter = state.delimiter) => {
+11035:      const getFormatExt = (delimiter = state.delimiter) => {
+11041:      const decodeBytesWithMeta = (bytes, encoding, { offset = 0, bom = false } = {}) => {
+11060:      const _isPlainAsciiBuffer = (_bytes) => {
+11084:      const decodeFileBytesWithMeta = (arrayBuffer, encodingHint = 'utf-8') => {
+11120:      const detectEncodingLabel = (arrayBuffer) => {
+11149:      const $wizOverlay    = qs('#importWizardOverlay');
+11150:      const $wizPage1      = qs('#wizardPage1');
+11151:      const $wizPage2      = qs('#wizardPage2');
+11152:      const $wizBackBtn    = qs('#wizBackBtn');
+11153:      const $wizNextBtn    = qs('#wizNextBtn');
+11154:      const $wizImportBtn  = qs('#wizImportBtn');
+11155:      const $wizCancelBtn  = qs('#wizCancelBtn');
+11156:      const $wizCloseBtn   = qs('#importWizardCloseBtn');
+11157:      let _wizStep = 1;
+11158:      let _wizArrayBuffer = null;
+11159:      let _wizFileName = '';
+11160:      let _wizFileHandle = null;
+11161:      let _wizImportRevision = 0;
+11162:      let _wizImportInProgress = false;
+11163:      let _fileReadRevision = 0;
+11164:      let _wizDecodedCache = { requestedEncoding: null, text: '', encoding: 'utf-8', bom: false, warnings: [], hasValue: false };
+11166:      const _setWizImportBusy = (_busy) => {
+11178:      const formatFileSize = (bytes) => {
+11184:      const wizSetStep = (step) => {
+11200:      const wizGetCurrentDecode = () => {
+11213:      const wizGetCurrentText = () => wizGetCurrentDecode().text;
+11215:      const wizGetCurrentDelimiter = () => qs('#wizDelimiter').value;
+11217:      const wizRenderPreview = () => {
+11250:      const openImportWizard = (arrayBuffer, fileName, fileHandle) => {
+11287:      const closeImportWizard = () => {
+11298:      const confirmDecodeWarnings = (warnings) => {
+11320:      const wizExecuteImport = async () => {
+11397:      const _readFileForImport = async (_file, _handle = null, _revision = ++_fileReadRevision) => {
+11414:      const openFileWithInputFallback = (_revision = ++_fileReadRevision) => {
+11437:      const openFile = async () => {
+11460:      let _fileDragDepth = 0;
+11461:      const _isExternalFileDrag = (e) => [...(e.dataTransfer?.types ?? [])].includes('Files');
+11462:      const _clearFileDragState = () => {
+11466:      const _handleFileDragOver = (e) => {
+11473:      const _handleFileDragEnter = (e) => {
+11478:      const _handleFileDragLeave = (e) => {
+11483:      const _handleFileDrop = async (e) => {
+11509:      const buildBlob = (text, outputMeta = getCurrentOutputMeta()) => {
+11513:      const downloadPreparedBlob = (blob, filename) => {
+11527:      const _writeFileBlob = async (_handle, _blob) => {
+11538:      let _saveFileInProgress = false;
+11539:      const saveFile = async () => {
+11656:      const copyData = async () => {
+11674:      const downloadData = async () => {
+11719:      const $exportOverlay = qs('#exportWizardOverlay');
+11720:      const $expFormat    = qs('#expFormat');
+11721:      const $expEncoding  = qs('#expEncoding');
+11722:      const $expBom       = qs('#expBom');
+11723:      const $expNewline   = qs('#expNewline');
+11724:      const $expQuote     = qs('#expQuote');
+11725:      const $expTarget    = qs('#expTarget');
+11726:      const $expHeader    = qs('#expHeader');
+11727:      const $expSpreadsheetSafe = qs('#expSpreadsheetSafe');
+11728:      const $expSkipEmptyRows = qs('#expSkipEmptyRows');
+11729:      const $expSkipEmptyCols = qs('#expSkipEmptyCols');
+11730:      const $expPreview   = qs('#expPreview');
+11731:      const $expPreviewInfo = qs('#expPreviewInfo');
+11732:      const $expDsvGroups = ['expQuoteGroup', 'expEncodingGroup', 'expBomGroup', 'expFormulaGuardGroup']
+11734:      const $expNewlineGroup = qs('#expNewlineGroup');
+11736:      const syncBomCheckbox = ($checkbox, encoding) => {
+11742:      const syncExportBomState = () => {
+11746:      const openExportWizard = () => {
+11768:      const closeExportWizard = () => {
+11777:      const updateExpFormatUI = () => {
+11783:      const getExportTargetAvailability = () => ({
+11788:      const normalizeExportTarget = () => {
+11797:      const updateExpTargetHint = () => {
+11808:      const getExportData = (options = {}) => {
+11863:      const generateExportOutput = (exportData = getExportData()) => {
+11986:      const updateExportPreview = () => {
+12007:      const scheduleExportPreview = (immediate = false) => {
+12015:      const getExportExt = () => {
+12019:      const exportCopy = async () => {
+12039:      const exportDownload = () => {
+12110:      const confirmClearAll = () => {
+12118:      const colActions = {
+12137:      const rowActions = {
+12336:      let draggedColumnIndex = -1;
+12337:      let draggedRowIndex = -1;
+12338:      let columnDropIndex = -1;
+12339:      let rowDropIndex = -1;
+12340:      let $activeDragHandle = null;
+12341:      let $dragPreviewTarget = null;
+12342:      let _dragPreviewClass = '', _reorderFrame = 0, _pendingReorderPoint = null;
+12344:      const clearDragOverTarget = () => {
+12349:      const _setDragOverTarget = ($target, before) => {
+12359:      const clearActiveDragHandle = () => {
+12365:      const hasActiveDrag = () => draggedColumnIndex >= 0 || draggedRowIndex >= 0;
+12367:      const resetDragState = () => {
+12379:      const getColumnDropIndexAt = (clientX) => {
+12408:      const getRowDropIndexAt = (clientY) => {
+12437:      const moveColumn = (fromIndex, dropIndex) => {
+12469:      const moveRow = (fromIndex, dropIndex) => {
+12485:      const updateDragPreviewFromPoint = (clientX, clientY) => {
+12501:      const applyDropFromPoint = (clientX, clientY) => {
+12550:      const handleDragReorderPreview = (e) => {
+12562:      const handleDragReorderDrop = (e) => {
+12578:      const _cancelPointerInteractions = () => {
+12631:      const $statusBar = qs('#statusBar');
+12632:      const $statusItemSelection = qs('#statusBarSelectionInfo');
+12633:      const $statusItems = {
+12641:      const $statusValues = {
+12651:      const NUMBER_LIKE_RE = /^-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?$/;
+12652:      const _parseStatusDecimal = (_value) => {
+12660:      const _addStatusDecimal = (_aggregate, _number) => {
+12676:      const _formatStatusDecimal = (_coefficient, _scale, _divisor = 1n) => {
+12690:      const STATUS_AGG_KEYS = ['count', 'numeric', 'sum', 'avg', 'min', 'max'];
+12691:      let _statusBarTimer = null;
+12697:      const STATUS_BAR_VISIBLE_KEY = 'csvEditor_statusBarVisible';
+12698:      let _statusBarVisible = false;
+12700:      const setStatusBarVisible = (visible, { persist = true } = {}) => {
+12707:      const initStatusBarVisibility = async () => {
+12720:      const scheduleStatusBarUpdate = () => {
+12729:      const updateStatusBar = () => {
+12793:      const selectAllDataCells = () => {
+12808:      const selectColumn = (colIdx) => {
+12821:      const selectRow = (rowIdx) => {
+12834:      const toggleThemeMode = () => {
+12840:      const toggleLanguage = () => {
+12845:      const $paletteOverlay = qs('#paletteOverlay');
+12846:      const $paletteInput   = qs('#paletteInput');
+12847:      const $paletteList    = qs('#paletteList');
+12849:      const PALETTE_COMMANDS = [
+12879:      let _paletteFiltered = [];
+12880:      let _paletteIndex = 0;
+12882:      const fuzzyScore = (text, query) => {
+12902:      const renderPaletteList = () => {
+12951:      const setPaletteIndex = (idx) => {
+12963:      const closeCommandPalette = () => {
+12967:      const runPaletteCommand = (cmd) => {
+12977:      const openCommandPalette = () => {
+13100:      const _compactControls = matchMedia('(width <= 560px)');
+13101:      const _syncCompactControls = () => {
+13176:      const updateButtonLabels = () => {
+13212:      const $infoOverlay = qs('#infoOverlay');
+13213:      const $infoModal = qs('.info-modal', $infoOverlay);
+13214:      const openInfoModal = () => {
+13220:      const closeInfoModal = () => {
+13232:      const $settingsOverlay = qs('#settingsOverlay');
+13233:      const $settingBOM = qs('#settingBOM');
+13234:      const $settingLanguage = qs('#settingLanguage');
+13236:      const syncSettingBomState = () => {
+13241:      const syncEncodingControls = () => {
+13247:      const applyEncodingSetting = (requestedEncoding, { $sourceSelect = null } = {}) => {
+13261:      const openSettings = () => {
+13272:      const closeSettings = () => {
+13331:      const resetExportWizard = () => {
+13350:      const handleLanguageChange = () => {
+13374:      const init = async ({ hydrationBarrier = null } = {}) => {
+13420:      const flushStorage = async () => {
+13433:      const _hasUnpersistedChanges = () => (
+13440:      const handleBeforeUnload = (_event) => {
+13456:      const idbReady = IDBStore.open().catch(() => null);
+13457:      const migrationReady = idbReady
+13464:      const themeReady = (async () => {
+13469:      const languageReady = (async () => {
+13476:      const flushBeforePageFreeze = () => { void Editor.flushStorage(); };

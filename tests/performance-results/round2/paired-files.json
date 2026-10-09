@@ -1,0 +1,1493 @@
+{
+  "comparisonVersions": {
+    "before": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "after": {
+      "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+      "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    }
+  },
+  "measuredAt": "2026-10-08T23:53:38.909Z",
+  "root": "/private/tmp/localcsv-round2-final",
+  "runs": 5,
+  "versions": {
+    "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+    "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "HTTP cache disabled via CDP; fresh context vs same-context repeated access; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "fileSource": "real generated files; OS page cache not cleared (written before selection)"
+  },
+  "cacheAudit": [],
+  "errors": [],
+  "results": [
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 60.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 87.90000003576279,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 78.80000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 112.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 78,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 161.80000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 337.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 390.2000000476837,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 63.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 96.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 460.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 533.7000000476837,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 208.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 242.79999995231628,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 64.39999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 96.89999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 230.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 330.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 54.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 118.40000003576279,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 61,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 94.19999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 79.60000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 146.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 314.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 368.80000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 62.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 96.09999996423721,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 445.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 523.3000000119209,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 191.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 243,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 63.89999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 96.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 209.69999998807907,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 313,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 56.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 87.80000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.29999995231628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 228.4000000357628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 295.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 345.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 399.0999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 79.39999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 112.80000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 508,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 674.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 196.19999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 225.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 47.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 188.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 280,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 56.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 90.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 48.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 81.40000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 281.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 306.60000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 48,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 80.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 362.89999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 439.19999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 170.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 194.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 47.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 80.90000003576279,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 147.5999999642372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 247,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 42.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 75.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.299999952316284,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 96.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.60000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 281.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 302.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 63.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.10000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 346.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 415.0999999642372,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 177.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 202.89999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 62.39999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 96.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 163.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 230.89999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 41.10000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 72.5,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 46.69999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 80.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.89999997615814,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 283,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 337.89999997615814,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 48,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 82,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 363.30000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 432.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 167.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 219.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48.60000002384186,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.90000003576279,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 174.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 230,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 72.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 106,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 97.30000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 62.90000003576279,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 295.19999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 328,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.19999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 347.19999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 422.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 162.80000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 194.69999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 30.600000023841858,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 63.90000003576279,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 139.9000000357628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 215.60000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 39.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 62.39999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 31.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 64.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 47.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 114.79999995231628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 260.0999999642372,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 286,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 48.89999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 82.09999996423721,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 378.80000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 451.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 171.60000002384186,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 229.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 48,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 81.40000003576279,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 195.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 280.7000000476837,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 51.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 69.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 46.700000047683716,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 80,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 130.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 257.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 279.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.200000047683716,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.10000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 297.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 376.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 135.89999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 165.79999995231628,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 65.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 98.10000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 155.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 230.9000000357628,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "content",
+      "ms": 39.39999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 73.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "content",
+      "ms": 47.89999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 81.19999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 63.69999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 131.4000000357628,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "content",
+      "ms": 268.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 293,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "content",
+      "ms": 64.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 97.60000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 379.89999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 455.89999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 152.39999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-settings",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 175.5999999642372,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 47.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-preview",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 80.10000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 132.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "file-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 214.9000000357628,
+      "run": 4,
+      "version": "after"
+    }
+  ]
+}

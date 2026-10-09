@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: selection never changes persisted data
++ actual - expected
+
++ '4ce7585d8558b4f6adae14f17d39683f8cf12c3e696687f6ec6496b499a517f2'
+- '6353a5daf54130c3db309b4fee0241a43e9286c81e5e2f18307870d88efe0698'
+
+    at file:///Users/arita-ritsuki/Documents/%E3%83%88%E3%82%99%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/local-csv/tests/localcsv-copy-browser.test.mjs:124:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '4ce7585d8558b4f6adae14f17d39683f8cf12c3e696687f6ec6496b499a517f2',
+  expected: '6353a5daf54130c3db309b4fee0241a43e9286c81e5e2f18307870d88efe0698',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

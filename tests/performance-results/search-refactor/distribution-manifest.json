@@ -1,0 +1,16 @@
+{
+  "kind": "unpublished_distribution_candidate",
+  "timestamp": "2026-10-09T16:25:36.771132+00:00",
+  "packageVersion": "1.2.6",
+  "published": false,
+  "files": {
+    "index.html": "5bae0cb2bd0614f3061084180d635894ee31a0129d23567503245bce27106652",
+    "local-csv.html": "a572f8d842d9f19423231f8744e5cbed41f4066f5e6b77eeefd89d43f5daec42",
+    "public/css/style.css": "2586cf06ca3fe2af0a92a8513288a744975bacc2f082c8cbe662c7e4197c7eae",
+    "public/js/main.js": "64f33d14df4f75cd9bb1040ff643451f3f902a08250b9d4291f5a37226c71ef0",
+    "public/fonts/material-symbols-outlined-f400.woff2": "4b7e78cb769a808a7daee0cf392a2e567cf05e0363d545c9c5da47fc45b344b1",
+    "public/preview.png": "08848f87f5cd75c0c1eb552c50df2f272759e352281b6d6098d844a5484a7f3b",
+    "public/preview-dark.png": "ce570a85829731f4a2e0b4125768673e6cdcfac6a42db4cb19809cbb78a5f720",
+    "public/sample_preview.csv": "7fa3edb62ded5bb06f0b60822a22b31a256649dcd07ba2af518c693c5ee1c280"
+  }
+}

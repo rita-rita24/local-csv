@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-10-09T16:07:36.473418+00:00",
+  "status": "local_verified_not_deployed",
+  "packageVersion": "1.2.6",
+  "gitHead": "1e2fc63",
+  "files": {
+    "local-csv.html": {
+      "bytes": 1222822,
+      "sha256": "f172ebcf2f15182cc88d8087e95d7052286d7804b10899a2fe47f058f2373311"
+    },
+    "index.html": {
+      "bytes": 1656795,
+      "sha256": "e0e3126d39c120bc82e2099a543f63d9d5ea2bb9f1b55d76d45416957cdb8459"
+    },
+    "src/main.ts": {
+      "bytes": 11857,
+      "sha256": "7c2b775730489cdf5741a54248dc7eb8aba7765f2842492daf377bd555eddb9e"
+    },
+    "public/js/main.js": {
+      "bytes": 12367,
+      "sha256": "cebe9c0a814cfb52b207a7e98f6026daf722bab38eedc76539e0ae05838ecbdf"
+    },
+    "public/css/style.css": {
+      "bytes": 29053,
+      "sha256": "2586cf06ca3fe2af0a92a8513288a744975bacc2f082c8cbe662c7e4197c7eae"
+    },
+    "package.json": {
+      "bytes": 758,
+      "sha256": "bd8988e17c4ec7d690b8b32529078bddd299bdd9e2f1a4b3bfda340f7e9a88d3"
+    },
+    "package-lock.json": {
+      "bytes": 13483,
+      "sha256": "ad3803c74858c33b03d636ca02b51209eb86ce627014c1bb2f39eb0d46684d90"
+    },
+    "tsconfig.json": {
+      "bytes": 498,
+      "sha256": "bfcf593f3ecb16ab2f8d3f75fdd7b42211bf804cd30c67e2c46874b23da23d0e"
+    },
+    "tsconfig.example.jsonc": {
+      "bytes": 288,
+      "sha256": "e55845ebf9322e274712a16702c353b9dcf166d8bfa826abdf5c1ee47c2e6389"
+    },
+    ".github/workflows/verify.yml": {
+      "bytes": 682,
+      "sha256": "a720389809f4b7fd6985e47f5df3e7fa508c3a0767c4fb1d810059a0ac9a5c2b"
+    }
+  }
+}

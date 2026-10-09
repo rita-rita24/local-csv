@@ -1,0 +1,18 @@
+
+> local-csv@1.2.6 test:modern
+> node tests/localcsv-modern-browser.test.mjs
+
+[
+  {
+    "engine": "chromium",
+    "version": "154.0.8037.99",
+    "fallback": false,
+    "status": "passed"
+  },
+  {
+    "engine": "chromium",
+    "version": "154.0.8037.99",
+    "fallback": true,
+    "status": "passed"
+  }
+]

@@ -1,0 +1,5 @@
+
+> local-csv@1.2.6 test
+> node tests/localcsv-regression.test.mjs
+
+localcsv regression tests passed

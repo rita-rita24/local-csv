@@ -1,0 +1,41 @@
+selection after trial 1/1: exact all/column output, contraction passed
+{
+  "nodeVersion": "v24.21.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "timestamp": "2026-10-09T16:54:27.703Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "4feb9830c757eafeb2ce5d0b883801c05380d72f4622372260a37c565d9d0727",
+  "browser": "154.0.8037.99",
+  "rows": 12000,
+  "columns": 20,
+  "runs": 1,
+  "completion": "Actual click to correct selection hint mutation; separate second-rAF opportunity. No GPU presentation or INP claim.",
+  "results": [
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 33,
+      "frameOpportunityMs": 54.59999996423721,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 15,
+      "frameOpportunityMs": 35.69999998807907,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 3.600000023841858,
+      "frameOpportunityMs": 25.5,
+      "longTasks": []
+    }
+  ],
+  "errors": []
+}

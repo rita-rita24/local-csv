@@ -1,0 +1,229 @@
+{
+  "measuredAt": "2026-10-09T15:30:13.748Z",
+  "browser": "154.0.8037.99",
+  "viewport": [
+    1280,
+    720
+  ],
+  "htmlBytes": 1222575,
+  "cache": "no-store; fresh context per variant/trial",
+  "metric": "driver click start through download file read; includes automation overhead; local only",
+  "verification": [
+    {
+      "engine": "chromium",
+      "version": "154.0.8037.99",
+      "fallback": false,
+      "status": "passed"
+    },
+    {
+      "engine": "chromium",
+      "version": "154.0.8037.99",
+      "fallback": true,
+      "status": "passed"
+    }
+  ],
+  "samples": [
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 0,
+      "ms": 208.1150419999999
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 0,
+      "ms": 380.72149999999965
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 0,
+      "ms": 138.21079199999986
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 0,
+      "ms": 364.2206249999999
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 1,
+      "ms": 88.66616599999998
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 1,
+      "ms": 262.28941699999996
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 1,
+      "ms": 165.36491699999988
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 1,
+      "ms": 262.3636669999996
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 2,
+      "ms": 154.1488330000002
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 2,
+      "ms": 380.26245799999924
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 2,
+      "ms": 140.5657080000001
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 2,
+      "ms": 290.6358339999997
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 3,
+      "ms": 142.6135830000003
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 3,
+      "ms": 256.4485000000004
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 3,
+      "ms": 164.34329199999956
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 3,
+      "ms": 365.13883299999907
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 4,
+      "ms": 161.1909169999999
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 4,
+      "ms": 371.1790839999994
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 4,
+      "ms": 92.72841600000174
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 4,
+      "ms": 360.71441699999923
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 5,
+      "ms": 96.43895800000064
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 5,
+      "ms": 377.94395799999984
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 5,
+      "ms": 176.59333399999923
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 5,
+      "ms": 362.59149999999863
+    },
+    {
+      "variant": "before",
+      "execution": "first",
+      "trial": 6,
+      "ms": 168.15400000000045
+    },
+    {
+      "variant": "before",
+      "execution": "repeat",
+      "trial": 6,
+      "ms": 367.53929100000096
+    },
+    {
+      "variant": "after",
+      "execution": "first",
+      "trial": 6,
+      "ms": 114.90554200000042
+    },
+    {
+      "variant": "after",
+      "execution": "repeat",
+      "trial": 6,
+      "ms": 370.7412089999998
+    }
+  ],
+  "summary": [
+    {
+      "execution": "first",
+      "before": {
+        "median": 165.36491699999988,
+        "min": 154.1488330000002,
+        "max": 208.1150419999999,
+        "count": 7
+      },
+      "after": {
+        "median": 114.90554200000042,
+        "min": 88.66616599999998,
+        "max": 142.6135830000003,
+        "count": 7
+      },
+      "reductionPercent": 30.51395417807968
+    },
+    {
+      "execution": "repeat",
+      "before": {
+        "median": 367.53929100000096,
+        "min": 262.3636669999996,
+        "max": 380.72149999999965,
+        "count": 7
+      },
+      "after": {
+        "median": 360.71441699999923,
+        "min": 256.4485000000004,
+        "max": 377.94395799999984,
+        "count": 7
+      },
+      "reductionPercent": 1.8569100412183441
+    }
+  ]
+}

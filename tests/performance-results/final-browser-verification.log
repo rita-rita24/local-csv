@@ -1,0 +1,51 @@
+chromium: exact sort, navigation, download and recovery passed
+chromium: multiline editing and regex timeout/recovery passed
+chromium: concurrent tabs retain the latest recovery copy
+chromium: chunk/manifest quota failures restore completely
+chromium: importing 日本語-utf8.csv
+chromium: importing 日本語-utf16.csv
+chromium: importing 日本語-sjis.csv
+chromium: file import/export preserves UTF-8, UTF-16, Shift-JIS, line breaks and inert markup
+chromium: virtual scrolling, delayed search and IME preserve pending edits
+chromium: exact replacement, pending edits, clipboard failure and empty preview passed
+chromium: search-column remapping, structural undo, keyboard clipboard and pending toolbar edits passed
+{"engine":"chromium","version":"154.0.8037.99","rows":12000,"importMs":496,"sortMs":100,"totalMs":19358}
+localcsv browser tests passed
+chromium: column condition logic belongs to its own filter passed
+chromium: late column filtering preserves the next panel draft passed
+chromium: window blur ends resize and cancels unfinished pointer selection passed
+chromium: HTML export preserves carriage returns in headers and cells passed
+chromium: line breaks at search highlight boundaries survive copying and history passed
+chromium: keyboard history preserves the restored data and redo stack passed
+chromium: selection aggregates include the uncommitted cell draft passed
+chromium: null characters survive rendering, search and editing passed
+chromium: HTML export escapes text without allocating a DOM node per cell passed
+chromium: combined column filters retain unchecked values on reapply passed
+chromium: reopening a column filter resets its value search passed
+chromium: filter value loading preserves existing and early selections passed
+chromium: literal Unicode search and replacement use the same matches passed
+chromium: Worker search preserves Unicode case matching passed
+chromium: large range edits only look up rendered cells passed
+chromium: clearing a filter with Escape preserves pending cell input passed
+chromium: tab leaves the table at its boundaries without losing input passed
+chromium: range deletion preserves pending input in undo passed
+chromium: exact selection aggregates and filtered dimensions passed
+chromium: empty export filters keep preview consistent with output passed
+chromium: distribution download matches standalone editor passed
+chromium: landing dialogs contain keyboard focus and restore the trigger passed
+chromium: landing content stays visible with reduced motion or disabled scripts passed
+chromium: compact status bar and command palette remain usable on narrow screens passed
+chromium: bounded selection preview and complete export passed
+chromium: dialog focus preserves early input passed
+chromium: language and theme preserve user labels passed
+chromium: plain text cell editing passed
+chromium: HTML-only and whitespace paste passed
+chromium: failed save cleanup and retry passed
+chromium: UTF-8 content BOM byte preservation passed
+chromium: literal Markdown export passed
+chromium: filtered sort and history passed
+chromium: multiline delimiter detection passed
+chromium: conditional panels retain their values and expose only applicable controls passed
+chromium: resized columns stay aligned when virtual rows are replaced passed
+chromium: theme restoration keeps labels and avoids redundant writes passed
+chromium 154.0.8037.99: 37 cases, 0 errors

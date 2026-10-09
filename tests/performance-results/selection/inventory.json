@@ -1,0 +1,282 @@
+{
+  "checkedAt": "2026-10-09T16:55:18.220Z",
+  "inventory": [
+    {
+      "path": ".DS_Store",
+      "bytes": 6148,
+      "sha256": "52650335fd360683d8077153d5baf326003891d6fb950e79dc886e937883a59a"
+    },
+    {
+      "path": ".github/workflows/verify.yml",
+      "bytes": 1019,
+      "sha256": "53a3a93750f4c83623609b8939d6a6450b843f8f697e1de614d101afeee7c46f"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 24,
+      "sha256": "6c7d15d2ab1a0b51ebcae7e88b9ad01f0713d0833bc2dbe8f3bcc7a81b66b344"
+    },
+    {
+      "path": ".nvmrc",
+      "bytes": 8,
+      "sha256": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 3230,
+      "sha256": "379cf44abaec9f20b2d39b3ca76708a181f43a81798ea6919c970e8754d43049"
+    },
+    {
+      "path": "README.md",
+      "bytes": 52809,
+      "sha256": "a5c69b4ca78ac4526a0cbe6af05832f7d01b7961c74ea8449c09c46096e19add"
+    },
+    {
+      "path": "REPORT.md",
+      "bytes": 40812,
+      "sha256": "3ed9ca2825d9a5540b81fe1f900f695a28a6bc0f9ac37e40594ee86b12c70f1e"
+    },
+    {
+      "path": "bk/.DS_Store",
+      "bytes": 6148,
+      "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3"
+    },
+    {
+      "path": "index.html",
+      "bytes": 1656131,
+      "sha256": "a4bd81d75c09c3baf60acabdd0b34605c44d79fd215b191d519235a61f81337e"
+    },
+    {
+      "path": "local-csv.html",
+      "bytes": 1222318,
+      "sha256": "4feb9830c757eafeb2ce5d0b883801c05380d72f4622372260a37c565d9d0727"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 13483,
+      "sha256": "ad3803c74858c33b03d636ca02b51209eb86ce627014c1bb2f39eb0d46684d90"
+    },
+    {
+      "path": "package.json",
+      "bytes": 758,
+      "sha256": "bd8988e17c4ec7d690b8b32529078bddd299bdd9e2f1a4b3bfda340f7e9a88d3"
+    },
+    {
+      "path": "public/.DS_Store",
+      "bytes": 6148,
+      "sha256": "42f8f6be71372811e38c751461af41376c0c235bb2248e98f5c240932131abc5"
+    },
+    {
+      "path": "public/css/.DS_Store",
+      "bytes": 6148,
+      "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3"
+    },
+    {
+      "path": "public/css/style.css",
+      "bytes": 29053,
+      "sha256": "2586cf06ca3fe2af0a92a8513288a744975bacc2f082c8cbe662c7e4197c7eae"
+    },
+    {
+      "path": "public/favicon/.DS_Store",
+      "bytes": 6148,
+      "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3"
+    },
+    {
+      "path": "public/favicon/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "public/fonts/material-symbols-outlined-f400.woff2",
+      "bytes": 316012,
+      "sha256": "4b7e78cb769a808a7daee0cf392a2e567cf05e0363d545c9c5da47fc45b344b1"
+    },
+    {
+      "path": "public/js/.DS_Store",
+      "bytes": 6148,
+      "sha256": "d65165279105ca6773180500688df4bdc69a2c7b771752f0a46ef120b7fd8ec3"
+    },
+    {
+      "path": "public/js/main.js",
+      "bytes": 12368,
+      "sha256": "64f33d14df4f75cd9bb1040ff643451f3f902a08250b9d4291f5a37226c71ef0"
+    },
+    {
+      "path": "public/preview-dark.png",
+      "bytes": 237050,
+      "sha256": "ce570a85829731f4a2e0b4125768673e6cdcfac6a42db4cb19809cbb78a5f720"
+    },
+    {
+      "path": "public/preview.png",
+      "bytes": 238002,
+      "sha256": "08848f87f5cd75c0c1eb552c50df2f272759e352281b6d6098d844a5484a7f3b"
+    },
+    {
+      "path": "public/sample_preview.csv",
+      "bytes": 4196,
+      "sha256": "7fa3edb62ded5bb06f0b60822a22b31a256649dcd07ba2af518c693c5ee1c280"
+    },
+    {
+      "path": "sample.csv",
+      "bytes": 7880551,
+      "sha256": "d72fb342bc907034aed0c4b64f88c75a677d4632abf5d00754440df71920bbc1"
+    },
+    {
+      "path": "src/main.ts",
+      "bytes": 11858,
+      "sha256": "b94ba5282a93ef0c9d7c8747483db433b79186316da0588fd0b86ce0e7c3860b"
+    },
+    {
+      "path": "tests/QA.md",
+      "bytes": 44852,
+      "sha256": "dd1f8d96eb642147c59eac4968dbc80ffa232b4e1d3daae40c709c12a611de17"
+    },
+    {
+      "path": "tests/TEN_ROUNDS.md",
+      "bytes": 7164,
+      "sha256": "ec489bf194e9ecf1ec32102c45cf280ab12d35b6b4e226b9def33836a49821a6"
+    },
+    {
+      "path": "tests/capture-preview.mjs",
+      "bytes": 2870,
+      "sha256": "7f23ba96a2a20fe9af1df60f1d24175f79861313e01d3b478b87a3944c93927f"
+    },
+    {
+      "path": "tests/localcsv-ascii-detection-prototype.mjs",
+      "bytes": 2922,
+      "sha256": "db4a694d97121f4978896728b0262aab9caa211b18a3e3cb94f0d1f5f2f27f76"
+    },
+    {
+      "path": "tests/localcsv-batch-restore-browser.test.mjs",
+      "bytes": 4582,
+      "sha256": "be91ebe00287aa33cfa1d4051a5cac896aecc3e9693968ae740d628666b2066c"
+    },
+    {
+      "path": "tests/localcsv-browser.test.mjs",
+      "bytes": 36244,
+      "sha256": "102d66e0f6ece16314be19c8548c7dd552264a2edaac36be29f996bd5d255d7f"
+    },
+    {
+      "path": "tests/localcsv-continuous-search-browser.test.mjs",
+      "bytes": 6100,
+      "sha256": "ba3a250e05c2b411ae1c5aafd7c2e039897fd32d3718cc6753ef118ab16c7f4b"
+    },
+    {
+      "path": "tests/localcsv-drag-browser.test.mjs",
+      "bytes": 7312,
+      "sha256": "ce6d8f588470f473d678047ffcb6b45733393f51097c8c27dff2a83b501bf0e6"
+    },
+    {
+      "path": "tests/localcsv-encoding-detection.test.mjs",
+      "bytes": 4833,
+      "sha256": "a5ed094284867d4edbba551105e4990b3a8b7e1b56fbc60093d8393707e3c9b2"
+    },
+    {
+      "path": "tests/localcsv-encoding-upgrade-audit.mjs",
+      "bytes": 2187,
+      "sha256": "e56adb824d6b76c2f8554454866bc4084d61b093289536580673fe5e36655013"
+    },
+    {
+      "path": "tests/localcsv-large-file-integrity-browser.test.mjs",
+      "bytes": 3873,
+      "sha256": "2cb6876e2276d9340fce77d3deaaafd1ced422c78589aa71c16f0936400de79b"
+    },
+    {
+      "path": "tests/localcsv-modern-browser.test.mjs",
+      "bytes": 14429,
+      "sha256": "627ef7b9e196be5548940301605b6b716696d80bdff0acdb6a8759e081302db7"
+    },
+    {
+      "path": "tests/localcsv-modern-summary.mjs",
+      "bytes": 4174,
+      "sha256": "0eab569c05ddf2612833d9527d26616660962026537fdadb0cfff343b7594437"
+    },
+    {
+      "path": "tests/localcsv-parser-equivalence.mjs",
+      "bytes": 1537,
+      "sha256": "5dbca29742d1ccf52f08ea5377547ba536cf46e0611ed3a582ce3bbb99992a04"
+    },
+    {
+      "path": "tests/localcsv-performance-round2-summary.mjs",
+      "bytes": 2611,
+      "sha256": "f464a2a1f411bd0e7874d4b6aab30a32faea8dbe61cbdef584b5ed87c28aacdb"
+    },
+    {
+      "path": "tests/localcsv-performance-summary.mjs",
+      "bytes": 2864,
+      "sha256": "cac096861fb2577272b56259cbeba73cb7ce17eb13e01873da8f0ae7acfd0689"
+    },
+    {
+      "path": "tests/localcsv-performance.mjs",
+      "bytes": 18556,
+      "sha256": "15d918f882e152fe854a7b1d71117b4a397d371ded53cfd82a9205c859606aff"
+    },
+    {
+      "path": "tests/localcsv-pointer-finalization-browser.test.mjs",
+      "bytes": 4507,
+      "sha256": "cb6c25357bf3059623b92fc094969ba484398e1dff2ecf71aac6a77719692217"
+    },
+    {
+      "path": "tests/localcsv-quality-browser.test.mjs",
+      "bytes": 59022,
+      "sha256": "b60f6240b780b283a85468735b8be36de781893eeced0cee44afdd76e113abcb"
+    },
+    {
+      "path": "tests/localcsv-regression.test.mjs",
+      "bytes": 156204,
+      "sha256": "204e2dc733744cd85aac792bedbe6c2f278ab408fea9d4e3a721b3bedea153f6"
+    },
+    {
+      "path": "tests/localcsv-round2-microbench.mjs",
+      "bytes": 3264,
+      "sha256": "fc93f1923b98db389eacfe59565e0c1e74ba26af9c73cb13431e143d856eebc5"
+    },
+    {
+      "path": "tests/localcsv-selection-browser.test.mjs",
+      "bytes": 7202,
+      "sha256": "9d8cec9f68b5d0ce7a03c8e1ebb72107c7f708671002a519b84c42a5cf06e8eb"
+    },
+    {
+      "path": "tests/localcsv-static.test.mjs",
+      "bytes": 5260,
+      "sha256": "51596380fd518b1c558ad801d3444dfe4c263b8bde15de78aeaf1ca0bcc459c9"
+    },
+    {
+      "path": "tests/localcsv-usability-browser.test.mjs",
+      "bytes": 22325,
+      "sha256": "f5fba49dfe09aeca210346a822a6691c229907fc105f5f20c2b6062dbe214202"
+    },
+    {
+      "path": "tests/localcsv-yield-browser.test.mjs",
+      "bytes": 3343,
+      "sha256": "b5610675539bc303149f4fc6e03978b97b6442346c46b93a0d8c28657cb3a0e3"
+    },
+    {
+      "path": "tests/vendor-manifest.json",
+      "bytes": 350,
+      "sha256": "3489c3d2960abb5d4527fc57eaa9d8cd6eb95393a1482465c17588213c5da321"
+    },
+    {
+      "path": "tsconfig.example.jsonc",
+      "bytes": 288,
+      "sha256": "e55845ebf9322e274712a16702c353b9dcf166d8bfa826abdf5c1ee47c2e6389"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 498,
+      "sha256": "bfcf593f3ecb16ab2f8d3f75fdd7b42211bf804cd30c67e2c46874b23da23d0e"
+    }
+  ],
+  "exclusions": [
+    ".git",
+    "node_modules (upstream dependencies)",
+    "tests/performance-results (immutable historical evidence)"
+  ],
+  "exceptions": {
+    "local-csv.html:execCommand": 1,
+    "src/main.ts:execCommand": 1,
+    "local-csv.html:keyCode": 1,
+    "local-csv.html:which": 1
+  },
+  "limits": "Pattern checks are targeted safeguards, not a complete semantic refactoring audit. Embedded worker syntax/behavior is covered by regression/browser tests."
+}

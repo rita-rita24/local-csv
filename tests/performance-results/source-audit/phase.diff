@@ -1,0 +1,188 @@
+--- before/local-csv.html
++++ after/local-csv.html
+@@ -11486,14 +11486,20 @@
+       };
+ 
+       const downloadPreparedBlob = (blob, filename) => {
+-        const objectUrl = URL.createObjectURL(blob);
+-        const $a = document.createElement('a');
+-        $a.href = objectUrl;
+-        $a.download = filename;
+-        document.body.appendChild($a);
+-        $a.click();
+-        $a.remove();
+-        setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
++        const _objectUrl = URL.createObjectURL(blob);
++        let $anchor, _downloadStarted = false;
++        try {
++          $anchor = document.createElement('a');
++          $anchor.href = _objectUrl;
++          $anchor.download = filename;
++          document.body.appendChild($anchor);
++          $anchor.click();
++          _downloadStarted = true;
++        } finally {
++          $anchor?.remove();
++          if (_downloadStarted) setTimeout(() => URL.revokeObjectURL(_objectUrl), 3000);
++          else URL.revokeObjectURL(_objectUrl);
++        }
+         showToast(isEnglish()
+           ? `Download started: ${escapeHTML(filename)}`
+           : `${escapeHTML(filename)} のダウンロードを開始しました`, 'success');
+--- before/src/main.ts
++++ after/src/main.ts
+@@ -32,8 +32,11 @@
+   $anchor.href = href;
+   $anchor.download = fileName;
+   document.body.appendChild($anchor);
+-  $anchor.click();
+-  $anchor.remove();
++  try {
++    $anchor.click();
++  } finally {
++    $anchor.remove();
++  }
+ };
+ 
+ const _decodeBase64Utf8 = (base64: string): string | null => {
+--- before/public/js/main.js
++++ after/public/js/main.js
+@@ -29,8 +29,12 @@
+     $anchor.href = href;
+     $anchor.download = fileName;
+     document.body.appendChild($anchor);
+-    $anchor.click();
+-    $anchor.remove();
++    try {
++        $anchor.click();
++    }
++    finally {
++        $anchor.remove();
++    }
+ };
+ const _decodeBase64Utf8 = (base64) => {
+     try {
+--- before/tests/localcsv-regression.test.mjs
++++ after/tests/localcsv-regression.test.mjs
+@@ -3,6 +3,7 @@
+ import fs from "node:fs";
+ import path from "node:path";
+ import vm from "node:vm";
++import { extractConstDeclaration } from "./localcsv-source-audit.mjs";
+ import { fileURLToPath } from "node:url";
+ 
+ const __dirname = path.dirname(fileURLToPath(import.meta.url));
+@@ -30,93 +31,6 @@
+   "_yieldToTask",
+   "generateOutputAsync",
+ ];
+-
+-const extractConstDeclaration = (source, name) => {
+-  const marker = `const ${name} =`;
+-  const start = source.indexOf(marker);
+-  assert.notEqual(start, -1, `${name} declaration not found`);
+-  const regexPrefixChars = new Set(["=", "(", "{", "[", ",", ":", "!", "?", ";"]);
+-  const previousSignificantChar = (index) => {
+-    for (let i = index - 1; i >= start; i--) {
+-      if (!/\s/.test(source[i])) return source[i];
+-    }
+-    return "";
+-  };
+-
+-  let depth = 0;
+-  let quote = "";
+-  let escaped = false;
+-  let regexCharClass = false;
+-  let lineComment = false;
+-  let blockComment = false;
+-
+-  for (let i = start; i < source.length; i++) {
+-    const ch = source[i];
+-    const next = source[i + 1];
+-
+-    if (lineComment) {
+-      if (ch === "\n" || ch === "\r") lineComment = false;
+-      continue;
+-    }
+-    if (blockComment) {
+-      if (ch === "*" && next === "/") {
+-        blockComment = false;
+-        i++;
+-      }
+-      continue;
+-    }
+-    if (quote) {
+-      if (escaped) {
+-        escaped = false;
+-        continue;
+-      }
+-      if (ch === "\\") {
+-        escaped = true;
+-        continue;
+-      }
+-      if (quote === "/") {
+-        if (ch === "[") regexCharClass = true;
+-        else if (ch === "]") regexCharClass = false;
+-        else if (ch === "/" && !regexCharClass) {
+-          quote = "";
+-        }
+-        continue;
+-      }
+-      if (ch === quote) quote = "";
+-      continue;
+-    }
+-    if (ch === "/" && next === "/") {
+-      lineComment = true;
+-      i++;
+-      continue;
+-    }
+-    if (ch === "/" && next === "*") {
+-      blockComment = true;
+-      i++;
+-      continue;
+-    }
+-    if (ch === "/" && regexPrefixChars.has(previousSignificantChar(i))) {
+-      quote = "/";
+-      regexCharClass = false;
+-      continue;
+-    }
+-    if (ch === "'" || ch === "\"" || ch === "`") {
+-      quote = ch;
+-      continue;
+-    }
+-    if (ch === "(" || ch === "{" || ch === "[") {
+-      depth++;
+-      continue;
+-    }
+-    if (ch === ")" || ch === "}" || ch === "]") {
+-      depth--;
+-      continue;
+-    }
+-    if (ch === ";" && depth === 0) return source.slice(start, i + 1);
+-  }
+-
+-  assert.fail(`${name} declaration was not terminated`);
+-};
+ 
+ const loadCsvCore = () => {
+   const declarations = FUNCTION_NAMES
+@@ -502,9 +416,7 @@
+     "DATA_WORKER_TIMEOUT_MS", "runDataWorker",
+     "_quoteTsvCell", "_buildTsvRows", "buildCsvLine", "SPREADSHEET_FORMULA_PREFIX_RE",
+     "sanitizeSpreadsheetFormulaCell", "generateExportOutput",
+-  ].map((name) => name === "_quoteTsvCell"
+-    ? html.slice(html.indexOf("const _quoteTsvCell ="), html.indexOf("const _buildTsvRows ="))
+-    : extractConstDeclaration(html, name)).join("\n");
++  ].map((name) => extractConstDeclaration(html, name)).join("\n");
+   const roundTripCore = new vm.Script(`
+     const $expFormat = { value: ',' };
+     const $expNewline = { value: 'lf' };
+@@ -2528,7 +2440,7 @@
+ // 改行や選択パターンを含むセル全体の一致判定を、検索と置換で揃える。
+ {
+   const declarations = ['escapeRegExp', '_exactSearchPattern', '_createLiteralSearchRegex', '_buildSearchRegex', '_buildSearchMatcher', 'buildMatcher', 'buildReplaceRegex']
+-    .map(name => extractConstDeclaration(name === 'buildMatcher' ? html.slice(html.lastIndexOf('const buildMatcher =')) : html, name)).join('\n');
++    .map(name => extractConstDeclaration(html, name)).join('\n');
+   const core = vm.runInNewContext(`
+     const $searchCaseSensitive = {checked: false}, $searchExactMatch = {checked: true}, $searchRegex = {checked: false};
+     ${declarations}

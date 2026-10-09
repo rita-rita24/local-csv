@@ -55,3 +55,24 @@ Before finishing work:
 - Keep CSS and JavaScript consistent with the repository rules.
 - Do not introduce alternative naming styles unless already required by existing code.
 - Prefer consistency over personal style.
+
+## Modernization checks
+- Run `npm run build`, `npm run test:static`, `npm test`, and relevant browser regressions.
+- Generated `public/js/main.js` must match `src/main.ts`; edit the source and use the existing compiler.
+- New standard APIs must have runtime feature checks until minimum supported environments are specified and verified. Type declarations alone do not prove runtime support.
+- The clipboard fallback, IME 229 guard, and embedded encoding dependency have explicit compatibility evidence in `tests/performance-results/modern/REPORT.md`. Review their actual input/output contract before changing them.
+- Do not change historical benchmark snapshots. Keep local measurements distinct from production measurements and record unmeasured operations.
+- Prefer the LTS development version in `.nvmrc`; keep Node 22/24 compatibility checks aligned with CI. Product HTML remains independent of Node.
+- For performance candidates, save the baseline and numerical targets before editing; preserve rejected candidates and distinguish ranges, median direction, and confirmed improvements.
+
+## TSV copy maintenance
+- Keep visible row order and ascending selected column order; do not omit off-screen selected cells.
+- Preserve quoted single empty fields and all tab/CR/LF/quote content. Test exact full output, not only displayed previews.
+- Treat keydown-to-clipboard-API handoff and rendering opportunities as separate proxies; do not report them as OS clipboard completion or GPU presentation.
+
+## Source audit maintenance
+- Share AST declaration extraction through `tests/localcsv-source-audit.mjs`; do not copy the old text scanner from regression tests.
+- Reconstruct supported Worker template interpolations and parse the generated source. Unknown interpolations must fail the check rather than silently disappear.
+- Keep compatibility exceptions explicit and exact. Test mocks, generated artifacts, and historical evidence must be classified separately from handwritten product code.
+- Syntax and resource-call inventories do not prove lifecycle correctness. Verify cleanup on success and failure without changing URL cache ownership.
+- Development AST parsing requires Node 22.18 or later in the 22 line, or Node 24.11 or later; keep the supported CI versions current.

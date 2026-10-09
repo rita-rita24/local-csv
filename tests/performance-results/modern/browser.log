@@ -1,0 +1,48 @@
+[
+  {
+    "execution": "first",
+    "before": {
+      "median": 165.36491699999988,
+      "min": 154.1488330000002,
+      "max": 208.1150419999999,
+      "count": 7
+    },
+    "after": {
+      "median": 114.90554200000042,
+      "min": 88.66616599999998,
+      "max": 142.6135830000003,
+      "count": 7
+    },
+    "reductionPercent": 30.51395417807968
+  },
+  {
+    "execution": "repeat",
+    "before": {
+      "median": 367.53929100000096,
+      "min": 262.3636669999996,
+      "max": 380.72149999999965,
+      "count": 7
+    },
+    "after": {
+      "median": 360.71441699999923,
+      "min": 256.4485000000004,
+      "max": 377.94395799999984,
+      "count": 7
+    },
+    "reductionPercent": 1.8569100412183441
+  }
+]
+[
+  {
+    "engine": "chromium",
+    "version": "154.0.8037.99",
+    "fallback": false,
+    "status": "passed"
+  },
+  {
+    "engine": "chromium",
+    "version": "154.0.8037.99",
+    "fallback": true,
+    "status": "passed"
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "verifiedAt": "2026-10-09T17:58:42.384905+00:00",
+  "status": "local_verified_not_deployed",
+  "packageVersion": "1.2.6",
+  "gitHead": "1e2fc63",
+  "files": {
+    "index.html": {
+      "bytes": 1656579,
+      "sha256": "08de16c9967d0875cfdabec451e5b70d49f125ccdbc81c16337c9f78861526cc"
+    },
+    "local-csv.html": {
+      "bytes": 1222654,
+      "sha256": "6c0ba566af81b140ae5b62775ca4e67481df50c8baaa6edaf6afd45d75da1264"
+    },
+    "public/css/style.css": {
+      "bytes": 29053,
+      "sha256": "2586cf06ca3fe2af0a92a8513288a744975bacc2f082c8cbe662c7e4197c7eae"
+    },
+    "public/js/main.js": {
+      "bytes": 12412,
+      "sha256": "4bc33cfae9061d5a31bdaa932898658e560f20dfe5b915ce529660131af5f700"
+    },
+    "public/fonts/material-symbols-outlined-f400.woff2": {
+      "bytes": 316012,
+      "sha256": "4b7e78cb769a808a7daee0cf392a2e567cf05e0363d545c9c5da47fc45b344b1"
+    },
+    "public/preview.png": {
+      "bytes": 238002,
+      "sha256": "08848f87f5cd75c0c1eb552c50df2f272759e352281b6d6098d844a5484a7f3b"
+    },
+    "public/preview-dark.png": {
+      "bytes": 237050,
+      "sha256": "ce570a85829731f4a2e0b4125768673e6cdcfac6a42db4cb19809cbb78a5f720"
+    },
+    "public/sample_preview.csv": {
+      "bytes": 4196,
+      "sha256": "7fa3edb62ded5bb06f0b60822a22b31a256649dcd07ba2af518c693c5ee1c280"
+    },
+    "README.md": {
+      "bytes": 54230,
+      "sha256": "c2c244d8e998c572f281f0725b822115e9e4bec8f97bc3c736b31310e4da6857"
+    },
+    "AGENTS.md": {
+      "bytes": 4418,
+      "sha256": "6431f48a366b2b6e25a9e429a3c7eeb444fdd7a6f71184188e3e5a9c7e7d5c84"
+    },
+    "src/main.ts": {
+      "bytes": 11888,
+      "sha256": "c545ad78fd7cf6858910a7c2d54bde15d122b586358063a1c03d65e464920315"
+    },
+    "package.json": {
+      "bytes": 1066,
+      "sha256": "12fd99a063b352425f174defa4b2cef16c9bf1014987e323ce86a9022d56e12c"
+    },
+    "package-lock.json": {
+      "bytes": 15398,
+      "sha256": "2eb85a9365c6cd216e36fe6621f766b1e4edac0c004731d9b93bdbdee7568372"
+    },
+    ".github/workflows/verify.yml": {
+      "bytes": 1306,
+      "sha256": "bc1f1730b9d5dab259d86eb7b48de0aad95014b3d378b2e5418221cc9b8e774c"
+    },
+    ".nvmrc": {
+      "bytes": 8,
+      "sha256": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f"
+    },
+    "tests/localcsv-source-audit.mjs": {
+      "bytes": 13417,
+      "sha256": "94ef14177382c0d30cdce938cfe8c4e63371e183bddfd62b9e2d74d86e8f3299"
+    },
+    "tests/localcsv-source-audit.test.mjs": {
+      "bytes": 2660,
+      "sha256": "559d524695a01b9fddcc990b94a09eb1473ec7fd74bc52d34d5a540d7d19ac9c"
+    },
+    "tests/localcsv-download-cleanup.test.mjs": {
+      "bytes": 2689,
+      "sha256": "3130767048058b21b8a78f06a48f0e7084d79182b1f1b0cf3b7485de83966ae5"
+    },
+    "tests/localcsv-markup-browser.test.mjs": {
+      "bytes": 5671,
+      "sha256": "fc02d24e8bd6d603992e7b513620ea189c5515e9ce58e5f795bdeeeb4188a3d8"
+    },
+    "tests/localcsv-regression.test.mjs": {
+      "bytes": 156837,
+      "sha256": "d0968eddb5ddd0d7600402992c089074635c836a631d5291dd8c434fd55fa65e"
+    },
+    "tests/localcsv-parser-equivalence.mjs": {
+      "bytes": 1523,
+      "sha256": "e0187589ec1b00cea4cf79a142002fcfba592df6ae3a71a6995bd1620b60a8f8"
+    },
+    "tests/localcsv-encoding-detection.test.mjs": {
+      "bytes": 4632,
+      "sha256": "acf7ed9031a893f71d1f67933e56d522f6a5509301e7d649c73a4ec779340939"
+    },
+    "tests/localcsv-round2-microbench.mjs": {
+      "bytes": 3036,
+      "sha256": "1d41deaa8a28b51875245abbe11bf3ef978ed88a1862c3aa7abc25ff8d77a04a"
+    }
+  },
+  "productDeltaBytes": 238
+}

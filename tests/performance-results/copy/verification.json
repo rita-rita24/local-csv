@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-10-09T17:25:41.060609+00:00",
+  "node22": {
+    "regression": "passed"
+  },
+  "node24": {
+    "build": "passed",
+    "regression": "passed",
+    "static": "passed; 55 managed files"
+  },
+  "browserPipeline": "passed; 3 engines integration, 111 quality, 33 usability, 6 native/fallback",
+  "copyPerformance": "7 before / 7 after; alternating, every selected cell and durable CSV checked",
+  "copyTargets": "all six absolute median goals met; ranges overlap, stable improvement rate unconfirmed",
+  "specialCopy": "3 engines, 500 x 20, one before/after each; full output/restore match; no console or page errors",
+  "gitDiffCheck": "passed",
+  "distributionCandidate": "8 files, ZIP bytes/manifest hashes verified",
+  "remoteCI": "not run",
+  "productionDeployment": "not done; normal procedure unknown",
+  "productionMeasurements": "not done"
+}

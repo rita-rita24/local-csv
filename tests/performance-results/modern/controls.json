@@ -1,0 +1,2072 @@
+{
+  "routes": [
+    "index.html",
+    "local-csv.html"
+  ],
+  "screens": {
+    "index.html": [
+      "legalModal"
+    ],
+    "local-csv.html": [
+      "cellEditOverlay",
+      "columnMenu",
+      "virtualHeaderOverlay",
+      "colFilterPanel",
+      "rowMenu",
+      "paletteOverlay",
+      "pasteImportOverlay",
+      "modalOverlay",
+      "infoOverlay",
+      "settingsOverlay",
+      "exportWizardOverlay",
+      "importWizardOverlay"
+    ]
+  },
+  "staticControlCount": 140,
+  "controls": [
+    {
+      "file": "index.html",
+      "line": 22,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "LocalCSV",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 24,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "ホーム",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 25,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "特徴",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 26,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "機能",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 27,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "価格",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 28,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "FAQ",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 31,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "無料デモを開く arrow_forward",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 36,
+      "tag": "button",
+      "id": "navToggle",
+      "action": null,
+      "screen": "main",
+      "label": "メニュー",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "menu",
+      "code": [
+        "src/main.ts:272"
+      ]
+    },
+    {
+      "file": "index.html",
+      "line": 58,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "無料デモを開く arrow_forward",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 60,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "オフライン版HTMLを保存 download",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 263,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "社内PCでも使えますか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 270,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "CSVは外部に送信されますか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 278,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "Excelは必要ですか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 285,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "どんな人に向いていますか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 292,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "Shift_JISのCSVも扱えますか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 299,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "「本体HTMLソースをコピー」は何をコピーしますか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 306,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "無料で試せますか？ expand_more",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 322,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "無料デモを開く arrow_forward",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 324,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "オフライン版HTMLを保存 download",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 327,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "本体HTMLソースをコピー content_copy",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 345,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "ホーム",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 345,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "特徴",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 345,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "機能",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 345,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "価格",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 345,
+      "tag": "a",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "FAQ",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 351,
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "button",
+      "performance": "not individually measured; see grouped reports",
+      "text": "動作環境",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 352,
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "button",
+      "performance": "not individually measured; see grouped reports",
+      "text": "利用規約",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 353,
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "button",
+      "performance": "not individually measured; see grouped reports",
+      "text": "プライバシーポリシー",
+      "code": []
+    },
+    {
+      "file": "index.html",
+      "line": 364,
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "screen": "legalModal",
+      "label": "閉じる",
+      "htmlType": "button",
+      "performance": "not individually measured; see grouped reports",
+      "text": "close",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2650,
+      "tag": "select",
+      "id": "encodingChipSelect",
+      "action": null,
+      "screen": "main",
+      "label": "文字コード",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "UTF-8 Shift-JIS (CP932) EUC-JP ISO-2022-JP (JIS) UTF-16 LE UTF-16 BE",
+      "code": [
+        "local-csv.html:4948"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2661,
+      "tag": "button",
+      "id": "themeModeToggle",
+      "action": null,
+      "screen": "main",
+      "label": "テーマ切替",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "dark_mode",
+      "code": [
+        "local-csv.html:3383",
+        "local-csv.html:4569",
+        "local-csv.html:4950"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2664,
+      "tag": "button",
+      "id": "infoBtn",
+      "action": null,
+      "screen": "main",
+      "label": "情報＆ヘルプ",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "help",
+      "code": [
+        "local-csv.html:3384",
+        "local-csv.html:13225"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2667,
+      "tag": "button",
+      "id": "settingsBtn",
+      "action": null,
+      "screen": "main",
+      "label": "設定",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "settings",
+      "code": [
+        "local-csv.html:3385",
+        "local-csv.html:13278"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2677,
+      "tag": "input",
+      "id": "searchInput",
+      "action": null,
+      "screen": "main",
+      "label": "検索する文字列",
+      "htmlType": "text",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4927"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2680,
+      "tag": "button",
+      "id": "searchClearBtn",
+      "action": null,
+      "screen": "main",
+      "label": "検索をクリア (Esc)",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "クリア",
+      "code": [
+        "local-csv.html:4930"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2682,
+      "tag": "button",
+      "id": "searchPrevBtn",
+      "action": null,
+      "screen": "main",
+      "label": "前の検索結果",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "expand_less",
+      "code": [
+        "local-csv.html:3386",
+        "local-csv.html:9891",
+        "local-csv.html:13070"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2683,
+      "tag": "button",
+      "id": "searchNextBtn",
+      "action": null,
+      "screen": "main",
+      "label": "次の検索結果",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "expand_more",
+      "code": [
+        "local-csv.html:3387",
+        "local-csv.html:9891",
+        "local-csv.html:13071"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2685,
+      "tag": "input",
+      "id": "filterMode",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4938"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2686,
+      "tag": "button",
+      "id": "searchAdvancedToggle",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "検索オプション",
+      "code": [
+        "local-csv.html:4933"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2689,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "置換",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2691,
+      "tag": "input",
+      "id": "replaceInput",
+      "action": null,
+      "screen": "main",
+      "label": "置換後の文字列",
+      "htmlType": "text",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4928"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2692,
+      "tag": "button",
+      "id": "replaceNextBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "置換",
+      "code": [
+        "local-csv.html:9891",
+        "local-csv.html:13068"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2693,
+      "tag": "button",
+      "id": "replaceAllBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "すべて置換",
+      "code": [
+        "local-csv.html:9891",
+        "local-csv.html:13069"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2701,
+      "tag": "button",
+      "id": "clearAllFiltersBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "検索・フィルタをすべて解除",
+      "code": [
+        "local-csv.html:4931"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2704,
+      "tag": "input",
+      "id": "searchCaseSensitive",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4934"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2705,
+      "tag": "input",
+      "id": "searchExactMatch",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4935"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2706,
+      "tag": "input",
+      "id": "searchRegex",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4936"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2709,
+      "tag": "select",
+      "id": "searchTargetCol",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "すべて",
+      "code": [
+        "local-csv.html:4937"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2720,
+      "tag": "button",
+      "id": "openFileBtn",
+      "action": null,
+      "screen": "main",
+      "label": "ファイルを開く (Ctrl+O)",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "folder_open 開く",
+      "code": [
+        "local-csv.html:4650",
+        "local-csv.html:13020"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2721,
+      "tag": "button",
+      "id": "saveBtn",
+      "action": null,
+      "screen": "main",
+      "label": "ファイルに保存 (Ctrl / Cmd+S)",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "save 保存",
+      "code": [
+        "local-csv.html:13021",
+        "local-csv.html:13183"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2724,
+      "tag": "button",
+      "id": "undoBtn",
+      "action": null,
+      "screen": "main",
+      "label": "元に戻す",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "undo",
+      "code": [
+        "local-csv.html:3388",
+        "local-csv.html:4940"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2725,
+      "tag": "button",
+      "id": "redoBtn",
+      "action": null,
+      "screen": "main",
+      "label": "やり直し",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "redo",
+      "code": [
+        "local-csv.html:3389",
+        "local-csv.html:4941"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2728,
+      "tag": "button",
+      "id": "pasteBtn",
+      "action": null,
+      "screen": "main",
+      "label": "テキストから表全体を読み込む。選択セルへの貼り付けは Ctrl+V / Cmd+V",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_paste 貼り付けて読み込む",
+      "code": [
+        "local-csv.html:13024"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2730,
+      "tag": "button",
+      "id": "exportWizardBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "tune エクスポート",
+      "code": [
+        "local-csv.html:12108"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2731,
+      "tag": "button",
+      "id": "createTableBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "空の表を作成",
+      "code": [
+        "local-csv.html:7854",
+        "local-csv.html:13043"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2733,
+      "tag": "summary",
+      "id": null,
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "その他の操作",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2736,
+      "tag": "button",
+      "id": "cellEditBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "セル編集 (F2)",
+      "code": [
+        "local-csv.html:8775",
+        "local-csv.html:9261"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2737,
+      "tag": "button",
+      "id": "addRowBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "add_box 行追加",
+      "code": [
+        "local-csv.html:13044"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2738,
+      "tag": "button",
+      "id": "addColBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "add_box 列追加",
+      "code": [
+        "local-csv.html:13045"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2739,
+      "tag": "button",
+      "id": "virtualHeaderBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "view_column 仮想ヘッダー",
+      "code": [
+        "local-csv.html:12169"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2742,
+      "tag": "button",
+      "id": "textTransformBtn",
+      "action": null,
+      "screen": "main",
+      "label": "選択セルのテキスト変換",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "text_format テキスト変換",
+      "code": [
+        "local-csv.html:9019"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2745,
+      "tag": "button",
+      "id": "copyBtn",
+      "action": null,
+      "screen": "main",
+      "label": "表全体をコピー。選択セルだけをコピーするには Ctrl+C / Cmd+C",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_copy 全件コピー",
+      "code": [
+        "local-csv.html:13046"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2746,
+      "tag": "button",
+      "id": "dlBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "download 全件ダウンロード",
+      "code": [
+        "local-csv.html:13047",
+        "local-csv.html:13184"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2749,
+      "tag": "button",
+      "id": "clearBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "delete 全データを削除",
+      "code": [
+        "local-csv.html:13048"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2786,
+      "tag": "button",
+      "id": "emptyResultsClearBtn",
+      "action": null,
+      "screen": "main",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "検索・フィルタをすべて解除",
+      "code": [
+        "local-csv.html:13114"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2796,
+      "tag": "textarea",
+      "id": "cellEditInput",
+      "action": null,
+      "screen": "cellEditOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:9247",
+        "local-csv.html:9259"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2798,
+      "tag": "button",
+      "id": "cellEditCancelBtn",
+      "action": null,
+      "screen": "cellEditOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "キャンセル",
+      "code": [
+        "local-csv.html:9262"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2799,
+      "tag": "button",
+      "id": "cellEditApplyBtn",
+      "action": null,
+      "screen": "cellEditOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "適用",
+      "code": [
+        "local-csv.html:9263"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2823,
+      "tag": "div",
+      "id": null,
+      "action": "sort-asc",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "arrow_upward 昇順に並び替え",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2824,
+      "tag": "div",
+      "id": null,
+      "action": "sort-desc",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "arrow_downward 降順に並び替え",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2826,
+      "tag": "div",
+      "id": null,
+      "action": "select-col",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "select_all 列を選択",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2827,
+      "tag": "div",
+      "id": null,
+      "action": "open-filter",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "filter_alt フィルタ...",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2829,
+      "tag": "div",
+      "id": null,
+      "action": "add-col-left",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "keyboard_double_arrow_left 左に列を追加",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2830,
+      "tag": "div",
+      "id": null,
+      "action": "add-col-right",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "keyboard_double_arrow_right 右に列を追加",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2832,
+      "tag": "div",
+      "id": null,
+      "action": "copy-col",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_copy 列をコピー",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2833,
+      "tag": "div",
+      "id": null,
+      "action": "dup-col",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_copy 列を複製",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2835,
+      "tag": "div",
+      "id": null,
+      "action": "del-col",
+      "screen": "columnMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "delete 列を削除",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2846,
+      "tag": "select",
+      "id": "virtualHeaderPresetSelect",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "プリセットなし",
+      "code": [
+        "local-csv.html:4954",
+        "local-csv.html:8563"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2850,
+      "tag": "button",
+      "id": "virtualHeaderApplyPresetBtn",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "適用",
+      "code": [
+        "local-csv.html:12173"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2851,
+      "tag": "button",
+      "id": "virtualHeaderDeletePresetBtn",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "削除",
+      "code": [
+        "local-csv.html:12174"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2854,
+      "tag": "input",
+      "id": "virtualHeaderPresetName",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": "text",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:4955"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2856,
+      "tag": "button",
+      "id": "virtualHeaderSavePresetBtn",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "保存",
+      "code": [
+        "local-csv.html:12172"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2857,
+      "tag": "button",
+      "id": "virtualHeaderClearBtn",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "入力をクリア",
+      "code": [
+        "local-csv.html:12175"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2864,
+      "tag": "button",
+      "id": "virtualHeaderCancelBtn",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "キャンセル",
+      "code": [
+        "local-csv.html:12170"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2865,
+      "tag": "button",
+      "id": "virtualHeaderApplyBtn",
+      "action": null,
+      "screen": "virtualHeaderOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "適用",
+      "code": [
+        "local-csv.html:12171"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2874,
+      "tag": "button",
+      "id": "colFilterClose",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "列フィルタを閉じる",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "close",
+      "code": [
+        "local-csv.html:13119"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2880,
+      "tag": "input",
+      "id": "colFilterSearch",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "列フィルタの値を検索",
+      "htmlType": "text",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:10161"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2883,
+      "tag": "button",
+      "id": "colFilterSelectAll",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "すべて選択",
+      "code": [
+        "local-csv.html:13140"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2884,
+      "tag": "button",
+      "id": "colFilterSelectNone",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "すべて解除",
+      "code": [
+        "local-csv.html:13145"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2893,
+      "tag": "select",
+      "id": null,
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "条件の比較方法",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "（なし） 含む 含まない 等しい 等しくない 以上 以下 空 非空",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2904,
+      "tag": "input",
+      "id": null,
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "条件の値",
+      "htmlType": "text",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2909,
+      "tag": "input",
+      "id": null,
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": "radio",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2910,
+      "tag": "input",
+      "id": null,
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": "radio",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2912,
+      "tag": "button",
+      "id": "colFilterAddCond",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "add 条件追加",
+      "code": [
+        "local-csv.html:13122"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2918,
+      "tag": "button",
+      "id": "colFilterClearBtn",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "filter_alt_off フィルタ解除",
+      "code": [
+        "local-csv.html:13121"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2919,
+      "tag": "button",
+      "id": "colFilterApplyBtn",
+      "action": null,
+      "screen": "colFilterPanel",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "filter_alt 絞り込む",
+      "code": [
+        "local-csv.html:13120"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2925,
+      "tag": "div",
+      "id": null,
+      "action": "select-row",
+      "screen": "rowMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "select_all 行を選択",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2927,
+      "tag": "div",
+      "id": null,
+      "action": "add-row-up",
+      "screen": "rowMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "keyboard_double_arrow_up 上に行を追加",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2928,
+      "tag": "div",
+      "id": null,
+      "action": "add-row-down",
+      "screen": "rowMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "keyboard_double_arrow_down 下に行を追加",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2930,
+      "tag": "div",
+      "id": null,
+      "action": "copy-row",
+      "screen": "rowMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_copy 行をコピー",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2931,
+      "tag": "div",
+      "id": null,
+      "action": "dup-row",
+      "screen": "rowMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_copy 行を複製",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2933,
+      "tag": "div",
+      "id": null,
+      "action": "del-row",
+      "screen": "rowMenu",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "delete 行を削除",
+      "code": []
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2942,
+      "tag": "input",
+      "id": "paletteInput",
+      "action": null,
+      "screen": "paletteOverlay",
+      "label": "コマンドを検索",
+      "htmlType": "text",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:12848",
+        "local-csv.html:12982"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2957,
+      "tag": "textarea",
+      "id": "pasteImportInput",
+      "action": null,
+      "screen": "pasteImportOverlay",
+      "label": "読み込むCSVテキスト",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:7780",
+        "local-csv.html:7810"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2958,
+      "tag": "input",
+      "id": "pasteImportHeader",
+      "action": null,
+      "screen": "pasteImportOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:7789",
+        "local-csv.html:7817"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2961,
+      "tag": "button",
+      "id": "pasteImportCancelBtn",
+      "action": null,
+      "screen": "pasteImportOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "キャンセル",
+      "code": [
+        "local-csv.html:13035"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2962,
+      "tag": "button",
+      "id": "pasteImportConfirmBtn",
+      "action": null,
+      "screen": "pasteImportOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "読み込む",
+      "code": [
+        "local-csv.html:7781"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2973,
+      "tag": "button",
+      "id": "modalCancelBtn",
+      "action": null,
+      "screen": "modalOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "キャンセル",
+      "code": [
+        "local-csv.html:4616",
+        "local-csv.html:4885"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 2974,
+      "tag": "button",
+      "id": "modalConfirmBtn",
+      "action": null,
+      "screen": "modalOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "削除",
+      "code": [
+        "local-csv.html:4615",
+        "local-csv.html:4885"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3033,
+      "tag": "button",
+      "id": "infoCloseBtn",
+      "action": null,
+      "screen": "infoOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "閉じる",
+      "code": [
+        "local-csv.html:13226"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3045,
+      "tag": "input",
+      "id": "settingBOM",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:13235"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3051,
+      "tag": "select",
+      "id": "settingDelimiter",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "カンマ (,) タブ (\\t) セミコロン (;) スペース",
+      "code": [
+        "local-csv.html:13265",
+        "local-csv.html:13271",
+        "local-csv.html:13296"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3061,
+      "tag": "select",
+      "id": "settingNewline",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "CRLF (Windows) LF (Linux/Mac)",
+      "code": [
+        "local-csv.html:13266",
+        "local-csv.html:13304"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3068,
+      "tag": "select",
+      "id": "settingQuote",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "自動（必要な場合のみ） すべてのフィールドをクオート クオートしない",
+      "code": [
+        "local-csv.html:13267",
+        "local-csv.html:13311"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3076,
+      "tag": "input",
+      "id": "settingHeader",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:8403",
+        "local-csv.html:13268",
+        "local-csv.html:13318"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3081,
+      "tag": "input",
+      "id": "settingShowStatusBar",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:13269",
+        "local-csv.html:13322"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3087,
+      "tag": "select",
+      "id": "settingLanguage",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "日本語 English",
+      "code": [
+        "local-csv.html:13236"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3098,
+      "tag": "button",
+      "id": "settingsCloseBtn",
+      "action": null,
+      "screen": "settingsOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "閉じる",
+      "code": [
+        "local-csv.html:13279"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3112,
+      "tag": "select",
+      "id": "expFormat",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "CSV（カンマ区切り） TSV（タブ区切り） SSV（セミコロン区切り） TXT（スペース区切り） JSON NDJSON（1行1JSON） HTML Table Markdown Table",
+      "code": [
+        "local-csv.html:11722",
+        "local-csv.html:11767"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3124,
+      "tag": "input",
+      "id": "expSpreadsheetSafe",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:11729"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3133,
+      "tag": "select",
+      "id": "expEncoding",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "UTF-8 Shift-JIS (CP932) EUC-JP ISO-2022-JP (JIS) UTF-16 LE UTF-16 BE",
+      "code": [
+        "local-csv.html:11723"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3142,
+      "tag": "input",
+      "id": "expBom",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:11724"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3149,
+      "tag": "select",
+      "id": "expNewline",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "CRLF (Windows) LF (Linux/Mac)",
+      "code": [
+        "local-csv.html:11725"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3158,
+      "tag": "select",
+      "id": "expQuote",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "自動（必要な場合のみ） すべてのフィールドをクオート クオートしない",
+      "code": [
+        "local-csv.html:11726"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3168,
+      "tag": "select",
+      "id": "expTarget",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "全件 フィルタ結果のみ 選択範囲のみ",
+      "code": [
+        "local-csv.html:11727"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3180,
+      "tag": "input",
+      "id": "expHeader",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:11728"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3189,
+      "tag": "input",
+      "id": "expSkipEmptyRows",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:11730"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3192,
+      "tag": "input",
+      "id": "expSkipEmptyCols",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:11731"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3209,
+      "tag": "button",
+      "id": "expCancelBtn",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "キャンセル",
+      "code": [
+        "local-csv.html:12105"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3210,
+      "tag": "button",
+      "id": "expCopyBtn",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "content_copy コピー",
+      "code": [
+        "local-csv.html:12106"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3211,
+      "tag": "button",
+      "id": "expDownloadBtn",
+      "action": null,
+      "screen": "exportWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "download ダウンロード",
+      "code": [
+        "local-csv.html:12107"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3224,
+      "tag": "button",
+      "id": "importWizardCloseBtn",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "閉じる",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "close",
+      "code": [
+        "local-csv.html:3390",
+        "local-csv.html:11158"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3256,
+      "tag": "select",
+      "id": "wizDelimiter",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "カンマ (,) タブ (\\t) セミコロン (;) スペース",
+      "code": [
+        "local-csv.html:11217",
+        "local-csv.html:11282",
+        "local-csv.html:11385"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3265,
+      "tag": "select",
+      "id": "wizEncoding",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "UTF-8 Shift-JIS EUC-JP ISO-2022-JP (JIS) UTF-16 LE UTF-16 BE",
+      "code": [
+        "local-csv.html:11203",
+        "local-csv.html:11281",
+        "local-csv.html:11331"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3276,
+      "tag": "input",
+      "id": "wizHeader",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": "checkbox",
+      "performance": "not individually measured; see grouped reports",
+      "text": "",
+      "code": [
+        "local-csv.html:11222",
+        "local-csv.html:11283",
+        "local-csv.html:11330"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3286,
+      "tag": "select",
+      "id": "wizPreviewRows",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "プレビュー行数",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "10行 20行 50行",
+      "code": [
+        "local-csv.html:11223",
+        "local-csv.html:11381"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3302,
+      "tag": "button",
+      "id": "wizBackBtn",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "arrow_back 戻る",
+      "code": [
+        "local-csv.html:11154"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3305,
+      "tag": "button",
+      "id": "wizCancelBtn",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "キャンセル",
+      "code": [
+        "local-csv.html:11157"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3306,
+      "tag": "button",
+      "id": "wizNextBtn",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "プレビューへ arrow_forward",
+      "code": [
+        "local-csv.html:11155",
+        "local-csv.html:11286"
+      ]
+    },
+    {
+      "file": "local-csv.html",
+      "line": 3309,
+      "tag": "button",
+      "id": "wizImportBtn",
+      "action": null,
+      "screen": "importWizardOverlay",
+      "label": "",
+      "htmlType": null,
+      "performance": "not individually measured; see grouped reports",
+      "text": "check 読み込む",
+      "code": [
+        "local-csv.html:11156"
+      ]
+    }
+  ],
+  "limits": "Static controls include repeated entry points and fields, not distinct operation counts. Dynamic cells/menus, pointer moves, shortcut operations and async background work are grouped separately in REPORT.md."
+}

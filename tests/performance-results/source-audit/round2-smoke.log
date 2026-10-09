@@ -1,0 +1,228 @@
+{
+  samples: [
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 0,
+      ms: 95.19999998807907,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 0,
+      ms: 424,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 0,
+      ms: 38.59999996423721,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 0,
+      ms: 176.9000000357628,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 1,
+      ms: 38.89999997615814,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 1,
+      ms: 151.19999998807907,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 1,
+      ms: 78.90000003576279,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 1,
+      ms: 358.5999999642372,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 2,
+      ms: 78,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 2,
+      ms: 402.19999998807907,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 2,
+      ms: 43.5,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 2,
+      ms: 162.30000001192093,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 3,
+      ms: 42.40000003576279,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 3,
+      ms: 146.0999999642372,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 3,
+      ms: 80.80000001192093,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 3,
+      ms: 369.19999998807907,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 4,
+      ms: 81,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 4,
+      ms: 381.9000000357628,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 4,
+      ms: 41.19999998807907,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 4,
+      ms: 142,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 5,
+      ms: 38.59999996423721,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 5,
+      ms: 130.4000000357628,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 5,
+      ms: 65.19999998807907,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 5,
+      ms: 349.80000001192093,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'before',
+      run: 6,
+      ms: 73.69999998807907,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'before',
+      run: 6,
+      ms: 350.89999997615814,
+      bytes: 42877800
+    },
+    {
+      operation: 'decode-with-validation',
+      version: 'after',
+      run: 6,
+      ms: 41.5,
+      length: 20000000,
+      warnings: []
+    },
+    {
+      operation: 'size-count',
+      version: 'after',
+      run: 6,
+      ms: 160.80000001192093,
+      bytes: 42877800
+    }
+  ],
+  frameIntervals: [
+    16.699999999999818,
+    16.699999999999818,
+    16.600000000000364,
+    16.699999999999818,
+    16.699999999999818,
+    16.699999999999818,
+    16.600000000000364,
+    16.599999999999454,
+    16.700000000000728,
+    16.699999999999818,
+    16.599999999999454,
+    16.700000000000728
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "verifiedAt": "2026-10-09T16:56:21.405785+00:00",
+  "status": "local_verified_not_deployed",
+  "packageVersion": "1.2.6",
+  "gitHead": "1e2fc63",
+  "recommendedNode": "24.21.0",
+  "testedNode": [
+    "22.22.2",
+    "24.21.0"
+  ],
+  "files": {
+    "local-csv.html": {
+      "bytes": 1222318,
+      "sha256": "4feb9830c757eafeb2ce5d0b883801c05380d72f4622372260a37c565d9d0727"
+    },
+    "index.html": {
+      "bytes": 1656131,
+      "sha256": "a4bd81d75c09c3baf60acabdd0b34605c44d79fd215b191d519235a61f81337e"
+    },
+    "README.md": {
+      "bytes": 52809,
+      "sha256": "a5c69b4ca78ac4526a0cbe6af05832f7d01b7961c74ea8449c09c46096e19add"
+    },
+    "AGENTS.md": {
+      "bytes": 3230,
+      "sha256": "379cf44abaec9f20b2d39b3ca76708a181f43a81798ea6919c970e8754d43049"
+    },
+    ".nvmrc": {
+      "bytes": 8,
+      "sha256": "73fb1b615e2043a933be1c0895cde4358036acc28d785692509b822aa53c761f"
+    },
+    ".github/workflows/verify.yml": {
+      "bytes": 1019,
+      "sha256": "53a3a93750f4c83623609b8939d6a6450b843f8f697e1de614d101afeee7c46f"
+    },
+    "tests/localcsv-selection-browser.test.mjs": {
+      "bytes": 7202,
+      "sha256": "9d8cec9f68b5d0ce7a03c8e1ebb72107c7f708671002a519b84c42a5cf06e8eb"
+    },
+    "tests/localcsv-regression.test.mjs": {
+      "bytes": 156204,
+      "sha256": "204e2dc733744cd85aac792bedbe6c2f278ab408fea9d4e3a721b3bedea153f6"
+    },
+    "package.json": {
+      "bytes": 758,
+      "sha256": "bd8988e17c4ec7d690b8b32529078bddd299bdd9e2f1a4b3bfda340f7e9a88d3"
+    },
+    "package-lock.json": {
+      "bytes": 13483,
+      "sha256": "ad3803c74858c33b03d636ca02b51209eb86ce627014c1bb2f39eb0d46684d90"
+    },
+    "src/main.ts": {
+      "bytes": 11858,
+      "sha256": "b94ba5282a93ef0c9d7c8747483db433b79186316da0588fd0b86ce0e7c3860b"
+    },
+    "public/js/main.js": {
+      "bytes": 12368,
+      "sha256": "64f33d14df4f75cd9bb1040ff643451f3f902a08250b9d4291f5a37226c71ef0"
+    }
+  }
+}

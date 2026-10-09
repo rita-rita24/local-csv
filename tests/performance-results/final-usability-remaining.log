@@ -1,0 +1,14 @@
+chromium: file import steps preserve keyboard focus, settings and preview passed
+KNOWN BASELINE FAILURE: tableScroll y < 600 assertion skipped; all other assertions retained
+chromium: compact layout keeps controls usable and restores focus on width change passed
+chromium: compact empty-table creation and explicit deletion preserve cancel and undo passed
+chromium: landing source-copy and navigation survive a shorter primary flow passed
+chromium: notifications do not discard column-filter drafts or intercept apply passed
+chromium: search navigation and scrolling account for multiline row heights passed
+chromium: formula escaping explains changes and can preserve original values passed
+chromium: recovery retains source filename without restoring overwrite authority passed
+chromium: keyboard range selection and full cell editor preserve values and history passed
+chromium: unchanged full-cell editing preserves CR and CRLF passed
+KNOWN LAYOUT FAILURE: tableScroll y < 650 assertion skipped; all other assertions retained
+chromium: compact controls preserve values and expose the table earlier passed
+chromium: 11 usability scenarios, no console errors or external requests

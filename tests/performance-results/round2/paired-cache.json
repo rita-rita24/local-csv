@@ -1,0 +1,2034 @@
+{
+  "comparisonVersions": {
+    "before": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "after": {
+      "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+      "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    }
+  },
+  "measuredAt": "2026-10-09T00:05:38.506Z",
+  "root": "/private/tmp/localcsv-round2-final",
+  "runs": 5,
+  "versions": {
+    "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+    "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "fresh context vs same-context reload; HTTP max-age=3600; resource timing cache-hit audit; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "fileSource": "synthetic File payload; physical disk latency excluded"
+  },
+  "cacheAudit": [
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 1651303,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 1218780,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 0,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 1651303,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 1218780,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 1,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 1651303,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 1218780,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 2,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 1651303,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 1218780,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 3,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 1648959,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 1217020,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "LP",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1648659
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/before/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "before",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/before/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1216720
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 1651303,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 29353,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 238302,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 11304,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 316312,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": false,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 1218780,
+          "decodedBodySize": 1218480
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "LP",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/",
+          "type": "navigation",
+          "transferSize": 0,
+          "decodedBodySize": 1651003
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/css/style.css",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 29053
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/preview.png",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 238002
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/js/main.js",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 11004
+        },
+        {
+          "name": "http://127.0.0.1:63163/after/public/fonts/material-symbols-outlined-f400.woff2",
+          "type": "resource",
+          "transferSize": 0,
+          "decodedBodySize": 316012
+        }
+      ]
+    },
+    {
+      "version": "after",
+      "screen": "editor-empty",
+      "warm": true,
+      "run": 4,
+      "entries": [
+        {
+          "name": "http://127.0.0.1:63163/after/local-csv.html",
+          "transferSize": 0,
+          "decodedBodySize": 1218480
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "results": [
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 173.39999997615814,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 130.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 340.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 113.79999995231628,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 32.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 182.5999999642372,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 95.60000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 74.30000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 212.80000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.90000003576279,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 30.19999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 164.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 98.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 248.5999999642372,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114.39999997615814,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 48.09999996423721,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 198.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 80.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 81.09999996423721,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 197.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 98,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.799999952316284,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.30000001192093,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 148.0999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 96.90000003576279,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 281.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114.89999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 31.600000023841858,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 183.10000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 79.69999998807907,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.60000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 196.39999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 98.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 32.09999996423721,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.9000000357628,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 160.30000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 294.19999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114.69999998807907,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 31.700000047683716,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 182,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 96.39999997615814,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 81.20000004768372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 213.5999999642372,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.5,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.60000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 119.39999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 254.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 129.9000000357628,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 47.700000047683716,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 215.10000002384186,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 110.80000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 104.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 272.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 134.39999997615814,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 47.30000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 219.80000001192093,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 161.29999995231628,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97.20000004768372,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 295.19999998807907,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 31.5,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 182,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 79.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 81.30000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 196.39999997615814,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 98.80000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.099999964237213,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.30000001192093,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 126.09999996423721,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97.40000003576279,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 261.5999999642372,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 142.5,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 47.59999996423721,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 226.19999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 80.69999998807907,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 81.39999997615814,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 198,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.20000004768372,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 30.80000001192093,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 119.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 80.79999995231628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 236.9000000357628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 114.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 48,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 198.19999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.09999996423721,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.89999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 213.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 98.40000003576279,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.5,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.9000000357628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 110.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 81.39999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 228.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 130.9000000357628,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 48.19999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 214.69999998807907,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 80.39999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.89999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 197.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 97.80000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 31.399999976158142,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 165.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 148.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "cold-context",
+      "metric": "result",
+      "ms": 97.60000002384186,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 282.19999998807907,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "content",
+      "ms": 115.39999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 31.100000023841858,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "cold-context",
+      "metric": "interactive",
+      "ms": 182.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 96.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "LP-download",
+      "condition": "browser-cache",
+      "metric": "result",
+      "ms": 80.89999997615814,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "LP",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 214.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "content",
+      "ms": 98,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-dialog",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 30.80000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "editor-empty",
+      "condition": "browser-cache",
+      "metric": "interactive",
+      "ms": 164.60000002384186,
+      "run": 4,
+      "version": "after"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "encoding-japanese": {
+    "version": "2.2.0",
+    "file": "local-csv.html",
+    "scriptIndex": 0,
+    "sha256": "4f9654c225c878afcbf55bc6418a49e1fd45caff78c6280f48f58b0d5bb3bf10",
+    "upstream": "https://github.com/polygonplanet/encoding.js/releases/tag/2.2.0",
+    "retentionEvidence": "performance-results/modern/encoding-upgrade.json"
+  }
+}

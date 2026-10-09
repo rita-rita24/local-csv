@@ -1,0 +1,139 @@
+{
+  "timestamp": "2026-10-09T16:38:30.549Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "8d2d831e089cfd7a55820f0abb945c084c60a685d0ebd5cc6bbef1ac2191cbbd",
+  "browser": "154.0.8037.99",
+  "rows": 100000,
+  "columns": 20,
+  "runs": 7,
+  "completion": "Actual click to correct selection hint mutation; separate second-rAF opportunity. No GPU presentation or INP claim.",
+  "results": [
+    {
+      "run": 0,
+      "operation": "all-first",
+      "resultMs": 113.40000003576279,
+      "frameOpportunityMs": 128.9000000357628
+    },
+    {
+      "run": 0,
+      "operation": "all-repeat",
+      "resultMs": 127.69999998807907,
+      "frameOpportunityMs": 131.5
+    },
+    {
+      "run": 0,
+      "operation": "column",
+      "resultMs": 26.30000001192093,
+      "frameOpportunityMs": 33.89999997615814
+    },
+    {
+      "run": 1,
+      "operation": "all-first",
+      "resultMs": 73.39999997615814,
+      "frameOpportunityMs": 84.09999996423721
+    },
+    {
+      "run": 1,
+      "operation": "all-repeat",
+      "resultMs": 69.39999997615814,
+      "frameOpportunityMs": 72.30000001192093
+    },
+    {
+      "run": 1,
+      "operation": "column",
+      "resultMs": 13.400000035762787,
+      "frameOpportunityMs": 30.400000035762787
+    },
+    {
+      "run": 2,
+      "operation": "all-first",
+      "resultMs": 119.80000001192093,
+      "frameOpportunityMs": 128.20000004768372
+    },
+    {
+      "run": 2,
+      "operation": "all-repeat",
+      "resultMs": 79.5,
+      "frameOpportunityMs": 82.80000001192093
+    },
+    {
+      "run": 2,
+      "operation": "column",
+      "resultMs": 16.5,
+      "frameOpportunityMs": 29.100000023841858
+    },
+    {
+      "run": 3,
+      "operation": "all-first",
+      "resultMs": 81.19999998807907,
+      "frameOpportunityMs": 90
+    },
+    {
+      "run": 3,
+      "operation": "all-repeat",
+      "resultMs": 75.30000001192093,
+      "frameOpportunityMs": 78.39999997615814
+    },
+    {
+      "run": 3,
+      "operation": "column",
+      "resultMs": 16.5,
+      "frameOpportunityMs": 25.599999964237213
+    },
+    {
+      "run": 4,
+      "operation": "all-first",
+      "resultMs": 57.69999998807907,
+      "frameOpportunityMs": 64.89999997615814
+    },
+    {
+      "run": 4,
+      "operation": "all-repeat",
+      "resultMs": 71,
+      "frameOpportunityMs": 73.80000001192093
+    },
+    {
+      "run": 4,
+      "operation": "column",
+      "resultMs": 21.599999964237213,
+      "frameOpportunityMs": 28.69999998807907
+    },
+    {
+      "run": 5,
+      "operation": "all-first",
+      "resultMs": 82.89999997615814,
+      "frameOpportunityMs": 91.39999997615814
+    },
+    {
+      "run": 5,
+      "operation": "all-repeat",
+      "resultMs": 85.30000001192093,
+      "frameOpportunityMs": 88.60000002384186
+    },
+    {
+      "run": 5,
+      "operation": "column",
+      "resultMs": 17.30000001192093,
+      "frameOpportunityMs": 28.69999998807907
+    },
+    {
+      "run": 6,
+      "operation": "all-first",
+      "resultMs": 68.10000002384186,
+      "frameOpportunityMs": 74.69999998807907
+    },
+    {
+      "run": 6,
+      "operation": "all-repeat",
+      "resultMs": 89.80000001192093,
+      "frameOpportunityMs": 93.19999998807907
+    },
+    {
+      "run": 6,
+      "operation": "column",
+      "resultMs": 20.700000047683716,
+      "frameOpportunityMs": 27.400000035762787
+    }
+  ],
+  "errors": []
+}

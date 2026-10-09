@@ -1,0 +1,230 @@
+{
+  "measuredAt": "2026-10-08T23:27:33.159Z",
+  "browser": "154.0.8037.99",
+  "samples": [
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 0,
+      "ms": 68.5,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 0,
+      "ms": 398.4000000357628,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 0,
+      "ms": 39.69999998807907,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 0,
+      "ms": 139.39999997615814,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 1,
+      "ms": 35.5,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 1,
+      "ms": 111.30000001192093,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 1,
+      "ms": 67.39999997615814,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 1,
+      "ms": 336.89999997615814,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 2,
+      "ms": 73.90000003576279,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 2,
+      "ms": 339.89999997615814,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 2,
+      "ms": 38.80000001192093,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 2,
+      "ms": 126.60000002384186,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 3,
+      "ms": 40.59999996423721,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 3,
+      "ms": 108.40000003576279,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 3,
+      "ms": 79,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 3,
+      "ms": 328.0999999642372,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 4,
+      "ms": 84.60000002384186,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 4,
+      "ms": 320.39999997615814,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 4,
+      "ms": 40.80000001192093,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 4,
+      "ms": 105.39999997615814,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 5,
+      "ms": 40.40000003576279,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 5,
+      "ms": 104.30000001192093,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 5,
+      "ms": 79.09999996423721,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 5,
+      "ms": 349.60000002384186,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "before",
+      "run": 6,
+      "ms": 81.80000001192093,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "before",
+      "run": 6,
+      "ms": 330.19999998807907,
+      "bytes": 42877800
+    },
+    {
+      "operation": "decode-with-validation",
+      "version": "after",
+      "run": 6,
+      "ms": 44.5,
+      "length": 20000000,
+      "warnings": []
+    },
+    {
+      "operation": "size-count",
+      "version": "after",
+      "run": 6,
+      "ms": 113.80000001192093,
+      "bytes": 42877800
+    }
+  ],
+  "frameIntervals": [
+    16.700000000000728,
+    16.599999999999454,
+    16.699999999999818,
+    16.600000000000364,
+    16.699999999999818,
+    16.699999999999818,
+    16.600000000000364,
+    16.699999999999818,
+    16.699999999999818,
+    16.700000000000728,
+    16.599999999999454,
+    16.699999999999818
+  ]
+}

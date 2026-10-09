@@ -1,0 +1,293 @@
+{
+  "measuredAt": "2026-10-08T17:37:36.226Z",
+  "root": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv",
+  "runs": 6,
+  "versions": {
+    "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+    "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "HTTP cache disabled via CDP; fresh context vs same-context repeated access; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "fileSource": "synthetic File payload; physical disk latency excluded"
+  },
+  "cacheAudit": [],
+  "errors": [],
+  "results": [
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 481.30000001192093,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 672.5999999642372,
+      "run": 0
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 55.59999996423721,
+      "run": 0
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 89.59999996423721,
+      "run": 0
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "content",
+      "ms": 32.299999952316284,
+      "run": 0
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.69999998807907,
+      "run": 0
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 475.30000001192093,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 655.1000000238419,
+      "run": 1
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 51.200000047683716,
+      "run": 1
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 84.5,
+      "run": 1
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.700000047683716,
+      "run": 1
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.40000003576279,
+      "run": 1
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 473.89999997615814,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 585.5,
+      "run": 2
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 98.80000001192093,
+      "run": 2
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 132.30000001192093,
+      "run": 2
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.399999976158142,
+      "run": 2
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 63.299999952316284,
+      "run": 2
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 522.3999999761581,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 621.6999999880791,
+      "run": 3
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 67.69999998807907,
+      "run": 3
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 98.39999997615814,
+      "run": 3
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "content",
+      "ms": 31.600000023841858,
+      "run": 3
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 65.19999998807907,
+      "run": 3
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 473.0999999642372,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 676.3000000119209,
+      "run": 4
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 58.10000002384186,
+      "run": 4
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 91.39999997615814,
+      "run": 4
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "content",
+      "ms": 32.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.80000001192093,
+      "run": 4
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 507,
+      "run": 5
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 638.1999999880791,
+      "run": 5
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "content",
+      "ms": 81.09999996423721,
+      "run": 5
+    },
+    {
+      "screen": "help",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 112.19999998807907,
+      "run": 5
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "content",
+      "ms": 33.30000001192093,
+      "run": 5
+    },
+    {
+      "screen": "help-saved",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 64.69999998807907,
+      "run": 5
+    }
+  ]
+}

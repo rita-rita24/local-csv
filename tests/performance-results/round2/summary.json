@@ -1,0 +1,3476 @@
+[
+  {
+    "name": "files",
+    "file": "paired-files.json",
+    "measuredAt": "2026-10-08T23:53:38.909Z",
+    "discardedWarmupRuns": 0,
+    "versions": {
+      "before": {
+        "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+        "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      },
+      "after": {
+        "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+        "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      }
+    },
+    "rows": [
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 51.5,
+          "min": 39.30000001192093,
+          "max": 60.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 54.69999998807907,
+          "min": 39.39999997615814,
+          "max": 72.39999997615814
+        },
+        "reductionPercent": -6.213592209862274,
+        "pairedDifferencesMs": [
+          5.600000023841858,
+          0.30000001192092896,
+          1.399999976158142,
+          -33.09999996423721,
+          12.100000023841858
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 75.5,
+          "min": 62.39999997615814,
+          "max": 90.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 87.80000001192093,
+          "min": 72.5,
+          "max": 118.40000003576279
+        },
+        "reductionPercent": -16.29139074426613,
+        "pairedDifferencesMs": [
+          -30.5,
+          2.899999976158142,
+          3,
+          -43.60000002384186,
+          -3.800000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.30000001192093,
+          "min": 31.5,
+          "max": 78.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 61,
+          "min": 46.69999998807907,
+          "max": 63
+        },
+        "reductionPercent": -26.293995828042615,
+        "pairedDifferencesMs": [
+          17.80000001192093,
+          -13.699999988079071,
+          16.599999964237213,
+          -31.5,
+          -1.1999999284744263
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 81.40000003576279,
+          "min": 64.30000001192093,
+          "max": 112.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 94.19999998807907,
+          "min": 80.19999998807907,
+          "max": 97.30000001192093
+        },
+        "reductionPercent": -15.724815659327582,
+        "pairedDifferencesMs": [
+          18.100000023841858,
+          -14.899999916553497,
+          16.5,
+          -33,
+          -1.199999988079071
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 63.5,
+          "min": 47.69999998807907,
+          "max": 78
+        },
+        "after": {
+          "n": 5,
+          "median": 63.69999998807907,
+          "min": 62.90000003576279,
+          "max": 228.4000000357628
+        },
+        "reductionPercent": -0.31496061114814333,
+        "pairedDifferencesMs": [
+          -1.600000023841858,
+          -165.10000002384186,
+          0.6000000238418579,
+          -15.200000047683716,
+          -0.19999998807907104
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 130.5,
+          "min": 114.79999995231628,
+          "max": 161.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 131.4000000357628,
+          "min": 130.5,
+          "max": 295.5
+        },
+        "reductionPercent": -0.6896551998182274,
+        "pairedDifferencesMs": [
+          15.100000023841858,
+          -165.10000002384186,
+          -0.19999998807907104,
+          -15.700000047683716,
+          -0.9000000357627869
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 281.30000001192093,
+          "min": 257.30000001192093,
+          "max": 337.5
+        },
+        "after": {
+          "n": 5,
+          "median": 295.19999998807907,
+          "min": 268.80000001192093,
+          "max": 345.19999998807907
+        },
+        "reductionPercent": -4.9413437524241335,
+        "pairedDifferencesMs": [
+          22.69999998807907,
+          -63.89999997615814,
+          -1.5,
+          -35.10000002384186,
+          -11.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 302.69999998807907,
+          "min": 279.69999998807907,
+          "max": 390.2000000476837
+        },
+        "after": {
+          "n": 5,
+          "median": 337.89999997615814,
+          "min": 293,
+          "max": 399.0999999642372
+        },
+        "reductionPercent": -11.628675252548833,
+        "pairedDifferencesMs": [
+          21.400000035762787,
+          -92.49999994039536,
+          -35.19999998807907,
+          -42,
+          -13.300000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.89999997615814,
+          "min": 31.200000047683716,
+          "max": 63.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 64.19999998807907,
+          "min": 48,
+          "max": 79.39999997615814
+        },
+        "reductionPercent": -31.288343597915443,
+        "pairedDifferencesMs": [
+          0.30000001192092896,
+          -31.399999976158142,
+          15.699999988079071,
+          -15.300000011920929,
+          -33.09999996423721
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 82.09999996423721,
+          "min": 64.10000002384186,
+          "max": 97.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 97.5,
+          "min": 82,
+          "max": 112.80000001192093
+        },
+        "reductionPercent": -18.75761271920954,
+        "pairedDifferencesMs": [
+          0.40000003576278687,
+          -32.30000001192093,
+          15.100000023841858,
+          -15.400000035762787,
+          -33.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 362.89999997615814,
+          "min": 297.69999998807907,
+          "max": 460.5
+        },
+        "after": {
+          "n": 5,
+          "median": 379.89999997615814,
+          "min": 347.19999998807907,
+          "max": 508
+        },
+        "reductionPercent": -4.684486084628511,
+        "pairedDifferencesMs": [
+          15.199999988079071,
+          -145.10000002384186,
+          -17.100000023841858,
+          31.600000023841858,
+          -82.19999998807907
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 439.19999998807907,
+          "min": 376.30000001192093,
+          "max": 533.7000000476837
+        },
+        "after": {
+          "n": 5,
+          "median": 455.89999997615814,
+          "min": 422.5,
+          "max": 674.5
+        },
+        "reductionPercent": -3.802367939101172,
+        "pairedDifferencesMs": [
+          10.400000035762787,
+          -235.30000001192093,
+          -17.100000023841858,
+          29,
+          -79.59999996423721
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 171.60000002384186,
+          "min": 135.89999997615814,
+          "max": 208.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 167.19999998807907,
+          "min": 152.39999997615814,
+          "max": 196.19999998807907
+        },
+        "reductionPercent": 2.564102584587096,
+        "pairedDifferencesMs": [
+          17.099999964237213,
+          -25.899999976158142,
+          10.100000023841858,
+          8.800000011920929,
+          -16.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 202.89999997615814,
+          "min": 165.79999995231628,
+          "max": 242.79999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 219.80000001192093,
+          "min": 175.5999999642372,
+          "max": 243
+        },
+        "reductionPercent": -8.329226238417265,
+        "pairedDifferencesMs": [
+          -0.20000004768371582,
+          -31.19999998807907,
+          -16.900000035762787,
+          34.60000002384186,
+          -9.800000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 62.39999997615814,
+          "min": 47.5,
+          "max": 65.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 47.69999998807907,
+          "min": 30.600000023841858,
+          "max": 63.89999997615814
+        },
+        "reductionPercent": 23.557692297589202,
+        "pairedDifferencesMs": [
+          0.5,
+          -0.19999998807907104,
+          13.799999952316284,
+          17.399999976158142,
+          17.899999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 96.5,
+          "min": 80.90000003576279,
+          "max": 98.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 81,
+          "min": 63.90000003576279,
+          "max": 96.39999997615814
+        },
+        "reductionPercent": 16.06217616580311,
+        "pairedDifferencesMs": [
+          0.5,
+          -0.09999996423721313,
+          14.599999964237213,
+          17.5,
+          18
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 163.30000001192093,
+          "min": 147.5999999642372,
+          "max": 230.5
+        },
+        "after": {
+          "n": 5,
+          "median": 174.19999998807907,
+          "min": 132.5,
+          "max": 209.69999998807907
+        },
+        "reductionPercent": -6.674831583198065,
+        "pairedDifferencesMs": [
+          20.80000001192093,
+          -41.10000002384186,
+          -10.899999976158142,
+          55.39999997615814,
+          23
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 247,
+          "min": 230.89999997615814,
+          "max": 330.5
+        },
+        "after": {
+          "n": 5,
+          "median": 230,
+          "min": 214.9000000357628,
+          "max": 313
+        },
+        "reductionPercent": 6.882591093117409,
+        "pairedDifferencesMs": [
+          17.5,
+          -33,
+          0.8999999761581421,
+          65.10000002384186,
+          16
+        ],
+        "status": "改善未確認"
+      }
+    ]
+  },
+  {
+    "name": "stats",
+    "file": "paired-stats.json",
+    "measuredAt": "2026-10-08T23:56:38.917Z",
+    "discardedWarmupRuns": 1,
+    "versions": {
+      "before": {
+        "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+        "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      },
+      "after": {
+        "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+        "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      }
+    },
+    "rows": [
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 79.20000004768372,
+          "min": 62.39999997615814,
+          "max": 90.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 64.80000001192093,
+          "min": 63.5,
+          "max": 78.80000001192093
+        },
+        "reductionPercent": 18.181818216026542,
+        "pairedDifferencesMs": [
+          -1.800000011920929,
+          14.400000035762787,
+          -1.5000000596046448,
+          27.19999998807907,
+          1.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 147,
+          "min": 130.69999998807907,
+          "max": 173.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 147.10000002384186,
+          "min": 130.60000002384186,
+          "max": 162.60000002384186
+        },
+        "reductionPercent": -0.06802722710330471,
+        "pairedDifferencesMs": [
+          -18.599999964237213,
+          15.800000011920929,
+          0.09999996423721313,
+          42.89999997615814,
+          -15.600000023841858
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "dataset-size",
+        "condition": "small",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 180.10000002384186,
+          "min": 162.69999998807907,
+          "max": 207
+        },
+        "after": {
+          "n": 5,
+          "median": 180.60000002384186,
+          "min": 163.20000004768372,
+          "max": 195.60000002384186
+        },
+        "reductionPercent": -0.2776235424396499,
+        "pairedDifferencesMs": [
+          -19,
+          14.899999976158142,
+          -0.5000000596046448,
+          43.60000002384186,
+          -15
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 1200.800000011921,
+          "min": 954.5999999642372,
+          "max": 1238.1000000238419
+        },
+        "after": {
+          "n": 5,
+          "median": 1199.8999999761581,
+          "min": 1172.1000000238419,
+          "max": 1339.699999988079
+        },
+        "reductionPercent": 0.07495003628862859,
+        "pairedDifferencesMs": [
+          -10.5,
+          -245.30000001192093,
+          -31.100000023841858,
+          5.800000011920929,
+          -101.59999996423721
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 1338.4000000357628,
+          "min": 1168.199999988079,
+          "max": 1485
+        },
+        "after": {
+          "n": 5,
+          "median": 1419.6000000238419,
+          "min": 1375.699999988079,
+          "max": 1517.199999988079
+        },
+        "reductionPercent": -6.066945605641764,
+        "pairedDifferencesMs": [
+          47.90000003576279,
+          -237.19999998807907,
+          -164.80000007152557,
+          -10.499999940395355,
+          -178.79999995231628
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "dataset-size",
+        "condition": "large",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 1791.2000000476837,
+          "min": 1477.5,
+          "max": 1858.0999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 1453.699999988079,
+          "min": 1409,
+          "max": 1551.5
+        },
+        "reductionPercent": 18.842117019351274,
+        "pairedDifferencesMs": [
+          370.5,
+          39,
+          216.19999998807907,
+          382.2000000476837,
+          253.80000001192093
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 224.80000001192093,
+          "min": 177.80000001192093,
+          "max": 251.79999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 204,
+          "min": 189.10000002384186,
+          "max": 442.30000001192093
+        },
+        "reductionPercent": 9.252669043958152,
+        "pairedDifferencesMs": [
+          -75.60000002384186,
+          -14.099999964237213,
+          62.699999928474426,
+          29.099999964237213,
+          -217.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 349.7999999523163,
+          "min": 287.30000001192093,
+          "max": 396.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 335.19999998807907,
+          "min": 301.9000000357628,
+          "max": 675.3999999761581
+        },
+        "reductionPercent": 4.173813598121052,
+        "pairedDifferencesMs": [
+          -133.80000007152557,
+          -14.800000011920929,
+          94.29999995231628,
+          30.30000001192093,
+          -326.39999997615814
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "dataset-size",
+        "condition": "long-cell",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 383.0999999642372,
+          "min": 321.19999998807907,
+          "max": 428.5999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 368.5,
+          "min": 335.39999997615814,
+          "max": 708.8000000119209
+        },
+        "reductionPercent": 3.8110153916993315,
+        "pairedDifferencesMs": [
+          -134.4000000357628,
+          -14.199999988079071,
+          93.19999992847443,
+          30.30000001192093,
+          -326.7000000476837
+        ],
+        "status": "改善未確認"
+      }
+    ]
+  },
+  {
+    "name": "output",
+    "file": "paired-output.json",
+    "measuredAt": "2026-10-09T00:00:40.748Z",
+    "discardedWarmupRuns": 1,
+    "versions": {
+      "before": {
+        "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+        "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      },
+      "after": {
+        "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+        "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      }
+    },
+    "rows": [
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 95.59999996423721,
+          "min": 62.19999998807907,
+          "max": 174.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 78.19999998807907,
+          "min": 64.09999996423721,
+          "max": 218.39999997615814
+        },
+        "reductionPercent": 18.20083680195321,
+        "pairedDifferencesMs": [
+          65.00000005960464,
+          -44.19999998807907,
+          -0.5,
+          0.5000000596046448,
+          -2.899999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 210.69999998807907,
+          "min": 130.19999998807907,
+          "max": 276.5
+        },
+        "after": {
+          "n": 5,
+          "median": 162.0999999642372,
+          "min": 130.89999997615814,
+          "max": 335.19999998807907
+        },
+        "reductionPercent": 23.06597058689679,
+        "pairedDifferencesMs": [
+          114.40000003576279,
+          -77,
+          -84.39999997615814,
+          1.8000000715255737,
+          -1.899999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "dataset-copy",
+        "condition": "small",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 58.90000003576279,
+          "min": 30.19999998807907,
+          "max": 77
+        },
+        "after": {
+          "n": 5,
+          "median": 58,
+          "min": 31.299999952316284,
+          "max": 88
+        },
+        "reductionPercent": 1.5280136421329824,
+        "pairedDifferencesMs": [
+          0.9000000357627869,
+          -24.19999998807907,
+          1.9000000357627869,
+          -1.5,
+          -1.0999999642372131
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 1318.0999999642372,
+          "min": 879.6999999880791,
+          "max": 1478.699999988079
+        },
+        "after": {
+          "n": 5,
+          "median": 1328.5,
+          "min": 840.8999999761581,
+          "max": 1457.1000000238419
+        },
+        "reductionPercent": -0.7890144932892011,
+        "pairedDifferencesMs": [
+          -139.00000005960464,
+          70.39999997615814,
+          96.69999998807907,
+          38.80000001192093,
+          381.5999999642372
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 1573.1000000238419,
+          "min": 972.5999999642372,
+          "max": 1649.199999988079
+        },
+        "after": {
+          "n": 5,
+          "median": 1588.800000011921,
+          "min": 1062.6000000238419,
+          "max": 1662
+        },
+        "reductionPercent": -0.9980293679893918,
+        "pairedDifferencesMs": [
+          -26.400000035762787,
+          32.299999952316284,
+          -15.699999988079071,
+          -90.00000005960464,
+          319.80000001192093
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "dataset-copy",
+        "condition": "large",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 1360.300000011921,
+          "min": 1218.9000000357628,
+          "max": 1428.0999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 309.7000000476837,
+          "min": 270.60000002384186,
+          "max": 385.5999999642372
+        },
+        "reductionPercent": 77.23296331360953,
+        "pairedDifferencesMs": [
+          1079.2999999523163,
+          1003.6000000238419,
+          833.3000000715256,
+          1038.5999999642372,
+          1149.5
+        ],
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 209.69999998807907,
+          "min": 146.30000001192093,
+          "max": 576.5
+        },
+        "after": {
+          "n": 5,
+          "median": 282,
+          "min": 192.30000001192093,
+          "max": 477.5999999642372
+        },
+        "reductionPercent": -34.47782547259467,
+        "pairedDifferencesMs": [
+          54.10000002384186,
+          294.5,
+          -212.69999998807907,
+          -46,
+          -22.100000023841858
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 333.5,
+          "min": 222.60000002384186,
+          "max": 908.8000000119209
+        },
+        "after": {
+          "n": 5,
+          "median": 430.60000002384186,
+          "min": 317.10000002384186,
+          "max": 955.8999999761581
+        },
+        "reductionPercent": -29.115442286009554,
+        "pairedDifferencesMs": [
+          -8.999999940395355,
+          478.19999998807907,
+          -622.3999999761581,
+          -94.5,
+          -31.400000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "dataset-copy",
+        "condition": "long-cell",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 80.20000004768372,
+          "min": 76.20000004768372,
+          "max": 265.4000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 77.5,
+          "min": 75.80000001192093,
+          "max": 258.89999997615814
+        },
+        "reductionPercent": 3.366583598601501,
+        "pairedDifferencesMs": [
+          33.10000002384186,
+          189.60000002384186,
+          -182.69999992847443,
+          -0.19999992847442627,
+          1.800000011920929
+        ],
+        "status": "改善未確認"
+      }
+    ]
+  },
+  {
+    "name": "panels",
+    "file": "paired-panels.json",
+    "measuredAt": "2026-10-09T00:05:28.278Z",
+    "discardedWarmupRuns": 1,
+    "versions": {
+      "before": {
+        "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+        "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      },
+      "after": {
+        "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+        "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      }
+    },
+    "rows": [
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.299999952316284,
+          "min": 31.599999964237213,
+          "max": 64.40000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 32.59999996423721,
+          "min": 32.10000002384186,
+          "max": 48.19999998807907
+        },
+        "reductionPercent": 32.50517599084627,
+        "pairedDifferencesMs": [
+          16.200000047683716,
+          31.199999928474426,
+          15.899999976158142,
+          -1,
+          0.30000001192092896
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 115.79999995231628,
+          "min": 99,
+          "max": 147.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 99.30000001192093,
+          "min": 98.89999997615814,
+          "max": 115.39999997615814
+        },
+        "reductionPercent": 14.248704617607657,
+        "pairedDifferencesMs": [
+          16.400000035762787,
+          47.60000002384186,
+          16.69999998807907,
+          -0.10000002384185791,
+          0.10000002384185791
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.39999997615814,
+          "min": 31.5,
+          "max": 94.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 32,
+          "min": 30.900000035762787,
+          "max": 46.69999998807907
+        },
+        "reductionPercent": 33.884297488092535,
+        "pairedDifferencesMs": [
+          16.099999964237213,
+          47.90000003576279,
+          15.399999976158142,
+          0.5999999642372131,
+          16.799999952316284
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 81.19999998807907,
+          "min": 63.60000002384186,
+          "max": 127.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 65.39999997615814,
+          "min": 64,
+          "max": 80
+        },
+        "reductionPercent": 19.458128096355317,
+        "pairedDifferencesMs": [
+          16.399999976158142,
+          47.60000002384186,
+          15.300000011920929,
+          -0.3999999761581421,
+          16.899999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.30000001192093,
+          "min": 29.5,
+          "max": 31
+        },
+        "after": {
+          "n": 5,
+          "median": 30.5,
+          "min": 30.200000047683716,
+          "max": 31.19999998807907
+        },
+        "reductionPercent": -0.6600659669979705,
+        "pairedDifferencesMs": [
+          0.5,
+          -0.699999988079071,
+          -0.7000000476837158,
+          -0.19999998807907104,
+          -0.19999998807907104
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 63.5,
+          "min": 63.30000001192093,
+          "max": 64.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 63.89999997615814,
+          "min": 63.80000001192093,
+          "max": 64.5
+        },
+        "reductionPercent": -0.6299212222962867,
+        "pairedDifferencesMs": [
+          0.09999996423721313,
+          -0.5999999642372131,
+          -0.30000001192092896,
+          -0.19999998807907104,
+          -0.30000001192092896
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.099999964237213,
+          "min": 28.600000023841858,
+          "max": 31
+        },
+        "after": {
+          "n": 5,
+          "median": 30.30000001192093,
+          "min": 29.80000001192093,
+          "max": 30.80000001192093
+        },
+        "reductionPercent": -0.6644519864496424,
+        "pairedDifferencesMs": [
+          -0.7000000476837158,
+          0.2999999523162842,
+          0.699999988079071,
+          0.699999988079071,
+          -1.699999988079071
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 63.5,
+          "min": 62.60000002384186,
+          "max": 64.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 63.69999998807907,
+          "min": 63.5,
+          "max": 64.20000004768372
+        },
+        "reductionPercent": -0.31496061114814333,
+        "pairedDifferencesMs": [
+          -0.7000000476837158,
+          0.09999996423721313,
+          -0.10000002384185791,
+          0.8999999761581421,
+          -1.0999999642372131
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 29.900000035762787,
+          "min": 26.19999998807907,
+          "max": 31.099999964237213
+        },
+        "after": {
+          "n": 5,
+          "median": 30.900000035762787,
+          "min": 30.600000023841858,
+          "max": 31.299999952316284
+        },
+        "reductionPercent": -3.3444816013509038,
+        "pairedDifferencesMs": [
+          -1.1999999284744263,
+          -4.400000035762787,
+          -1.600000023841858,
+          -0.3999999165534973,
+          0.19999992847442627
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 63.30000001192093,
+          "min": 59.89999997615814,
+          "max": 64.5
+        },
+        "after": {
+          "n": 5,
+          "median": 64.10000002384186,
+          "min": 63.799999952316284,
+          "max": 64.39999997615814
+        },
+        "reductionPercent": -1.2638230833653545,
+        "pairedDifferencesMs": [
+          -1.0999999642372131,
+          -4.200000047683716,
+          -1.699999988079071,
+          0.6000000834465027,
+          0.2999999523162842
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.39999997615814,
+          "min": 63.39999997615814,
+          "max": 64.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 64.79999995231628,
+          "min": 64.19999998807907,
+          "max": 65
+        },
+        "reductionPercent": -0.6211179756307891,
+        "pairedDifferencesMs": [
+          0.3999999761581421,
+          -1.399999976158142,
+          -0.5,
+          -0.5000000596046448,
+          0.10000002384185791
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 98.09999996423721,
+          "min": 96.59999996423721,
+          "max": 98.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 98.09999996423721,
+          "min": 97.39999997615814,
+          "max": 98.20000004768372
+        },
+        "reductionPercent": 0,
+        "pairedDifferencesMs": [
+          0.30000001192092896,
+          -1.5,
+          0.3999999761581421,
+          -1.0000000596046448,
+          0.800000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.900000035762787,
+          "min": 30.69999998807907,
+          "max": 31.399999976158142
+        },
+        "after": {
+          "n": 5,
+          "median": 30.5,
+          "min": 30.100000023841858,
+          "max": 47.5
+        },
+        "reductionPercent": 1.294498496115981,
+        "pairedDifferencesMs": [
+          0.5,
+          0.10000008344650269,
+          0.30000001192092896,
+          -16.69999998807907,
+          1.2999999523162842
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64,
+          "min": 63.5,
+          "max": 64.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 63.89999997615814,
+          "min": 63.30000001192093,
+          "max": 80.90000003576279
+        },
+        "reductionPercent": 0.15625003725290298,
+        "pairedDifferencesMs": [
+          0.8000000715255737,
+          -0.5999999642372131,
+          0,
+          -17.400000035762787,
+          0.7999999523162842
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31,
+          "min": 30.100000023841858,
+          "max": 31.799999952316284
+        },
+        "after": {
+          "n": 5,
+          "median": 29.700000047683716,
+          "min": 28,
+          "max": 30.80000001192093
+        },
+        "reductionPercent": 4.193548233278336,
+        "pairedDifferencesMs": [
+          1.300000011920929,
+          -0.5999999642372131,
+          0.4999999403953552,
+          3.799999952316284,
+          0.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 63.40000003576279,
+          "min": 62.69999998807907,
+          "max": 65.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 63.10000002384186,
+          "min": 60.5,
+          "max": 64.69999998807907
+        },
+        "reductionPercent": 0.47318613840962837,
+        "pairedDifferencesMs": [
+          0.40000003576278687,
+          -1.2999999523162842,
+          -0.40000003576278687,
+          4.699999988079071,
+          0.30000001192092896
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "small",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 64.5,
+          "min": 63.90000003576279,
+          "max": 64.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 64.40000003576279,
+          "min": 42.09999996423721,
+          "max": 65.69999998807907
+        },
+        "reductionPercent": 0.1550387042437413,
+        "pairedDifferencesMs": [
+          22.400000035762787,
+          -0.8999999165534973,
+          0.6000000238418579,
+          -1.199999988079071,
+          0.3999999761581421
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 96.89999997615814,
+          "min": 95.60000002384186,
+          "max": 112.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 96.5,
+          "min": 79.19999998807907,
+          "max": 111.5
+        },
+        "reductionPercent": 0.4127966731233854,
+        "pairedDifferencesMs": [
+          1.2000000476837158,
+          17.099999964237213,
+          17.200000047683716,
+          -0.8999999761581421,
+          -5.960464477539063e-8
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 97.89999997615814,
+          "min": 96,
+          "max": 113.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 97.80000001192093,
+          "min": 80.30000001192093,
+          "max": 113.09999996423721
+        },
+        "reductionPercent": 0.10214500946023126,
+        "pairedDifferencesMs": [
+          0.8000000715255737,
+          16.899999976158142,
+          16.600000023841858,
+          -1.800000011920929,
+          -5.960464477539063e-8
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.19999998807907,
+          "min": 47.60000002384186,
+          "max": 64.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 63,
+          "min": 48.19999998807907,
+          "max": 63.80000001192093
+        },
+        "reductionPercent": 1.8691588602833213,
+        "pairedDifferencesMs": [
+          0,
+          1.2999999523162842,
+          16.40000009536743,
+          0.3999999761581421,
+          -0.5999999642372131
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 131.20000004768372,
+          "min": 115.30000001192093,
+          "max": 131.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 130.89999997615814,
+          "min": 115.19999998807907,
+          "max": 146.80000001192093
+        },
+        "reductionPercent": 0.2286585910187049,
+        "pairedDifferencesMs": [
+          -15.599999964237213,
+          0.3999999761581421,
+          16.400000035762787,
+          0,
+          0.10000002384185791
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 602.6999999880791,
+          "min": 477.60000002384186,
+          "max": 792.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 503.0999999642372,
+          "min": 473.19999998807907,
+          "max": 1310.5999999642372
+        },
+        "reductionPercent": 16.525634648384248,
+        "pairedDifferencesMs": [
+          -517.6999999284744,
+          105.50000005960464,
+          111.69999998807907,
+          -175.70000004768372,
+          4.400000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 716.1000000238419,
+          "min": 589.5,
+          "max": 948.6000000238419
+        },
+        "after": {
+          "n": 5,
+          "median": 658.2999999523163,
+          "min": 593.0999999642372,
+          "max": 1508.8999999761581
+        },
+        "reductionPercent": 8.071498403798518,
+        "pairedDifferencesMs": [
+          -560.2999999523163,
+          123.00000005960464,
+          110.00000005960464,
+          -211.20000004768372,
+          -50.40000003576279
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 95.30000001192093,
+          "min": 60.30000001192093,
+          "max": 109.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 64.40000003576279,
+          "min": 60.799999952316284,
+          "max": 64.79999995231628
+        },
+        "reductionPercent": 32.42392442003453,
+        "pairedDifferencesMs": [
+          2.700000047683716,
+          45.30000001192093,
+          -3.5,
+          30.899999976158142,
+          31.500000059604645
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 125.69999998807907,
+          "min": 94.60000002384186,
+          "max": 142.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 97.70000004768372,
+          "min": 94.29999995231628,
+          "max": 98.19999998807907
+        },
+        "reductionPercent": 22.275258506802526,
+        "pairedDifferencesMs": [
+          36.10000002384186,
+          44.19999998807907,
+          -2.5,
+          27.999999940395355,
+          26.400000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.69999998807907,
+          "min": 29.19999998807907,
+          "max": 32.5
+        },
+        "after": {
+          "n": 5,
+          "median": 31.600000023841858,
+          "min": 28.69999998807907,
+          "max": 31.80000001192093
+        },
+        "reductionPercent": 0.3154573005514782,
+        "pairedDifferencesMs": [
+          2.5,
+          -2,
+          0.19999998807907104,
+          -0.10000002384185791,
+          0.8999999761581421
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.09999996423721,
+          "min": 62.5,
+          "max": 65.79999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 65,
+          "min": 62.299999952316284,
+          "max": 65.40000003576279
+        },
+        "reductionPercent": 0.15360977617841515,
+        "pairedDifferencesMs": [
+          2.3000000715255737,
+          -1.9000000357627869,
+          0.3999999761581421,
+          0.09999996423721313,
+          0.3999999165534973
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 30.400000035762787,
+          "max": 31.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 30.899999976158142,
+          "min": 29.600000023841858,
+          "max": 31.600000023841858
+        },
+        "reductionPercent": 1.9047619804503428,
+        "pairedDifferencesMs": [
+          1.7999999523162842,
+          -0.3999999761581421,
+          0.09999996423721313,
+          0.9000000357627869,
+          -0.10000002384185791
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 63.60000002384186,
+          "max": 64.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 64.89999997615814,
+          "min": 62.60000002384186,
+          "max": 65.09999996423721
+        },
+        "reductionPercent": -0.3091189924511915,
+        "pairedDifferencesMs": [
+          2.099999964237213,
+          -0.30000001192092896,
+          -0.6000000238418579,
+          -0.2999999523162842,
+          -0.10000002384185791
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 31.30000001192093,
+          "max": 32.59999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 31.5,
+          "min": 31,
+          "max": 31.899999976158142
+        },
+        "reductionPercent": 0,
+        "pairedDifferencesMs": [
+          0.5,
+          -0.4999999403953552,
+          1.0999999642372131,
+          -0.10000002384185791,
+          0
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.90000003576279,
+          "min": 64.60000002384186,
+          "max": 66
+        },
+        "after": {
+          "n": 5,
+          "median": 64.89999997615814,
+          "min": 64,
+          "max": 65.19999998807907
+        },
+        "reductionPercent": 9.184074690685026e-8,
+        "pairedDifferencesMs": [
+          0.9000000357627869,
+          -0.5,
+          1.100000023841858,
+          0.5999999642372131,
+          -0.2999999523162842
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 64.19999998807907,
+          "max": 65
+        },
+        "after": {
+          "n": 5,
+          "median": 64.5,
+          "min": 64.10000002384186,
+          "max": 64.90000003576279
+        },
+        "reductionPercent": 0.3091189924511915,
+        "pairedDifferencesMs": [
+          -0.09999996423721313,
+          -0.20000004768371582,
+          0.19999998807907104,
+          0.3999999761581421,
+          0.6999999284744263
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 98.09999996423721,
+          "min": 97.39999997615814,
+          "max": 98.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 97.89999997615814,
+          "min": 97.30000001192093,
+          "max": 98.20000004768372
+        },
+        "reductionPercent": 0.20387358629152083,
+        "pairedDifferencesMs": [
+          -0.10000002384185791,
+          0.09999996423721313,
+          0.699999988079071,
+          0.40000003576278687,
+          -0.10000008344650269
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 231.30000001192093,
+          "min": 214.89999997615814,
+          "max": 263.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 230.9000000357628,
+          "min": 214.9000000357628,
+          "max": 346.10000002384186
+        },
+        "reductionPercent": 0.17293557117921599,
+        "pairedDifferencesMs": [
+          -82.19999998807907,
+          17.80000001192093,
+          -0.30000001192092896,
+          -16.000000059604645,
+          0.09999996423721313
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 264.5,
+          "min": 248.19999998807907,
+          "max": 297.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 265,
+          "min": 248.19999998807907,
+          "max": 379.5
+        },
+        "reductionPercent": -0.1890359168241966,
+        "pairedDifferencesMs": [
+          -82.30000001192093,
+          17.099999964237213,
+          -0.6000000238418579,
+          -16.80000001192093,
+          0
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.099999964237213,
+          "min": 30.30000001192093,
+          "max": 31.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 30.600000023841858,
+          "min": 29.69999998807907,
+          "max": 31.30000001192093
+        },
+        "reductionPercent": 1.6077168519945968,
+        "pairedDifferencesMs": [
+          0.9000000357627869,
+          0.09999996423721313,
+          0.5999999642372131,
+          0,
+          -0.30000001192092896
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.29999995231628,
+          "min": 63.80000001192093,
+          "max": 64.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 63.90000003576279,
+          "min": 63.19999998807907,
+          "max": 64.60000002384186
+        },
+        "reductionPercent": 0.6220838520219751,
+        "pairedDifferencesMs": [
+          0.6000000238418579,
+          -5.960464477539063e-8,
+          0.6000000238418579,
+          0,
+          0.30000001192092896
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "large",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 231.80000001192093,
+          "min": 231.5,
+          "max": 281.0999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 247.80000001192093,
+          "min": 230.9000000357628,
+          "max": 346.2000000476837
+        },
+        "reductionPercent": -6.9025021566769444,
+        "pairedDifferencesMs": [
+          -65.1000000834465,
+          0.8999999761581421,
+          0.19999998807907104,
+          -33.80000001192093,
+          0.09999996423721313
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 230.30000001192093,
+          "min": 229.4000000357628,
+          "max": 378.5
+        },
+        "after": {
+          "n": 5,
+          "median": 230,
+          "min": 229.10000002384186,
+          "max": 361.69999998807907
+        },
+        "reductionPercent": 0.13026487707572737,
+        "pairedDifferencesMs": [
+          16.80000001192093,
+          17.600000023841858,
+          0.800000011920929,
+          1.199999988079071,
+          -1.699999988079071
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 230.9000000357628,
+          "min": 230,
+          "max": 379.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 230.19999998807907,
+          "min": 229.60000002384186,
+          "max": 362.30000001192093
+        },
+        "reductionPercent": 0.30316156239727016,
+        "pairedDifferencesMs": [
+          17.399999976158142,
+          17.80000001192093,
+          1.100000023841858,
+          1,
+          -1.399999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 81.40000003576279,
+          "min": 80.09999996423721,
+          "max": 96.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 81.60000002384186,
+          "min": 81.5,
+          "max": 97.69999998807907
+        },
+        "reductionPercent": -0.24570023094742233,
+        "pairedDifferencesMs": [
+          -0.7999999523162842,
+          -0.19999992847442627,
+          -0.6000000238418579,
+          0.19999998807907104,
+          -1.6000000834465027
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 157.5,
+          "min": 154.89999997615814,
+          "max": 163.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 157.10000002384186,
+          "min": 155.9000000357628,
+          "max": 175.5999999642372
+        },
+        "reductionPercent": 0.2539682388305664,
+        "pairedDifferencesMs": [
+          -11.999999940395355,
+          -12.599999964237213,
+          2.5,
+          -2.200000047683716,
+          1.0999999642372131
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 127.19999998807907,
+          "min": 110.09999996423721,
+          "max": 131.79999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 127.69999998807907,
+          "min": 112.10000002384186,
+          "max": 158.10000002384186
+        },
+        "reductionPercent": -0.39308176104312814,
+        "pairedDifferencesMs": [
+          -26.300000071525574,
+          1.0999999642372131,
+          -3.300000011920929,
+          14.199999988079071,
+          -16.900000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 191.69999998807907,
+          "min": 174.79999995231628,
+          "max": 205.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 207.30000001192093,
+          "min": 175.10000002384186,
+          "max": 238.19999998807907
+        },
+        "reductionPercent": -8.137715192911815,
+        "pairedDifferencesMs": [
+          -32.80000001192093,
+          0.09999996423721313,
+          -18.30000001192093,
+          17.600000023841858,
+          -32.500000059604645
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.60000002384186,
+          "min": 31.600000023841858,
+          "max": 64.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 60.09999996423721,
+          "min": 31.900000035762787,
+          "max": 64.90000003576279
+        },
+        "reductionPercent": 6.965944362142158,
+        "pairedDifferencesMs": [
+          17,
+          32.69999998807907,
+          0.19999998807907104,
+          -33.30000001192093,
+          4.600000023841858
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 97.80000001192093,
+          "min": 64.90000003576279,
+          "max": 98
+        },
+        "after": {
+          "n": 5,
+          "median": 93.19999998807907,
+          "min": 64.80000001192093,
+          "max": 98.19999998807907
+        },
+        "reductionPercent": 4.7034765064224535,
+        "pairedDifferencesMs": [
+          17.099999964237213,
+          33.19999998807907,
+          5.960464477539063e-8,
+          -33.299999952316284,
+          4.800000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.30000001192093,
+          "min": 31.799999952316284,
+          "max": 65.5
+        },
+        "after": {
+          "n": 5,
+          "median": 50.299999952316284,
+          "min": 31.5,
+          "max": 65.10000002384186
+        },
+        "reductionPercent": 21.772939435472953,
+        "pairedDifferencesMs": [
+          32.5,
+          32.60000002384186,
+          0.3999999761581421,
+          -32.90000003576279,
+          14.400000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 97.69999998807907,
+          "min": 64.29999995231628,
+          "max": 98.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 83.69999998807907,
+          "min": 64,
+          "max": 98.30000001192093
+        },
+        "reductionPercent": 14.329580349752527,
+        "pairedDifferencesMs": [
+          33.89999997615814,
+          32.19999998807907,
+          0.6000000238418579,
+          -33.40000003576279,
+          14
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.899999976158142,
+          "min": 30.80000001192093,
+          "max": 64.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 30.5,
+          "min": 29.30000001192093,
+          "max": 31.600000023841858
+        },
+        "reductionPercent": 1.2944983057177168,
+        "pairedDifferencesMs": [
+          35.39999997615814,
+          -0.7999999523162842,
+          -0.7000000476837158,
+          0.8999999761581421,
+          0.7999999523162842
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.30000001192093,
+          "min": 63.59999996423721,
+          "max": 98.09999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 64.10000002384186,
+          "min": 62.69999998807907,
+          "max": 65
+        },
+        "reductionPercent": 0.3110419720715271,
+        "pairedDifferencesMs": [
+          35.39999997615814,
+          -0.5,
+          -1.199999988079071,
+          0.9999999403953552,
+          0.2999999523162842
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 30,
+          "max": 31.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 31.399999976158142,
+          "min": 24.099999964237213,
+          "max": 31.599999964237213
+        },
+        "reductionPercent": 0.3174603931487553,
+        "pairedDifferencesMs": [
+          -0.3999999761581421,
+          -0.09999996423721313,
+          7.5,
+          -1.300000011920929,
+          0.40000003576278687
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 63.39999997615814,
+          "max": 65.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 64.10000002384186,
+          "min": 57.39999997615814,
+          "max": 64.89999997615814
+        },
+        "reductionPercent": 0.9273569773535745,
+        "pairedDifferencesMs": [
+          0.09999996423721313,
+          -0.10000002384185791,
+          7.5,
+          -0.6000000238418579,
+          0.20000004768371582
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 131.0999999642372,
+          "min": 114.89999997615814,
+          "max": 131.5
+        },
+        "after": {
+          "n": 5,
+          "median": 131.5999999642372,
+          "min": 114.59999996423721,
+          "max": 163
+        },
+        "reductionPercent": -0.3813882533458391,
+        "pairedDifferencesMs": [
+          -31.5,
+          -16.599999964237213,
+          -0.6000000238418579,
+          16.500000059604645,
+          -16.400000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 164.19999998807907,
+          "min": 148.19999998807907,
+          "max": 164.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 164.60000002384186,
+          "min": 147.5,
+          "max": 196.5
+        },
+        "reductionPercent": -0.24360538111560712,
+        "pairedDifferencesMs": [
+          -31.599999964237213,
+          -15.600000023841858,
+          -0.7000000476837158,
+          17,
+          -16.30000001192093
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.69999998807907,
+          "min": 47.69999998807907,
+          "max": 64.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 48.39999997615814,
+          "min": 47.89999997615814,
+          "max": 64.69999998807907
+        },
+        "reductionPercent": 0.6160164517338067,
+        "pairedDifferencesMs": [
+          0.10000002384185791,
+          1.0000000596046448,
+          0.3999999761581421,
+          -1.100000023841858,
+          0.30000001192092896
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 82.10000002384186,
+          "min": 81.5,
+          "max": 98.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 81.89999997615814,
+          "min": 81.19999998807907,
+          "max": 97.09999996423721
+        },
+        "reductionPercent": 0.24360541732720556,
+        "pairedDifferencesMs": [
+          1.0000000596046448,
+          1.2000000476837158,
+          0.4999999403953552,
+          -1.300000011920929,
+          0.20000004768371582
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.80000001192093,
+          "min": 29.400000035762787,
+          "max": 31.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 30.80000001192093,
+          "min": 30.5,
+          "max": 31.099999964237213
+        },
+        "reductionPercent": 0,
+        "pairedDifferencesMs": [
+          -1.0999999642372131,
+          -0.2999999523162842,
+          0.09999996423721313,
+          0.19999998807907104,
+          0.19999998807907104
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.39999997615814,
+          "min": 62.700000047683716,
+          "max": 64.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 64,
+          "min": 63.19999998807907,
+          "max": 64.29999995231628
+        },
+        "reductionPercent": 0.6211179756307891,
+        "pairedDifferencesMs": [
+          -0.4999999403953552,
+          0.10000008344650269,
+          0.6000000238418579,
+          0.10000002384185791,
+          0.19999998807907104
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "long-cell",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 64.70000004768372,
+          "min": 64.30000001192093,
+          "max": 65.59999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 65.19999998807907,
+          "min": 63.89999997615814,
+          "max": 65.39999997615814
+        },
+        "reductionPercent": -0.7727974343537198,
+        "pairedDifferencesMs": [
+          0.8000000715255737,
+          -0.6000000238418579,
+          0.30000001192092896,
+          -1.0999999642372131,
+          0.5999999642372131
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 147.10000002384186,
+          "min": 130.89999997615814,
+          "max": 164
+        },
+        "after": {
+          "n": 5,
+          "median": 131,
+          "min": 130.9000000357628,
+          "max": 163.80000001192093
+        },
+        "reductionPercent": 10.944935432516916,
+        "pairedDifferencesMs": [
+          -0.10000002384185791,
+          -32.90000003576279,
+          16.19999998807907,
+          16.399999916553497,
+          33
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 147.69999998807907,
+          "min": 131.30000001192093,
+          "max": 164.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 133.4000000357628,
+          "min": 131.30000001192093,
+          "max": 164.4000000357628
+        },
+        "reductionPercent": 9.681787375403143,
+        "pairedDifferencesMs": [
+          0.10000002384185791,
+          -33.10000002384186,
+          16.399999976158142,
+          14.599999964237213,
+          32.80000001192093
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 81.09999996423721,
+          "min": 65.09999996423721,
+          "max": 81.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 79.89999997615814,
+          "min": 64.59999996423721,
+          "max": 82
+        },
+        "reductionPercent": 1.4796547331790837,
+        "pairedDifferencesMs": [
+          0.5999999642372131,
+          -0.10000002384185791,
+          -0.2999999523162842,
+          16.200000047683716,
+          1.600000023841858
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 164.30000001192093,
+          "min": 131.89999997615814,
+          "max": 164.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 146.79999995231628,
+          "min": 131.39999997615814,
+          "max": 163.79999995231628
+        },
+        "reductionPercent": 10.651247753094898,
+        "pairedDifferencesMs": [
+          0.6000000238418579,
+          0.09999996423721313,
+          15.400000035762787,
+          17,
+          18.100000083446503
+        ],
+        "status": "改善未確認"
+      }
+    ]
+  },
+  {
+    "name": "cache",
+    "file": "paired-cache.json",
+    "measuredAt": "2026-10-09T00:05:38.506Z",
+    "discardedWarmupRuns": 0,
+    "versions": {
+      "before": {
+        "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+        "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      },
+      "after": {
+        "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+        "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      }
+    },
+    "rows": [
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 119.5,
+          "min": 110.80000001192093,
+          "max": 173.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 148.0999999642372,
+          "min": 114,
+          "max": 161.29999995231628
+        },
+        "reductionPercent": -23.93305436337842,
+        "pairedDifferencesMs": [
+          59.39999997615814,
+          12.200000047683716,
+          -41.89999997615814,
+          -6.599999964237213,
+          -38
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "cold-context",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 97.39999997615814,
+          "min": 80.79999995231628,
+          "max": 130.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 97.40000003576279,
+          "min": 96.90000003576279,
+          "max": 98.30000001192093
+        },
+        "reductionPercent": -6.119573387061686e-8,
+        "pairedDifferencesMs": [
+          31.899999976158142,
+          0.4999999403953552,
+          0.2999999523162842,
+          -16.600000083446503,
+          -16.200000047683716
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 254.19999998807907,
+          "min": 228.5,
+          "max": 340.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 281.5,
+          "min": 248.5999999642372,
+          "max": 295.19999998807907
+        },
+        "reductionPercent": -10.73957514288009,
+        "pairedDifferencesMs": [
+          92.10000002384186,
+          12.699999988079071,
+          -41,
+          -24.699999928474426,
+          -53.69999998807907
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 114.69999998807907,
+          "min": 113.79999995231628,
+          "max": 130.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 114.89999997615814,
+          "min": 114,
+          "max": 142.5
+        },
+        "reductionPercent": -0.17436790592838475,
+        "pairedDifferencesMs": [
+          -0.6000000238418579,
+          -0.19999998807907104,
+          15.900000035762787,
+          -28,
+          15.500000059604645
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 47.700000047683716,
+          "min": 31.700000047683716,
+          "max": 48.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 31.600000023841858,
+          "min": 31.100000023841858,
+          "max": 48.09999996423721
+        },
+        "reductionPercent": 33.75262056131521,
+        "pairedDifferencesMs": [
+          -15.899999976158142,
+          0.10000002384185791,
+          16.200000047683716,
+          0.40000003576278687,
+          17.099999964237213
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 198.19999998807907,
+          "min": 182,
+          "max": 215.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 183.10000002384186,
+          "min": 182,
+          "max": 226.19999998807907
+        },
+        "reductionPercent": 7.618567086349858,
+        "pairedDifferencesMs": [
+          -15.700000047683716,
+          -1.100000023841858,
+          33.10000002384186,
+          -28,
+          32.19999998807907
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 96.39999997615814,
+          "min": 80.39999997615814,
+          "max": 110.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 80.10000002384186,
+          "min": 79.69999998807907,
+          "max": 96.30000001192093
+        },
+        "reductionPercent": 16.90871364766352,
+        "pairedDifferencesMs": [
+          15.5,
+          16.69999998807907,
+          31,
+          16.399999976158142,
+          -15.900000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "browser-cache",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 80.89999997615814,
+          "min": 74.30000001192093,
+          "max": 104.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 81.09999996423721,
+          "min": 80.60000002384186,
+          "max": 81.39999997615814
+        },
+        "reductionPercent": -0.24721877396540493,
+        "pairedDifferencesMs": [
+          -6.799999952316284,
+          0.6000000238418579,
+          22.899999976158142,
+          -0.5,
+          0
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 213.5999999642372,
+          "min": 197.80000001192093,
+          "max": 272.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 197.30000001192093,
+          "min": 196.39999997615814,
+          "max": 214.30000001192093
+        },
+        "reductionPercent": 7.631086121275923,
+        "pairedDifferencesMs": [
+          15.5,
+          17.19999998807907,
+          75.90000003576279,
+          15.699999988079071,
+          -16.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 97.90000003576279,
+          "min": 97.5,
+          "max": 134.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 98,
+          "min": 97.20000004768372,
+          "max": 98.80000001192093
+        },
+        "reductionPercent": -0.10214500939804212,
+        "pairedDifferencesMs": [
+          -0.09999996423721313,
+          -1,
+          35.59999996423721,
+          1.199999988079071,
+          -0.19999998807907104
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 30.19999998807907,
+          "max": 47.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 31.099999964237213,
+          "min": 30.80000001192093,
+          "max": 32.09999996423721
+        },
+        "reductionPercent": 1.2698413833739266,
+        "pairedDifferencesMs": [
+          -1.5999999642372131,
+          -0.5999999642372131,
+          16.200000047683716,
+          0.699999988079071,
+          0.5999999642372131
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 165.60000002384186,
+          "min": 164.5,
+          "max": 219.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 165.30000001192093,
+          "min": 164.60000002384186,
+          "max": 165.9000000357628
+        },
+        "reductionPercent": 0.18115942746240168,
+        "pairedDifferencesMs": [
+          -0.800000011920929,
+          -0.30000001192092896,
+          54.5,
+          0.9000000357627869,
+          0.699999988079071
+        ],
+        "status": "改善未確認"
+      }
+    ]
+  },
+  {
+    "name": "unquoted",
+    "file": "paired-unquoted.json",
+    "measuredAt": "2026-10-09T00:06:04.940Z",
+    "discardedWarmupRuns": 0,
+    "versions": {
+      "before": {
+        "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+        "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      },
+      "after": {
+        "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+        "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+        "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+      }
+    },
+    "rows": [
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 69.19999998807907,
+          "min": 31.80000001192093,
+          "max": 71
+        },
+        "after": {
+          "n": 5,
+          "median": 70.09999996423721,
+          "min": 35.10000002384186,
+          "max": 71.09999996423721
+        },
+        "reductionPercent": -1.3005780004525767,
+        "pairedDifferencesMs": [
+          -39.299999952316284,
+          0,
+          0.9000000357627869,
+          0.5,
+          2.299999952316284
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 103.30000001192093,
+          "min": 57.10000002384186,
+          "max": 105
+        },
+        "after": {
+          "n": 5,
+          "median": 103.59999996423721,
+          "min": 66.80000001192093,
+          "max": 104.59999996423721
+        },
+        "reductionPercent": -0.29041621711680915,
+        "pairedDifferencesMs": [
+          -47.499999940395355,
+          1.5000000596046448,
+          0.5,
+          1.300000011920929,
+          -5.960464477539063e-8
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32,
+          "min": 31.30000001192093,
+          "max": 48.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 31.30000001192093,
+          "min": 31,
+          "max": 49.69999998807907
+        },
+        "reductionPercent": 2.187499962747097,
+        "pairedDifferencesMs": [
+          0.30000001192092896,
+          0.3999999761581421,
+          -17.799999952316284,
+          1,
+          0.800000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.30000001192093,
+          "min": 64.60000002384186,
+          "max": 82.5
+        },
+        "after": {
+          "n": 5,
+          "median": 65.09999996423721,
+          "min": 64.10000002384186,
+          "max": 82.89999997615814
+        },
+        "reductionPercent": 0.30627878659602537,
+        "pairedDifferencesMs": [
+          0.10000002384185791,
+          1,
+          -17.69999998807907,
+          0.20000004768371582,
+          2.099999964237213
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.19999998807907,
+          "min": 47.5,
+          "max": 64.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 47.80000001192093,
+          "min": 32,
+          "max": 62.39999997615814
+        },
+        "reductionPercent": 0.8298754694130103,
+        "pairedDifferencesMs": [
+          0.30000001192092896,
+          15.5,
+          -0.699999988079071,
+          0.5,
+          16.900000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 116.10000002384186,
+          "min": 114.10000002384186,
+          "max": 131.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 115.19999998807907,
+          "min": 98.60000002384186,
+          "max": 130.39999997615814
+        },
+        "reductionPercent": 0.7751938290938555,
+        "pairedDifferencesMs": [
+          -0.5,
+          15.5,
+          -0.19999998807907104,
+          0.9000000357627869,
+          16.900000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 179,
+          "min": 164.19999998807907,
+          "max": 180.0999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 165.5999999642372,
+          "min": 154.4000000357628,
+          "max": 171.0999999642372
+        },
+        "reductionPercent": 7.486033539532283,
+        "pairedDifferencesMs": [
+          18.100000023841858,
+          -1.5,
+          9,
+          14.400000035762787,
+          12.899999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 202.69999998807907,
+          "min": 197.19999998807907,
+          "max": 204.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 188.80000001192093,
+          "min": 187.39999997615814,
+          "max": 197.5
+        },
+        "reductionPercent": 6.857424754304692,
+        "pairedDifferencesMs": [
+          16.900000035762787,
+          5.199999988079071,
+          6.599999964237213,
+          13.899999976158142,
+          12.599999964237213
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32,
+          "min": 31.600000023841858,
+          "max": 32.5
+        },
+        "after": {
+          "n": 5,
+          "median": 32.19999998807907,
+          "min": 31.30000001192093,
+          "max": 32.80000001192093
+        },
+        "reductionPercent": -0.624999962747097,
+        "pairedDifferencesMs": [
+          -0.5999999642372131,
+          -0.19999998807907104,
+          -0.800000011920929,
+          0,
+          1.199999988079071
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.30000001192093,
+          "min": 64.29999995231628,
+          "max": 66.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 65.69999998807907,
+          "min": 64.69999998807907,
+          "max": 66.10000002384186
+        },
+        "reductionPercent": -0.6125573906357114,
+        "pairedDifferencesMs": [
+          -0.5999999642372131,
+          0.30000001192092896,
+          -0.800000011920929,
+          -0.7000000476837158,
+          1.699999988079071
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 281.5,
+          "min": 264.30000001192093,
+          "max": 313.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 264.69999998807907,
+          "min": 263.89999997615814,
+          "max": 281.2999999523163
+        },
+        "reductionPercent": 5.968028423417737,
+        "pairedDifferencesMs": [
+          32.6000000834465,
+          -0.3999999761581421,
+          17.600000023841858,
+          33.60000002384186,
+          -16.5
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 348.4000000357628,
+          "min": 337.9000000357628,
+          "max": 389.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 339.89999997615814,
+          "min": 337.30000001192093,
+          "max": 353.5999999642372
+        },
+        "reductionPercent": 2.4397244715075006,
+        "pairedDifferencesMs": [
+          36.000000059604645,
+          0.6000000238418579,
+          8.900000035762787,
+          36.200000047683716,
+          -12.899999916553497
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 128.80000001192093,
+          "min": 127.30000001192093,
+          "max": 137.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 125.90000003576279,
+          "min": 112.40000003576279,
+          "max": 133
+        },
+        "reductionPercent": 2.251552776311907,
+        "pairedDifferencesMs": [
+          16.399999976158142,
+          1.399999976158142,
+          11.400000035762787,
+          -1.9999999403953552,
+          3.900000035762787
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 159.19999998807907,
+          "min": 157.10000002384186,
+          "max": 161.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 158.80000001192093,
+          "min": 146.19999998807907,
+          "max": 162
+        },
+        "reductionPercent": 0.25125626644980786,
+        "pairedDifferencesMs": [
+          14.900000035762787,
+          1.399999976158142,
+          0.19999998807907104,
+          -1.699999988079071,
+          -2.800000011920929
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 30.80000001192093,
+          "max": 31.700000047683716
+        },
+        "after": {
+          "n": 5,
+          "median": 31.599999964237213,
+          "min": 31.299999952316284,
+          "max": 32.19999998807907
+        },
+        "reductionPercent": -0.3174602039276607,
+        "pairedDifferencesMs": [
+          -5.960464477539063e-8,
+          -0.10000002384185791,
+          0.10000008344650269,
+          -0.6000000238418579,
+          -0.4999999403953552
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.80000001192093,
+          "min": 64.09999996423721,
+          "max": 65.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 64.5,
+          "max": 65
+        },
+        "reductionPercent": 0.15432102441892193,
+        "pairedDifferencesMs": [
+          0.09999996423721313,
+          -0.19999998807907104,
+          0.800000011920929,
+          0.19999998807907104,
+          -0.699999988079071
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 133.89999997615814,
+          "min": 130.80000001192093,
+          "max": 138.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 132.5,
+          "min": 117.09999996423721,
+          "max": 138
+        },
+        "reductionPercent": 1.0455563677426605,
+        "pairedDifferencesMs": [
+          -3.400000035762787,
+          14.600000023841858,
+          6.200000047683716,
+          -7.199999988079071,
+          3.899999976158142
+        ],
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 198.0999999642372,
+          "min": 197.80000001192093,
+          "max": 214.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 197.80000001192093,
+          "min": 181.5,
+          "max": 214.89999997615814
+        },
+        "reductionPercent": 0.15143864329653856,
+        "pairedDifferencesMs": [
+          -17.099999964237213,
+          16.599999964237213,
+          16.600000023841858,
+          0,
+          0.8999999761581421
+        ],
+        "status": "改善未確認"
+      }
+    ]
+  }
+]

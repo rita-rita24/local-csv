@@ -1,0 +1,3694 @@
+[
+  {
+    "name": "initial-cache",
+    "beforeFile": "before-cache.json",
+    "afterFile": "final-cache.json",
+    "discardedWarmupRuns": 0,
+    "beforeAt": "2026-10-08T16:16:14.007Z",
+    "afterAt": "2026-10-08T17:23:05.926Z",
+    "beforeVersions": {
+      "local-csv.html": "8237680c8acbbe2fbd8701d45c0f15e2a456660588e6fb2e6ea12048b6550a88",
+      "index.html": "042443d6f4795dfe2393dd4d63e6ab8451d5e61bca162d65fd4e50eebee5c335",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "afterVersions": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "rows": [
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 177.30000001192093,
+          "min": 154.80000001192093,
+          "max": 220.4000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 182.5999999642372,
+          "min": 132.39999997615814,
+          "max": 317
+        },
+        "reductionPercent": -2.9892836728482424,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "cold-context",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 129.5,
+          "min": 112.39999997615814,
+          "max": 228.29999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 97,
+          "min": 81.19999998807907,
+          "max": 104.89999997615814
+        },
+        "reductionPercent": 25.096525096525095,
+        "status": "改善確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 369.69999998807907,
+          "min": 306.30000001192093,
+          "max": 438.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 316.30000001192093,
+          "min": 268,
+          "max": 451.10000002384186
+        },
+        "reductionPercent": 14.444143894476607,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 163.0999999642372,
+          "min": 130.89999997615814,
+          "max": 189.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 129.89999997615814,
+          "min": 114.10000002384186,
+          "max": 146
+        },
+        "reductionPercent": 20.35561005233526,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 45.80000001192093,
+          "min": 45,
+          "max": 48.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 46.80000001192093,
+          "min": 30.399999976158142,
+          "max": 48.299999952316284
+        },
+        "reductionPercent": -2.183406112968816,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 246.5999999642372,
+          "min": 215.19999998807907,
+          "max": 273.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 198.80000001192093,
+          "min": 197.39999997615814,
+          "max": 228.89999997615814
+        },
+        "reductionPercent": 19.38361717731079,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 95.60000002384186,
+          "min": 95,
+          "max": 127.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 95.40000003576279,
+          "min": 78.19999998807907,
+          "max": 95.59999996423721
+        },
+        "reductionPercent": 0.20920500839873712,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "browser-cache",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 97.19999998807907,
+          "min": 81.5,
+          "max": 113.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 80.60000002384186,
+          "min": 80.39999997615814,
+          "max": 81
+        },
+        "reductionPercent": 17.078189265713057,
+        "status": "改善確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 230.5,
+          "min": 213.80000001192093,
+          "max": 278.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 213.30000001192093,
+          "min": 196.69999998807907,
+          "max": 213.69999998807907
+        },
+        "reductionPercent": 7.462039040381375,
+        "status": "改善確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 129.5999999642372,
+          "min": 97.89999997615814,
+          "max": 174.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 97.80000001192093,
+          "min": 95.80000001192093,
+          "max": 99.30000001192093
+        },
+        "reductionPercent": 24.537037007014977,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 42.89999997615814,
+          "min": 30.19999998807907,
+          "max": 47.299999952316284
+        },
+        "after": {
+          "n": 5,
+          "median": 31.30000001192093,
+          "min": 30.200000047683716,
+          "max": 31.5
+        },
+        "reductionPercent": 27.039626971291288,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 197.39999997615814,
+          "min": 181.30000001192093,
+          "max": 291
+        },
+        "after": {
+          "n": 5,
+          "median": 165.19999998807907,
+          "min": 163,
+          "max": 165.5
+        },
+        "reductionPercent": 16.312056733519842,
+        "status": "改善確認"
+      }
+    ]
+  },
+  {
+    "name": "real-file",
+    "beforeFile": "before-files.json",
+    "afterFile": "final-files.json",
+    "discardedWarmupRuns": 0,
+    "beforeAt": "2026-10-08T16:33:45.466Z",
+    "afterAt": "2026-10-08T16:55:46.928Z",
+    "beforeVersions": {
+      "local-csv.html": "8237680c8acbbe2fbd8701d45c0f15e2a456660588e6fb2e6ea12048b6550a88",
+      "index.html": "042443d6f4795dfe2393dd4d63e6ab8451d5e61bca162d65fd4e50eebee5c335",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "afterVersions": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "rows": [
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 40.39999997615814,
+          "min": 32,
+          "max": 69.59999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 35,
+          "min": 30.100000023841858,
+          "max": 70.69999998807907
+        },
+        "reductionPercent": 13.366336582536945,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 73.09999996423721,
+          "min": 62.299999952316284,
+          "max": 102.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 65.80000001192093,
+          "min": 59.700000047683716,
+          "max": 103.89999997615814
+        },
+        "reductionPercent": 9.98632004909394,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.200000047683716,
+          "min": 30.5,
+          "max": 63.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 46.80000001192093,
+          "min": 31.80000001192093,
+          "max": 48.30000001192093
+        },
+        "reductionPercent": -49.99999980895947,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 64.19999998807907,
+          "max": 96.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 78.69999998807907,
+          "min": 65.5,
+          "max": 80.60000002384186
+        },
+        "reductionPercent": -21.638330761328422,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.5,
+          "min": 47,
+          "max": 64.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 48.40000003576279,
+          "min": 47.39999997615814,
+          "max": 59.60000002384186
+        },
+        "reductionPercent": 0.2061854932726044,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 116.89999997615814,
+          "min": 114.10000002384186,
+          "max": 131.5999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 116.5,
+          "min": 115,
+          "max": 143.4000000357628
+        },
+        "reductionPercent": 0.342172776937316,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 221.4000000357628,
+          "min": 209.10000002384186,
+          "max": 223.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 194.89999997615814,
+          "min": 174.39999997615814,
+          "max": 203.19999998807907
+        },
+        "reductionPercent": 11.969286384518561,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 252.30000001192093,
+          "min": 241.19999998807907,
+          "max": 254.5
+        },
+        "after": {
+          "n": 5,
+          "median": 228.80000001192093,
+          "min": 208.20000004768372,
+          "max": 236.19999998807907
+        },
+        "reductionPercent": 9.314308362619757,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.5,
+          "min": 29.69999998807907,
+          "max": 64
+        },
+        "after": {
+          "n": 5,
+          "median": 32.60000002384186,
+          "min": 32.09999996423721,
+          "max": 49.09999996423721
+        },
+        "reductionPercent": -0.30769238105187047,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.80000001192093,
+          "min": 63.60000002384186,
+          "max": 98.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 65.90000003576279,
+          "min": 63.60000002384186,
+          "max": 80.59999996423721
+        },
+        "reductionPercent": -0.1519757200968708,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 870.1999999880791,
+          "min": 847.5,
+          "max": 888.1000000238419
+        },
+        "after": {
+          "n": 5,
+          "median": 248.69999998807907,
+          "min": 247.39999997615814,
+          "max": 281.2000000476837
+        },
+        "reductionPercent": 71.42036313588991,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 959.3000000119209,
+          "min": 929.1000000238419,
+          "max": 964.5999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 322.5,
+          "min": 315.5,
+          "max": 354.5
+        },
+        "reductionPercent": 66.38173668341578,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 808.3000000119209,
+          "min": 764.1999999880791,
+          "max": 850.5
+        },
+        "after": {
+          "n": 5,
+          "median": 112.09999996423721,
+          "min": 107.19999998807907,
+          "max": 133.60000002384186
+        },
+        "reductionPercent": 86.13138686594284,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 835.6999999880791,
+          "min": 785.1999999880791,
+          "max": 870.3999999761581
+        },
+        "after": {
+          "n": 5,
+          "median": 146.69999998807907,
+          "min": 141.69999998807907,
+          "max": 166.5
+        },
+        "reductionPercent": 82.44585377645427,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.700000047683716,
+          "min": 29.100000023841858,
+          "max": 46
+        },
+        "after": {
+          "n": 5,
+          "median": 32,
+          "min": 29.30000001192093,
+          "max": 46.5
+        },
+        "reductionPercent": -0.9463720879022676,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.90000003576279,
+          "min": 63.40000003576279,
+          "max": 80.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 64.89999997615814,
+          "min": 63,
+          "max": 80.69999998807907
+        },
+        "reductionPercent": 1.517450772476422,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 1331.6000000238419,
+          "min": 1328.8999999761581,
+          "max": 1347
+        },
+        "after": {
+          "n": 5,
+          "median": 114,
+          "min": 97.20000004768372,
+          "max": 154.4000000357628
+        },
+        "reductionPercent": 91.43887053184449,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 1398.1000000238419,
+          "min": 1395.8999999761581,
+          "max": 1431.300000011921
+        },
+        "after": {
+          "n": 5,
+          "median": 182.30000001192093,
+          "min": 162.80000001192093,
+          "max": 245.30000001192093
+        },
+        "reductionPercent": 86.96087547322708,
+        "status": "改善確認"
+      }
+    ]
+  },
+  {
+    "name": "unquoted-file",
+    "beforeFile": "before-unquoted-files.json",
+    "afterFile": "final-unquoted-files.json",
+    "discardedWarmupRuns": 0,
+    "beforeAt": "2026-10-08T17:42:28.518Z",
+    "afterAt": "2026-10-08T17:43:24.301Z",
+    "beforeVersions": {
+      "local-csv.html": "8237680c8acbbe2fbd8701d45c0f15e2a456660588e6fb2e6ea12048b6550a88",
+      "index.html": "042443d6f4795dfe2393dd4d63e6ab8451d5e61bca162d65fd4e50eebee5c335",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "afterVersions": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "rows": [
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 71,
+          "min": 39,
+          "max": 71.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 70.5,
+          "min": 69.69999998807907,
+          "max": 72.40000003576279
+        },
+        "reductionPercent": 0.7042253521126761,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 103.5,
+          "min": 71.60000002384186,
+          "max": 104.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 103.5,
+          "min": 103,
+          "max": 104.40000003576279
+        },
+        "reductionPercent": 0,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32,
+          "min": 30.69999998807907,
+          "max": 32.700000047683716
+        },
+        "after": {
+          "n": 5,
+          "median": 32,
+          "min": 31.80000001192093,
+          "max": 33.30000001192093
+        },
+        "reductionPercent": 0,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.30000001192093,
+          "min": 64.40000003576279,
+          "max": 66
+        },
+        "after": {
+          "n": 5,
+          "median": 65.5,
+          "min": 64.30000001192093,
+          "max": 66.89999997615814
+        },
+        "reductionPercent": -0.3062786953178557,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 49,
+          "min": 48.59999996423721,
+          "max": 49.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 48.69999998807907,
+          "min": 47.89999997615814,
+          "max": 50
+        },
+        "reductionPercent": 0.6122449222876102,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 115.69999998807907,
+          "min": 113.59999996423721,
+          "max": 116.40000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 115.69999998807907,
+          "min": 113.69999998807907,
+          "max": 116.69999998807907
+        },
+        "reductionPercent": 0,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 172.39999997615814,
+          "min": 163.5,
+          "max": 175.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 158.0999999642372,
+          "min": 157.10000002384186,
+          "max": 162.69999998807907
+        },
+        "reductionPercent": 8.294663581147638,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 204.29999995231628,
+          "min": 195.0999999642372,
+          "max": 209.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 191.5999999642372,
+          "min": 186.4000000357628,
+          "max": 193.80000001192093
+        },
+        "reductionPercent": 6.216348502713292,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.09999996423721,
+          "min": 30.5,
+          "max": 33.5
+        },
+        "after": {
+          "n": 5,
+          "median": 32.40000003576279,
+          "min": 31.69999998807907,
+          "max": 33.10000002384186
+        },
+        "reductionPercent": -0.9345796631146588,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.60000002384186,
+          "min": 65.20000004768372,
+          "max": 67.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 66.60000002384186,
+          "min": 65.89999997615814,
+          "max": 66.70000004768372
+        },
+        "reductionPercent": -1.5243902433484102,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 855.9000000357628,
+          "min": 848.1999999880791,
+          "max": 860
+        },
+        "after": {
+          "n": 5,
+          "median": 264.5,
+          "min": 263.89999997615814,
+          "max": 266.39999997615814
+        },
+        "reductionPercent": 69.09685711076666,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 915.3000000119209,
+          "min": 913,
+          "max": 931.6000000238419
+        },
+        "after": {
+          "n": 5,
+          "median": 333.0999999642372,
+          "min": 332.39999997615814,
+          "max": 335.2999999523163
+        },
+        "reductionPercent": 63.6075603671038,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 674.4000000357628,
+          "min": 661.7999999523163,
+          "max": 691.8999999761581
+        },
+        "after": {
+          "n": 5,
+          "median": 128.39999997615814,
+          "min": 125.40000003576279,
+          "max": 134.4000000357628
+        },
+        "reductionPercent": 80.96085409707159,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 708.6999999880791,
+          "min": 695.6999999880791,
+          "max": 726
+        },
+        "after": {
+          "n": 5,
+          "median": 161.5,
+          "min": 159.60000002384186,
+          "max": 164.20000004768372
+        },
+        "reductionPercent": 77.21179624626548,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.600000023841858,
+          "min": 30.69999998807907,
+          "max": 32.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 31.200000047683716,
+          "min": 30.19999998807907,
+          "max": 31.599999964237213
+        },
+        "reductionPercent": 1.2658227084061595,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.10000002384186,
+          "min": 63.19999998807907,
+          "max": 65.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 62.10000002384186,
+          "max": 65.40000003576279
+        },
+        "reductionPercent": 0.6144393788268712,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 836.6000000238419,
+          "min": 830.7000000476837,
+          "max": 1332.5999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 131.30000001192093,
+          "min": 114.10000002384186,
+          "max": 131.5999999642372
+        },
+        "reductionPercent": 84.30552235140102,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 898.3000000119209,
+          "min": 896.9000000357628,
+          "max": 1414.5999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 196.60000002384186,
+          "min": 180.5,
+          "max": 197.9000000357628
+        },
+        "reductionPercent": 78.11421573848014,
+        "status": "改善確認"
+      }
+    ]
+  },
+  {
+    "name": "main",
+    "beforeFile": "before-final.json",
+    "afterFile": "final.json",
+    "discardedWarmupRuns": 1,
+    "beforeAt": "2026-10-08T16:28:17.991Z",
+    "afterAt": "2026-10-08T16:20:36.875Z",
+    "beforeVersions": {
+      "local-csv.html": "8237680c8acbbe2fbd8701d45c0f15e2a456660588e6fb2e6ea12048b6550a88",
+      "index.html": "042443d6f4795dfe2393dd4d63e6ab8451d5e61bca162d65fd4e50eebee5c335",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "afterVersions": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "rows": [
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 127.44999998807907,
+          "min": 110.19999998807907,
+          "max": 192.5999999642372
+        },
+        "after": {
+          "n": 6,
+          "median": 130.55000001192093,
+          "min": 116.59999996423721,
+          "max": 171.10000002384186
+        },
+        "reductionPercent": -2.4323264214451266,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "cold-context",
+        "metric": "result",
+        "before": {
+          "n": 6,
+          "median": 97.5499999821186,
+          "min": 95.80000001192093,
+          "max": 128.39999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 89,
+          "min": 81.10000002384186,
+          "max": 99
+        },
+        "reductionPercent": 8.76473601607982,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 130.25,
+          "min": 114.69999998807907,
+          "max": 163.29999995231628
+        },
+        "after": {
+          "n": 6,
+          "median": 115.09999999403954,
+          "min": 113.69999998807907,
+          "max": 130.5999999642372
+        },
+        "reductionPercent": 11.631477931639512,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 46.94999998807907,
+          "min": 45.69999998807907,
+          "max": 49.19999998807907
+        },
+        "after": {
+          "n": 6,
+          "median": 39.54999998211861,
+          "min": 30.69999998807907,
+          "max": 49.59999996423721
+        },
+        "reductionPercent": 15.761448366005059,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 96.4500000178814,
+          "min": 95.19999998807907,
+          "max": 175.4000000357628
+        },
+        "after": {
+          "n": 6,
+          "median": 96.5499999821186,
+          "min": 94.89999997615814,
+          "max": 97.09999996423721
+        },
+        "reductionPercent": -0.10368062645793011,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "browser-cache",
+        "metric": "result",
+        "before": {
+          "n": 6,
+          "median": 85.09999999403954,
+          "min": 80.10000002384186,
+          "max": 99.89999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 81.55000001192093,
+          "min": 80.80000001192093,
+          "max": 83.19999998807907
+        },
+        "reductionPercent": 4.171562846495007,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 105.10000002384186,
+          "min": 98,
+          "max": 162.89999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 98.65000000596046,
+          "min": 97.80000001192093,
+          "max": 114.80000001192093
+        },
+        "reductionPercent": 6.137012384793735,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 32.79999998211861,
+          "min": 30.80000001192093,
+          "max": 47.09999996423721
+        },
+        "after": {
+          "n": 6,
+          "median": 31.549999982118607,
+          "min": 31.100000023841858,
+          "max": 32.10000002384186
+        },
+        "reductionPercent": 3.8109756118337055,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 47.44999995827675,
+          "min": 31.19999998807907,
+          "max": 96.5
+        },
+        "after": {
+          "n": 6,
+          "median": 32.29999998211861,
+          "min": 31.900000035762787,
+          "max": 47.69999998807907
+        },
+        "reductionPercent": 31.9283456048044,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 116,
+          "min": 98.30000001192093,
+          "max": 162.4000000357628
+        },
+        "after": {
+          "n": 6,
+          "median": 98.94999998807907,
+          "min": 98.70000004768372,
+          "max": 115
+        },
+        "reductionPercent": 14.69827587234563,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "small",
+        "metric": "result",
+        "before": {
+          "n": 6,
+          "median": 63.849999994039536,
+          "min": 61.5,
+          "max": 81.69999998807907
+        },
+        "after": {
+          "n": 6,
+          "median": 63.89999997615814,
+          "min": 62.69999998807907,
+          "max": 64.80000001192093
+        },
+        "reductionPercent": -0.0783085076323792,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 104.5,
+          "min": 95.59999996423721,
+          "max": 140.69999998807907
+        },
+        "after": {
+          "n": 6,
+          "median": 96.60000002384186,
+          "min": 79.90000003576279,
+          "max": 98.69999998807907
+        },
+        "reductionPercent": 7.559808589625017,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 105.5,
+          "min": 96.5,
+          "max": 141.5
+        },
+        "after": {
+          "n": 6,
+          "median": 97.84999999403954,
+          "min": 80.60000002384186,
+          "max": 99.69999998807907
+        },
+        "reductionPercent": 7.251184839772952,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 48.44999998807907,
+          "min": 45.5,
+          "max": 63.80000001192093
+        },
+        "after": {
+          "n": 6,
+          "median": 64.75,
+          "min": 46.89999997615814,
+          "max": 65.30000001192093
+        },
+        "reductionPercent": -33.642930889435455,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 116.4500000178814,
+          "min": 113.90000003576279,
+          "max": 131.20000004768372
+        },
+        "after": {
+          "n": 6,
+          "median": 131.69999998807907,
+          "min": 114,
+          "max": 132
+        },
+        "reductionPercent": -13.095749221001265,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 40.50000002980232,
+          "min": 30.099999964237213,
+          "max": 71.89999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 70.2000000178814,
+          "min": 37.5,
+          "max": 72.5
+        },
+        "reductionPercent": -73.33333324993589,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 32.29999998211861,
+          "min": 31.5,
+          "max": 49
+        },
+        "after": {
+          "n": 6,
+          "median": 31.799999982118607,
+          "min": 30.599999964237213,
+          "max": 48.89999997615814
+        },
+        "reductionPercent": 1.5479876169560427,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 55.24999997019768,
+          "min": 46.299999952316284,
+          "max": 63.89999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 38.75,
+          "min": 30.5,
+          "max": 48.39999997615814
+        },
+        "reductionPercent": 29.864253355833338,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 121.89999997615814,
+          "min": 113.29999995231628,
+          "max": 131.80000001192093
+        },
+        "after": {
+          "n": 6,
+          "median": 106.25,
+          "min": 97.70000004768372,
+          "max": 115.19999998807907
+        },
+        "reductionPercent": 12.838392107644832,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 929.7000000178814,
+          "min": 849.7999999523163,
+          "max": 2035.0999999642372
+        },
+        "after": {
+          "n": 6,
+          "median": 568.0500000119209,
+          "min": 490.69999998807907,
+          "max": 762.5
+        },
+        "reductionPercent": 38.89964504668223,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 1029.0000000298023,
+          "min": 941.5,
+          "max": 2132.199999988079
+        },
+        "after": {
+          "n": 6,
+          "median": 728.9500000178814,
+          "min": 583.1000000238419,
+          "max": 891.9000000357628
+        },
+        "reductionPercent": 29.159378037243027,
+        "status": "改善確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "large",
+        "metric": "result",
+        "before": {
+          "n": 6,
+          "median": 270,
+          "min": 246,
+          "max": 496.2999999523163
+        },
+        "after": {
+          "n": 6,
+          "median": 304,
+          "min": 234.30000001192093,
+          "max": 363.9000000357628
+        },
+        "reductionPercent": -12.592592592592592,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 288.69999998807907,
+          "min": 247.20000004768372,
+          "max": 378.39999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 230.5499999821186,
+          "min": 229.70000004768372,
+          "max": 240.80000001192093
+        },
+        "reductionPercent": 20.142015936391264,
+        "status": "改善確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 289.10000002384186,
+          "min": 247.70000004768372,
+          "max": 379.5
+        },
+        "after": {
+          "n": 6,
+          "median": 231.14999997615814,
+          "min": 230.30000001192093,
+          "max": 241.5
+        },
+        "reductionPercent": 20.044967154238886,
+        "status": "改善確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 82.64999997615814,
+          "min": 80.30000001192093,
+          "max": 98.39999997615814
+        },
+        "after": {
+          "n": 6,
+          "median": 81.9500000178814,
+          "min": 80.39999997615814,
+          "max": 115.69999998807907
+        },
+        "reductionPercent": 0.8469448983408059,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 156.7999999821186,
+          "min": 153.29999995231628,
+          "max": 241.79999995231628
+        },
+        "after": {
+          "n": 6,
+          "median": 155.90000000596046,
+          "min": 148,
+          "max": 269.10000002384186
+        },
+        "reductionPercent": 0.5739795766969245,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 196.5499999821186,
+          "min": 183.39999997615814,
+          "max": 362.80000001192093
+        },
+        "after": {
+          "n": 6,
+          "median": 189.75,
+          "min": 184.70000004768372,
+          "max": 239.30000001192093
+        },
+        "reductionPercent": 3.4596794620896696,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 31.950000017881393,
+          "min": 29.899999976158142,
+          "max": 62.59999996423721
+        },
+        "after": {
+          "n": 6,
+          "median": 33,
+          "min": 31.099999964237213,
+          "max": 64.39999997615814
+        },
+        "reductionPercent": -3.286384918719734,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 851.1999999880791,
+          "min": 831,
+          "max": 1452.0999999642372
+        },
+        "after": {
+          "n": 6,
+          "median": 239.25,
+          "min": 230.69999998807907,
+          "max": 314.0999999642372
+        },
+        "reductionPercent": 71.89262218005749,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 928.75,
+          "min": 898.2999999523163,
+          "max": 1591.300000011921
+        },
+        "after": {
+          "n": 6,
+          "median": 312.90000000596046,
+          "min": 297.60000002384186,
+          "max": 392.30000001192093
+        },
+        "reductionPercent": 66.30955585400157,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 954.4000000059605,
+          "min": 861.5999999642372,
+          "max": 1414.1000000238419
+        },
+        "after": {
+          "n": 6,
+          "median": 126.75,
+          "min": 111.70000004768372,
+          "max": 140.80000001192093
+        },
+        "reductionPercent": 86.71940486177616,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 1025,
+          "min": 925.7999999523163,
+          "max": 1537.7000000476837
+        },
+        "after": {
+          "n": 6,
+          "median": 191.74999997019768,
+          "min": 173.9000000357628,
+          "max": 219.89999997615814
+        },
+        "reductionPercent": 81.29268292973681,
+        "status": "改善確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "long-cell",
+        "metric": "result",
+        "before": {
+          "n": 6,
+          "median": 64.0499999821186,
+          "min": 62.69999998807907,
+          "max": 65.40000003576279
+        },
+        "after": {
+          "n": 6,
+          "median": 64.5499999821186,
+          "min": 62.80000001192093,
+          "max": 81.59999996423721
+        },
+        "reductionPercent": -0.7806401251203581,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 162.60000002384186,
+          "min": 130.69999998807907,
+          "max": 163.5999999642372
+        },
+        "after": {
+          "n": 6,
+          "median": 152.94999998807907,
+          "min": 130.5,
+          "max": 177.60000002384186
+        },
+        "reductionPercent": 5.9348093692176,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 163.2000000178814,
+          "min": 131.19999998807907,
+          "max": 164.0999999642372
+        },
+        "after": {
+          "n": 6,
+          "median": 153.5,
+          "min": 131.5999999642372,
+          "max": 178.30000001192093
+        },
+        "reductionPercent": 5.943627461285901,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 65.05000001192093,
+          "min": 62.19999998807907,
+          "max": 80.10000002384186
+        },
+        "after": {
+          "n": 6,
+          "median": 65.25,
+          "min": 63.30000001192093,
+          "max": 82
+        },
+        "reductionPercent": -0.3074557848461483,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 132.00000002980232,
+          "min": 129.0999999642372,
+          "max": 181.10000002384186
+        },
+        "after": {
+          "n": 6,
+          "median": 133.05000001192093,
+          "min": 131.39999997615814,
+          "max": 164.4000000357628
+        },
+        "reductionPercent": -0.7954545317284414,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 730.0999999940395,
+          "min": 700.2999999523163,
+          "max": 976.6999999880791
+        },
+        "after": {
+          "n": 6,
+          "median": 125.9500000178814,
+          "min": 111.69999998807907,
+          "max": 140.29999995231628
+        },
+        "reductionPercent": 82.74893849898513,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 33.14999997615814,
+          "min": 30.19999998807907,
+          "max": 46.90000003576279
+        },
+        "after": {
+          "n": 6,
+          "median": 32.94999998807907,
+          "min": 31.80000001192093,
+          "max": 48.200000047683716
+        },
+        "reductionPercent": 0.6033182148504173,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 6,
+          "median": 1323.550000011921,
+          "min": 834.2999999523163,
+          "max": 1361.1000000238419
+        },
+        "after": {
+          "n": 6,
+          "median": 104.19999998807907,
+          "min": 99.30000001192093,
+          "max": 192.30000001192093
+        },
+        "reductionPercent": 92.12723357733817,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 6,
+          "median": 1389.4500000178814,
+          "min": 898.5999999642372,
+          "max": 1444.6000000238419
+        },
+        "after": {
+          "n": 6,
+          "median": 165.90000000596046,
+          "min": 164.9000000357628,
+          "max": 258.9000000357628
+        },
+        "reductionPercent": 88.06002375012952,
+        "status": "改善確認"
+      }
+    ]
+  },
+  {
+    "name": "all-panels",
+    "beforeFile": "before-all-panels.json",
+    "afterFile": "final-all-panels.json",
+    "discardedWarmupRuns": 1,
+    "beforeAt": "2026-10-08T17:31:02.785Z",
+    "afterAt": "2026-10-08T17:33:15.762Z",
+    "beforeVersions": {
+      "local-csv.html": "8237680c8acbbe2fbd8701d45c0f15e2a456660588e6fb2e6ea12048b6550a88",
+      "index.html": "042443d6f4795dfe2393dd4d63e6ab8451d5e61bca162d65fd4e50eebee5c335",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "afterVersions": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "rows": [
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 113.80000001192093,
+          "min": 106.39999997615814,
+          "max": 158.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 154.30000001192093,
+          "min": 128.69999998807907,
+          "max": 157.19999998807907
+        },
+        "reductionPercent": -35.58875219310851,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "cold-context",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 97.80000001192093,
+          "min": 79.89999997615814,
+          "max": 99.40000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 97.59999996423721,
+          "min": 97.39999997615814,
+          "max": 98
+        },
+        "reductionPercent": 0.20449902623654154,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 248.39999997615814,
+          "min": 224.39999997615814,
+          "max": 292.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 288.89999997615814,
+          "min": 261.89999997615814,
+          "max": 292.5
+        },
+        "reductionPercent": -16.304347827651874,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 115.69999998807907,
+          "min": 113.19999998807907,
+          "max": 130.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 131.10000002384186,
+          "min": 128,
+          "max": 132.69999998807907
+        },
+        "reductionPercent": -13.310285252678907,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 33,
+          "min": 31.30000001192093,
+          "max": 48.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 31.399999976158142,
+          "min": 31.099999964237213,
+          "max": 46.69999998807907
+        },
+        "reductionPercent": 4.848484920732902,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "cold-context",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 196.39999997615814,
+          "min": 182.89999997615814,
+          "max": 214.5
+        },
+        "after": {
+          "n": 5,
+          "median": 199.0999999642372,
+          "min": 195.89999997615814,
+          "max": 213.5
+        },
+        "reductionPercent": -1.3747454116124418,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 95.30000001192093,
+          "min": 94.89999997615814,
+          "max": 98.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 96.10000002384186,
+          "min": 93.89999997615814,
+          "max": 131.89999997615814
+        },
+        "reductionPercent": -0.8394543670733035,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP-download",
+        "condition": "browser-cache",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 66.20000004768372,
+          "min": 64.69999998807907,
+          "max": 82.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 81.10000002384186,
+          "min": 64,
+          "max": 83.19999998807907
+        },
+        "reductionPercent": -22.5075528178636,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "LP",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 197.69999998807907,
+          "min": 196.19999998807907,
+          "max": 213.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 214.5,
+          "min": 212.80000001192093,
+          "max": 231.39999997615814
+        },
+        "reductionPercent": -8.497723830517923,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 99.10000002384186,
+          "min": 97.5,
+          "max": 113.59999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 98.59999996423721,
+          "min": 96.79999995231628,
+          "max": 114.30000001192093
+        },
+        "reductionPercent": 0.5045409278348667,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-dialog",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 30.5,
+          "min": 30.399999976158142,
+          "max": 32.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 31.900000035762787,
+          "min": 30,
+          "max": 32.700000047683716
+        },
+        "reductionPercent": -4.590164051681269,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "editor-empty",
+        "condition": "browser-cache",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 165.19999998807907,
+          "min": 164.89999997615814,
+          "max": 179.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 166.29999995231628,
+          "min": 165.29999995231628,
+          "max": 181.9000000357628
+        },
+        "reductionPercent": -0.6658595425645217,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.09999996423721,
+          "min": 31.399999976158142,
+          "max": 46.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 47.5,
+          "min": 34.19999998807907,
+          "max": 49.69999998807907
+        },
+        "reductionPercent": -47.97507804647979,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 99,
+          "min": 97.5,
+          "max": 113.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 115.19999998807907,
+          "min": 99.69999998807907,
+          "max": 116.09999996423721
+        },
+        "reductionPercent": -16.36363635159502,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.09999996423721,
+          "min": 29.5,
+          "max": 46.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 31.80000001192093,
+          "min": 31,
+          "max": 47
+        },
+        "reductionPercent": 0.9345792917461552,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64,
+          "min": 63.700000047683716,
+          "max": 77.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 65,
+          "min": 63.80000001192093,
+          "max": 78.5
+        },
+        "reductionPercent": -1.5625,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.30000001192093,
+          "min": 30.30000001192093,
+          "max": 32.700000047683716
+        },
+        "after": {
+          "n": 5,
+          "median": 30.80000001192093,
+          "min": 29.600000023841858,
+          "max": 31.30000001192093
+        },
+        "reductionPercent": 1.597444088848466,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.59999996423721,
+          "min": 63.10000002384186,
+          "max": 65.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 64,
+          "min": 62.60000002384186,
+          "max": 64.69999998807907
+        },
+        "reductionPercent": 0.9287925148132743,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.30000001192093,
+          "min": 30.19999998807907,
+          "max": 67.09999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 31.100000023841858,
+          "min": 31,
+          "max": 32.700000047683716
+        },
+        "reductionPercent": 3.7151702403597158,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.80000001192093,
+          "min": 64,
+          "max": 102.09999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 64.40000003576279,
+          "min": 62.89999997615814,
+          "max": 64.80000001192093
+        },
+        "reductionPercent": 2.1276595378487926,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 30.100000023841858,
+          "max": 32.5
+        },
+        "after": {
+          "n": 5,
+          "median": 31.19999998807907,
+          "min": 29.69999998807907,
+          "max": 31.599999964237213
+        },
+        "reductionPercent": 0.9523809902251714,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.40000003576279,
+          "min": 63.80000001192093,
+          "max": 66
+        },
+        "after": {
+          "n": 5,
+          "median": 64.60000002384186,
+          "min": 63.39999997615814,
+          "max": 65
+        },
+        "reductionPercent": 1.2232416077728803,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 65.10000002384186,
+          "min": 62.80000001192093,
+          "max": 66.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 65.30000001192093,
+          "min": 63.40000003576279,
+          "max": 66.89999997615814
+        },
+        "reductionPercent": -0.3072196436341385,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 98.39999997615814,
+          "min": 98.10000002384186,
+          "max": 99.5
+        },
+        "after": {
+          "n": 5,
+          "median": 99.5,
+          "min": 96.5,
+          "max": 99.80000001192093
+        },
+        "reductionPercent": -1.1178862033621777,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.19999998807907,
+          "min": 30.30000001192093,
+          "max": 31.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 31.700000047683716,
+          "min": 29.100000023841858,
+          "max": 33.30000001192093
+        },
+        "reductionPercent": -1.60256429421694,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.90000003576279,
+          "min": 63.30000001192093,
+          "max": 65.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 64.5,
+          "min": 62.60000002384186,
+          "max": 66.60000002384186
+        },
+        "reductionPercent": 0.6163328744874715,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.69999998807907,
+          "min": 29.700000047683716,
+          "max": 32.40000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 31.100000023841858,
+          "min": 30.80000001192093,
+          "max": 32.80000001192093
+        },
+        "reductionPercent": -1.3029317130883011,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.10000002384186,
+          "min": 63,
+          "max": 65.40000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 63.60000002384186,
+          "min": 62.80000001192093,
+          "max": 66.30000001192093
+        },
+        "reductionPercent": 0.780031200957919,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "small",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 64.70000004768372,
+          "min": 63.30000001192093,
+          "max": 65.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 64.39999997615814,
+          "min": 63,
+          "max": 64.69999998807907
+        },
+        "reductionPercent": 0.46367862643659125,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 96.69999998807907,
+          "min": 81.30000001192093,
+          "max": 97.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 82.5,
+          "min": 77.69999998807907,
+          "max": 98.5
+        },
+        "reductionPercent": 14.684591509647996,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 98.39999997615814,
+          "min": 81.69999998807907,
+          "max": 98.5
+        },
+        "after": {
+          "n": 5,
+          "median": 82.80000001192093,
+          "min": 78.19999998807907,
+          "max": 99.39999997615814
+        },
+        "reductionPercent": 15.853658504082338,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.89999997615814,
+          "min": 49.799999952316284,
+          "max": 65.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 48.60000002384186,
+          "min": 47.69999998807907,
+          "max": 62.5
+        },
+        "reductionPercent": 25.11556233945193,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 132.10000002384186,
+          "min": 117.09999996423721,
+          "max": 132.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 115.70000004768372,
+          "min": 114.90000003576279,
+          "max": 130.80000001192093
+        },
+        "reductionPercent": 12.41483722422272,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 70.5,
+          "min": 68.30000001192093,
+          "max": 73.70000004768372
+        },
+        "after": {
+          "n": 5,
+          "median": 70.19999998807907,
+          "min": 69.09999996423721,
+          "max": 71.80000001192093
+        },
+        "reductionPercent": 0.4255319318027361,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 104.40000003576279,
+          "min": 101.40000003576279,
+          "max": 105.90000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 103.69999998807907,
+          "min": 101.89999997615814,
+          "max": 104.10000002384186
+        },
+        "reductionPercent": 0.6704981297355622,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.599999964237213,
+          "min": 30.600000023841858,
+          "max": 32.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 32,
+          "min": 30.30000001192093,
+          "max": 33.5
+        },
+        "reductionPercent": -1.2658228994160774,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 63.700000047683716,
+          "min": 63.39999997615814,
+          "max": 65.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 65,
+          "min": 63.90000003576279,
+          "max": 66.69999998807907
+        },
+        "reductionPercent": -2.0408162501462277,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 48.39999997615814,
+          "min": 46.80000001192093,
+          "max": 49.5
+        },
+        "after": {
+          "n": 5,
+          "median": 48.39999997615814,
+          "min": 47.5,
+          "max": 48.69999998807907
+        },
+        "reductionPercent": 0,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "small",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 115,
+          "min": 114.09999996423721,
+          "max": 115.5
+        },
+        "after": {
+          "n": 5,
+          "median": 115.60000002384186,
+          "min": 114.19999998807907,
+          "max": 116.09999996423721
+        },
+        "reductionPercent": -0.5217391511668329,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 876.8999999761581,
+          "min": 832.5,
+          "max": 951.1999999880791
+        },
+        "after": {
+          "n": 5,
+          "median": 556.5,
+          "min": 520.9000000357628,
+          "max": 603.8000000119209
+        },
+        "reductionPercent": 36.53780362468576,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 1007.5999999642372,
+          "min": 940.1999999880791,
+          "max": 1124.300000011921
+        },
+        "after": {
+          "n": 5,
+          "median": 720.3000000119209,
+          "min": 634.2000000476837,
+          "max": 759.2999999523163
+        },
+        "reductionPercent": 28.513298924425705,
+        "status": "改善確認"
+      },
+      {
+        "screen": "help",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 51.60000002384186,
+          "min": 35.69999998807907,
+          "max": 53.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 84.30000001192093,
+          "min": 65.39999997615814,
+          "max": 104.19999998807907
+        },
+        "reductionPercent": -63.37209297087206,
+        "status": "悪化確認"
+      },
+      {
+        "screen": "help",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 83.89999997615814,
+          "min": 64.59999996423721,
+          "max": 85.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 111.69999998807907,
+          "min": 100.09999996423721,
+          "max": 137.5
+        },
+        "reductionPercent": -33.13468417141937,
+        "status": "悪化確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 30.399999976158142,
+          "min": 27.900000035762787,
+          "max": 31.599999964237213
+        },
+        "after": {
+          "n": 5,
+          "median": 31.599999964237213,
+          "min": 31,
+          "max": 31.80000001192093
+        },
+        "reductionPercent": -3.9473683849348586,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.60000002384186,
+          "min": 62.40000003576279,
+          "max": 64.79999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 64.5,
+          "min": 63.30000001192093,
+          "max": 65.70000004768372
+        },
+        "reductionPercent": 0.15479879845967648,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.400000035762787,
+          "min": 29.80000001192093,
+          "max": 31.899999976158142
+        },
+        "after": {
+          "n": 5,
+          "median": 31.69999998807907,
+          "min": 30.80000001192093,
+          "max": 32
+        },
+        "reductionPercent": -0.9554138597917248,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.19999998807907,
+          "min": 63.10000002384186,
+          "max": 64.5
+        },
+        "after": {
+          "n": 5,
+          "median": 65.09999996423721,
+          "min": 63.19999998807907,
+          "max": 65.5
+        },
+        "reductionPercent": -1.4018691220019595,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.799999952316284,
+          "min": 30.400000035762787,
+          "max": 33.5
+        },
+        "after": {
+          "n": 5,
+          "median": 32.10000002384186,
+          "min": 31.80000001192093,
+          "max": 33.59999996423721
+        },
+        "reductionPercent": -0.9433964527528936,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.5,
+          "min": 63.39999997615814,
+          "max": 66.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 65,
+          "min": 63.30000001192093,
+          "max": 66.59999996423721
+        },
+        "reductionPercent": -0.7751937984496124,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 66,
+          "min": 65.59999996423721,
+          "max": 66.40000003576279
+        },
+        "after": {
+          "n": 5,
+          "median": 65,
+          "min": 63.30000001192093,
+          "max": 65.19999998807907
+        },
+        "reductionPercent": 1.5151515151515151,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 98.80000001192093,
+          "min": 98.30000001192093,
+          "max": 99.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 98.39999997615814,
+          "min": 98.30000001192093,
+          "max": 98.5
+        },
+        "reductionPercent": 0.4048583357434453,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 215.0999999642372,
+          "min": 214.69999998807907,
+          "max": 232.0999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 216.60000002384186,
+          "min": 215.19999998807907,
+          "max": 231.60000002384186
+        },
+        "reductionPercent": -0.6973500975611514,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 248.5,
+          "min": 247.30000001192093,
+          "max": 265.0999999642372
+        },
+        "after": {
+          "n": 5,
+          "median": 249.5,
+          "min": 247.80000001192093,
+          "max": 264.5
+        },
+        "reductionPercent": -0.4024144869215292,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.09999996423721,
+          "min": 30.100000023841858,
+          "max": 32.60000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 32,
+          "min": 30.200000047683716,
+          "max": 32.799999952316284
+        },
+        "reductionPercent": 0.3115263686873011,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.80000001192093,
+          "min": 62.69999998807907,
+          "max": 66.09999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 64.79999995231628,
+          "min": 63.89999997615814,
+          "max": 65.60000002384186
+        },
+        "reductionPercent": 1.5197569292150086,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "large",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 231.4000000357628,
+          "min": 216.4000000357628,
+          "max": 233.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 232.60000002384186,
+          "min": 230.5,
+          "max": 248.5
+        },
+        "reductionPercent": -0.5185825358226497,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 246.69999998807907,
+          "min": 230.30000001192093,
+          "max": 263.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 230.89999997615814,
+          "min": 230.19999998807907,
+          "max": 231.29999995231628
+        },
+        "reductionPercent": 6.40453993217852,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 247.30000001192093,
+          "min": 230.69999998807907,
+          "max": 263.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 231.30000001192093,
+          "min": 230.69999998807907,
+          "max": 231.69999998807907
+        },
+        "reductionPercent": 6.469874645866855,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 82.19999998807907,
+          "min": 82,
+          "max": 84.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 81.29999995231628,
+          "min": 80.5,
+          "max": 83
+        },
+        "reductionPercent": 1.0948905546147298,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 158.69999998807907,
+          "min": 156.5,
+          "max": 172
+        },
+        "after": {
+          "n": 5,
+          "median": 157.30000001192093,
+          "min": 153.69999998807907,
+          "max": 159
+        },
+        "reductionPercent": 0.8821675968892909,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 192.10000002384186,
+          "min": 179.5999999642372,
+          "max": 212.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 187.39999997615814,
+          "min": 178.0999999642372,
+          "max": 199
+        },
+        "reductionPercent": 2.446642398282348,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 225.30000001192093,
+          "min": 210.5,
+          "max": 242.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 219.39999997615814,
+          "min": 212.89999997615814,
+          "max": 230.5
+        },
+        "reductionPercent": 2.6187305971818065,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.5,
+          "min": 30.299999952316284,
+          "max": 31.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 31.400000035762787,
+          "min": 30.600000023841858,
+          "max": 33.5
+        },
+        "reductionPercent": 0.3174602039276607,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.19999998807907,
+          "min": 64,
+          "max": 65.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 64.69999998807907,
+          "min": 64.5,
+          "max": 66.60000002384186
+        },
+        "reductionPercent": 0.7668711657843836,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 836.8999999761581,
+          "min": 816,
+          "max": 839.1999999880791
+        },
+        "after": {
+          "n": 5,
+          "median": 247.80000001192093,
+          "min": 246.60000002384186,
+          "max": 265.19999998807907
+        },
+        "reductionPercent": 70.3907276832381,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 914.8000000119209,
+          "min": 899.1999999880791,
+          "max": 916.8999999761581
+        },
+        "after": {
+          "n": 5,
+          "median": 323.80000001192093,
+          "min": 315.80000001192093,
+          "max": 416.69999998807907
+        },
+        "reductionPercent": 64.60428508879521,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 873.4000000357628,
+          "min": 810.5,
+          "max": 897.1999999880791
+        },
+        "after": {
+          "n": 5,
+          "median": 128.89999997615814,
+          "min": 125.89999997615814,
+          "max": 130.19999998807907
+        },
+        "reductionPercent": 85.24158461519578,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 940.9000000357628,
+          "min": 875.6000000238419,
+          "max": 958.4000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 191.69999998807907,
+          "min": 189.69999998807907,
+          "max": 207.19999998807907
+        },
+        "reductionPercent": 79.62589010725978,
+        "status": "改善確認"
+      },
+      {
+        "screen": "help",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 65.40000003576279,
+          "min": 62.90000003576279,
+          "max": 66.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 64.59999996423721,
+          "min": 63,
+          "max": 66
+        },
+        "reductionPercent": 1.2232416989114807,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 99.30000001192093,
+          "min": 97.19999998807907,
+          "max": 99.5
+        },
+        "after": {
+          "n": 5,
+          "median": 98.10000002384186,
+          "min": 96.5,
+          "max": 99.5
+        },
+        "reductionPercent": 1.2084592023514718,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 64.89999997615814,
+          "min": 63.59999996423721,
+          "max": 65.29999995231628
+        },
+        "after": {
+          "n": 5,
+          "median": 65,
+          "min": 63,
+          "max": 66.70000004768372
+        },
+        "reductionPercent": -0.1540832417235658,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 97.89999997615814,
+          "min": 97,
+          "max": 98.89999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 99,
+          "min": 96.80000001192093,
+          "max": 99.59999996423721
+        },
+        "reductionPercent": -1.1235955302448866,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.200000047683716,
+          "min": 30.299999952316284,
+          "max": 32.799999952316284
+        },
+        "after": {
+          "n": 5,
+          "median": 31.399999976158142,
+          "min": 29.900000035762787,
+          "max": 32.299999952316284
+        },
+        "reductionPercent": -0.6410254107973126,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "virtual-header",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.39999997615814,
+          "min": 63.89999997615814,
+          "max": 66.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 64.80000001192093,
+          "min": 63.90000003576279,
+          "max": 65.59999996423721
+        },
+        "reductionPercent": -0.6211180681845854,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 32.69999998807907,
+          "min": 30.100000023841858,
+          "max": 33.80000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 32.10000002384186,
+          "min": 30.19999998807907,
+          "max": 33.10000002384186
+        },
+        "reductionPercent": 1.8348622766236875,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "cell-edit",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 65.5,
+          "min": 64.89999997615814,
+          "max": 66.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 65.30000001192093,
+          "min": 63.59999996423721,
+          "max": 65.80000001192093
+        },
+        "reductionPercent": 0.30534349325049015,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 115.69999998807907,
+          "min": 115.30000001192093,
+          "max": 132
+        },
+        "after": {
+          "n": 5,
+          "median": 115,
+          "min": 113.70000004768372,
+          "max": 116
+        },
+        "reductionPercent": 0.6050129543225533,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "export-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 148.4000000357628,
+          "min": 147.80000001192093,
+          "max": 164.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 148.80000001192093,
+          "min": 147.9000000357628,
+          "max": 150.10000002384186
+        },
+        "reductionPercent": -0.2695417628448426,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 49.60000002384186,
+          "min": 47.19999998807907,
+          "max": 65.10000002384186
+        },
+        "after": {
+          "n": 5,
+          "median": 49.30000001192093,
+          "min": 47.80000001192093,
+          "max": 50.19999998807907
+        },
+        "reductionPercent": 0.6048387334208148,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "column-filter",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 82.89999997615814,
+          "min": 82.19999998807907,
+          "max": 98.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 82.60000002384186,
+          "min": 81.69999998807907,
+          "max": 83.5
+        },
+        "reductionPercent": 0.3618817278679898,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.30000001192093,
+          "min": 29.100000023841858,
+          "max": 32.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 31.5,
+          "min": 29.700000047683716,
+          "max": 33
+        },
+        "reductionPercent": -0.6389775974533514,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "command-palette",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.40000003576279,
+          "min": 62.5,
+          "max": 65.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 64.39999997615814,
+          "min": 63.60000002384186,
+          "max": 65.10000002384186
+        },
+        "reductionPercent": 9.255379618368138e-8,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "search-filter",
+        "condition": "long-cell",
+        "metric": "result",
+        "before": {
+          "n": 5,
+          "median": 65,
+          "min": 63.90000003576279,
+          "max": 66.59999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 65.59999996423721,
+          "min": 65.09999996423721,
+          "max": 67
+        },
+        "reductionPercent": -0.923076868057251,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 130.69999998807907,
+          "min": 129.30000001192093,
+          "max": 130.9000000357628
+        },
+        "after": {
+          "n": 5,
+          "median": 129.69999998807907,
+          "min": 129,
+          "max": 131
+        },
+        "reductionPercent": 0.765110941156242,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore-offer",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 131.0999999642372,
+          "min": 129.5,
+          "max": 131.30000001192093
+        },
+        "after": {
+          "n": 5,
+          "median": 130,
+          "min": 129.30000001192093,
+          "max": 131.30000001192093
+        },
+        "reductionPercent": 0.8390541300818325,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 63.80000001192093,
+          "min": 63.299999952316284,
+          "max": 65.5
+        },
+        "after": {
+          "n": 5,
+          "median": 65.5,
+          "min": 65,
+          "max": 81.89999997615814
+        },
+        "reductionPercent": -2.6645767833251233,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "restore",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 132.10000002384186,
+          "min": 131.0999999642372,
+          "max": 133.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 135.69999998807907,
+          "min": 132.10000002384186,
+          "max": 165
+        },
+        "reductionPercent": -2.7252081480601613,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 690.5,
+          "min": 670.1999999880791,
+          "max": 725.8000000119209
+        },
+        "after": {
+          "n": 5,
+          "median": 113.60000002384186,
+          "min": 101.80000001192093,
+          "max": 116.39999997615814
+        },
+        "reductionPercent": 83.54815350849503,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-settings",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 721.6000000238419,
+          "min": 703.5,
+          "max": 758
+        },
+        "after": {
+          "n": 5,
+          "median": 146.4000000357628,
+          "min": 128.80000001192093,
+          "max": 148.80000001192093
+        },
+        "reductionPercent": 79.71175165868546,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 31.100000023841858,
+          "min": 30.19999998807907,
+          "max": 32.59999996423721
+        },
+        "after": {
+          "n": 5,
+          "median": 31.899999976158142,
+          "min": 31,
+          "max": 32.90000003576279
+        },
+        "reductionPercent": -2.5723471115851733,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-preview",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 64.59999996423721,
+          "min": 63.90000003576279,
+          "max": 65.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 65.09999996423721,
+          "min": 63.60000002384186,
+          "max": 66.20000004768372
+        },
+        "reductionPercent": -0.7739938084780214,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 1298.4000000357628,
+          "min": 814.3999999761581,
+          "max": 1315.800000011921
+        },
+        "after": {
+          "n": 5,
+          "median": 114.80000001192093,
+          "min": 99.19999998807907,
+          "max": 119.30000001192093
+        },
+        "reductionPercent": 91.15834873623237,
+        "status": "改善確認"
+      },
+      {
+        "screen": "file-import",
+        "condition": "long-cell",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 1365.2000000476837,
+          "min": 881,
+          "max": 1383.6000000238419
+        },
+        "after": {
+          "n": 5,
+          "median": 180.69999998807907,
+          "min": 163.60000002384186,
+          "max": 182.4000000357628
+        },
+        "reductionPercent": 86.76384412673839,
+        "status": "改善確認"
+      }
+    ]
+  },
+  {
+    "name": "help-recheck",
+    "beforeFile": "before-help-recheck.json",
+    "afterFile": "final-help-recheck.json",
+    "discardedWarmupRuns": 1,
+    "beforeAt": "2026-10-08T17:36:40.706Z",
+    "afterAt": "2026-10-08T17:37:36.226Z",
+    "beforeVersions": {
+      "local-csv.html": "8237680c8acbbe2fbd8701d45c0f15e2a456660588e6fb2e6ea12048b6550a88",
+      "index.html": "042443d6f4795dfe2393dd4d63e6ab8451d5e61bca162d65fd4e50eebee5c335",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "afterVersions": {
+      "local-csv.html": "22b38713af0ee90e9abdddd6560d2a3bbb00d06dec9c8b688a3b1bdbf5d3c591",
+      "index.html": "b1c722b8d37e67b000d7c18e665692e76b71012d2a7a9f5b689fceffd3a69807",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "rows": [
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 807.6999999880791,
+          "min": 805.6999999880791,
+          "max": 876.1000000238419
+        },
+        "after": {
+          "n": 5,
+          "median": 475.30000001192093,
+          "min": 473.0999999642372,
+          "max": 522.3999999761581
+        },
+        "reductionPercent": 41.153893770095834,
+        "status": "改善確認"
+      },
+      {
+        "screen": "paste-import",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 990.6999999880791,
+          "min": 936.8000000119209,
+          "max": 1021.6999999880791
+        },
+        "after": {
+          "n": 5,
+          "median": 638.1999999880791,
+          "min": 585.5,
+          "max": 676.3000000119209
+        },
+        "reductionPercent": 35.580902392676045,
+        "status": "改善確認"
+      },
+      {
+        "screen": "help",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 58.60000002384186,
+          "min": 41.90000003576279,
+          "max": 92.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 67.69999998807907,
+          "min": 51.200000047683716,
+          "max": 98.80000001192093
+        },
+        "reductionPercent": -15.529010171561106,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 91.20000004768372,
+          "min": 75.19999998807907,
+          "max": 126.69999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 98.39999997615814,
+          "min": 84.5,
+          "max": 132.30000001192093
+        },
+        "reductionPercent": -7.894736759550354,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help-saved",
+        "condition": "large",
+        "metric": "content",
+        "before": {
+          "n": 5,
+          "median": 33.10000002384186,
+          "min": 31.200000047683716,
+          "max": 34.19999998807907
+        },
+        "after": {
+          "n": 5,
+          "median": 31.700000047683716,
+          "min": 31.399999976158142,
+          "max": 33.30000001192093
+        },
+        "reductionPercent": 4.229607175678928,
+        "status": "改善未確認"
+      },
+      {
+        "screen": "help-saved",
+        "condition": "large",
+        "metric": "interactive",
+        "before": {
+          "n": 5,
+          "median": 66,
+          "min": 63.69999998807907,
+          "max": 66.39999997615814
+        },
+        "after": {
+          "n": 5,
+          "median": 64.80000001192093,
+          "min": 63.299999952316284,
+          "max": 65.40000003576279
+        },
+        "reductionPercent": 1.8181818001198047,
+        "status": "改善未確認"
+      }
+    ]
+  }
+]

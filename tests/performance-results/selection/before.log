@@ -1,0 +1,146 @@
+selection trial 1/7: exact all/column output, contraction passed
+selection trial 2/7: exact all/column output, contraction passed
+selection trial 3/7: exact all/column output, contraction passed
+selection trial 4/7: exact all/column output, contraction passed
+selection trial 5/7: exact all/column output, contraction passed
+selection trial 6/7: exact all/column output, contraction passed
+selection trial 7/7: exact all/column output, contraction passed
+{
+  "timestamp": "2026-10-09T16:36:05.733Z",
+  "source": "/private/tmp/localcsv-selection-before/local-csv.html",
+  "sha256": "a572f8d842d9f19423231f8744e5cbed41f4066f5e6b77eeefd89d43f5daec42",
+  "browser": "154.0.8037.99",
+  "rows": 100000,
+  "columns": 20,
+  "runs": 7,
+  "completion": "Actual click to correct selection hint mutation; separate second-rAF opportunity. No GPU presentation or INP claim.",
+  "results": [
+    {
+      "run": 0,
+      "operation": "all-first",
+      "resultMs": 87.80000001192093,
+      "frameOpportunityMs": 94.89999997615814
+    },
+    {
+      "run": 0,
+      "operation": "all-repeat",
+      "resultMs": 77.60000002384186,
+      "frameOpportunityMs": 80.20000004768372
+    },
+    {
+      "run": 0,
+      "operation": "column",
+      "resultMs": 8.899999976158142,
+      "frameOpportunityMs": 29.69999998807907
+    },
+    {
+      "run": 1,
+      "operation": "all-first",
+      "resultMs": 56.90000003576279,
+      "frameOpportunityMs": 61
+    },
+    {
+      "run": 1,
+      "operation": "all-repeat",
+      "resultMs": 54.10000002384186,
+      "frameOpportunityMs": 55.90000003576279
+    },
+    {
+      "run": 1,
+      "operation": "column",
+      "resultMs": 6.5,
+      "frameOpportunityMs": 25.30000001192093
+    },
+    {
+      "run": 2,
+      "operation": "all-first",
+      "resultMs": 57.39999997615814,
+      "frameOpportunityMs": 61.5
+    },
+    {
+      "run": 2,
+      "operation": "all-repeat",
+      "resultMs": 60.5,
+      "frameOpportunityMs": 62.5
+    },
+    {
+      "run": 2,
+      "operation": "column",
+      "resultMs": 6.099999964237213,
+      "frameOpportunityMs": 29.599999964237213
+    },
+    {
+      "run": 3,
+      "operation": "all-first",
+      "resultMs": 58.5,
+      "frameOpportunityMs": 63.90000003576279
+    },
+    {
+      "run": 3,
+      "operation": "all-repeat",
+      "resultMs": 57.39999997615814,
+      "frameOpportunityMs": 59.299999952316284
+    },
+    {
+      "run": 3,
+      "operation": "column",
+      "resultMs": 5.900000035762787,
+      "frameOpportunityMs": 32.30000001192093
+    },
+    {
+      "run": 4,
+      "operation": "all-first",
+      "resultMs": 56.5,
+      "frameOpportunityMs": 60.69999998807907
+    },
+    {
+      "run": 4,
+      "operation": "all-repeat",
+      "resultMs": 58.299999952316284,
+      "frameOpportunityMs": 60.09999996423721
+    },
+    {
+      "run": 4,
+      "operation": "column",
+      "resultMs": 6.199999988079071,
+      "frameOpportunityMs": 30.80000001192093
+    },
+    {
+      "run": 5,
+      "operation": "all-first",
+      "resultMs": 56.39999997615814,
+      "frameOpportunityMs": 60.69999998807907
+    },
+    {
+      "run": 5,
+      "operation": "all-repeat",
+      "resultMs": 55.19999998807907,
+      "frameOpportunityMs": 57.09999996423721
+    },
+    {
+      "run": 5,
+      "operation": "column",
+      "resultMs": 6.200000047683716,
+      "frameOpportunityMs": 30.5
+    },
+    {
+      "run": 6,
+      "operation": "all-first",
+      "resultMs": 62.80000001192093,
+      "frameOpportunityMs": 67.10000002384186
+    },
+    {
+      "run": 6,
+      "operation": "all-repeat",
+      "resultMs": 76.89999997615814,
+      "frameOpportunityMs": 78.80000001192093
+    },
+    {
+      "run": 6,
+      "operation": "column",
+      "resultMs": 10.700000047683716,
+      "frameOpportunityMs": 21.900000035762787
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,1206 @@
+{
+  "comparisonVersions": {
+    "before": {
+      "local-csv.html": "481e7d61af82a1b4c2d1695018527e5381e0ce4d513d833b503861e6d2bdcd84",
+      "index.html": "1f58cb9f24a4fbb469ab3adf034a02508a0277b5c8e5a740191da00521227351",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    },
+    "after": {
+      "local-csv.html": "bb192f2a75ce578b812479b43ca19a372b448c7323f3cc33e4cc6715f6998aad",
+      "index.html": "dac2134ae33cabc1d020ad15b16b995d0dd389d9a527e0dcf1ba7d0f58555a74",
+      "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+    }
+  },
+  "measuredAt": "2026-10-09T00:42:33.767Z",
+  "root": "/private/tmp/localcsv-round3-final",
+  "runs": 8,
+  "versions": {
+    "local-csv.html": "bb192f2a75ce578b812479b43ca19a372b448c7323f3cc33e4cc6715f6998aad",
+    "index.html": "dac2134ae33cabc1d020ad15b16b995d0dd389d9a527e0dcf1ba7d0f58555a74",
+    "public/js/main.js": "7e22154bbf8101349e65e9222445ceae61e3dbb88acde8f546924e0f9e0d7024"
+  },
+  "environment": {
+    "browser": "154.0.8037.99",
+    "viewport": "1440x900",
+    "network": "loopback; no throttling",
+    "cache": "HTTP cache disabled via CDP; fresh context vs same-context repeated access; no server/CDN cache",
+    "data": [
+      {
+        "name": "small",
+        "rows": 100,
+        "cols": 8,
+        "length": 12
+      },
+      {
+        "name": "large",
+        "rows": 100000,
+        "cols": 20,
+        "length": 12
+      },
+      {
+        "name": "long-cell",
+        "rows": 2000,
+        "cols": 3,
+        "length": 4000
+      }
+    ],
+    "nonAscii": "",
+    "fileSource": "synthetic File payload; physical disk latency excluded"
+  },
+  "cacheAudit": [],
+  "errors": [],
+  "results": [
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 103.69999998807907,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 203.80000001192093,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 238.10000002384186,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1527.8999999761581,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1674.199999988079,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 1707.5,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 555.8999999761581,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 839.3000000119209,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 889.8999999761581,
+      "run": 0,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 147,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 295.9000000357628,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 346.2000000476837,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 2394.2000000476837,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2702.7000000476837,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2736.2000000476837,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 474.10000002384186,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 642,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 674.9000000357628,
+      "run": 0,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 178.89999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 295.5,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 328.80000001192093,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1390.5999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1589.5999999642372,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 1622.699999988079,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 356.10000002384186,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 498.39999997615814,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 532.8000000119209,
+      "run": 1,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 218.4000000357628,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 317.60000002384186,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 351.80000001192093,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1733.6000000238419,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1877.300000011921,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 1910.9000000357628,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 894.8999999761581,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 1244.699999988079,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 1327.800000011921,
+      "run": 1,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 174.19999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 391,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 424.69999998807907,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 2421.199999988079,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2563.899999976158,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2597.5,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 405.2999999523163,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 1624.2999999523163,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 1657.699999988079,
+      "run": 2,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 646.1999999880791,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 896.8999999761581,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 980.3999999761581,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 2205.5,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2464.599999964237,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2530.899999976158,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 767.6000000238419,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 1034.1000000238419,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 1083.800000011921,
+      "run": 2,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 228.9000000357628,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 445.60000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 478.10000002384186,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1565.300000011921,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1820.6000000238419,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 1854.1000000238419,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 441,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 607.1000000238419,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 640.6000000238419,
+      "run": 3,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 110.10000002384186,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 226.89999997615814,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 260.30000001192093,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1901.300000011921,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2081.7000000476837,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2115,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 409.69999998807907,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 626.6000000238419,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 659.9000000357628,
+      "run": 3,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 111.60000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 211.30000001192093,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 244.60000002384186,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1700.3999999761581,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 1932,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 1965.0999999642372,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 406.39999997615814,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 666.5,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 699.8000000119209,
+      "run": 4,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 178.5,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 278.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 312.30000001192093,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1884.1000000238419,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2316,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2349.699999988079,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 469.7000000476837,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 656.1000000238419,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 689.6000000238419,
+      "run": 4,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 230.30000001192093,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 346.89999997615814,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 380.5,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1938.8999999761581,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2110.699999988079,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2144,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 824.4000000357628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 1040.9000000357628,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 1107.2000000476837,
+      "run": 5,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 120,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 219.89999997615814,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 253.19999998807907,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1765.3999999761581,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2045.3999999761581,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2078.699999988079,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 587.5999999642372,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 920.5999999642372,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 955,
+      "run": 5,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 423.80000001192093,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 590.9000000357628,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 623.6999999880791,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 2072.699999988079,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2322.5,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2405.400000035763,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 467,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 930.3000000119209,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 963.6000000238419,
+      "run": 6,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 519.3999999761581,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 719.1999999880791,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 786.3999999761581,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 3211,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 3406.300000011921,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 3439.600000023842,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 531.7000000476837,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 787.6000000238419,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 821.1000000238419,
+      "run": 6,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 224.69999998807907,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 323.30000001192093,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 373.69999998807907,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 1931.5,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2098,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2131.300000011921,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 655.5999999642372,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 950.5,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 1017.3000000119209,
+      "run": 7,
+      "version": "after"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "content",
+      "ms": 110.19999998807907,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "small",
+      "metric": "interactive",
+      "ms": 277.0999999642372,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "small",
+      "metric": "result",
+      "ms": 310.19999998807907,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "content",
+      "ms": 2570.7999999523163,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "large",
+      "metric": "interactive",
+      "ms": 2687.599999964237,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "large",
+      "metric": "result",
+      "ms": 2720.399999976158,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "content",
+      "ms": 557.6999999880791,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "paste-import",
+      "condition": "long-cell",
+      "metric": "interactive",
+      "ms": 908.6000000238419,
+      "run": 7,
+      "version": "before"
+    },
+    {
+      "screen": "dataset-size",
+      "condition": "long-cell",
+      "metric": "result",
+      "ms": 975.1999999880791,
+      "run": 7,
+      "version": "before"
+    }
+  ]
+}
