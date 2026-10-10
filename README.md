@@ -36,7 +36,7 @@
 
 開発用TypeScriptは7.0.2、Playwrightは1.64.0に固定しました。`npm run test:static` で構文・互換性例外の件数・埋め込みライブラリのハッシュ・生成JSの一致・設定例の型検査を確認できます。`npm run test:modern` は標準APIと代替経路、コピー後の選択復帰、CSSレイヤー、狭幅スクロールを3エンジンで検証します。依存関係は開発・検証専用です。公式根拠、実測値、互換性のため残した実装、本番未反映の状態は [追加監査の報告](tests/performance-results/modern/REPORT.md) を参照してください。
 
-開発の推奨Nodeは最新LTSの24.21.0（`.nvmrc`）です。CIではNode 24と既存の22の両方を検証します。本体HTMLはNodeを使わず、引き続きブラウザだけで起動できます。
+開発の推奨Nodeは最新LTSの24.21.0（`.nvmrc`）です。ローカルでNode 24と既存の22の両方を検証します。GitHub Actionsによる自動検証は使用しません。本体HTMLはNodeを使わず、引き続きブラウザだけで起動できます。
 
 全選択・列選択は、表示中の行ごとに独立した選択Setを構築する共通処理にまとめ、セルごとのMap再取得を省きます。コピー対象、絞り込み中の選択、行ごとの選択状態は保持します。候補の失敗・前後計測・未達の目標は [選択処理の比較報告](tests/performance-results/selection/REPORT.md) に記録します。`node tests/localcsv-selection-browser.test.mjs` で全選択・反復・1列選択と全セルのコピー・保存復元を検証できます。
 
@@ -432,7 +432,7 @@ LocalCSV は **単一 HTML ファイル** という配布形態を最優先す�
 
 開発用の `npm run test:static` は、管理対象のJavaScript・TypeScript・HTML内スクリプトと3種類の生成WorkerをASTで解析します。抽出処理は `@babel/parser` 8.0.7 に共通化しています。この依存は開発時のみで、配布HTMLには入りません。`npm run test:browser` には初期DOM・テンプレートのID参照とCSSレイヤーを3ブラウザで確認する検証も含まれます。静的監査の範囲・互換処理・未検証範囲は [`ソース監査の記録`](./tests/performance-results/source-audit/REPORT.md) に記録しています。
 
-選択セルのコピーは可視行順と列順を保ち、行ごとにTSVを作成します。引用が不要なセルの置換と、選択値の二次元中間配列を省きます。単一の空セルは `""` として保持し、タブ・改行・引用符は従来どおり引用します。実測・目標・未検証範囲は [`コピー処理の記録`](./tests/performance-results/copy/REPORT.md) を参照してください。CIでは3ブラウザで特殊文字を含むコピーと保存後の復元を検証します。
+選択セルのコピーは可視行順と列順を保ち、行ごとにTSVを作成します。引用が不要なセルの置換と、選択値の二次元中間配列を省きます。単一の空セルは `""` として保持し、タブ・改行・引用符は従来どおり引用します。実測・目標・未検証範囲は [`コピー処理の記録`](./tests/performance-results/copy/REPORT.md) を参照してください。ローカルの3ブラウザで特殊文字を含むコピーと保存後の復元を検証できます。
 
 紹介ページのTypeScriptを変更した場合は、既存の `npm run build` で `public/js/main.js` を更新します。本体HTMLにビルドは不要です。`index.html` の `editor-html-base64` は本体の配布用コピーです。本体を更新したら同じ内容に同期し、`npm test` で一致を確認してください。
 

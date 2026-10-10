@@ -62,7 +62,7 @@ Before finishing work:
 - New standard APIs must have runtime feature checks until minimum supported environments are specified and verified. Type declarations alone do not prove runtime support.
 - The clipboard fallback, IME 229 guard, and embedded encoding dependency have explicit compatibility evidence in `tests/performance-results/modern/REPORT.md`. Review their actual input/output contract before changing them.
 - Do not change historical benchmark snapshots. Keep local measurements distinct from production measurements and record unmeasured operations.
-- Prefer the LTS development version in `.nvmrc`; keep Node 22/24 compatibility checks aligned with CI. Product HTML remains independent of Node.
+- Prefer the LTS development version in `.nvmrc`; verify Node 22/24 compatibility locally. Product HTML remains independent of Node.
 - For performance candidates, save the baseline and numerical targets before editing; preserve rejected candidates and distinguish ranges, median direction, and confirmed improvements.
 
 ## TSV copy maintenance
@@ -75,4 +75,4 @@ Before finishing work:
 - Reconstruct supported Worker template interpolations and parse the generated source. Unknown interpolations must fail the check rather than silently disappear.
 - Keep compatibility exceptions explicit and exact. Test mocks, generated artifacts, and historical evidence must be classified separately from handwritten product code.
 - Syntax and resource-call inventories do not prove lifecycle correctness. Verify cleanup on success and failure without changing URL cache ownership.
-- Development AST parsing requires Node 22.18 or later in the 22 line, or Node 24.11 or later; keep the supported CI versions current.
+- Development AST parsing requires Node 22.18 or later in the 22 line, or Node 24.11 or later; keep the supported local development versions current.
