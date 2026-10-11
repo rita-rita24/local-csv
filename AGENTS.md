@@ -12,6 +12,12 @@ Prioritize small, safe, high-confidence changes.
 - Prefer local-first behavior.
 - Do not add telemetry or external network calls unless explicitly requested.
 
+## GitHub Actionsを追加しない
+- このリポジトリにはGitHub Actionsを追加・再導入しない。
+- `.github/workflows/` にワークフローファイルを作成せず、GitHub側のActionsも有効化しない。
+- ビルド・型検査・静的解析・テストはローカルで実行する。
+- 一般的なCI整備・自動化・本番反映の依頼を、GitHub Actions追加の許可と解釈しない。
+
 ## Verification
 Before finishing work:
 1. Only modify the target tool directory unless explicitly requested.
