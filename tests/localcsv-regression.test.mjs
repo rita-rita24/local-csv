@@ -2965,7 +2965,7 @@ for (const overwrite of [false, true]) {
   const selection = new Map([[2, new Set([2, 0])], [1, new Set([0])], [0, new Set([0])]]);
   const visible = new Set([0, 2]);
   const copied = [];
-  const declarations = ['_hasVisibleSelection', '_getSelectedRowsInVisibleOrder', 'getExportTargetAvailability', 'copySelectedCells']
+  const declarations = ['_hasVisibleSelection', '_getSelectedRowsInVisibleOrder', 'getExportTargetAvailability', '_getSelectedColumnsInOrder', 'copySelectedCells']
     .map(name => extractConstDeclaration(html, name)).join('\n');
   const core = vm.runInNewContext(`${declarations}; ({copySelectedCells, getExportTargetAvailability})`, {
     state, _selectionModel: selection, _isRowVisible: row => visible.has(row),
@@ -3093,7 +3093,7 @@ for (const overwrite of [false, true]) {
 
 // 選択コピーの引用・可視順・疎な選択・失敗時の契約を検証する。
 {
-  const _declarations = ['normalizeCellValue', '_quoteTsvCell', '_buildTsvRows', '_getSelectedRowsInVisibleOrder', 'copySelectedCells']
+  const _declarations = ['normalizeCellValue', '_quoteTsvCell', '_buildTsvRows', '_getSelectedRowsInVisibleOrder', '_getSelectedColumnsInOrder', 'copySelectedCells']
     .map((_name) => extractConstDeclaration(html, _name)).join('\n');
   const _core = vm.runInNewContext(`
     const state = { data: [['', 'a\\tb', '"quoted"'], ['line\\r\\nnext', null, 0], ['hidden']] };
@@ -3121,6 +3121,9 @@ for (const overwrite of [false, true]) {
   }
   assert.equal(await _core.copy(), true);
   assert.equal(_core.copied(), '"line\r\nnext"\t\t0\n\t"""quoted"""', 'visible order, ascending selected columns and sparse rows are preserved');
+  _core.selection([[0, [0, 1, 2]]]);
+  assert.equal(await _core.copy(), true);
+  assert.equal(_core.copied(), '\t"a\tb"\t"""quoted"""', 'ascending selection preserves TSV content on the fast path');
   _core.selection([[0, [0]]]);
   assert.equal(await _core.copy(), true);
   assert.equal(_core.copied(), '""', 'one selected empty cell remains an explicit quoted field');
@@ -3131,8 +3134,8 @@ for (const overwrite of [false, true]) {
   _core.mode('ok');
   _core.value({ toString() { throw new Error('conversion failed'); } });
   assert.equal(await _core.copy(), false, 'text conversion failures retain the copy failure contract');
-  assert.equal(_core.commits(), 6, 'pending edit is committed before every copy, including failures');
-  assert.deepEqual(cloneJson(_core.toasts()), ['success', 'success', 'error', 'error', 'error']);
+  assert.equal(_core.commits(), 7, 'pending edit is committed before every copy, including failures');
+  assert.deepEqual(cloneJson(_core.toasts()), ['success', 'success', 'success', 'error', 'error', 'error']);
 }
 
 console.log("localcsv regression tests passed");

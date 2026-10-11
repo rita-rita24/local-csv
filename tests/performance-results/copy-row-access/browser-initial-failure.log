@@ -1,0 +1,27 @@
+
+> local-csv@1.2.6 test:browser
+> node tests/localcsv-browser.test.mjs && node tests/localcsv-quality-browser.test.mjs && node tests/localcsv-usability-browser.test.mjs && npm run test:modern && node tests/localcsv-markup-browser.test.mjs
+
+chromium: exact sort, navigation, download and recovery passed
+chromium: multiline editing and regex timeout/recovery passed
+chromium: concurrent tabs retain the latest recovery copy
+chromium: chunk/manifest quota failures restore completely
+chromium: importing 日本語-utf8.csv
+chromium: importing 日本語-utf16.csv
+chromium: importing 日本語-sjis.csv
+chromium: file import/export preserves UTF-8, UTF-16, Shift-JIS, line breaks and inert markup
+{"engine":"chromium","errors":[]}
+file:///Users/arita-ritsuki/Documents/%E3%83%88%E3%82%99%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/local-csv/tests/localcsv-browser.test.mjs:582
+    throw new Error(error.message.split('Call log:')[0], {cause: {stack: error.stack?.split('\n').filter(line=>/^\s+at /.test(line)).join('\n')}});
+          ^
+
+Error: locator.fill: Timeout 15000ms exceeded.
+
+    at file:///Users/arita-ritsuki/Documents/%E3%83%88%E3%82%99%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/local-csv/tests/localcsv-browser.test.mjs:582:11 {
+  [cause]: {
+    stack: '    at importRows (/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/tests/localcsv-browser.test.mjs:30:20)\n' +
+      '    at async file:///Users/arita-ritsuki/Documents/%E3%83%88%E3%82%99%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88/%E5%80%8B%E4%BA%BA%E9%96%8B%E7%99%BA/local-csv/tests/localcsv-browser.test.mjs:287:5'
+  }
+}
+
+Node.js v24.21.0

@@ -1,0 +1,7 @@
+
+> local-csv@1.2.6 test:static
+> node tests/localcsv-static.test.mjs && node tests/localcsv-source-audit.test.mjs && node tests/localcsv-source-audit.mjs
+
+Static checks passed; inventoried 58 files; 4 documented compatibility occurrences.
+AST detection, exact declaration extraction and embedded worker checks passed.
+AST audit passed: 58 managed files, 33 script units, four documented product compatibility references.

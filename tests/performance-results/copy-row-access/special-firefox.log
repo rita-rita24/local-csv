@@ -1,0 +1,43 @@
+copy after trial 1/1: exact all/column output, contraction passed
+{
+  "nodeVersion": "v24.21.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "timestamp": "2026-10-11T11:40:49.812Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "b00b4937f223b62ae42f32c7d9ce64832eb57d5309f3f878b91e3f791bfb930b",
+  "engine": "firefox",
+  "special": true,
+  "browser": "155.0",
+  "rows": 500,
+  "columns": 20,
+  "runs": 1,
+  "completion": "Actual Ctrl+C keydown to full text passed to stub writeText; separate second-rAF opportunity. OS clipboard, GPU presentation and INP are not measured.",
+  "results": [
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 114,
+      "frameOpportunityMs": 356,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 8,
+      "frameOpportunityMs": 35,
+      "longTasks": []
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 22,
+      "frameOpportunityMs": 34,
+      "longTasks": []
+    }
+  ],
+  "errors": []
+}

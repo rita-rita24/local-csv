@@ -31,6 +31,10 @@ const _walk = async (_relative = '') => {
   }
 };
 await _walk();
+// GitHub Actionsを追加しない方針を、ローカルの検査でも確認する。
+assert.deepEqual(_inventory.filter((_entry) =>
+  _entry.path.startsWith(path.join('.github', 'workflows') + path.sep) && /\.ya?ml$/i.test(_entry.path)
+).map((_entry) => _entry.path), [], 'GitHub Actions workflows must not be added to this repository');
 // JavaScript無効時も、紹介ページの通常リンクから実在するファイルを開けること。
 const _indexHtml = await fs.readFile(path.join(ROOT, 'index.html'), 'utf8');
 for (const _match of _indexHtml.matchAll(/\b(?:href|src)="([^"#]+)"/g)) {

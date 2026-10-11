@@ -1,0 +1,35 @@
+--- published-before/local-csv.html
++++ candidate/local-csv.html
+@@ -8900,14 +8900,30 @@
+           .sort(_compareRowsByVisibleOrder)
+       );
+ 
++      const _getSelectedColumnsInOrder = (_columns) => {
++        const _cols = [..._columns];
++        for (let _index = 0; _index < _cols.length; _index++) {
++          if (!Number.isInteger(_cols[_index]) || (_index > 0 && _cols[_index - 1] > _cols[_index])) {
++            _cols.sort((_a, _b) => _a - _b);
++            break;
++          }
++        }
++        return _cols;
++      };
++
+       const copySelectedCells = async () => {
+         commitActiveCellEdit();
+         try {
+           let _totalCells = 0;
+           const _lines = _getSelectedRowsInVisibleOrder().map((_row) => {
+-            const _cols = [..._selectionModel.get(_row)].sort((_a, _b) => _a - _b);
++            const _cols = _getSelectedColumnsInOrder(_selectionModel.get(_row));
++            const _dataRow = state.data[_row];
++            const _cells = new Array(_cols.length);
++            for (let _index = 0; _index < _cols.length; _index++) {
++              _cells[_index] = _quoteTsvCell(_dataRow?.[_cols[_index]] ?? '', _index, _cols);
++            }
+             _totalCells += _cols.length;
+-            return _cols.map((_col, _index) => _quoteTsvCell(state.data[_row]?.[_col] ?? '', _index, _cols)).join('\t');
++            return _cells.join('\t');
+           });
+           if (_totalCells === 0) return false;
+ 

@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-const ROOT = fileURLToPath(new URL('./performance-results/copy/', import.meta.url));
+const ROOT = process.argv[2]
+  ? path.resolve(process.argv[2]) + path.sep
+  : fileURLToPath(new URL('./performance-results/copy/', import.meta.url));
 const _paired = JSON.parse(await fs.readFile(ROOT + 'paired.json', 'utf8'));
 const _targets = JSON.parse(await fs.readFile(ROOT + 'targets.json', 'utf8'));
 assert.equal(_paired.before.sha256, _targets.sourceSha256, 'targets apply to the preserved baseline');

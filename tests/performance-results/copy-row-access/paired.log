@@ -1,0 +1,417 @@
+copy before trial 1/5: exact all/column output, contraction passed
+copy after trial 1/5: exact all/column output, contraction passed
+copy after trial 2/5: exact all/column output, contraction passed
+copy before trial 2/5: exact all/column output, contraction passed
+copy before trial 3/5: exact all/column output, contraction passed
+copy after trial 3/5: exact all/column output, contraction passed
+copy after trial 4/5: exact all/column output, contraction passed
+copy before trial 4/5: exact all/column output, contraction passed
+copy before trial 5/5: exact all/column output, contraction passed
+copy after trial 5/5: exact all/column output, contraction passed
+{
+  "nodeVersion": "v24.21.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "timestamp": "2026-10-11T11:35:43.370Z",
+  "source": "/Users/arita-ritsuki/Documents/ドキュメント/個人開発/local-csv/local-csv.html",
+  "sha256": "b00b4937f223b62ae42f32c7d9ce64832eb57d5309f3f878b91e3f791bfb930b",
+  "engine": "chromium",
+  "special": false,
+  "browser": "154.0.8037.99",
+  "rows": 100000,
+  "columns": 20,
+  "runs": 5,
+  "completion": "Actual Ctrl+C keydown to full text passed to stub writeText; separate second-rAF opportunity. OS clipboard, GPU presentation and INP are not measured.",
+  "results": [
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 311.60000002384186,
+      "frameOpportunityMs": 345.7999999523163,
+      "longTasks": [
+        {
+          "start": 16627.600000023842,
+          "duration": 312
+        }
+      ]
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 319.39999997615814,
+      "frameOpportunityMs": 339.6999999284744,
+      "longTasks": [
+        {
+          "start": 18334.5,
+          "duration": 320
+        }
+      ]
+    },
+    {
+      "run": 0,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 99,
+      "frameOpportunityMs": 103.59999990463257,
+      "longTasks": [
+        {
+          "start": 20822,
+          "duration": 99
+        }
+      ]
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 215.89999997615814,
+      "frameOpportunityMs": 225.69999992847443,
+      "longTasks": [
+        {
+          "start": 24400.899999976158,
+          "duration": 216
+        }
+      ]
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 241.80000007152557,
+      "frameOpportunityMs": 248.10000002384186,
+      "longTasks": [
+        {
+          "start": 31880.600000023842,
+          "duration": 242
+        }
+      ]
+    },
+    {
+      "run": 0,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 56.10000002384186,
+      "frameOpportunityMs": 73.39999997615814,
+      "longTasks": [
+        {
+          "start": 38626.39999997616,
+          "duration": 56
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 172.60000002384186,
+      "frameOpportunityMs": 186.70000004768372,
+      "longTasks": [
+        {
+          "start": 16294.699999928474,
+          "duration": 173
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 143.5,
+      "frameOpportunityMs": 161.5,
+      "longTasks": [
+        {
+          "start": 17519.699999928474,
+          "duration": 143
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 26.09999990463257,
+      "frameOpportunityMs": 32,
+      "longTasks": []
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 329.39999997615814,
+      "frameOpportunityMs": 341.7999999523163,
+      "longTasks": [
+        {
+          "start": 17335.799999952316,
+          "duration": 330
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 333.40000009536743,
+      "frameOpportunityMs": 385.5,
+      "longTasks": [
+        {
+          "start": 19825.200000047684,
+          "duration": 334
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 98.5,
+      "frameOpportunityMs": 109.10000002384186,
+      "longTasks": [
+        {
+          "start": 21453.399999976158,
+          "duration": 99
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 298.1999999284744,
+      "frameOpportunityMs": 306.39999997615814,
+      "longTasks": [
+        {
+          "start": 20037.200000047684,
+          "duration": 298
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 301.60000002384186,
+      "frameOpportunityMs": 313.89999997615814,
+      "longTasks": [
+        {
+          "start": 23446.100000023842,
+          "duration": 302
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 173.59999990463257,
+      "frameOpportunityMs": 179.19999992847443,
+      "longTasks": [
+        {
+          "start": 27363.600000023842,
+          "duration": 174
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 213.60000002384186,
+      "frameOpportunityMs": 219.60000002384186,
+      "longTasks": [
+        {
+          "start": 16664.800000071526,
+          "duration": 214
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 218.70000004768372,
+      "frameOpportunityMs": 231.70000004768372,
+      "longTasks": [
+        {
+          "start": 21037.899999976158,
+          "duration": 219
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 58.89999997615814,
+      "frameOpportunityMs": 62.10000002384186,
+      "longTasks": [
+        {
+          "start": 24656.399999976158,
+          "duration": 59
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 220.79999995231628,
+      "frameOpportunityMs": 230.10000002384186,
+      "longTasks": [
+        {
+          "start": 28457.699999928474,
+          "duration": 221
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 253.89999997615814,
+      "frameOpportunityMs": 264.89999997615814,
+      "longTasks": [
+        {
+          "start": 34305.799999952316,
+          "duration": 254
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 85.89999997615814,
+      "frameOpportunityMs": 110.19999992847443,
+      "longTasks": [
+        {
+          "start": 36610.299999952316,
+          "duration": 86
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 457.7999999523163,
+      "frameOpportunityMs": 466.10000002384186,
+      "longTasks": [
+        {
+          "start": 36297,
+          "duration": 458
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 348.10000002384186,
+      "frameOpportunityMs": 373.89999997615814,
+      "longTasks": [
+        {
+          "start": 40773.60000002384,
+          "duration": 350
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 95.29999995231628,
+      "frameOpportunityMs": 102.5,
+      "longTasks": [
+        {
+          "start": 43741.5,
+          "duration": 96
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "all-first",
+      "resultMs": 335.8000000715256,
+      "frameOpportunityMs": 350.60000002384186,
+      "longTasks": [
+        {
+          "start": 20712.699999928474,
+          "duration": 336
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "all-repeat",
+      "resultMs": 362.5,
+      "frameOpportunityMs": 371.6999999284744,
+      "longTasks": [
+        {
+          "start": 23801.899999976158,
+          "duration": 363
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "version": "before",
+      "operation": "column",
+      "resultMs": 103,
+      "frameOpportunityMs": 107.30000007152557,
+      "longTasks": [
+        {
+          "start": 26644.199999928474,
+          "duration": 103
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "all-first",
+      "resultMs": 199.30000007152557,
+      "frameOpportunityMs": 214.30000007152557,
+      "longTasks": [
+        {
+          "start": 19193.100000023842,
+          "duration": 200
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "all-repeat",
+      "resultMs": 275.10000002384186,
+      "frameOpportunityMs": 309.7000000476837,
+      "longTasks": [
+        {
+          "start": 25080.299999952316,
+          "duration": 275
+        }
+      ]
+    },
+    {
+      "run": 4,
+      "version": "after",
+      "operation": "column",
+      "resultMs": 69,
+      "frameOpportunityMs": 90.89999997615814,
+      "longTasks": [
+        {
+          "start": 29166,
+          "duration": 69
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "before": {
+    "source": "/private/tmp/localcsv-published-before/local-csv.html",
+    "sha256": "6c0ba566af81b140ae5b62775ca4e67481df50c8baaa6edaf6afd45d75da1264"
+  }
+}

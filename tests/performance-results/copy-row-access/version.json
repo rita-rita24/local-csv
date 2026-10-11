@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-10-11T11:43:04.545324+00:00",
+  "files": {
+    "local-csv.html": {
+      "bytes": 1223222,
+      "sha256": "b00b4937f223b62ae42f32c7d9ce64832eb57d5309f3f878b91e3f791bfb930b"
+    },
+    "index.html": {
+      "bytes": 1657335,
+      "sha256": "17c0bc2d40ef1f085bddba155398e1f6941f34bab0f8bbd0b5e682c9cfc330b8"
+    },
+    "README.md": {
+      "bytes": 54726,
+      "sha256": "630508ba6f0db23995913d848393b6d90f251cb7f6a5a36dcced820320fdc10f"
+    },
+    "AGENTS.md": {
+      "bytes": 4939,
+      "sha256": "176963e427ff921cdf4ad34cfc96fdb162fc7b981a87296d57e49bc809a63052"
+    },
+    "tests/localcsv-regression.test.mjs": {
+      "bytes": 157107,
+      "sha256": "d7ec56ce56da83fb33d101751fe7f180a8ffa02f67bff29b80b2a34f96ea9643"
+    },
+    "tests/localcsv-static.test.mjs": {
+      "bytes": 5603,
+      "sha256": "8d01df23b44271594e7cdfd586679d65aa3226a16a56883e9d7c977dc6ee35d3"
+    },
+    "tests/localcsv-copy-summary.mjs": {
+      "bytes": 3115,
+      "sha256": "0ff2adbdc5d2700f23b1e394d36e9be46a79ff5b1d1f13e9848a383f422707a9"
+    },
+    "tests/localcsv-quality-browser.test.mjs": {
+      "bytes": 59770,
+      "sha256": "8f8db65519acb56da56cf4eeca4cd4834235759087cb22dbf3fb883d5d22cfce"
+    },
+    "tests/QA.md": {
+      "bytes": 45492,
+      "sha256": "d4e3f2a9ce8aaabab5b686467276d1d5018a8d98bfcde327cdd5dc32ff577fd2"
+    }
+  },
+  "publicVersionBefore": "3ebc1cde0e5b0974d2d6a22feb04b725696ff19a",
+  "newRuntimeDependencies": 0,
+  "newBuildSteps": 0,
+  "githubActions": "disabled; no workflows added",
+  "updatedAt": "2026-10-11T12:02:26.488115+00:00"
+}

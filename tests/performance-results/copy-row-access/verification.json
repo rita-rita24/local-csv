@@ -1,0 +1,30 @@
+{
+  "recordedAt": "2026-10-11T12:04:50.300634+00:00",
+  "node22": "22.22.2: build, test:static, npm test passed; command output captured in task execution, not a saved raw log",
+  "node24": "24.21.0: build, static, source-audit unit, source audit and regression passed",
+  "browserPipeline": {
+    "command": "npm run test:browser",
+    "exitCode": 0,
+    "log": "browser-final.log",
+    "engines": [
+      "Chromium 156.0.8078.4",
+      "Firefox 157.0",
+      "WebKit 27.2"
+    ],
+    "integrationEngines": 3,
+    "qualityCases": 111,
+    "usabilityCases": 33,
+    "modernConfigurations": 6,
+    "markupConfigurations": 6
+  },
+  "specialCopy": {
+    "engines": 3,
+    "logs": [
+      "special-chromium.log",
+      "special-firefox.log",
+      "special-webkit.log"
+    ]
+  },
+  "timeouts": "Earlier fill failures retained; full retry passed without product/input-route/timeout changes; root cause unresolved",
+  "githubActions": "No workflows added; local static guard enabled"
+}

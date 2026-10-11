@@ -1,0 +1,48 @@
+{
+  "recordedAt": "2026-10-11T11:27:54.544543+00:00",
+  "sourceSha256": "6c0ba566af81b140ae5b62775ca4e67481df50c8baaa6edaf6afd45d75da1264",
+  "targets": [
+    {
+      "operation": "all-first",
+      "metric": "resultMs",
+      "beforeMedianMs": 302.89999997615814,
+      "maximumMedianMs": 242.31999998092653,
+      "definition": "20% faster full-copy result; other metrics at most 15% slower"
+    },
+    {
+      "operation": "all-first",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 309.5,
+      "maximumMedianMs": 355.92499999999995,
+      "definition": "20% faster full-copy result; other metrics at most 15% slower"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "resultMs",
+      "beforeMedianMs": 305.7000000476837,
+      "maximumMedianMs": 244.560000038147,
+      "definition": "20% faster full-copy result; other metrics at most 15% slower"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 317.60000002384186,
+      "maximumMedianMs": 365.2400000274181,
+      "definition": "20% faster full-copy result; other metrics at most 15% slower"
+    },
+    {
+      "operation": "column",
+      "metric": "resultMs",
+      "beforeMedianMs": 84.89999997615814,
+      "maximumMedianMs": 97.63499997258185,
+      "definition": "20% faster full-copy result; other metrics at most 15% slower"
+    },
+    {
+      "operation": "column",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 101.89999997615814,
+      "maximumMedianMs": 117.18499997258185,
+      "definition": "20% faster full-copy result; other metrics at most 15% slower"
+    }
+  ]
+}

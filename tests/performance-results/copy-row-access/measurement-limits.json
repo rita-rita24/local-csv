@@ -1,0 +1,11 @@
+{
+  "recordedAt": "2026-10-11T11:34:14.041657+00:00",
+  "client": "Apple M4 / 32GB / macOS; same client as previous reports",
+  "midComparisonLoadAverages": [
+    127.49,
+    108.77,
+    61.6
+  ],
+  "backgroundWorkloadControlled": false,
+  "interpretation": "Fresh browser contexts and alternating before/after pairs; results cannot establish stable device-independent rates or be compared directly with earlier reports. No concurrent test suite started by this task during sampling."
+}

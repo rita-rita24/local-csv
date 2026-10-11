@@ -14,6 +14,7 @@ try {
   throw new Error('Install Playwright in your test environment or set PLAYWRIGHT_MODULE_PATH to its package directory. Browser tests add no dependencies to the distributed HTML.');
 }
 const ENGINES = (process.env.LOCALCSV_TEST_ENGINES || 'chromium,firefox,webkit').split(',');
+const CASE_NAME_FILTER = process.env.LOCALCSV_TEST_CASE;
 const quoteCsv = (rows) => rows.map(row => row.map(cell => '"' + String(cell).replaceAll('"','""') + '"').join(',')).join('\n');
 const matrix = page => page.locator('#tableBody tr[data-row]').evaluateAll(rows => rows.map(row => Array.from(row.querySelectorAll('td[data-col]'), cell => cell.textContent)));
 const importRows = async (page, rows) => {
@@ -937,8 +938,10 @@ for (const engine of ENGINES) {
   const executablePath = process.env[`LOCALCSV_${engine.toUpperCase()}_PATH`];
   const browser = await playwright[engine].launch({ headless: true, ...(executablePath ? { executablePath } : {}) });
   const errors = [];
+  let _executedCases = 0;
   try {
     for (const [name, run] of CASES) {
+      if (CASE_NAME_FILTER && name !== CASE_NAME_FILTER) continue;
       const context = await browser.newContext({ locale: 'ja-JP', acceptDownloads: true });
       context.setDefaultTimeout(15000);
       context.on('request', request => {
@@ -953,20 +956,30 @@ for (const engine of ENGINES) {
       await page.waitForTimeout(150);
       try { await run(page); }
       catch (error) {
-        console.log(await page.evaluate(() => ({
-          scenario: document.title,
+        console.log(await page.evaluate((_name) => ({
+          scenario: _name,
+          visibility: document.visibilityState,
+          pasteInput: {
+            disabled: document.querySelector('#pasteImportInput')?.disabled,
+            readOnly: document.querySelector('#pasteImportInput')?.readOnly,
+            inertAncestor: Boolean(document.querySelector('#pasteImportInput')?.closest('[inert]')),
+            valueLength: document.querySelector('#pasteImportInput')?.value.length,
+            focused: document.activeElement?.id,
+          },
           presetName: document.querySelector('#virtualHeaderPresetName')?.value,
           presetStatus: document.querySelector('#virtualHeaderStatus')?.textContent,
           presets: document.querySelector('#virtualHeaderPresetSelect')?.innerHTML,
           overlays: Array.from(document.querySelectorAll('.modal-overlay.show'), node => node.id),
-        })));
+        }), name));
         throw error;
       }
       await context.close();
+      _executedCases++;
       console.log(`${engine}: ${name} passed`);
     }
     assert.deepEqual(errors, [], 'No uncaught exceptions or console errors');
-    console.log(`${engine} ${browser.version()}: ${CASES.length} cases, 0 errors`);
+    assert.ok(_executedCases > 0, 'The requested case filter must match at least one scenario');
+    console.log(`${engine} ${browser.version()}: ${_executedCases} cases, 0 errors`);
   } finally {
     await browser.close();
   }

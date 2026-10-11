@@ -15,7 +15,7 @@ Prioritize small, safe, high-confidence changes.
 ## GitHub Actionsを追加しない
 - このリポジトリにはGitHub Actionsを追加・再導入しない。
 - `.github/workflows/` にワークフローファイルを作成せず、GitHub側のActionsも有効化しない。
-- ビルド・型検査・静的解析・テストはローカルで実行する。
+- ビルド・型検査・静的解析・テストはローカルで実行する。`npm run test:static` でもワークフローファイルの再混入を検出する。
 - 一般的なCI整備・自動化・本番反映の依頼を、GitHub Actions追加の許可と解釈しない。
 
 ## Verification
