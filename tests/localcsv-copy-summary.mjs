@@ -37,5 +37,5 @@ const _longTasks = ['all-first', 'all-repeat', 'column'].map(_operation => ({ op
     const _durations = _samples.flatMap(_result => _result.longTasks.map(_task => _task.duration));
     return [_version, { trials: _samples.length, tasks: _durations.length, maximumMs: _durations.length ? Math.max(..._durations) : null }];
   })) }));
-await fs.writeFile(ROOT + 'summary.json', JSON.stringify({ generatedAt: new Date().toISOString(), sourceSha256: _paired.sha256, baselineSha256: _paired.before.sha256, rows: _summary, longTasks: _longTasks, production: 'unmeasured; rate cannot be calculated' }, null, 2) + '\n');
+await fs.writeFile(ROOT + 'summary.json', JSON.stringify({ generatedAt: new Date().toISOString(), sourceSha256: _paired.sha256, baselineSha256: _paired.before.sha256, rows: _summary, longTasks: _longTasks, hostedWebsite: 'unmeasured; rate cannot be calculated' }, null, 2) + '\n');
 console.log(JSON.stringify({ rows: _summary, longTasks: _longTasks }, null, 2));

@@ -1,0 +1,181 @@
+{
+  "generatedAt": "2026-10-11T12:07:55.602Z",
+  "sourceSha256": "b00b4937f223b62ae42f32c7d9ce64832eb57d5309f3f878b91e3f791bfb930b",
+  "baselineSha256": "6c0ba566af81b140ae5b62775ca4e67481df50c8baaa6edaf6afd45d75da1264",
+  "rows": [
+    {
+      "operation": "all-first",
+      "metric": "resultMs",
+      "beforeMedianMs": 82,
+      "afterMedianMs": 59.199999928474426,
+      "reductionMs": 22.800000071525574,
+      "reductionPercent": 27.8048781360068,
+      "beforeRangeMs": [
+        79.60000002384186,
+        86.10000002384186
+      ],
+      "afterRangeMs": [
+        56.89999997615814,
+        61
+      ],
+      "beforeRuns": 5,
+      "afterRuns": 5,
+      "rangesOverlap": false,
+      "absoluteTargetMs": 242.31999998092653,
+      "targetMet": true,
+      "assessment": "observed ranges separate; local sample only"
+    },
+    {
+      "operation": "all-first",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 83.60000002384186,
+      "afterMedianMs": 60.89999997615814,
+      "reductionMs": 22.700000047683716,
+      "reductionPercent": 27.15311009714104,
+      "beforeRangeMs": [
+        81.10000002384186,
+        87.79999995231628
+      ],
+      "afterRangeMs": [
+        58.5,
+        63
+      ],
+      "beforeRuns": 5,
+      "afterRuns": 5,
+      "rangesOverlap": false,
+      "absoluteTargetMs": 355.92499999999995,
+      "targetMet": true,
+      "assessment": "observed ranges separate; local sample only"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "resultMs",
+      "beforeMedianMs": 87.5,
+      "afterMedianMs": 64.10000002384186,
+      "reductionMs": 23.399999976158142,
+      "reductionPercent": 26.742857115609304,
+      "beforeRangeMs": [
+        83.5,
+        104.5
+      ],
+      "afterRangeMs": [
+        59,
+        86.5
+      ],
+      "beforeRuns": 5,
+      "afterRuns": 5,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 244.560000038147,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "all-repeat",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 89,
+      "afterMedianMs": 81.70000004768372,
+      "reductionMs": 7.299999952316284,
+      "reductionPercent": 8.202247137434027,
+      "beforeRangeMs": [
+        85,
+        114.09999990463257
+      ],
+      "afterRangeMs": [
+        60.60000002384186,
+        98.79999995231628
+      ],
+      "beforeRuns": 5,
+      "afterRuns": 5,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 365.2400000274181,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    },
+    {
+      "operation": "column",
+      "metric": "resultMs",
+      "beforeMedianMs": 19.09999990463257,
+      "afterMedianMs": 15,
+      "reductionMs": 4.099999904632568,
+      "reductionPercent": 21.46596819426236,
+      "beforeRangeMs": [
+        18.799999952316284,
+        22.399999976158142
+      ],
+      "afterRangeMs": [
+        12.700000047683716,
+        18.699999928474426
+      ],
+      "beforeRuns": 5,
+      "afterRuns": 5,
+      "rangesOverlap": false,
+      "absoluteTargetMs": 97.63499997258185,
+      "targetMet": true,
+      "assessment": "observed ranges separate; local sample only"
+    },
+    {
+      "operation": "column",
+      "metric": "frameOpportunityMs",
+      "beforeMedianMs": 30.59999990463257,
+      "afterMedianMs": 31.5,
+      "reductionMs": -0.9000000953674316,
+      "reductionPercent": -2.9411767914129294,
+      "beforeRangeMs": [
+        29.899999976158142,
+        31.699999928474426
+      ],
+      "afterRangeMs": [
+        30.200000047683716,
+        32.10000002384186
+      ],
+      "beforeRuns": 5,
+      "afterRuns": 5,
+      "rangesOverlap": true,
+      "absoluteTargetMs": 117.18499997258185,
+      "targetMet": true,
+      "assessment": "difference not confirmed; observed ranges overlap"
+    }
+  ],
+  "longTasks": [
+    {
+      "operation": "all-first",
+      "before": {
+        "trials": 5,
+        "tasks": 5,
+        "maximumMs": 86
+      },
+      "after": {
+        "trials": 5,
+        "tasks": 5,
+        "maximumMs": 61
+      }
+    },
+    {
+      "operation": "all-repeat",
+      "before": {
+        "trials": 5,
+        "tasks": 5,
+        "maximumMs": 104
+      },
+      "after": {
+        "trials": 5,
+        "tasks": 5,
+        "maximumMs": 86
+      }
+    },
+    {
+      "operation": "column",
+      "before": {
+        "trials": 5,
+        "tasks": 0,
+        "maximumMs": null
+      },
+      "after": {
+        "trials": 5,
+        "tasks": 0,
+        "maximumMs": null
+      }
+    }
+  ],
+  "hostedWebsite": "unmeasured; rate cannot be calculated"
+}

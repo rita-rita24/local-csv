@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T11:35:58.430Z",
+  "generatedAt": "2026-10-11T12:07:55.576Z",
   "sourceSha256": "b00b4937f223b62ae42f32c7d9ce64832eb57d5309f3f878b91e3f791bfb930b",
   "baselineSha256": "6c0ba566af81b140ae5b62775ca4e67481df50c8baaa6edaf6afd45d75da1264",
   "rows": [
@@ -177,5 +177,5 @@
       }
     }
   ],
-  "production": "unmeasured; rate cannot be calculated"
+  "hostedWebsite": "unmeasured; rate cannot be calculated"
 }

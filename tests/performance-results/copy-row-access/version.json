@@ -26,8 +26,8 @@
       "sha256": "8d01df23b44271594e7cdfd586679d65aa3226a16a56883e9d7c977dc6ee35d3"
     },
     "tests/localcsv-copy-summary.mjs": {
-      "bytes": 3115,
-      "sha256": "0ff2adbdc5d2700f23b1e394d36e9be46a79ff5b1d1f13e9848a383f422707a9"
+      "bytes": 3118,
+      "sha256": "8ee7413a9683d36cdfdb737758de5b13d137e697d077b14770c1985f459bfeb9"
     },
     "tests/localcsv-quality-browser.test.mjs": {
       "bytes": 59770,
@@ -42,5 +42,5 @@
   "newRuntimeDependencies": 0,
   "newBuildSteps": 0,
   "githubActions": "disabled; no workflows added",
-  "updatedAt": "2026-10-11T12:02:26.488115+00:00"
+  "updatedAt": "2026-10-11T12:08:09.639835+00:00"
 }

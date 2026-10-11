@@ -14,7 +14,7 @@
 |---|---|---|---:|---:|---:|---:|---|
 |JS・コピー経路|列選択を常にsort|昇順の整数なら順序維持、その他は同じ数値sort|1|1|0|0|_getSelectedColumnsInOrder、copySelectedCells|
 |JS・コピー経路|セルごとにstate.data[row]、変換callback|行ごとに取得、同じquote helperで固定長配列へ変換|1|1|0|0|copySelectedCells。全値・列数を維持|
-|Node・集計器|結果ディレクトリが固定|任意ディレクトリ引数、既定の動作も維持|1|1|0|0|localcsv-copy-summary.mjs。履歴を上書きしない|
+|Node・集計器|結果ディレクトリが固定|任意ディレクトリ引数、既定の動作も維持。未測定欄はhostedWebsiteへ明確化|1|1|0|0|localcsv-copy-summary.mjs。履歴を上書きしない|
 |ローカル静的検査|Actions追加禁止を文書だけに記載|workflow YAML再混入を失敗として検出|新設|新設1|0|0|localcsv-static.test.mjs、AGENTS.md|
 |製品互換API・直接参照|execCommand 2、keyCode/which 2|従来の限定した代替/IME判定を保持|4|0|4|0※|modern/REPORT.mdの理由・解消条件を継続|
 
@@ -51,13 +51,13 @@
 |全量反復|5→5|363→275|短くなったが停止は残る|
 |1列|5→4|174→86|0件になったとは扱わない|
 
-全文SHA-256を独立した期待TSVと照合し、非表示セルの除外、可視順、昇順・異なる列順、疎な選択、単一空セル、タブ/引用符/CRLF/Unicode/NULを維持する。通常出力の元値を削らない。選択縮小後の編集受付と、再読込後の全CSVも照合する。保存後のヘッダー/引用/改行設定を含む比較であり、件数だけの確認ではない。Clipboard false/例外、変換例外、未確定入力のcommitも回帰に含める。
+全文SHA-256を独立した期待TSVと照合し、画面外の選択セルを含む全量、可視順、昇順・異なる列順、疎な選択、単一空セル、タブ/引用符/CRLF/Unicode/NULを維持する。通常出力の元値を削らない。選択縮小後の編集受付と、再読込後の全CSVも照合する。保存後のヘッダー/引用/改行設定を含む比較であり、件数だけの確認ではない。Clipboard false/例外、変換例外、未確定入力のcommitも回帰に含める。
 
 ドラッグ・実OS入力追従・120Hz実機・長時間メモリの新しい計測は今回行っていない。同期で巨大なTSVを作る負荷が残る。分割/Worker化は、同時編集のsnapshot・値と履歴・最後の入力・Clipboard user activationとfallbackを維持して検証する必要があるため、未実施候補として残す。
 
 ## ⑤ 検証・公開後の記録・残件
 
-before.jsonは公開前配布物の各7回、paired.jsonは候補と交互の各5回。targets.jsonは変更前の数値目標、summary.jsonは交互測定の集計、published-before.jsonは取得URL/コミット/hash。source gzip、product.diff、version.json、inventory.json、各ログを保持する。再現はlocalcsv-copy-browser.test.mjsのCOPY_ROOT/COMPARE_ROOT/RUNS/OUTPUTと、`node tests/localcsv-copy-summary.mjs tests/performance-results/copy-row-access`。過去のcopy/selection/modern/source-audit等の履歴は更新しない。
+before.jsonは公開前配布物の各7回、paired.jsonは候補と交互の各5回。targets.jsonは変更前の数値目標、summary.jsonは交互測定の集計、published-before.jsonは取得URL/コミット/hash。source gzip、product.diff、version.json、inventory.json、各ログを保持する。再現はlocalcsv-copy-browser.test.mjsのLOCALCSV_COPY_ROOT / LOCALCSV_COPY_COMPARE_ROOT / LOCALCSV_COPY_RUNS / LOCALCSV_COPY_OUTPUTと、`node tests/localcsv-copy-summary.mjs tests/performance-results/copy-row-access`。過去のcopy/selection/modern/source-audit等の履歴は更新しない。
 
 総合テストの初回は2000行の貼り付けinput.fillが15秒でタイムアウトした。browser-initial-failure.logを保持し、コンソールエラー0件でも全成功とは扱わない。再試行では統合テスト3ブラウザが通ったが、品質検査の2000行貼り付けでも同じタイムアウトが発生した。入力は全量挿入済みで、disabled/readOnly/inertなし。失敗シナリオ名と状態の診断、および名前指定の単独実行を検査へ追加した。旧公開版の単独実行と、変更版の単独再試行3ブラウザは通った。製品・入力経路・15秒の制限・判定は変えていない。失敗原因をOS負荷や製品の不具合と断定せず、失敗ログも保持する。
 
@@ -67,4 +67,19 @@ before.jsonは公開前配布物の各7回、paired.jsonは候補と交互の各
 
 ### 公開後
 
-公開前の検証と反映を完了した後に、反映コミット・取得日時・ハッシュ一致・公開配布物の再測定・最終検証結果を追記する。
+2026-10-11 21:05 JST頃、[fe8ea13](https://github.com/rita-rita24/local-csv/commit/fe8ea13a470ae10ed2a30db9a15f71d640cba3ec)をmainへ通常pushした。本体と紹介ページを固定コミットから再取得し、実バイト・SHA-256の一致を確認した。埋め込みHTMLも静的検査で一致。変更前3ebc1cdと変更後fe8ea13の公開配布物をChrome154上で前後交互各5回実行し、出力全文・選択縮小・保存後の再読込も一致、console/page errorsは0。検証中に別の検査をこのタスクで起動していない。
+
+取得と測定のメタデータはpublished-after.json / published-after-measurement.json、全標本はpublished-comparison/paired.json。再現はLOCALCSV_COPY_ROOTに取得した新配布物、LOCALCSV_COPY_COMPARE_ROOTに旧配布物を指定し、LOCALCSV_COPY_RUNS=5。集計は `node tests/localcsv-copy-summary.mjs tests/performance-results/copy-row-access/published-comparison`。結果のhostedWebsite欄は未測定のWebサイトを意味し、GitHub配布物の端末上測定とは別である。
+
+|公開配布物・各5回|指標|旧中央値ms|新中央値ms|観測短縮率|旧範囲ms|新範囲ms|範囲重複|
+|---|---|---:|---:|---:|---|---|---|
+|all-first|resultMs|82.0|59.2|27.8%|79.6–86.1|56.9–61.0|なし|
+|all-first|frameOpportunityMs|83.6|60.9|27.2%|81.1–87.8|58.5–63.0|なし|
+|all-repeat|resultMs|87.5|64.1|26.7%|83.5–104.5|59.0–86.5|あり|
+|all-repeat|frameOpportunityMs|89.0|81.7|8.2%|85.0–114.1|60.6–98.8|あり|
+|column|resultMs|19.1|15.0|21.5%|18.8–22.4|12.7–18.7|なし|
+|column|frameOpportunityMs|30.6|31.5|-2.9%|29.9–31.7|30.2–32.1|あり|
+
+結果時間の観測短縮は初回27.8%、反復26.7%、1列21.5%。初回/1列の範囲は分離、反復は重なる。第2rAFは初回27.2%、反復8.2%短縮、1列は2.9%遅くなり、後2条件の範囲は重なる。すべて改善したとは扱わない。初期の固定絶対目標6指標は満たしたが、測定前OS load averageが6.83/11.73/38.61まで下がっており、初期高負荷の目標に対する達成だけで安定性能を保証しない。公開前の候補測定値を合算しない。端末間・温度・長時間・実OS Clipboard/GPU等は未確認。
+
+公開配布物のLong Tasksは初回5→5件、最大86→61ms、反復5→5件、最大104→86ms、1列0→0件。全量に50ms超の停止が残る。GitHub読取APIでもActions enabled=false、追跡workflowファイル0を確認し、actions-status.jsonへ記録した。Actionsを追加・再有効化していない。最終の測定と報告のみの追記も通常pushし、本体・LPの測定済みハッシュが維持されることを確認する。

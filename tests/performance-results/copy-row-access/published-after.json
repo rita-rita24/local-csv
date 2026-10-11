@@ -1,0 +1,24 @@
+{
+  "retrievedAt": "2026-10-11T12:05:17.142671+00:00",
+  "commit": "fe8ea13a470ae10ed2a30db9a15f71d640cba3ec",
+  "files": {
+    "local-csv.html": {
+      "url": "https://raw.githubusercontent.com/rita-rita24/local-csv/fe8ea13a470ae10ed2a30db9a15f71d640cba3ec/local-csv.html",
+      "bytes": 1223222,
+      "sha256": "b00b4937f223b62ae42f32c7d9ce64832eb57d5309f3f878b91e3f791bfb930b",
+      "matchesLocal": true
+    },
+    "index.html": {
+      "url": "https://raw.githubusercontent.com/rita-rita24/local-csv/fe8ea13a470ae10ed2a30db9a15f71d640cba3ec/index.html",
+      "bytes": 1657335,
+      "sha256": "17c0bc2d40ef1f085bddba155398e1f6941f34bab0f8bbd0b5e682c9cfc330b8",
+      "matchesLocal": true
+    }
+  },
+  "execution": "GitHub published distribution downloaded and executed via file:; no hosted site or OS clipboard completion measurement",
+  "loadAveragesBeforeMeasurement": [
+    6.83251953125,
+    11.7255859375,
+    38.60791015625
+  ]
+}
